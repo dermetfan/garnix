@@ -64,10 +64,8 @@ rec {
     systemPackages = with pkgs; [
       nix-zsh-completions
       bashmount
-      physlock
       file
       tree
-      light
       lsof
       ntfs3g
       udevil
@@ -78,23 +76,16 @@ rec {
       xscreensaver
       xclip
       xsel
-      arandr
       nitrogen
-      maim
       libnotify
-      i3status
-      dmenu2
-      dunst
       parcellite
       volumeicon
-      networkmanagerapplet      
+      networkmanagerapplet
     ] else []);
 
     variables = {
-      SUDO_ASKPASS = "${pkgs.x11_ssh_askpass}/libexec/x11-ssh-askpass";
       SDL_VIDEO_X11_DGAMOUSE = "0"; # fix for jumping mouse (in qemu)
       _JAVA_AWT_WM_NONREPARENTING = "1"; # fix for some blank java windows
-      ANDROID_HOME = "${pkgs.androidsdk_extras}/libexec";
     };
 
     interactiveShellInit = ''
@@ -177,7 +168,6 @@ rec {
 
     wakeonlan.interfaces = [ {
       interface = "enp3s0";
-      method = "magicpacket";
     } ];
 
     xserver = {
@@ -198,7 +188,7 @@ rec {
         nitrogen --restore
         ~/.fehbg
         parcellite &
-        nm-applet &
+        nm-applet --sm-disable &
         volumeicon &
         devmon &
         xflux -l 51.165691 -g 10.45152000000058
