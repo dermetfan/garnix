@@ -170,6 +170,10 @@ rec {
       interface = "enp3s0";
     } ];
 
+    logind.extraConfig = ''
+      HandleLidSwitch=ignore
+    '';
+
     xserver = {
       enable = true;
       layout = "us";
