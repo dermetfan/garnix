@@ -102,43 +102,7 @@ rec {
         l = "ls -lah";
         ll = "ls -lh";
       };
-      interactiveShellInit = let
-        curl = "${pkgs.curl}/bin/curl";
-        install_antigen = pkgs.writeText "install-antigen.zsh" ''
-          #!${pkgs.zsh}/bin/zsh
-
-          antigen="$HOME/.antigen/antigen.zsh"
-          url="https://cdn.rawgit.com/zsh-users/antigen/v1.3.1/bin/antigen.zsh"
-          checksum="a37f5165f41dd1db9d604e8182cc931e3ffce832cf341fce9a35796a5c3dcbb476ed7d6e6e9c8c773905427af77dbe8bdbb18f16e18b63563c6e460e102096f3"
-
-          installed() { return `[ -f $antigen ]` }
-
-          if installed; then
-            . $antigen
-          else
-            echo "$antigen is missing. Installing..." >&2
-            ${curl} $url > /tmp/antigen.zsh
-
-            if ! `echo "$checksum /tmp/antigen.zsh" | sha512sum -c --status`; then
-              echo "Abort: wrong sha512 checksum!" >&2
-              echo "downloaded from: $url" >&2
-              echo "Expected sha512: $checksum" >&2
-              echo "Actual   sha512: `sha512sum /tmp/antigen.zsh | cut -d ' ' -f 1`" >&2
-              rm -f /tmp/antigen.zsh
-            else
-              mkdir -p `dirname $antigen`
-              mv /tmp/antigen.zsh $antigen
-              echo "Installed antigen." >&2
-            fi
-
-            if ! installed; then
-              echo "Failed to install antigen!" >&2
-            else
-              . $antigen
-            fi
-          fi
-        '';
-      in ". ${install_antigen}";
+      interactiveShellInit = pkgs.callPackage ./lib/antigen.nix {};
     };
     nano.nanorc = ''
       set tabsize 4
