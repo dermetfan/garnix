@@ -73,14 +73,11 @@ rec {
       ftop
     ] ++ (if config.services.xserver.enable then [
       xorg.xrandr
+      xorg.xkill
       xscreensaver
       xclip
       xsel
-      nitrogen
       libnotify
-      parcellite
-      volumeicon
-      networkmanagerapplet
     ] else []);
 
     variables = {
@@ -153,11 +150,6 @@ rec {
         xset r rate 225 27
         xset m 2
         compton -bfD 2
-        nitrogen --restore
-        ~/.fehbg
-        parcellite &
-        nm-applet --sm-disable &
-        volumeicon &
         devmon &
         xflux -l 51.165691 -g 10.45152000000058
         xscreensaver -no-splash &
