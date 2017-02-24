@@ -1,0 +1,3 @@
+.nixpkgs/home-manager = [git]https://github.com/rycee/home-manager.git
+.nano = [git]https://github.com/scopatz/nanorc.git
+.config/geany/colorschemes = [git]https://github.com/RobLoach/base16-geany.git
