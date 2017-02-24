@@ -16,7 +16,7 @@ if [ "`pwd`" != "`eval echo ~$WHOAMI`" ]; then
 fi
 
 files="$1"
-if [ ! -f "$files"  ]; then
+if [ ! -e "$files"  ]; then
   files="`realpath /data/$WHOAMI/.dotfiles`"
 fi
 
