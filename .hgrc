@@ -33,7 +33,7 @@ hggit =
 
 [pager]
 pager = less
-attend = log, diff, annotate, help
+attend = lg, log, diff, annotate, help
 
 [diff]
 git = true
