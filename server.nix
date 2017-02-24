@@ -71,6 +71,11 @@
     };
   };
 
+  systemd.services = {
+    hydra-server.path = [ pkgs.ssmtp ];
+    hydra-queue-runner.path = [ pkgs.ssmtp ];
+  };
+
   users = {
     mutableUsers = false;
     
