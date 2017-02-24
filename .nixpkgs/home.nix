@@ -105,18 +105,6 @@
       SUDO_ASKPASS = "${pkgs.x11_ssh_askpass}/libexec/x11-ssh-askpass";
       ANDROID_HOME = "${pkgs.androidsdk_extras}/libexec";
     };
-
-    file = {
-      ".zshrc".source = ./dotfiles/zshrc;
-      ".antigenrc".source = ./dotfiles/antigenrc;
-      ".hgrc".source = ./dotfiles/hgrc;
-      ".xpdfrc".source = ./dotfiles/xpdfrc;
-      ".xscreensaver".source = ./dotfiles/xscreensaver;
-      ".config/i3/config".source = ../.config/i3/config;
-      ".config/i3status/config".source = ../.config/i3status/config;
-      ".config/dunst/dunstrc".source = ../.config/dunst/dunstrc;
-      ".config/user-dirs.dirs".source = ../.config/user-dirs.dirs;
-    };
   };
 
   programs = {
