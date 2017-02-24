@@ -117,7 +117,7 @@
         lg = "log --graph --branches --decorate --abbrev-commit --pretty=medium";
         ci = "commit";
         co = "checkout";
-        spull = "__git_spull() { git pull \"$@\" && git submodule sync --recursive && git submodule update --init --recursive; }; __git_spull"; # https://medium.com/@porteneuve/mastering-git-submodules-34c65e940407#.jepjuse2y
+        spull = "!git pull \"$@\" && git submodule sync --recursive && git submodule update --init --recursive"; # https://medium.com/@porteneuve/mastering-git-submodules-34c65e940407#.jepjuse2y
       };
       extraConfig = ''
         [status]
