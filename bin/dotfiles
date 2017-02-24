@@ -2,43 +2,38 @@
 
 ask() {
   printf "$1 [y/N] "
-  read answer
-  return `[ "$answer" = y ] || [ "$answer" = Y ]`
+  read
+  return `[ "$REPLY" = y ] || [ "$REPLY" = Y ]`
 }
 
-if [ "`pwd`" != "/home/`whoami`" ]; then
+WHOAMI="`whoami`"
+
+if [ "`pwd`" != "`eval echo ~$WHOAMI`" ]; then
   if ! ask >&2 "You are in `pwd`! Really continue?"; then
     echo >&2 "Aborted."
     exit
   fi
 fi
 
-if ! `which home-manager &>/dev/null` && \
-  ! ask >&2 "home-manger not found. Continue?"; then
-  echo >&2 "Aborted."
-  exit
+files="$1"
+if [ ! -f "$files"  ]; then
+  files="`realpath /data/$WHOAMI/.dotfiles`"
 fi
 
-src="$1"
-if [ -z "$src" ]; then
-  src="/data/`whoami`"
-fi
+link() {
+  local file="$1"
+  local src="`dirname $files`"
 
-for file in $src/.*; do
-  basename="`basename $file`"
-  if [ "$basename" != "." ] && \
-     [ "$basename" != ".." ] && \
-     [ "$basename" != ".hg" ] && \
-     [ "$basename" != ".hgsub" ] && \
-     [ "$basename" != ".hgsubstate" ] && \
-     [ "$basename" != ".hgtags" ]; then
-    echo "`basename $file` <- $file"
-    if [ -e "./$basename" ] && `ask >&2 "Overwrite?"`; then
-      ln -sf "$file"
-    else
-      ln -s "$file"
-    fi
+  printf "$src/$file\n"
+
+  if [ ! -e "$file" ]; then
+    mkdir -p "`dirname $file`"
+    ln -s "$src/$file" "$file"
+  elif ask >&2 "File exists. Overwrite?"; then
+    ln -sf "$src/$file" "$file"
   fi
-done
+}
 
-home-manager switch
+while read -u 10 -r file; do
+  link "$file"
+done 10< "$files"
