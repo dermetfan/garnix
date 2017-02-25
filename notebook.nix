@@ -15,7 +15,6 @@ rec {
 
   networking = {
     hostName = "dermetfan";
-    hostId = "6abe32dc"; # needs to be set for zfs
     networkmanager.enable = true;
     firewall.allowedTCPPorts = [ 8080 ];
     nat = {
