@@ -13,6 +13,10 @@ rec {
 
   boot.loader.timeout = 1;
 
+  environment.systemPackages = with pkgs; if config.services.xserver.enable then [
+    xflux
+  ] else [];
+
   networking = {
     hostName = "dermetfan";
     networkmanager.enable = true;

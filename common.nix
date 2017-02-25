@@ -27,7 +27,6 @@
       lsof
       ntfs3g
       udevil
-      xflux
       ftop
     ] ++ (if config.services.xserver.enable then [
       xorg.xrandr
