@@ -128,10 +128,10 @@ bindsym $mod+Shift+period move workspace to output down
 bindsym $mod+k exec "i3-msg reload && timeout 1.75 i3-nagbar -t warning -m 'reloaded i3 configuration'"
 
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
-bindsym $mod+Ctrl+k exec "i3-msg restart && timeout 1.75 i3-nagbar -t warning -m 'restarted i3 inplace'"
+bindsym $mod+Shift+k exec "i3-msg restart && timeout 1.75 i3-nagbar -t warning -m 'restarted i3 inplace'"
 
 # exit i3 (logs you out of your X session)
-bindsym $mod+Shift+k exec "i3-nagbar -t warning -m 'Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+bindsym $mod+Ctrl+k exec "i3-nagbar -t warning -m 'Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
 # Pressing left will shrink the window’s width. Pressing right will grow the window’s width. Pressing up will grow the window’s height. Pressing down will shrink the window’s height.
 bindsym $mod+Ctrl+n resize grow width 10 px or 10 ppt
