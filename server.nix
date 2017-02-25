@@ -1,7 +1,9 @@
 { config, pkgs, ... }:
 
 {
-  imports = [ ./hardware-configuration.nix ];
+  imports = [
+    ./common.nix
+  ];
 
   boot.loader.grub = {
     enable = true;
@@ -26,22 +28,10 @@
     };
   };
 
-  i18n.consoleUseXkbConfig = true;
-
-  time.timeZone = "Europe/Berlin";
-
   services = {
-    openssh.enable = true;
-
     wakeonlan.interfaces = [{
       interface = "enp2s0";
     }];
-
-    xserver = {
-      layout = "us";
-      xkbVariant = "norman";
-      xkbOptions = "compose:lwin,compose:rwin,eurosign:e";
-    };
 
     hydra = {
       enable = true;
@@ -74,25 +64,6 @@
   systemd.services = {
     hydra-server.path = [ pkgs.ssmtp ];
     hydra-queue-runner.path = [ pkgs.ssmtp ];
-  };
-
-  users = {
-    mutableUsers = false;
-    
-    users = {
-      root = {
-        isSystemUser = true;
-        hashedPassword = "$6$DldeafJwTCM2QA$1z4pdpJEm9wD7y4iFSBIoWtLIm36UEGnQeN0yqcVZ/jBT7pVshkWdsATQf6oBEyOECJMEw5yeuk.j04aSYI8N1";
-      };
-
-      dermetfan = {
-        isNormalUser = true;
-        hashedPassword = "$6$dermetfan$TDnNIlkKVSIUENPQxm6knvwguWBqfuLt4uTfzSl9gpZb1fQu86VIkvDzZ6dR02dt3c0QFwH4TOMoREMCDS7yt.";
-        extraGroups = [
-          "wheel"
-        ];
-      };
-    };
   };
 
   system.stateVersion = "16.09";

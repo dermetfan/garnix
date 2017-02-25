@@ -2,7 +2,8 @@
 
 rec {
   imports = [
-    ./hardware-configuration.nix
+    ./common.nix
+    ./lib/data.nix
     ./lib/steam-controller.nix
   ] ++ (if services.xserver.enable then [
     ./lib/gtk.nix
@@ -10,37 +11,7 @@ rec {
 
   nixpkgs.config.allowUnfree = true;
 
-  boot = {
-    loader = {
-      timeout = 1;
-      systemd-boot.enable = true;
-      grub = {
-        efiSupport = true;
-        zfsSupport = true;
-        configurationLimit = 25;
-      };
-    };
-
-    tmpOnTmpfs = true;
-
-    blacklistedKernelModules = [
-      "nouveau" # causes CPU stalls with intel GPU driver
-    ];
-
-    supportedFilesystems = [ "zfs" ];
-
-    zfs = {
-      forceImportAll = false;
-      forceImportRoot = false;
-    };
-  };
-
-  security.pam.mount = {
-    enable = true;
-    extraVolumes = [
-      ''<volume pgrp="users" mountpoint="/data/%(USER)" path="data/%(USER)" fstype="zfs" />''
-    ];
-  };
+  boot.loader.timeout = 1;
 
   networking = {
     hostName = "dermetfan";
@@ -56,66 +27,9 @@ rec {
     };
   };
 
-  time.timeZone = "Europe/Berlin";
-
-  i18n.consoleUseXkbConfig = true;
-
-  environment = {
-    systemPackages = with pkgs; [
-      nix-zsh-completions
-      bashmount
-      file
-      tree
-      lsof
-      ntfs3g
-      udevil
-      xflux
-      ftop
-    ] ++ (if config.services.xserver.enable then [
-      xorg.xrandr
-      xorg.xkill
-      xscreensaver
-      xclip
-      xsel
-      libnotify
-    ] else []);
-
-    variables = {
-      SDL_VIDEO_X11_DGAMOUSE = "0"; # fix for jumping mouse (in qemu)
-      _JAVA_AWT_WM_NONREPARENTING = "1"; # fix for some blank java windows
-    };
-
-    interactiveShellInit = ''
-      export PATH="$PATH:/data/`whoami`/bin"
-    '';
-  };
-
-  programs = {
-    light.enable = true;
-    # bash.enableCompletion = true; # breaks impure nix-shell, see https://github.com/NixOS/nix/issues/976
-    zsh = {
-      enable = true;
-      shellAliases = {
-        l = "ls -lah";
-        ll = "ls -lh";
-      };
-      interactiveShellInit = pkgs.callPackage ./lib/antigen.nix {};
-    };
-    nano.nanorc = ''
-      set tabsize 4
-      set tabstospaces
-      set autoindent
-      set smarthome
-      set nowrap
-      set smooth
-      set nohelp
-    '';
-    mosh.enable = true;
-    tmux.enable = true;
-  };
+  programs.light.enable = true;
 
   services = {
-    openssh.enable = true;
     printing.enable = true;
 
     kmscon = {
@@ -137,9 +51,6 @@ rec {
 
     xserver = {
       enable = true;
-      layout = "us";
-      xkbVariant = "norman";
-      xkbOptions = "compose:lwin,compose:rwin,eurosign:e";
 
       displayManager.sessionCommands = let
         xhost = "${pkgs.xorg.xhost}/bin/xhost";
@@ -170,8 +81,6 @@ rec {
         minSpeed = "0.825";
         maxSpeed = "2";
       };
-
-      videoDrivers = [ "intel" ];
     };
 
     actkbd = {
@@ -278,13 +187,6 @@ rec {
         }
       ];
     };
-
-    unclutter.enable = true;
-  };
-
-  sound.mediaKeys = {
-    enable = !config.services.xserver.enable;
-    volumeStep = "2%";
   };
 
   fonts = {
@@ -307,40 +209,7 @@ rec {
     ];
   };
 
-  hardware = {
-    enableAllFirmware = true;
-    # nvidiaOptimus.disable = true;
-    bumblebee = {
-      # enable = true;
-      driver = "nouveau";
-    };
-    opengl.driSupport32Bit = true;
-    bluetooth.enable = true;
-    pulseaudio = {
-      enable = false; # does not work with sound.mediaKeys.enable because amixer cannot connect to PulseAudio user daemon as another user (root) => share PulseAudio cookie?
-      package = pkgs.pulseaudioFull;
-      support32Bit = true;
-    };
-  };
+  hardware.pulseaudio.enable = false; # does not work with sound.mediaKeys.enable because amixer cannot connect to PulseAudio user daemon as another user (root) => share PulseAudio cookie?
 
   virtualisation.docker.enable = true;
-
-  users = {
-    mutableUsers = false;
-    defaultUserShell = pkgs.zsh;
-    users = {
-      root = {
-        isSystemUser = true;
-        hashedPassword = "$6$9876543210987654$TOIH9KzZb/Tfa/0F2mobm4Hl2vwh5bFp8As6VFCaqSIu5KoqgdpESOmuMI04J8DUPGdvEjDMkWi9Lxqhu5gZ50";
-      };
-      dermetfan = {
-        isNormalUser = true;
-        hashedPassword = "$6$0123456789012345$h8FEllCQBQYziYvFVOhIqGRvt/z3lPO5wU.07Uz9Y/E2AvSUtq9ITQZTivMFN0gSSpFrDJ0P32k9t5uG4c47D0";
-        extraGroups = [
-          "wheel"
-          "docker"
-        ];
-      };
-    };
-  };
 }
