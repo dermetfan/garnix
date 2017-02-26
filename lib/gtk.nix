@@ -52,11 +52,8 @@
     export GDK_PIXBUF_MODULE_FILE=`echo ${pkgs.librsvg.out}/lib/gdk-pixbuf-2.0/*/loaders.cache`
   '';
 
-  nixpkgs.config.packageOverrides = pkgs: rec {
+  nixpkgs.config.packageOverrides = pkgs: {
     qt4 = pkgs.qt4.override {
-      gtkStyle = true;
-    };
-    qt5.base = pkgs.qt5.base.override {
       gtkStyle = true;
     };
   };
