@@ -16,8 +16,14 @@ if [ "`pwd`" != "`eval echo ~$WHOAMI`" ]; then
 fi
 
 files="$1"
-if [ ! -e "$files"  ]; then
-  files="`realpath /data/$WHOAMI/.dotfiles`"
+if [ ! -e "$files" ]; then
+  if [ -L "$0" ]; then
+    files="`readlink \"$0\"`"
+  else
+    files="$0"
+  fi
+  files="`dirname \"$files\"`/../.dotfiles"
+  files="`realpath \"$files\"`"
 fi
 
 link() {
