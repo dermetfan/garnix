@@ -10,6 +10,7 @@ bin/dotfiles
 .zshrc
 .config/i3/config
 .config/i3status/config
+.config/nitrogen/nitrogen.cfg
 .config/lilyterm/default.conf
 .config/dunst/dunstrc
 .config/volumeicon/volumeicon
