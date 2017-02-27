@@ -28,15 +28,16 @@ fi
 
 link() {
   local file="$1"
-  local src="`dirname $files`"
+  local src="`dirname \"$files\"`"
 
   printf "$src/$file\n"
 
   if [ ! -e "$file" ] && [ ! -L "$file" ]; then
-    mkdir -p "`dirname $file`"
+    mkdir -p "`dirname \"$file\"`"
     ln -s "$src/$file" "$file"
   elif ask >&2 "File exists. Overwrite?"; then
-    ln -sf "$src/$file" "$file"
+    rm "$file"
+    ln -s "$src/$file" "$file"
   fi
 }
 
