@@ -26,7 +26,7 @@ link() {
 
   printf "$src/$file\n"
 
-  if [ ! -e "$file" ]; then
+  if [ ! -e "$file" ] && [ ! -L "$file" ]; then
     mkdir -p "`dirname $file`"
     ln -s "$src/$file" "$file"
   elif ask >&2 "File exists. Overwrite?"; then
