@@ -10,5 +10,15 @@ bin/dotfiles
 .zshrc
 .config/i3/config
 .config/i3status/config
+.config/lilyterm/default.conf
 .config/dunst/dunstrc
+.config/volumeicon/volumeicon
+.config/parcellite/parcelliterc
+.config/geany/geany.conf
+.config/geany/colorschemes
+.config/geany/keybindings.conf
+.config/geany/plugins/filebrowser/filebrowser.conf
+.config/htop/htoprc
+.config/filezilla/sitemanager.xml
+.config/xfe/xferc
 .config/user-dirs.dirs
