@@ -7,6 +7,7 @@ interface.chunkselector = curses
 
 [alias]
 lg = log -G
+qnew = qnew -e
 
 [auth]
 bb.prefix = https://bitbucket.org/
@@ -37,3 +38,6 @@ attend = lg, log, diff, annotate, help
 
 [diff]
 git = true
+
+[mq]
+secret = true
