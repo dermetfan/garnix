@@ -3,7 +3,7 @@
 {
   home = {
     packages = with pkgs; [
-#      2048-in-terminal
+      pkgs."2048-in-terminal"
       abcde
       android-studio
       arandr
