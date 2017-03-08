@@ -103,7 +103,6 @@
     sessionVariableSetter = "pam";
     sessionVariables = {
       SUDO_ASKPASS = "${pkgs.x11_ssh_askpass}/libexec/x11-ssh-askpass";
-      ANDROID_HOME = "${pkgs.androidsdk_extras}/libexec";
     };
   };
 
