@@ -32,7 +32,7 @@
       i3status
       idea.idea-community
       jq
-      kde5.kdenlive
+#      kdenlive
       keymon
       lilyterm
       lmms
