@@ -8,7 +8,7 @@
   networking = {
     hostName = "dermetfan-server";
 
-    firewall.allowedTCPPorts = [ 3000 ];
+    firewall.allowedTCPPorts = [ 3000 25565 ];
 
     defaultMailServer = {
       directDelivery = true;
