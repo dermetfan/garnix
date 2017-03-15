@@ -9,7 +9,7 @@
   security.pam.mount = {
     enable = true;
     extraVolumes = [
-      ''<volume pgrp="users" mountpoint="/data/%(USER)" path="data/%(USER)" fstype="zfs" />''
+      ''<volume pgrp="${config.users.groups.users.name}" mountpoint="/data/%(USER)" path="data/%(USER)" fstype="zfs" />''
     ];
   };
 
