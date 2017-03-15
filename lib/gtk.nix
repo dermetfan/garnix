@@ -20,7 +20,6 @@
       gnome-breeze
       greybird
       hicolor_icon_theme
-      kde4.oxygen_icons
       mate.mate-themes
       mate.mate-icon-theme
       mate.mate-icon-theme-faenza
@@ -28,8 +27,6 @@
       numix-gtk-theme
       numix-icon-theme
       numix-icon-theme-circle
-      oxygen-gtk2
-      oxygen-gtk3
       paper-gtk-theme
       paper-icon-theme
       tango-icon-theme
