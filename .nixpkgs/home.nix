@@ -42,6 +42,7 @@
       mplayer
       mpv
       ncdu
+      nethogs
       nixui
       nox
       openjdk
@@ -71,7 +72,9 @@
       smartmontools
       smplayer
       sshfsFuse
+      libsysfs
       tdesktop
+      teamspeak_client
       xfce.thunar
       tiled
       tor
