@@ -2,6 +2,7 @@ bin/dotfiles
 .antigenrc
 .minecraft/options.txt
 .hgrc
+.gitconfig
 .nano
 .nanorc
 .nixpkgs
