@@ -1,5 +1,6 @@
 bin/dotfiles
 .antigenrc
+.cargo/config
 .minecraft/options.txt
 .hgrc
 .gitconfig
