@@ -13,6 +13,7 @@
       bundix
       chromium
       cool-old-term
+      dunst
       fdupes
       feh
       filezilla
