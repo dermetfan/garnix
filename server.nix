@@ -5,6 +5,8 @@
     ./common.nix
   ];
 
+  nixpkgs.config.allowUnfree = true;
+
   networking = {
     hostName = "dermetfan-server";
 
@@ -44,6 +46,11 @@
         ga('send', 'pageview');\
         </script>\
       '';
+    };
+
+    minecraft-server = {
+      enable = true;
+      openFirewall = true;
     };
 
     ddclient = {
