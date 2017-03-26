@@ -1,11 +1,6 @@
 { config, pkgs, ... }:
 
 {
-  services.zfs.autoSnapshot = {
-    enable = true;
-    flags = "-kpu";
-  };
-
   security.pam.mount = {
     enable = true;
     extraVolumes = [
