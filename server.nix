@@ -10,7 +10,9 @@
   networking = {
     hostName = "dermetfan-server";
 
-    firewall.allowedTCPPorts = [ 3000 25565 ];
+    firewall.allowedTCPPorts = [
+      80 443
+    ];
 
     defaultMailServer = {
       directDelivery = true;
@@ -31,7 +33,7 @@
 
     hydra = {
       enable = true;
-      hydraURL = https://hydra.dermetfan.net/;
+      hydraURL = https://hydra.dermetfan.net;
       notificationSender = "hydra@dermetfan.net";
       buildMachinesFiles = [];
       smtpHost = "localhost";
@@ -53,6 +55,37 @@
       openFirewall = true;
     };
 
+    nginx = {
+      enable = true;
+      recommendedOptimisation = true;
+      recommendedProxySettings = true;
+      recommendedTlsSettings = true;
+      recommendedGzipSettings = true;
+      virtualHosts = {
+        "server.dermetfan.net" = {
+          forceSSL = true;
+          enableACME = true;
+          sslCertificate = /etc/private/host.cert;
+          sslCertificateKey = /etc/private/host.key;
+          locations = {
+            "/minecraft/resourcepacks/".extraConfig = ''
+              alias ${config.services.minecraft-server.dataDir}/resourcepacks/;
+            '';
+          };
+        };
+
+        "hydra.dermetfan.net" = {
+          forceSSL = true;
+          enableACME = true;
+          sslCertificate = /etc/private/host.cert;
+          sslCertificateKey = /etc/private/host.key;
+          locations."/" = {
+            proxyPass = "http://localhost:${builtins.toString config.services.hydra.port}";
+          };
+        };
+      };
+    };
+
     ddclient = {
       enable = true;
       server = "dynupdate.no-ip.com";
@@ -66,6 +99,4 @@
     hydra-server.path = [ pkgs.ssmtp ];
     hydra-queue-runner.path = [ pkgs.ssmtp ];
   };
-
-  system.stateVersion = "16.09";
 }
