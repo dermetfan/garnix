@@ -1,6 +1,7 @@
 { config, pkgs, ... }:
 
-rec {
+let _hardware = import ./hardware.nix;
+in rec {
   imports = [
     ./common.nix
     ./lib/data.nix
@@ -26,7 +27,7 @@ rec {
       internalInterfaces = [
         "ve-+" # nixos-containers
       ];
-      externalInterface = "enp3s0";
+      externalInterface = _hardware.interfaces.wlan;
     };
   };
 
@@ -44,9 +45,9 @@ rec {
       hwRender = true;
     };
 
-    wakeonlan.interfaces = [ {
-      interface = "enp3s0";
-    } ];
+    wakeonlan.interfaces = [
+      { interface = _hardware.interfaces.lan; }
+    ];
 
     logind.extraConfig = ''
       HandleLidSwitch=ignore

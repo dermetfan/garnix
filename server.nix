@@ -1,6 +1,7 @@
 { config, pkgs, ... }:
 
-{
+let _hardware = import ./hardware.nix;
+in {
   imports = [
     ./common.nix
   ];
@@ -29,7 +30,7 @@
 
   services = {
     wakeonlan.interfaces = [{
-      interface = "enp2s0";
+      interface = _hardware.interfaces.lan;
     }];
 
     hydra = {
