@@ -12,6 +12,7 @@
 
     firewall.allowedTCPPorts = [
       80 443
+      25575 # minecraft rcon
     ];
 
     defaultMailServer = {
