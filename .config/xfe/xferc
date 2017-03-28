@@ -50,7 +50,7 @@ smooth_scroll=1
 use_clearlooks=1
 show_pathlinker=1
 basecolor=#ede9e3
-relative_resize=1
+relative_resize=0
 time_format=%x %X
 single_click=0
 tippause=500
@@ -92,21 +92,21 @@ xterm=lilyterm
 txtviewer=geany -r
 
 [LEFT PANEL]
-type_size=86
+type_size=91
 deldate_size=150
 origpath_size=200
 liststyle=0
-attr_size=86
-size_size=51
-user_size=43
+attr_size=70
+size_size=105
+user_size=79
 dirs_first=1
-ext_size=86
-grou_size=43
-modd_size=128
+ext_size=71
+grou_size=61
+modd_size=171
 ignore_case=1
 sort_func=ascendingCase
 showthumbnails=0
-name_size=171
+name_size=205
 hiddenfiles=0
 
 [FILEDIALOG]
