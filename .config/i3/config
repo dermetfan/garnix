@@ -185,8 +185,9 @@ bar {
     modifier $mod
     strip_workspace_numbers yes
     status_command i3status
-    font pango:monospace 12
+    font pango:monospace 11
     separator_symbol " :|: "
+    tray_output primary
 }
 
 # show applications on certain workspaces
