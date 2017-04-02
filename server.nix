@@ -65,6 +65,7 @@ in {
       recommendedGzipSettings = true;
       virtualHosts = {
         "server.dermetfan.net" = {
+          default = true;
           forceSSL = true;
           enableACME = true;
           sslCertificate = /etc/private/host.cert;
