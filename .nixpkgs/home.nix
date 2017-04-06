@@ -10,6 +10,7 @@
       audacious
       audacity
       bashmount
+      binutils
       bundix
       chromium
       cool-old-term
