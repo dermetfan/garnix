@@ -1,12 +1,9 @@
-{ config, pkgs, ... }:
+{ hardware ? {}
+, config, pkgs }:
 
 {
-  imports = [
-    ./hardware-configuration.nix
-  ];
-
   boot = {
-    tmpOnTmpfs = true;
+    loader.timeout = 1;
 
     supportedFilesystems = [ "zfs" ];
 
@@ -28,14 +25,7 @@
       ntfs3g
       udevil
       ftop
-    ] ++ (if config.services.xserver.enable then [
-      xorg.xrandr
-      xorg.xkill
-      xscreensaver
-      xclip
-      xsel
-      libnotify
-    ] else []);
+    ];
 
     variables = if config.services.xserver.enable then {
       SDL_VIDEO_X11_DGAMOUSE = "0"; # fix for jumping mouse (in qemu)
@@ -51,7 +41,7 @@
         l = "ls -lah";
         ll = "ls -lh";
       };
-      interactiveShellInit = pkgs.callPackage ./lib/antigen.nix {};
+      interactiveShellInit = pkgs.callPackage ../lib/antigen.nix {};
     };
     nano.nanorc = ''
       set tabsize 4
@@ -71,10 +61,27 @@
   services = {
     openssh.enable = true;
 
+    wakeonlan.interfaces = if hardware ? interfaces.lan then [
+      { interface = hardware.interfaces.lan; }
+    ] else [];
+
     xserver = {
       layout = "us";
       xkbVariant = "norman";
       xkbOptions = "compose:lwin,compose:rwin,eurosign:e";
+
+      displayManager.sessionCommands = ''
+        xflux -l 51.165691 -g 10.45152000000058
+      '';
+    };
+
+    kmscon = {
+      extraConfig = ''
+        xkb-layout=us
+        xkb-variant=norman
+        xkb-options=compose:lwin,compose:rwin,eurosign:e
+      '';
+      hwRender = true;
     };
 
     unclutter.enable = true;

@@ -41,6 +41,8 @@ in {
         configurationLimit = 25;
       };
     };
+
+    tmpOnTmpfs = true;
   };
 
   nix.maxJobs = lib.mkDefault 8;
