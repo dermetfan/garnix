@@ -6,6 +6,8 @@ lib.mkMerge [
   })
 
   {
+    nixpkgs.config.allowUnfree = true;
+
     environment.systemPackages = with pkgs; [
       xflux
       xorg.xrandr
