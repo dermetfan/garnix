@@ -33,15 +33,6 @@ in {
       bbswitch
     ];
 
-    loader = {
-      systemd-boot.enable = true;
-      grub = {
-        efiSupport = true;
-        zfsSupport = true;
-        configurationLimit = 25;
-      };
-    };
-
     tmpOnTmpfs = true;
   };
 

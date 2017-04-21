@@ -2,16 +2,9 @@
 , config, pkgs }:
 
 {
-  fileSystems = {
-    "/" = {
-      device = "root";
-      fsType = "zfs";
-    };
-
-    "/data" = {
-      device = "data";
-      fsType = "zfs";
-    };
+  fileSystems."/data" = {
+    device = "data";
+    fsType = "zfs";
   };
 
   powerManagement.powerUpCommands = (if apmLevel != null then
