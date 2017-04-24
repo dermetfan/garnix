@@ -5,50 +5,27 @@
     packages = with pkgs; [
       pkgs."2048-in-terminal"
       abcde
-      android-studio
-      arandr
-      audacious
-      audacity
       bashmount
       binutils
       bundix
-      chromium
-      cool-old-term
-      dunst
       fdupes
       feh
-      filezilla
       fortune
       ftop
       fzy
-      geany
-      gimp
       git
       gnupg
-      gpa
-      gparted
       gptfdisk
       hdparm
-      hipchat
       htop
-      i3status
-      idea.idea-community
       jq
-#      kdenlive
-      keymon
-      lilyterm
-      lmms
       lrzip
-      meld
-      minecraft
       mplayer
       mpv
       ncdu
       nethogs
-      nixui
       nox
       openjdk
-      parcellite
       parted
       pass
       peco
@@ -57,44 +34,81 @@
       psmisc
       pv
       mercurial
-      networkmanagerapplet
-      nitrogen
-      qalculate-gtk
       qemu
       rustracer
       rustracerd
       ranger
-      rofi
       rogue
-      rss-glx
       rsync
       screenfetch
-      skype
       sl
       smartmontools
-      smplayer
       sshfsFuse
       libsysfs
+      unrar
+      unzip
+      vlc
+      wakelan
+      wget
+      zip
+    ] ++ (if config.services.xscreensaver.enable then with pkgs; [
+      xscreensaver
+    ] else []) ++ (if config.xsession.enable then with pkgs; [
+      # X
+      arandr
+      libnotify
+      xorg.xrandr
+      xorg.xkill
+      xclip
+      xsel
+
+      # i3
+      i3-gaps
+      i3status
+
+      # autostart
+      parcellite
       tdesktop
+      hipchat
+      nitrogen
+      skype
+      volumeicon
+
+      android-studio
+      audacious
+      audacity
+      chromium
+      cool-old-term
+      filezilla
+      geany
+      gimp
+      gpa
+      gparted
+      idea.idea-community
+      kdenlive
+      keymon
+      lilyterm
+      lmms
+      meld
+      minecraft
+      nixui
+      networkmanagerapplet
+      qalculate-gtk
+      rofi
+      rss-glx
+      smplayer
       teamspeak_client
       xfce.thunar
       tiled
-      tor
-      unrar
-      unzip
+      torbrowser
       visualvm
       vivaldi
-      vlc
-      volumeicon
-      wakelan
-      wget
       xarchiver
       xfce.xfconf
       xfe
       xpdf
       zathura
-      zip
-    ];
+    ] else []);
 
     keyboard = {
       variant = "norman";
@@ -111,16 +125,43 @@
     };
   };
 
+  xsession = {
+    enable = true;
+    windowManager = "${pkgs.i3-gaps}/bin/i3";
+    initExtra = let
+      xhost = "${pkgs.xorg.xhost}/bin/xhost";
+      xmodmap = "${pkgs.xorg.xmodmap}/bin/xmodmap";
+      xflux = "${pkgs.xflux}/bin/xflux";
+      compton = "${pkgs.compton}/bin/compton";
+      devmon = "${pkgs.udevil}/bin/devmon";
+    in ''
+      ${xhost} local:root # allow root to connect to X server for key bindings
+      ${xmodmap} -e "keycode 66 = Caps_Lock"
+      ${xflux} -l 51.165691 -g 10.45152000000058
+      xset r rate 225 27
+      xset m 2
+      ${compton} -bfD 2
+      ${devmon} &
+      syndaemon -d -i 0.625 -K -R || :
+
+      ~/.fehbg || nitrogen --restore
+      volumeicon &
+      parcellite &
+      telegram-desktop &
+      hipchat &
+      skype &
+    '';
+  };
+
   programs.firefox = {
     enable = true;
     enableAdobeFlash = true;
   };
 
   services = {
-    xscreensaver.enable = true;
-    network-manager-applet.enable = true;
     dunst.enable = true;
-    udiskie.enable = true;
+    network-manager-applet.enable = true;
+    xscreensaver.enable = true;
   };
 
   gtk = {

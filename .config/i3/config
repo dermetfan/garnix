@@ -197,13 +197,3 @@ assign [class="^Skype$"] 10
 
 # application shortcuts
 bindsym $mod+x exec xfe
-
-# autostart applications
-exec --no-startup-id ~/.fehbg || nitrogen --restore
-exec --no-startup-id nm-applet --sm-disable
-exec --no-startup-id volumeicon
-exec --no-startup-id parcellite
-exec --no-startup-id dunst
-exec --no-startup-id telegram-desktop
-exec --no-startup-id hipchat
-exec --no-startup-id skype
