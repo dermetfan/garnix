@@ -69,10 +69,6 @@
       layout = "us";
       xkbVariant = "norman";
       xkbOptions = "compose:lwin,compose:rwin,eurosign:e";
-
-      displayManager.sessionCommands = ''
-        xflux -l 51.165691 -g 10.45152000000058
-      '';
     };
 
     kmscon = {
