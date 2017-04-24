@@ -7,6 +7,8 @@ lib.mkMerge [
   })
 
   {
+    nixpkgs.config.allowUnfree = true;
+
     networking = {
       hostName = "dermetfan-server";
 
