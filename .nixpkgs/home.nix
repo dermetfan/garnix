@@ -1,6 +1,15 @@
 { config, pkgs, ... }:
 
-{
+let systemConfig = (import "${builtins.toString <nixpkgs>}/nixos/lib/eval-config.nix" {
+  modules = [
+    (import <nixos-config> {
+      inherit pkgs;
+      inherit (pkgs) system lib;
+      config = systemConfig.config;
+    })
+  ];
+}).config;
+in {
   home = {
     packages = with pkgs; [
       pkgs."2048-in-terminal"
@@ -126,7 +135,7 @@
   };
 
   xsession = {
-    enable = true;
+    enable = systemConfig.services.xserver.enable;
     windowManager = "${pkgs.i3-gaps}/bin/i3";
     initExtra = let
       xhost = "${pkgs.xorg.xhost}/bin/xhost";
@@ -154,18 +163,18 @@
   };
 
   programs.firefox = {
-    enable = true;
+    enable = config.xsession.enable;
     enableAdobeFlash = true;
   };
 
   services = {
-    dunst.enable = true;
-    network-manager-applet.enable = true;
-    xscreensaver.enable = true;
+    dunst.enable = config.xsession.enable;
+    network-manager-applet.enable = config.xsession.enable;
+    xscreensaver.enable = config.xsession.enable;
   };
 
   gtk = {
-    enable = true;
+    enable = config.xsession.enable;
     themeName = "Vertex-Dark";
     iconThemeName = "Numix";
   };
