@@ -6,4 +6,4 @@ rofi.opacity: 25
 rofi.fake-transparency: true
 rofi.fake-background: screenshot
 rofi.terminal: lilyterm
-rofi.ssh-client: mosh
+! rofi.ssh-client: mosh
