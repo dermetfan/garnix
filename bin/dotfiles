@@ -6,17 +6,9 @@ ask() {
   return `[ "$REPLY" = y ] || [ "$REPLY" = Y ]`
 }
 
-WHOAMI="`whoami`"
-
-if [ "`pwd`" != "`eval echo ~$WHOAMI`" ]; then
-  if ! ask >&2 "You are in `pwd`! Really continue?"; then
-    echo >&2 "Aborted."
-    exit
-  fi
-fi
-
 files="$1"
 if [ ! -e "$files" ]; then
+  # resolve default file list
   if [ -L "$0" ]; then
     files="`readlink \"$0\"`"
   else
@@ -26,21 +18,64 @@ if [ ! -e "$files" ]; then
   files="`realpath \"$files\"`"
 fi
 
+pager() {
+  if [ -n "$PAGER" ]; then
+    printf "$PAGER"
+  else
+    printf less
+  fi
+}
+
 link() {
   local file="$1"
   local src="`dirname \"$files\"`"
 
-  printf "$src/$file\n"
+  printf "$src/$file"
+  printf >&2 "..."
 
+  local skip=false
   if [ ! -e "$file" ] && [ ! -L "$file" ]; then
     mkdir -p "`dirname \"$file\"`"
-    ln -s "$src/$file" "$file"
-  elif ask >&2 "File exists. Overwrite?"; then
-    rm "$file"
+    printf >&2 " OK"
+    echo
+  else
+    if [ `realpath "$file"` = `realpath "$src/$file"` ]; then
+      local skip=true
+      printf >&2 " OK"
+      echo
+    else
+      echo >&2 " File exists"
+      ls >&2 -lah "$file"
+
+      printf >&2 "View/Diff? [v/d] "
+      read
+      if [ "$REPLY" = "v" ]; then
+        `pager` "$file"
+      elif [ "$REPLY" = "d" ]; then
+        diff -ry --suppress-common-lines "$file" "$src/$file" | `pager`
+      fi
+
+      if ask >&2 "Overwrite?"; then
+        rm -r "`realpath \"$file\"`"
+      else
+        local skip=true
+      fi
+    fi
+  fi
+
+  if [ "$skip" = false ]; then
     ln -s "$src/$file" "$file"
   fi
 }
 
-while read -u 10 -r file; do
-  link "$file"
-done 10< "$files"
+if [ "$1" = "--help" ] || [ "$1" = "-h" ]; then
+  echo "Usage: `basename $0` [filelist]"
+  echo "The default filelist is $files."
+  exit 0
+fi
+
+if cd "$HOME"; then
+  while read -u 10 -r file; do
+    link "$file"
+  done 10< "$files"
+fi
