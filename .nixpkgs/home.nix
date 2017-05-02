@@ -1,17 +1,62 @@
 { config, pkgs, ... }:
 
-let systemConfig = (import "${builtins.toString <nixpkgs>}/nixos/lib/eval-config.nix" {
-  modules = [
-    (import <nixos-config> {
-      inherit pkgs;
-      inherit (pkgs) system lib;
-      config = systemConfig.config;
-    })
-  ];
-}).config;
+let
+  systemConfig = (import "${builtins.toString <nixpkgs>}/nixos/lib/eval-config.nix" {
+    modules = [
+      (import <nixos-config> {
+        inherit pkgs;
+        inherit (pkgs) system lib;
+        config = systemConfig.config;
+      })
+    ];
+  }).config;
+
+  profile = let
+    name = import ./profile.nix;
+
+    profiles = rec {
+      netbook.home.packages = if config.xsession.enable then with pkgs; [
+        audacious
+        chromium
+        filezilla
+        geany
+        gpa
+        gparted
+        keymon
+        lilyterm
+        nixui
+        qalculate-gtk
+        rss-glx
+        smplayer
+        xfce.thunar
+        vivaldi
+        xarchiver
+        xfce.xfconf
+        xfe
+        xpdf
+        zathura
+      ] else [];
+
+      notebook.home.packages = if config.xsession.enable then with pkgs; netbook.home.packages ++ [
+        android-studio
+        audacity
+        cool-old-term
+        gimp
+        idea.idea-community
+        kdenlive
+        lmms
+        meld
+        minecraft
+        teamspeak_client
+        tiled
+        torbrowser
+        visualvm
+      ] else [];
+    };
+  in profiles.${name};
 in {
   home = {
-    packages = with pkgs; [
+    packages = with pkgs; profile.home.packages ++ [
       pkgs."2048-in-terminal"
       abcde
       bashmount
@@ -74,6 +119,7 @@ in {
       # i3
       i3-gaps
       i3status
+      rofi
 
       # autostart
       parcellite
@@ -82,41 +128,6 @@ in {
       nitrogen
       skype
       volumeicon
-
-      android-studio
-      audacious
-      audacity
-      chromium
-      cool-old-term
-      filezilla
-      geany
-      gimp
-      gpa
-      gparted
-      idea.idea-community
-      kdenlive
-      keymon
-      lilyterm
-      lmms
-      meld
-      minecraft
-      nixui
-      networkmanagerapplet
-      qalculate-gtk
-      rofi
-      rss-glx
-      smplayer
-      teamspeak_client
-      xfce.thunar
-      tiled
-      torbrowser
-      visualvm
-      vivaldi
-      xarchiver
-      xfce.xfconf
-      xfe
-      xpdf
-      zathura
     ] else []);
 
     keyboard = {
