@@ -13,7 +13,7 @@ order += "battery all"
 order += "time"
 
 time {
-    format = "%m-%d %H:%M:%S | "
+    format = "%m-%d %H:%M:%S "
 }
 
 #volume master {}
