@@ -42,7 +42,7 @@ let
         audacity
         cool-old-term
         gimp
-        idea.idea-community
+        jetbrains.idea-community
         kdenlive
         lmms
         meld
