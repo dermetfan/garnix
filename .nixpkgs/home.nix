@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 
 let
-  systemConfig = (import "${builtins.toString <nixpkgs>}/nixos/lib/eval-config.nix" {
+  systemConfig = (import <nixpkgs/nixos/lib/eval-config.nix> {
     modules = [
       (import <nixos-config> {
         inherit pkgs;
@@ -12,7 +12,7 @@ let
   }).config;
 
   profile = let
-    name = import ./profile.nix;
+    name = import ./home/profile.nix;
 
     profiles = rec {
       netbook.home.packages = if config.xsession.enable then with pkgs; [
@@ -67,7 +67,6 @@ in {
       fortune
       ftop
       fzy
-      git
       gnupg
       gptfdisk
       hdparm
@@ -143,6 +142,28 @@ in {
     sessionVariables = {
       SUDO_ASKPASS = "${pkgs.x11_ssh_askpass}/libexec/x11-ssh-askpass";
     };
+
+    file = [
+      (import ./home/antigen.nix)
+      (import ./home/cargo.nix)
+      (import ./home/minecraft.nix)
+      (import ./home/hg.nix)
+      (import ./home/xpdf.nix)
+      (import ./home/xscreensaver.nix)
+      (import ./home/zsh.nix)
+      (import ./home/i3.nix)
+      (import ./home/i3status.nix)
+      (import ./home/rofi.nix)
+      (import ./home/nitrogen.nix)
+      (import ./home/lilyterm.nix)
+      (import ./home/dunst.nix)
+      (import ./home/volumeicon.nix)
+      (import ./home/parcellite.nix)
+      (import ./home/htop.nix)
+      (import ./home/xfe.nix)
+      (import ./home/user-dirs.nix)
+    ] ++ (pkgs.callPackage ./home/geany.nix {})
+    ++ (pkgs.callPackage ./home/nano.nix {});
   };
 
   xsession = {
@@ -173,9 +194,31 @@ in {
     '';
   };
 
-  programs.firefox = {
-    enable = config.xsession.enable;
-    enableAdobeFlash = true;
+  programs = {
+    git = {
+      enable = true;
+      userName = "Robin Stumm";
+      userEmail = "serverkorken@gmail.com";
+      aliases = {
+        st = "status -s";
+        lg = "lg = log --graph --branches --decorate --abbrev-commit --pretty=medium";
+        co = "checkout";
+        ci = "commit";
+        spull = ''!git pull "$@" && git submodule sync --recursive && git submodule update --init --recursive'';
+        extraConfig = ''
+          [status]
+          submoduleSummary = true
+
+          [diff]
+          submodule = log
+        '';
+      };
+    };
+
+    firefox = {
+      enable = config.xsession.enable;
+      enableAdobeFlash = true;
+    };
   };
 
   services = {
