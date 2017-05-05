@@ -1,4 +1,10 @@
-#!/bin/sh
+#! /usr/bin/env nix-shell
+#! nix-shell -i bash -p bash coreutils less diffutils
+
+set -euo pipefail
+IFS=$'\n\t'
+
+PAGER=${PAGER:-less}
 
 ask() {
   printf "$1 [y/N] "
@@ -6,7 +12,7 @@ ask() {
   return `[ "$REPLY" = y ] || [ "$REPLY" = Y ]`
 }
 
-files="$1"
+files=${1:-}
 if [ ! -e "$files" ]; then
   # resolve default file list
   if [ -L "$0" ]; then
@@ -17,46 +23,38 @@ if [ ! -e "$files" ]; then
   files="`dirname \"$files\"`/../.dotfiles"
   files="`realpath \"$files\"`"
 fi
+src="`dirname \"$files\"`"
+src="`realpath \"$src\"`"
 
-pager() {
-  if [ -n "$PAGER" ]; then
-    printf "$PAGER"
-  else
-    printf less
-  fi
-}
-
-link() {
-  local file="$1"
-  local src="`dirname \"$files\"`"
+process() {
+  local cmd="`echo \"$1\" | cut -d ' ' -f 1`"
+  local file="`echo \"$1\" | cut -d ' ' -f 2`"
 
   printf "$src/$file"
-  printf >&2 "..."
+  printf >&2 "... "
 
   local skip=false
+  local ok=false
   if [ ! -e "$file" ] && [ ! -L "$file" ]; then
-    mkdir -p "`dirname \"$file\"`"
-    printf >&2 " OK"
-    echo
+    local ok=true
   else
-    if [ `realpath "$file"` = `realpath "$src/$file"` ]; then
+    if [ "$cmd" = "ln" ] && [ `realpath "$file"` = `realpath "$src/$file"` ]; then
       local skip=true
-      printf >&2 " OK"
-      echo
+      local ok=true
     else
-      echo >&2 " File exists"
+      echo >&2 "File exists"
       ls >&2 -lah "$file"
 
       printf >&2 "View/Diff? [v/d] "
       read
-      if [ "$REPLY" = "v" ]; then
-        `pager` "$file"
-      elif [ "$REPLY" = "d" ]; then
-        diff -ry --suppress-common-lines "$file" "$src/$file" | `pager`
+      if [ "$REPLY" = v ]; then
+        eval $PAGER >&2 "$file" || true
+      elif [ "$REPLY" = d ]; then
+        diff -r --suppress-common-lines "$file" "$src/$file" | eval $PAGER || true
       fi
 
       if ask >&2 "Overwrite?"; then
-        rm -r "`realpath \"$file\"`"
+        rm -rf "$file"
       else
         local skip=true
       fi
@@ -64,18 +62,32 @@ link() {
   fi
 
   if [ "$skip" = false ]; then
-    ln -s "$src/$file" "$file"
+    case "$cmd" in
+      ln)
+        local c="ln -s"
+        ;;
+      cp)
+        local c="cp -r" # -P?
+        ;;
+      *)
+        echo >&2 "Unknown directive: $cmd"
+        exit 1
+    esac
+    mkdir -p "`dirname \"$file\"`" && eval $c "$src/$file" "$file"
+  fi
+
+  if [ "$ok" = true ]; then
+    printf >&2 "OK"
+    echo
   fi
 }
 
-if [ "$1" = "--help" ] || [ "$1" = "-h" ]; then
+if [ "${1:-}" = "--help" ] || [ "${1:-}" = "-h" ]; then
   echo "Usage: `basename $0` [filelist]"
   echo "The default filelist is $files."
   exit 0
 fi
 
-if cd "$HOME"; then
-  while read -u 10 -r file; do
-    link "$file"
-  done 10< "$files"
-fi
+cd ~ && while read -u 10 file; do
+  process "$file"
+done 10< "$files"

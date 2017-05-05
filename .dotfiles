@@ -1,4 +1,4 @@
-bin/dotfiles
-.nixpkgs
-.config/geany/geany.conf
-.config/filezilla/sitemanager.xml
+ln bin/dotfiles
+ln .nixpkgs
+ln .config/geany/geany.conf
+ln .config/filezilla/sitemanager.xml
