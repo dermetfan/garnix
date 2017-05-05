@@ -1,5 +1,5 @@
 {
-  target = ".config/nitrogen/config";
+  target = ".config/nitrogen/nitrogen.cfg";
   text = ''
     [nitrogen]
     view=icon
