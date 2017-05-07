@@ -32,10 +32,12 @@
     [FILETYPES]
     zip=xarchiver,extract;Archive;;;;
     tar=xarchiver,extract;Archive;;;;
+    doc=libreoffice,libreoffice,libreoffice;Document;;;;
     mp4=smplayer,mplayer;Video;;;;
     md=geany;Document;;;;
     wmv=smplayer,mplayer;Video;;;;
     mp3=audacious,audacious,audacity;Audio;;;;
+    ods=libreoffice,libreoffice,libreoffice;Document;;;;
     pdf=zathura,xpdf;Document;;;;
     mov=smplayer,mplayer;Video;;;;
     m4a=audacious,audacious,audacity;Audio;;;;
@@ -44,6 +46,7 @@
     java=geany,geany -r,geany;Source File;;;;
     jpg=feh -FZ,feh -FZ,gimp;Image;;;;
     avi=smplayer,mplayer;Video;;;;
+    odt=libreoffice,libreoffice,libreoffice;Spreadsheet;;;;
 
     [HISTORY]
     run=
