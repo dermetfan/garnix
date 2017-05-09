@@ -32,18 +32,18 @@
     transparent_window = 1
 
     # The opacity of transparent window.
-    window_opacity = 0.050
+    window_opacity = 0.175
 
     # The opacity of transparent window when inactive.
     # Left it blank to disable this feature.
-    window_opacity_inactive =
+    window_opacity_inactive = 0.175
 
     # Use transparent background.
     # It will use true transparent if the window manager were composited.
     transparent_background = 1
 
     # The saturation of transparent background.
-    background_saturation = 0.150
+    background_saturation = 0.175
 
     # Scroll the background image along with the text.
     scroll_background = 0
@@ -56,7 +56,7 @@
 
     # Don't need to confirm for executing a program if it's in the whitelist,
     # separate with <space>.
-    execute_command_whitelist =
+    execute_command_whitelist = ssh mosh
 
     # Launching executed command in a new tab instead of opening a new window.
     execute_command_in_new_tab = 1
@@ -64,12 +64,12 @@
     # If a program is running on foreground,
     # Don't need to confirm for terminating it if it's in the whitelist,
     # separate with <space>.
-    foreground_program_whitelist = bash dash csh ksh tcsh zsh screen
+    foreground_program_whitelist = bash dash csh ksh tcsh zsh screen tmux
 
     # If a program is running in background,
     # Don't need to confirm for terminating it if it's in the whitelist,
     # separate with <space>.
-    background_program_whitelist = bash dash csh ksh tcsh zsh su
+    background_program_whitelist = bash dash csh ksh tcsh zsh su sudo
 
     # Confirm before pasting texts to vte terminal.
     confirm_to_paste = 1
@@ -160,7 +160,7 @@
 
     # Sets whether or not the terminal will flash
     # when the child outputs the "bl" sequence.
-    visible_bell = 0
+    visible_bell = 1
 
     # Sets whether or not the window's urgent tag will be set
     # when the child outputs the "bl" sequence.
@@ -234,7 +234,7 @@
     reuse_page_names = 1
 
     # Shows a (number no) on the page name.
-    page_shows_number = 1
+    page_shows_number = 0
 
     # Shows the foreground running command on the page name.
     page_shows_current_cmdline = 1
@@ -409,7 +409,7 @@
 
     # Open a new window with current dir.
     # Left it blank to disable this function key.
-    new_window =
+    new_window = Shift+Ctrl T
 
     # Select all the text in the Vte Terminal box.
     # Left it blank to disable this function key.
@@ -437,7 +437,7 @@
 
     # Reset the font of current tab to original size.
     # Left it blank to disable this function key.
-    reset_font_size = Ctrl Return
+    reset_font_size = Ctrl 0
 
     # Try to maximum the window to use all available space on your display.
     # Left it blank to disable this function key.
