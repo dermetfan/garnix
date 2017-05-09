@@ -96,6 +96,7 @@ lib.mkMerge [
         username = "dermetfan";
         password = builtins.readFile /etc/private/ddns-pass;
         domain = "dermetfan-server.ddns.net";
+        use = "web, web=icanhazip.com";
       };
     };
 
