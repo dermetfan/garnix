@@ -41,6 +41,7 @@
     pdf=zathura,xpdf;Document;;;;
     mov=smplayer,mplayer;Video;;;;
     m4a=audacious,audacious,audacity;Audio;;;;
+    txt=geany,geany -r,geany;Document;;;;
     png=feh -FZ,feh -FZ,gimp;Image;;;;
     wma=audacious,mplayer,audacity;Audio;;;;
     java=geany,geany -r,geany;Source File;;;;
