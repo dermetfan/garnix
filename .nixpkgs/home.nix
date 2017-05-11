@@ -53,10 +53,10 @@ let
         visualvm
       ] else [];
     };
-  in profiles.${name};
+  in if name == null then {} else profiles.${name};
 in {
   home = {
-    packages = with pkgs; profile.home.packages ++ [
+    packages = with pkgs; profile.home.packages or [] ++ [
       pkgs."2048-in-terminal"
       abcde
       bashmount
