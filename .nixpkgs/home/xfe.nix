@@ -48,6 +48,7 @@
     jpg=feh -FZ,feh -FZ,gimp;Image;;;;
     avi=smplayer,mplayer;Video;;;;
     odt=libreoffice,libreoffice,libreoffice;Spreadsheet;;;;
+    xlsx=libreoffice,libreoffice,libreoffice;Spreadsheet;;;;
 
     [HISTORY]
     run=
