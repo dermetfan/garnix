@@ -6,11 +6,13 @@
     path+=(~/.cargo/bin)
     export PATH
 
-    alias diff="diff -r --suppress-common-lines"
-
     if [ -f ~/.antigen/antigen.zsh ]; then
       . ~/.antigen/antigen.zsh
       antigen init ~/.antigenrc
     fi
+
+    alias l="exa -lga"
+    alias ll="exa -lg"
+    alias diff="diff -r --suppress-common-lines"
   '';
 }
