@@ -143,27 +143,37 @@ in {
       SUDO_ASKPASS = "${pkgs.x11_ssh_askpass}/libexec/x11-ssh-askpass";
     };
 
-    file = [
-      (import ./home/antigen.nix)
-      (import ./home/cargo.nix)
-      (import ./home/minecraft.nix)
-      (import ./home/hg.nix)
-      (import ./home/xpdf.nix)
-      (import ./home/xscreensaver.nix)
-      (import ./home/zsh.nix)
-      (import ./home/i3.nix)
-      (import ./home/i3status.nix)
-      (import ./home/rofi.nix)
-      (import ./home/nitrogen.nix)
-      (import ./home/lilyterm.nix)
-      (import ./home/dunst.nix)
-      (import ./home/volumeicon.nix)
-      (import ./home/parcellite.nix)
-      (import ./home/htop.nix)
-      (import ./home/xfe.nix)
-      (import ./home/user-dirs.nix)
-    ] ++ (pkgs.callPackage ./home/geany.nix {})
-    ++ (pkgs.callPackage ./home/nano.nix {});
+    file = builtins.concatLists (builtins.map (path:
+      let
+        x = import path;
+      in if builtins.isFunction x then
+        pkgs.callPackage path {}
+      else if builtins.isList x then
+        x
+      else
+        [ x ]
+    ) [
+      ./home/antigen.nix
+      ./home/cargo.nix
+      ./home/minecraft.nix
+      ./home/hg.nix
+      ./home/xpdf.nix
+      ./home/xscreensaver.nix
+      ./home/zsh.nix
+      ./home/i3.nix
+      ./home/i3status.nix
+      ./home/rofi.nix
+      ./home/nitrogen.nix
+      ./home/lilyterm.nix
+      ./home/dunst.nix
+      ./home/volumeicon.nix
+      ./home/parcellite.nix
+      ./home/htop.nix
+      ./home/nano.nix
+      ./home/geany.nix
+      ./home/xfe.nix
+      ./home/user-dirs.nix
+    ]);
   };
 
   xsession = {
