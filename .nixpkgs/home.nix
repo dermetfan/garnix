@@ -61,7 +61,7 @@ in {
       abcde
       bashmount
       binutils
-      bundix
+      exa
       fdupes
       feh
       fortune
@@ -146,12 +146,13 @@ in {
     file = builtins.concatLists (builtins.map (path:
       let
         x = import path;
-      in if builtins.isFunction x then
-        pkgs.callPackage path {}
-      else if builtins.isList x then
-        x
-      else
-        [ x ]
+        listify = y: if builtins.isList y then y else [ y ];
+      in listify (if builtins.isFunction x then
+        let
+          value = pkgs.callPackage path {};
+        in if builtins.isList value then value else
+          (builtins.removeAttrs value [ "override" "overrideDerivation" ])
+      else x)
     ) [
       ./home/antigen.nix
       ./home/cargo.nix

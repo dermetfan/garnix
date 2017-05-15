@@ -1,6 +1,10 @@
+{ exa }:
+
 {
   target = ".zshrc";
-  text = ''
+  text = let
+    _exa = "${exa}/bin/exa";
+  in ''
     # include Cargo binaries in PATH
     typeset -U path
     path+=(~/.cargo/bin)
@@ -11,8 +15,8 @@
       antigen init ~/.antigenrc
     fi
 
-    alias l="exa -lga"
-    alias ll="exa -lg"
+    alias l="${_exa} -lga"
+    alias ll="${_exa} -lg"
     alias diff="diff -r --suppress-common-lines"
   '';
 }
