@@ -2,7 +2,7 @@
   target = ".config/xfe/xferc";
   text = ''
     [OPTIONS]
-    treepanel_tree_pct=0.2
+    treepanel_tree_pct=0.1325
     treetwopanels_lpanel_pct=0.4
     status=1
     twopanels_lpanel_pct=0.5
@@ -25,7 +25,7 @@
     confirm_execute=1
     status=1
     generaltoolbar=1
-    treetwopanels_tree_pct=0.2
+    treetwopanels_tree_pct=0.113
     height=1062
     confirm_drag_and_drop=1
 
@@ -37,6 +37,7 @@
     md=geany;Document;;;;
     wmv=smplayer,mplayer;Video;;;;
     mp3=audacious,audacious,audacity;Audio;;;;
+    xcf=gimp,gimp,gimp;GIMP Image;;;;
     ods=libreoffice,libreoffice,libreoffice;Document;;;;
     pdf=zathura,xpdf;Document;;;;
     mov=smplayer,mplayer;Video;;;;
@@ -47,10 +48,12 @@
     java=geany,geany -r,geany;Source File;;;;
     jpg=feh -FZ,feh -FZ,gimp;Image;;;;
     avi=smplayer,mplayer;Video;;;;
+    html=vivaldi,vivaldi,geany;Web Page;;;;
     odt=libreoffice,libreoffice,libreoffice;Spreadsheet;;;;
     xlsx=libreoffice,libreoffice,libreoffice;Spreadsheet;;;;
 
     [HISTORY]
+    open=geany:
     run=
 
     [SETTINGS]
@@ -65,6 +68,8 @@
     tiptime=10000
     wheellines=5
     file_tooltips=1
+    font=DejaVu Sans [PfEd],100,normal,regular
+    textfont=DejaVu Sans [PfEd],100,normal,regular
 
     [RIGHT PANEL]
     type_size=100
@@ -88,6 +93,7 @@
     find_ignorecase=1
     grep_ignorecase=0
     showthumbnails=0
+
     [DIR PANEL]
     hidden_dir=0
     sort_func=ascendingCase
@@ -114,7 +120,7 @@
     ignore_case=1
     sort_func=ascendingCase
     showthumbnails=0
-    name_size=205
+    name_size=297
     hiddenfiles=0
 
     [FILEDIALOG]
@@ -134,5 +140,6 @@
 
     [bookmarks]
     BOOKMARK1=/data/dermetfan
+    BOOKMARK2=/data/dermetfan/projects/workspaces/development
   '';
 }
