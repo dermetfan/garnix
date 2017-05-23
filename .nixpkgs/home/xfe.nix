@@ -30,6 +30,7 @@
     confirm_drag_and_drop=1
 
     [FILETYPES]
+    rs=geany,geany,geany;Rust Source;;;;
     zip=xarchiver,extract;Archive;;;;
     tar=xarchiver,extract;Archive;;;;
     doc=libreoffice,libreoffice,libreoffice;Document;;;;
@@ -54,7 +55,8 @@
 
     [HISTORY]
     open=geany:
-    run=
+    run=thunar -B:
+    filter=*:
 
     [SETTINGS]
     smooth_scroll=1
