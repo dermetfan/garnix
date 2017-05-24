@@ -80,7 +80,7 @@
       hwRender = true;
     };
 
-    unclutter.enable = true;
+    unclutter.enable = config.services.xserver.enable;
   };
 
   sound.mediaKeys = {
