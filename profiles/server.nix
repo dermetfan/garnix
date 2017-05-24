@@ -30,10 +30,6 @@ lib.mkMerge [
     };
 
     services = {
-      wakeonlan.interfaces = [{
-        interface = hardware.interfaces.lan;
-      }];
-
       hydra = {
         enable = true;
         hydraURL = https://hydra.dermetfan.net;
