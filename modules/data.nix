@@ -4,6 +4,7 @@
   fileSystems."/data" = {
     device = "data";
     fsType = "zfs";
+    encrypted.label = "data";
   };
 
   security.pam.mount = {
