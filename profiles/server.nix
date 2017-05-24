@@ -1,9 +1,12 @@
-{ hardware ? {}
-, config, pkgs, lib }:
+{ config, pkgs, lib }:
 
 lib.mkMerge [
   (import ./common.nix {
-    inherit hardware config pkgs lib;
+    inherit config pkgs lib;
+  })
+
+  (import ../modules/data.nix {
+    inherit config pkgs lib;
   })
 
   {

@@ -1,21 +1,18 @@
-{ hardware ? {}
-, config, pkgs, lib }:
+{ config, pkgs, lib }:
 
 lib.mkMerge [
   (import ./common.nix {
-    inherit hardware config pkgs lib;
+    inherit config pkgs lib;
   })
 
   (import ../modules/hotkeys.nix {
-    inherit pkgs;
-    keys = hardware.keys or {};
+    inherit config pkgs;
   })
 
   (import ../modules/lid.nix)
 
   (import ../modules/touchpad.nix {
-    minSpeed = "1";
-    maxSpeed = "1.75";
+    inherit config;
   })
 
   (import ../modules/graphical.nix {
@@ -23,6 +20,11 @@ lib.mkMerge [
   })
 
   {
+    passthru.settings.touchpad = {
+      minSpeed = "1";
+      maxSpeed = "1.75";
+    };
+
     networking = {
       hostName = "dermetfan-netbook";
       networkmanager.enable = true;

@@ -4,10 +4,10 @@ let
   bumblebee = pkgs.writeScript "bumblebee.sh" ''
     ${pkgs.bumblebee}/bin/bumblebeed -Dg ${config.users.groups.wheel.name}
   '';
-in {
-  imports = [
-    <nixpkgs/nixos/modules/installer/scan/not-detected.nix>
-  ];
+in rec {
+  imports = [ <nixpkgs/nixos/modules/installer/scan/not-detected.nix> ];
+
+  nixpkgs.config.allowUnfree = true;
 
   boot = {
     initrd.availableKernelModules = [
@@ -19,7 +19,7 @@ in {
       "sr_mod"
       "rtsx_usb_sdmmc"
     ];
-  
+
     kernelModules = [
       "kvm-intel"
       "bbswitch"

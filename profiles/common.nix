@@ -1,5 +1,4 @@
-{ hardware ? {}
-, config, pkgs, lib }:
+{ config, pkgs, lib }:
 
 {
   boot = {
@@ -61,8 +60,8 @@
   services = {
     openssh.enable = true;
 
-    wakeonlan.interfaces = if hardware ? interfaces.lan then [
-      { interface = hardware.interfaces.lan; }
+    wakeonlan.interfaces = if config ? passthru.hardware.interfaces.lan then [
+      { interface = config.passthru.hardware.interfaces.lan; }
     ] else [];
 
     xserver = {

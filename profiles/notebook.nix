@@ -1,21 +1,22 @@
-{ hardware ? {}
-, config, pkgs, lib }:
+{ config, pkgs, lib }:
 
 lib.mkMerge [
   (import ./common.nix {
-    inherit hardware config pkgs lib;
+    inherit config pkgs lib;
+  })
+
+  (import ../modules/data.nix {
+    inherit config pkgs lib;
   })
 
   (import ../modules/hotkeys.nix {
-    inherit pkgs;
-    keys = hardware.keys or {};
+    inherit config pkgs;
   })
 
   (import ../modules/lid.nix)
 
   (import ../modules/touchpad.nix {
-    minSpeed = "0.825";
-    maxSpeed = "2";
+    inherit config;
   })
 
   (import ../modules/graphical.nix {
@@ -23,10 +24,15 @@ lib.mkMerge [
   })
 
   (import ../modules/dev.nix {
-    natExternalInterface = hardware.interfaces.wlan or null;
+    inherit config;
   })
 
   {
+    passthru.settings.touchpad = {
+      minSpeed = "0.825";
+      maxSpeed = "2";
+    };
+
     nixpkgs.config.allowUnfree = true;
 
     networking = {
