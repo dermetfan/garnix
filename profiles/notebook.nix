@@ -11,10 +11,6 @@ lib.mkMerge [
     keys = hardware.keys or {};
   })
 
-  (import ../modules/data.nix {
-    inherit config pkgs;
-  })
-
   (import ../modules/lid.nix)
 
   (import ../modules/touchpad.nix {
