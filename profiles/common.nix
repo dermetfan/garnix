@@ -1,5 +1,5 @@
 { hardware ? {}
-, config, pkgs }:
+, config, pkgs, lib }:
 
 {
   boot = {
@@ -27,10 +27,10 @@
       ftop
     ];
 
-    variables = if config.services.xserver.enable then {
+    variables = lib.mkIf config.services.xserver.enable {
       SDL_VIDEO_X11_DGAMOUSE = "0"; # fix for jumping mouse (in qemu)
       _JAVA_AWT_WM_NONREPARENTING = "1"; # fix for some blank java windows
-    } else {};
+    };
   };
 
   programs = {

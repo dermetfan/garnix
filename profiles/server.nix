@@ -3,7 +3,7 @@
 
 lib.mkMerge [
   (import ./common.nix {
-    inherit hardware config pkgs;
+    inherit hardware config pkgs lib;
   })
 
   {
