@@ -1,4 +1,4 @@
-{ config, pkgs, lib }:
+{ config, pkgs, lib, ... }:
 
 {
   boot = {
@@ -16,15 +16,10 @@
 
   environment = {
     systemPackages = with pkgs; [
-      nix-zsh-completions
-      bashmount
-      file
-      tree
-      lsof
       ntfs3g
-      udevil
-      ftop
-    ];
+    ] ++ (if config.programs.zsh.enable then [
+      nix-zsh-completions
+    ] else []);
 
     variables = lib.mkIf config.services.xserver.enable {
       SDL_VIDEO_X11_DGAMOUSE = "0"; # fix for jumping mouse (in qemu)

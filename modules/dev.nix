@@ -1,16 +1,14 @@
-{ config }:
+{ config, ... }:
 
-let
-  settings = {
-    natExternalInterface = config.passthru.hardware.interfaces.lan or null;
-  } // config.passthru.settings.dev or {};
-in {
+{
   networking.nat = {
     enable = true;
     internalInterfaces = [
       "ve-+" # nixos-containers
     ];
-    externalInterface = settings.natExternalInterface;
+    externalInterface = config.passthru.hardware.interfaces.lan
+      or config.passthru.hardware.interfaces.wlan
+      or null;
   };
 
   virtualisation.docker = {

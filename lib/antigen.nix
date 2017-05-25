@@ -1,6 +1,6 @@
-{ zsh, curl, writeScript,
-  fetchUrl ? "https://cdn.rawgit.com/zsh-users/antigen/v1.3.1/bin/antigen.zsh",
-  sha512 ? "a37f5165f41dd1db9d604e8182cc931e3ffce832cf341fce9a35796a5c3dcbb476ed7d6e6e9c8c773905427af77dbe8bdbb18f16e18b63563c6e460e102096f3" }:
+{ zsh, curl, writeScript
+, fetchUrl ? "https://cdn.rawgit.com/zsh-users/antigen/v1.3.1/bin/antigen.zsh"
+, sha512 ? "a37f5165f41dd1db9d604e8182cc931e3ffce832cf341fce9a35796a5c3dcbb476ed7d6e6e9c8c773905427af77dbe8bdbb18f16e18b63563c6e460e102096f3" }:
 
 let
   script = writeScript "antigen-install.zsh" ''

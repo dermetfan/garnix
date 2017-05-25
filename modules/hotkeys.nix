@@ -1,29 +1,26 @@
-{ config, pkgs }:
+{ config, pkgs, ... }:
 
 let
-  settings = {
-    keys = {
-      # https://cgit.freedesktop.org/xorg/proto/x11proto/tree/XF86keysym.h
-      XF86ScreenSaver = 112;
-      XF86MonBrightnessUp = 225;
-      XF86MonBrightnessDown = 224;
-      XF86TouchpadToggle = 191;
-      XF86Suspend = 142;
-      XF86Hibernate = null;
-      XF86Display = [ 25 125 ];
-    };
-  } // config.passthru.settings.hotkeys or {};
+  keys = {
+    # https://cgit.freedesktop.org/xorg/proto/x11proto/tree/XF86keysym.h
+    XF86ScreenSaver = 112;
+    XF86MonBrightnessUp = 225;
+    XF86MonBrightnessDown = 224;
+    XF86TouchpadToggle = 191;
+    XF86Suspend = 142;
+    XF86Hibernate = null;
+    XF86Display = [ 25 125 ];
+  } // config.passthru.hotkeys or {} // {
+    Shift_L = 42;
+    Shift_R = 54;
+    PrtScr = 99;
+  };
 in {
   services.actkbd = {
     enable = true;
     bindings = let
       light = "${pkgs.light}/bin/light";
       maim = "${pkgs.maim}/bin/maim";
-      keys = settings.keys // {
-        Shift_L = 42;
-        Shift_R = 54;
-        PrtScr = 99;
-      };
     in with keys; [
       {
         keys = [ XF86MonBrightnessUp ];

@@ -1,10 +1,10 @@
-{ config, pkgs, lib }:
+{ config, pkgs, lib, ... }:
 
 let
   settings = {
     dedicatedPool = false;
     multiUser = false;
-  } // config.passthru.settings.data or {};
+  } // config.passthru.data or {};
 in {
   fileSystems = lib.mkIf settings.dedicatedPool {
     "/data" = {

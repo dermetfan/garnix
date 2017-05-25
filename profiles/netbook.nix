@@ -1,39 +1,27 @@
-{ config, pkgs, lib }:
+{ ... }:
 
-lib.mkMerge [
-  (import ./common.nix {
-    inherit config pkgs lib;
-  })
+{
+  imports = [
+    ./common.nix
+    ../modules/hotkeys.nix
+    ../modules/lid.nix
+    ../modules/touchpad.nix
+    ../modules/graphical.nix
+  ];
 
-  (import ../modules/hotkeys.nix {
-    inherit config pkgs;
-  })
+  services.xserver.synaptics = {
+    minSpeed = "1";
+    maxSpeed = "1.75";
+  };
 
-  (import ../modules/lid.nix)
+  networking = {
+    hostName = "dermetfan-netbook";
+    networkmanager.enable = true;
+  };
 
-  (import ../modules/touchpad.nix {
-    inherit config;
-  })
-
-  (import ../modules/graphical.nix {
-    inherit pkgs lib;
-  })
-
-  {
-    passthru.settings.touchpad = {
-      minSpeed = "1";
-      maxSpeed = "1.75";
-    };
-
-    networking = {
-      hostName = "dermetfan-netbook";
-      networkmanager.enable = true;
-    };
-
-    zramSwap = {
-      enable = true;
-      memoryPercent = 75;
-      numDevices = 2;
-    };
-  }
-]
+  zramSwap = {
+    enable = true;
+    memoryPercent = 75;
+    numDevices = 2;
+  };
+}

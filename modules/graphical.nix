@@ -1,15 +1,11 @@
-{ pkgs, lib }:
+{ ... }:
 
-lib.mkMerge [
-  (import ../modules/gtk.nix {
-    inherit pkgs;
-  })
+{
+  imports = [ ../modules/gtk.nix ];
 
-  {
-    services.xserver = {
-      enable = true;
-      displayManager.slim.defaultUser = "dermetfan";
-      desktopManager.xterm.enable = false;
-    };
-  }
-]
+  services.xserver = {
+    enable = true;
+    displayManager.slim.defaultUser = "dermetfan";
+    desktopManager.xterm.enable = false;
+  };
+}
