@@ -26,4 +26,9 @@ in {
   '' + lib.optionalString settings.multiUser ''
     export PATH="$PATH:/data/`whoami`/bin"
   '';
+
+  services = {
+    hydra.logo = /data/hydra/logo.png;
+    minecraft-server.dataDir = "/data/minecraft";
+  };
 }

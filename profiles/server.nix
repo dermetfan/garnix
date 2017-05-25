@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
   imports = [
@@ -35,7 +35,7 @@
       notificationSender = "hydra@dermetfan.net";
       buildMachinesFiles = [];
       smtpHost = "localhost";
-      logo = /var/lib/hydra/logo.png;
+      logo = lib.mkDefault /var/lib/hydra/logo.png;
       tracker = ''
         <script>\
         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){\
@@ -67,9 +67,7 @@
           sslCertificate = /etc/private/host.cert;
           sslCertificateKey = /etc/private/host.key;
           locations = {
-            "/minecraft/resourcepacks/".extraConfig = ''
-              alias ${config.services.minecraft-server.dataDir}/resourcepacks/;
-            '';
+            "/minecraft/resourcepacks/".alias = "${config.services.minecraft-server.dataDir}/resourcepacks/";
           };
         };
 
