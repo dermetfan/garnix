@@ -32,6 +32,7 @@
     [FILETYPES]
     rs=geany,geany,geany;Rust Source;;;;
     zip=xarchiver,extract;Archive;;;;
+    xml=geany,geany -r,geany;Document;;;;
     tar=xarchiver,extract;Archive;;;;
     doc=libreoffice,libreoffice,libreoffice;Document;;;;
     mp4=smplayer,mplayer;Video;;;;
