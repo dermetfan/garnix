@@ -31,6 +31,7 @@
 
     [FILETYPES]
     rs=geany,geany,geany;Rust Source;;;;
+    svg=geany,vivaldi,inkscape;Vector Image;;;;
     zip=xarchiver,extract;Archive;;;;
     xml=geany,geany -r,geany;Document;;;;
     tar=xarchiver,extract;Archive;;;;
