@@ -1,4 +1,4 @@
-{ fetchFromGitHub }:
+{ fetchFromGitHub, ... }:
 
 let nanorcs = fetchFromGitHub {
   owner = "scopatz";

@@ -149,7 +149,7 @@ in {
         listify = y: if builtins.isList y then y else [ y ];
       in listify (if builtins.isFunction x then
         let
-          value = pkgs.callPackage path {};
+          value = pkgs.callPackage path { inherit systemConfig; };
         in if builtins.isList value then value else
           (builtins.removeAttrs value [ "override" "overrideDerivation" ])
       else x)
