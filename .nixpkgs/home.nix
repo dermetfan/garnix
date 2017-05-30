@@ -31,7 +31,6 @@ let
         xfce.thunar
         vivaldi
         xarchiver
-        xfce.xfconf
         xfe
         xpdf
         zathura
@@ -43,7 +42,6 @@ let
         cool-old-term
         gimp
         jetbrains.idea-community
-        kdenlive
         lmms
         meld
         minecraft
