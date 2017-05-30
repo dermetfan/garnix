@@ -42,7 +42,7 @@
     mp3=audacious,audacious,audacity;Audio;;;;
     xcf=gimp,gimp,gimp;GIMP Image;;;;
     ods=libreoffice,libreoffice,libreoffice;Document;;;;
-    pdf=zathura,xpdf;Document;;;;
+    pdf=zathura,vivaldi,libreoffice;Document;;;;
     mov=smplayer,mplayer;Video;;;;
     m4a=audacious,audacious,audacity;Audio;;;;
     txt=geany,geany -r,geany;Document;;;;
