@@ -58,6 +58,7 @@ in {
       pkgs."2048-in-terminal"
       abcde
       bashmount
+      beets
       binutils
       exa
       fdupes
@@ -153,6 +154,7 @@ in {
       else x)
     ) [
       ./home/antigen.nix
+      ./home/beets.nix
       ./home/cargo.nix
       ./home/minecraft.nix
       ./home/hg.nix
