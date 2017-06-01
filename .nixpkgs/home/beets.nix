@@ -10,5 +10,23 @@
       move: yes
     plugins:
       - fromfilename
+      - discogs
+      - duplicates
+      - edit
+      - fetchart
+      - ftintitle
+      - fuzzy
+      - info
+      - lastgenre
+      - lyrics
+      - mbsubmit
+      - mbsync
+      - missing
+      - play
+      - random
+      - web
+    play:
+      command: audacious
+      raw: yes
   '';
 }
