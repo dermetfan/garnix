@@ -23,6 +23,9 @@
     # Use Mouse+$mod to drag floating windows to their wanted position
     floating_modifier $mod
 
+    # border on new windows
+    new_window pixel 1
+
     # toggle border
     bindsym $mod+b border toggle
     bindsym $mod+Shift+b [workspace=__focused__] border toggle
