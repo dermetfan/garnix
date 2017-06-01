@@ -30,6 +30,7 @@
     confirm_drag_and_drop=1
 
     [FILETYPES]
+    wav=audacious,audacious,audacity;Audio;;;;
     rs=geany,geany,geany;Rust Source;;;;
     svg=geany,vivaldi,inkscape;Vector Image;;;;
     zip=xarchiver,extract;Archive;;;;
@@ -39,16 +40,17 @@
     mp4=smplayer,mplayer;Video;;;;
     md=geany;Document;;;;
     wmv=smplayer,mplayer;Video;;;;
-    mp3=audacious,audacious,audacity;Audio;;;;
     xcf=gimp,gimp,gimp;GIMP Image;;;;
     ods=libreoffice,libreoffice,libreoffice;Document;;;;
     pdf=zathura,vivaldi,libreoffice;Document;;;;
+    ogg=audacious,smplayer,kid3-qt;Media;;;;
     mov=smplayer,mplayer;Video;;;;
-    m4a=audacious,audacious,audacity;Audio;;;;
     txt=geany,geany -r,geany;Document;;;;
     png=feh -FZ,feh -FZ,gimp;Image;;;;
     wma=audacious,mplayer,audacity;Audio;;;;
     java=geany,geany -r,geany;Source File;;;;
+    mp3=audacious,kid3-qt,audacity;Audio;;;;
+    m4a=audacious,kid3-qt,audacity;Audio;;;;
     jpg=feh -FZ,feh -FZ,gimp;Image;;;;
     avi=smplayer,mplayer;Video;;;;
     html=vivaldi,vivaldi,geany;Web Page;;;;
