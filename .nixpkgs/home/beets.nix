@@ -1,8 +1,9 @@
 {
   target = ".config/beets/config.yaml";
   text = let
-    dir = if builtins.pathExists /data/dermetfan then
-      "/data/dermetfan/audio/music" else "~/audio/music";
+    dir = let
+      data = /data/dermetfan;
+    in "${if builtins.pathExists data then builtins.toString data else "~"}/audio/music/library";
   in ''
     directory: ${dir}
     library: ${dir}/beets.db
