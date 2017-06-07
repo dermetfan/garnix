@@ -36,20 +36,28 @@ let
         zathura
       ] else [];
 
-      notebook.home.packages = if config.xsession.enable then with pkgs; netbook.home.packages ++ [
-        android-studio
-        audacity
-        cool-old-term
-        gimp
-        jetbrains.idea-community
-        lmms
-        meld
-        minecraft
-        teamspeak_client
-        tiled
-        torbrowser
-        visualvm
-      ] else [];
+      notebook = {
+        home.packages = if config.xsession.enable then with pkgs; netbook.home.packages ++ [
+          android-studio
+          audacity
+          cool-old-term
+          gimp
+          jetbrains.idea-community
+          lmms
+          meld
+          minecraft
+          teamspeak_client
+          tiled
+          torbrowser
+          visualvm
+        ] else [];
+
+        xsession.initExtra = let
+          compton = "${pkgs.compton}/bin/compton";
+        in ''
+          ${compton} -bfD 2
+        '';
+      };
     };
   in if name == null then {} else profiles.${name};
 in {
@@ -184,15 +192,13 @@ in {
       xhost = "${pkgs.xorg.xhost}/bin/xhost";
       xmodmap = "${pkgs.xorg.xmodmap}/bin/xmodmap";
       xflux = "${pkgs.xflux}/bin/xflux";
-      compton = "${pkgs.compton}/bin/compton";
       devmon = "${pkgs.udevil}/bin/devmon";
-    in ''
+    in (profile.xsession.initExtra or "") + ''
       ${xhost} local:root # allow root to connect to X server for key bindings
       ${xmodmap} -e "keycode 66 = Caps_Lock"
       ${xflux} -l 51.165691 -g 10.45152000000058
       xset r rate 225 27
       xset m 2
-      ${compton} -bfD 2
       ${devmon} &
       syndaemon -d -i 0.625 -K -R || :
 
