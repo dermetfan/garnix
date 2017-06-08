@@ -1,1 +1,1 @@
-.nixpkgs/home-manager = [git]https://github.com/rycee/home-manager.git
+.config/nixpkgs/home-manager = [git]https://github.com/rycee/home-manager.git
