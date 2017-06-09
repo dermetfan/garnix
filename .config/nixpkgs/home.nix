@@ -79,6 +79,7 @@ in {
       hdparm
       htop
       jq
+      kid3
       lrzip
       mplayer
       mpv
