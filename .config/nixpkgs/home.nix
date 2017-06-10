@@ -163,7 +163,6 @@ in {
       else x)
     ) [
       ./home/antigen.nix
-      ./home/beets.nix
       ./home/cargo.nix
       ./home/minecraft.nix
       ./home/hg.nix
@@ -213,6 +212,38 @@ in {
   };
 
   programs = {
+    beets.settings = let
+      dir = let
+        data = /data/dermetfan;
+      in "${if builtins.pathExists data then builtins.toString data else "~"}/audio/music/library";
+    in {
+      directory = dir;
+      library = "${dir}/beets.db";
+      import.move = true;
+      plugins = [
+        "fromfilename"
+        "discogs"
+        "duplicates"
+        "edit"
+        "fetchart"
+        "ftintitle"
+        "fuzzy"
+        "info"
+        "lastgenre"
+        "lyrics"
+        "mbsubmit"
+        "mbsync"
+        "missing"
+        "play"
+        "random"
+        "web"
+      ];
+      play = {
+        command = "audacious";
+        raw = true;
+      };
+    };
+
     git = {
       enable = true;
       userName = "Robin Stumm";
