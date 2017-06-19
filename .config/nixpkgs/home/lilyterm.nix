@@ -59,7 +59,7 @@
     execute_command_whitelist = ssh mosh
 
     # Launching executed command in a new tab instead of opening a new window.
-    execute_command_in_new_tab = 1
+    execute_command_in_new_tab = 0
 
     # If a program is running on foreground,
     # Don't need to confirm for terminating it if it's in the whitelist,
