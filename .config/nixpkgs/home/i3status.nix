@@ -6,8 +6,8 @@
         color_separator = "#55b5e7"
     }
 
-    order += "disk /"
     order += "disk /data/dermetfan"
+    order += "disk /"
     #order += "ethernet _first_"
     #order += "wireless _first_"
     order += "cpu_temperature 0"
@@ -19,7 +19,7 @@
         format = "%m-%d %H:%M:%S "
     }
 
-    #volume master {}
+    volume master {}
 
     battery all {
         format = "%percentage %status %remaining %consumption"
@@ -33,23 +33,19 @@
         max_threshold = "90"
     }
 
-    wireless _first_ {
-        #format = "W: (%quality at %essid, %bitrate / %frequency) %ip"
-    }
+    wireless _first_ {}
 
-    ethernet _first_ {
-        #format = "E: %ip (%speed)"
-    }
+    ethernet _first_ {}
 
-    disk "/" {
-        format = "SSD: %free (%percentage_free)"
-        low_threshold = 25
+    disk "/data/dermetfan" {
+        format = "data: %free (%percentage_used)"
+        low_threshold = 10
         threshold_type = percentage_free
     }
 
-    disk "/data/dermetfan" {
-        format = "HDD: %free (%percentage_free)"
-        low_threshold = 10
+    disk "/" {
+        format = "%free (%percentage_used)"
+        low_threshold = 25
         threshold_type = percentage_free
     }
   '';
