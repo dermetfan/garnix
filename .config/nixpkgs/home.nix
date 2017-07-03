@@ -212,6 +212,15 @@ in {
   };
 
   programs = {
+    browserpass = {
+      enable = true;
+      browsers = [
+        "vivaldi"
+        "chromium"
+        "firefox"
+      ];
+    };
+
     beets.settings = let
       dir = let
         data = /data/dermetfan;
