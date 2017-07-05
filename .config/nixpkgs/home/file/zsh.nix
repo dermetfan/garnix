@@ -1,5 +1,3 @@
-{ systemConfig, lib, ... }:
-
 {
   target = ".zshrc";
   text = ''

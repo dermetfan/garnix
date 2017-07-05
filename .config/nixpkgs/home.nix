@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
 let
   systemConfig = (import <nixpkgs/nixos/lib/eval-config.nix> {
@@ -10,107 +10,19 @@ let
       })
     ];
   }).config;
-
-  profile = let
-    name = import ./home/profile.nix;
-
-    profiles = rec {
-      netbook.home.packages = if config.xsession.enable then with pkgs; [
-        audacious
-        chromium
-        filezilla
-        geany
-        gpa
-        gparted
-        keymon
-        lilyterm
-        nixui
-        qalculate-gtk
-        rss-glx
-        smplayer
-        xfce.thunar
-        vivaldi
-        xarchiver
-        xfe
-        xpdf
-        zathura
-      ] else [];
-
-      notebook = {
-        home.packages = if config.xsession.enable then with pkgs; netbook.home.packages ++ [
-          android-studio
-          audacity
-          cool-old-term
-          gimp
-          jetbrains.idea-community
-          lmms
-          meld
-          minecraft
-          teamspeak_client
-          tiled
-          torbrowser
-          visualvm
-        ] else [];
-
-        xsession.initExtra = let
-          compton = "${pkgs.compton}/bin/compton";
-        in ''
-          ${compton} -bfD 2
-        '';
-      };
-    };
-  in if name == null then {} else profiles.${name};
 in {
+  imports = import ./home;
+
   home = {
-    packages = with pkgs; profile.home.packages or [] ++ [
-      pkgs."2048-in-terminal"
-      abcde
+    packages = with pkgs; [
       bashmount
-      beets
-      binutils
       exa
-      fdupes
-      feh
-      fortune
-      ftop
-      fzy
       gnupg
-      gptfdisk
-      hdparm
-      htop
-      jq
-      kid3
-      lrzip
-      mplayer
-      mpv
-      ncdu
       nethogs
-      nox
-      openjdk
-      parted
-      pass
-      peco
-      ponysay
-      progress
-      psmisc
-      pv
-      mercurial
-      qemu
-      rustracer
-      rustracerd
       ranger
-      rogue
-      rsync
       screenfetch
-      sl
-      smartmontools
-      sshfsFuse
-      libsysfs
       unrar
       unzip
-      vlc
-      wakelan
-      wget
       zip
     ] ++ (if config.services.xscreensaver.enable then with pkgs; [
       xscreensaver
@@ -162,26 +74,26 @@ in {
           (builtins.removeAttrs value [ "override" "overrideDerivation" ])
       else x)
     ) [
-      ./home/antigen.nix
-      ./home/cargo.nix
-      ./home/minecraft.nix
-      ./home/hg.nix
-      ./home/xpdf.nix
-      ./home/xscreensaver.nix
-      ./home/zsh.nix
-      ./home/i3.nix
-      ./home/i3status.nix
-      ./home/rofi.nix
-      ./home/nitrogen.nix
-      ./home/lilyterm.nix
-      ./home/dunst.nix
-      ./home/volumeicon.nix
-      ./home/parcellite.nix
-      ./home/htop.nix
-      ./home/nano.nix
-      ./home/geany.nix
-      ./home/xfe.nix
-      ./home/user-dirs.nix
+      home/file/antigen.nix
+      home/file/cargo.nix
+      home/file/minecraft.nix
+      home/file/hg.nix
+      home/file/xpdf.nix
+      home/file/xscreensaver.nix
+      home/file/zsh.nix
+      home/file/i3.nix
+      home/file/i3status.nix
+      home/file/rofi.nix
+      home/file/nitrogen.nix
+      home/file/lilyterm.nix
+      home/file/dunst.nix
+      home/file/volumeicon.nix
+      home/file/parcellite.nix
+      home/file/htop.nix
+      home/file/nano.nix
+      home/file/geany.nix
+      home/file/xfe.nix
+      home/file/user-dirs.nix
     ]);
   };
 
@@ -193,7 +105,7 @@ in {
       xmodmap = "${pkgs.xorg.xmodmap}/bin/xmodmap";
       xflux = "${pkgs.xflux}/bin/xflux";
       devmon = "${pkgs.udevil}/bin/devmon";
-    in (profile.xsession.initExtra or "") + ''
+    in ''
       ${xhost} local:root # allow root to connect to X server for key bindings
       ${xmodmap} -e "keycode 66 = Caps_Lock"
       ${xflux} -l 51.165691 -g 10.45152000000058
