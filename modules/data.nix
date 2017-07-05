@@ -29,6 +29,7 @@ in {
 
   services = {
     hydra.logo = /data/hydra/logo.png;
+    postgresql.dataDir = "/data/postgresql";
     minecraft-server.dataDir = "/data/minecraft";
   };
 }
