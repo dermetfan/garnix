@@ -83,6 +83,7 @@ in {
       home/file/zsh.nix
       home/file/i3.nix
       home/file/i3status.nix
+      home/file/ranger.nix
       home/file/rofi.nix
       home/file/nitrogen.nix
       home/file/lilyterm.nix
