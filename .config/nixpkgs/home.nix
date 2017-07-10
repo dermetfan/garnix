@@ -11,7 +11,7 @@ let
     ];
   }).config;
 in {
-  imports = import ./home;
+  imports = import home/modules/module-list.nix;
 
   home = {
     packages = with pkgs; [
