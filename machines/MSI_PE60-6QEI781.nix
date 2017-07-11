@@ -36,7 +36,10 @@ in rec {
     tmpOnTmpfs = true;
   };
 
-  nix.maxJobs = lib.mkDefault 8;
+  nix = {
+    maxJobs = lib.mkDefault 8;
+    buildCores = 8;
+  };
 
   hardware = {
     enableAllFirmware = true;
