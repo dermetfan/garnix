@@ -1,6 +1,7 @@
+{ ... }:
+
 {
-  target = ".xpdfrc";
-  text = ''
+  home.file.".xpdfrc".text = ''
     continuousView yes
     initialZoom width
   '';

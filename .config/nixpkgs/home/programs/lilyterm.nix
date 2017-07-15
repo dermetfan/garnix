@@ -1,6 +1,7 @@
+{ ... }:
+
 {
-  target = ".config/lilyterm/default.conf";
-  text = ''
+  home.file.".config/lilyterm/default.conf".text = ''
     [main]
 
     # Auto save settings when closing window.

@@ -1,6 +1,7 @@
+{ ... }:
+
 {
-  target = ".xscreensaver";
-  text = ''
+  home.file.".xscreensaver".text = ''
     # XScreenSaver Preferences File
     # Written by xscreensaver-demo 5.36 for dermetfan on Fri Nov  4 14:39:29 2016.
     # https://www.jwz.org/xscreensaver/

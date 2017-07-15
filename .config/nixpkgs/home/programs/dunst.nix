@@ -1,6 +1,7 @@
+{ ... }:
+
 {
-  target = ".config/dunst/dunstrc";
-  text = ''
+  home.file.".config/dunst/dunstrc".text = ''
     [global]
         font = Monospace 8
 

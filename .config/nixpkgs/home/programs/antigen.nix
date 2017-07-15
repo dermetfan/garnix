@@ -1,6 +1,7 @@
+{ ... }:
+
 {
-  target = ".antigenrc";
-  text = ''
+  home.file.".antigenrc".text = ''
     antigen use oh-my-zsh
 
     antigen theme nicoulaj

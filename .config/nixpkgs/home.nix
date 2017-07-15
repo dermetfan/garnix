@@ -11,7 +11,7 @@ let
     ];
   }).config;
 in {
-  imports = import home/modules/module-list.nix;
+  imports = import home/module-list.nix;
 
   home = {
     packages = with pkgs; [
@@ -62,40 +62,6 @@ in {
     sessionVariables = {
       SUDO_ASKPASS = "${pkgs.x11_ssh_askpass}/libexec/x11-ssh-askpass";
     };
-
-    file = builtins.concatLists (builtins.map (path:
-      let
-        x = import path;
-        listify = y: if builtins.isList y then y else [ y ];
-      in listify (if builtins.isFunction x then
-        let
-          value = pkgs.callPackage path { inherit systemConfig; };
-        in if builtins.isList value then value else
-          (builtins.removeAttrs value [ "override" "overrideDerivation" ])
-      else x)
-    ) [
-      home/file/antigen.nix
-      home/file/cargo.nix
-      home/file/minecraft.nix
-      home/file/hg.nix
-      home/file/xpdf.nix
-      home/file/xscreensaver.nix
-      home/file/zsh.nix
-      home/file/i3.nix
-      home/file/i3status.nix
-      home/file/ranger.nix
-      home/file/rofi.nix
-      home/file/nitrogen.nix
-      home/file/lilyterm.nix
-      home/file/dunst.nix
-      home/file/volumeicon.nix
-      home/file/parcellite.nix
-      home/file/htop.nix
-      home/file/nano.nix
-      home/file/geany.nix
-      home/file/xfe.nix
-      home/file/user-dirs.nix
-    ]);
   };
 
   xsession = {

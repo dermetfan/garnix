@@ -1,6 +1,7 @@
+{ ... }:
+
 {
-  target = ".hgrc";
-  text = ''
+  home.file.".hgrc".text = ''
     [ui]
     username = Robin Stumm <serverkorken@gmail.com>
     editor = nano

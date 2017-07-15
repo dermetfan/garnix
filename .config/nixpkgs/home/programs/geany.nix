@@ -1,9 +1,8 @@
-{ fetchFromGitHub, ... }:
+{ pkgs, ... }:
 
-[
-  {
-    target = ".config/geany/keybindings.conf";
-    text = ''
+{
+  home.file = {
+    ".config/geany/keybindings.conf".text = ''
       [Bindings]
       menu_new=<Primary>n
       menu_open=<Primary>o
@@ -169,10 +168,8 @@
       split_vertical=
       split_unsplit=
     '';
-  }
-  {
-    target = ".config/geany/plugins/filebrowser/filebrowser.conf";
-    text = ''
+
+    ".config/geany/plugins/filebrowser/filebrowser.conf".text = ''
       [filebrowser]
       open_command=xfe "%d"
       show_hidden_files=false
@@ -181,14 +178,12 @@
       fb_follow_path=true
       fb_set_project_base_path=true
     '';
-  }
-  {
-    target = ".config/geany/colorschemes";
-    source = fetchFromGitHub {
+
+    ".config/geany/colorschemes".source = pkgs.fetchFromGitHub {
       owner = "RobLoach";
       repo = "base16-geany";
       rev = "40fc74c52ddec7efddbeff8a9b7b25652e7b45f6";
       sha256 = "1jka7raxrzhdkd6jpwxn0k118cma65pfja7zcl0kb2p6fvj7sy3q";
     };
-  }
-]
+  };
+}

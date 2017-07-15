@@ -1,6 +1,7 @@
+{ ... }:
+
 {
-  target = ".config/nitrogen/nitrogen.cfg";
-  text = ''
+  home.file.".config/nitrogen/nitrogen.cfg".text = ''
     [nitrogen]
     view=icon
     recurse=true

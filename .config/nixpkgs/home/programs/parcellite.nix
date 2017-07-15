@@ -1,6 +1,7 @@
+{ ... }:
+
 {
-  target = ".config/parcellite/parcelliterc";
-  text = ''
+  home.file.".config/parcellite/parcelliterc".text = ''
     [rc]
     RCVersion=1
     use_copy=true

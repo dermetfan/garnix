@@ -1,6 +1,7 @@
+{ ... }:
+
 {
-  target = ".config/volumeicon/volumeicon";
-  text = ''
+  home.file.".config/volumeicon/volumeicon".text = ''
     [Alsa]
     card=default
 

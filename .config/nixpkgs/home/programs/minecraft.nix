@@ -1,6 +1,7 @@
+{ ... }:
+
 {
-  target = ".minecraft/options.txt";
-  text = ''
+  home.file.".minecraft/options.txt".text = ''
     version:922
     invertYMouse:false
     mouseSensitivity:0.5

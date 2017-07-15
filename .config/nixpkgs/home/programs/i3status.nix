@@ -1,6 +1,7 @@
+{ ... }:
+
 {
-  target = ".config/i3status/config";
-  text = ''
+  home.file.".config/i3status/config".text = ''
     general {
         colors = true
         color_separator = "#55b5e7"

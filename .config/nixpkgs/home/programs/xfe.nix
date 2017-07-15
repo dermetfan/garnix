@@ -1,6 +1,7 @@
+{ ... }:
+
 {
-  target = ".config/xfe/xferc";
-  text = ''
+  home.file.".config/xfe/xferc".text = ''
     [OPTIONS]
     treepanel_tree_pct=0.1325
     treetwopanels_lpanel_pct=0.4
