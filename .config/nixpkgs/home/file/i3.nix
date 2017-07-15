@@ -204,6 +204,6 @@
     assign [class="^Skype$"] 10
 
     # application shortcuts
-    bindsym $mod+x exec xfe
+    bindsym $mod+x exec lilyterm -e ranger
   '';
 }
