@@ -125,6 +125,8 @@ in {
   };
 
   programs = {
+    home-manager.enable = true;
+
     browserpass = {
       enable = true;
       browsers = [
