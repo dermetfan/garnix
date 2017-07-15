@@ -19,6 +19,7 @@
     '';
 
     ".config/ranger/bookmarks".text = ''
+      w:/data/dermetfan/projects/workspaces/development
       d:/data/dermetfan
       ':/home/dermetfan
     '';
