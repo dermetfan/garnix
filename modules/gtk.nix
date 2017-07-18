@@ -1,41 +1,11 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 
-{
+let
+  settings = {
+    gtkStyle = true;
+  } // config.passthru.gtk or {};
+in {
   environment = {
-    systemPackages = with pkgs; [
-      gtk_engines
-      gtk-engine-murrine
-      xfce.gtk_xfce_engine
-
-      adapta-gtk-theme
-      arc-theme
-      arc-icon-theme
-      clearlooks-phenix
-      elementary-icon-theme
-      faba-icon-theme
-      flat-plat
-      gnome2.gnome_icon_theme
-      gnome3.adwaita-icon-theme
-      gnome3.gnome_themes_standard
-      gnome-breeze
-      greybird
-      hicolor_icon_theme
-      mate.mate-themes
-      mate.mate-icon-theme
-      mate.mate-icon-theme-faenza
-      moka-icon-theme
-      numix-gtk-theme
-      numix-icon-theme
-      numix-icon-theme-circle
-      paper-gtk-theme
-      paper-icon-theme
-      tango-icon-theme
-      theme-vertex
-      vanilla-dmz
-      xfce.xfce4icontheme
-      zuki-themes
-    ];
-
     variables = {
       GTK_DATA_PREFIX = "/run/current-system/sw";
     };
@@ -51,7 +21,7 @@
 
   nixpkgs.config.packageOverrides = pkgs: {
     qt4 = pkgs.qt4.override {
-      gtkStyle = true;
+      gtkStyle = settings.gtkStyle;
     };
   };
 }
