@@ -3,13 +3,74 @@
 {
   home.file = {
     ".config/ranger/rc.conf".text = ''
-      set use_preview_script false
+      # ===================================================================
+      # == Options
+      # ===================================================================
+
+      # Ask for a confirmation when running the "delete" command?
+      # Valid values are "always", "never", "multiple" (default)
+      # With "multiple", ranger will ask only if you delete multiple files at once.
       set confirm_on_delete always
+
+      # Be aware of version control systems and display information.
       set vcs_aware true
+
+      # State of the three backends git, hg, bzr. The possible states are
+      # disabled, local (only show local info), enabled (show local and remote
+      # information).
       set vcs_backend_hg local
       set vcs_backend_git local
+
+      # Use a unicode "..." character to mark cut-off filenames?
       set unicode_ellipsis true
+
+      # Abbreviate $HOME with ~ in the titlebar (first line) of ranger?
       set tilde_in_titlebar true
+
+      # ===================================================================
+      # == Define keys for the browser
+      # ===================================================================
+
+      # Basic
+      map r display_file
+
+      map k chain draw_possible_programs; console open_with%%space
+
+      # Searching
+      map j  search_next
+      map J  search_next forward=False
+
+      # VIM-like
+      copymap <UP>    i
+      copymap <DOWN>  o
+      copymap <LEFT>  n
+      copymap <RIGHT> h
+
+      map I  move up=0.5    pages=True
+      map O  move down=0.5  pages=True
+      copymap I <C-U>
+      copymap O <C-D>
+
+      # Sorting
+      map lr set sort_reverse!
+      map lz set sort=random
+      map ls chain set sort=size;      set sort_reverse=False
+      map lb chain set sort=basename;  set sort_reverse=False
+      map ln chain set sort=natural;   set sort_reverse=False
+      map lm chain set sort=mtime;     set sort_reverse=False
+      map lc chain set sort=ctime;     set sort_reverse=False
+      map la chain set sort=atime;     set sort_reverse=False
+      map lt chain set sort=type;      set sort_reverse=False
+      map le chain set sort=extension; set sort_reverse=False
+
+      map lS chain set sort=size;      set sort_reverse=True
+      map lB chain set sort=basename;  set sort_reverse=True
+      map lN chain set sort=natural;   set sort_reverse=True
+      map lM chain set sort=mtime;     set sort_reverse=True
+      map lC chain set sort=ctime;     set sort_reverse=True
+      map lA chain set sort=atime;     set sort_reverse=True
+      map lT chain set sort=type;      set sort_reverse=True
+      map lE chain set sort=extension; set sort_reverse=True
     '';
 
     ".config/ranger/rifle.conf".text = ''
