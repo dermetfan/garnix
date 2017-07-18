@@ -40,6 +40,10 @@ in {
       i3status
       rofi
 
+      # GTK
+      theme-vertex
+      numix-icon-theme
+
       # autostart
       parcellite
       tdesktop
