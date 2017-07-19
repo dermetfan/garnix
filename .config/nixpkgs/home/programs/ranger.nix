@@ -32,7 +32,7 @@
       # ===================================================================
 
       # Basic
-      map r display_file
+      map h display_file
 
       map k chain draw_possible_programs; console open_with%%space
 
@@ -41,15 +41,15 @@
       map J  search_next forward=False
 
       # VIM-like
-      copymap <UP>    i
-      copymap <DOWN>  o
+      copymap <UP>    r
+      copymap <DOWN>  i
       copymap <LEFT>  n
-      copymap <RIGHT> h
+      copymap <RIGHT> o
 
-      map I  move up=0.5    pages=True
-      map O  move down=0.5  pages=True
-      copymap I <C-U>
-      copymap O <C-D>
+      map R  move up=0.5    pages=True
+      map I  move down=0.5  pages=True
+      copymap R <C-U>
+      copymap I <C-D>
 
       # Sorting
       map lr set sort_reverse!
