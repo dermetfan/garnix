@@ -11,7 +11,7 @@
 
     [StatusIcon]
     stepsize=2
-    onclick=xterm -e 'alsamixer'
+    onclick=lilyterm -e alsamixer
     theme=Blue Bar
     use_panel_specific_icons=false
     lmb_slider=false
