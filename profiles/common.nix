@@ -25,6 +25,8 @@
       SDL_VIDEO_X11_DGAMOUSE = "0"; # fix for jumping mouse (in qemu)
       _JAVA_AWT_WM_NONREPARENTING = "1"; # fix for some blank java windows
     };
+
+    noXlibs = !config.services.xserver.enable;
   };
 
   programs = {
