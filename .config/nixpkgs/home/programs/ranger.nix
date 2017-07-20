@@ -12,9 +12,6 @@
       # With "multiple", ranger will ask only if you delete multiple files at once.
       set confirm_on_delete always
 
-      # Be aware of version control systems and display information.
-      set vcs_aware true
-
       # State of the three backends git, hg, bzr. The possible states are
       # disabled, local (only show local info), enabled (show local and remote
       # information).
@@ -73,6 +70,10 @@
       map lA chain set sort=atime;     set sort_reverse=True
       map lT chain set sort=type;      set sort_reverse=True
       map lE chain set sort=extension; set sort_reverse=True
+
+      # Settings
+      map zv set vcs_aware!
+      map zV set use_preview_script!
     '';
 
     ".config/ranger/rifle.conf".text = ''
