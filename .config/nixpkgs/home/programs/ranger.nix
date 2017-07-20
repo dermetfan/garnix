@@ -32,6 +32,8 @@
       # ===================================================================
 
       # Basic
+      map K reload_cwd
+
       map h display_file
 
       map k chain draw_possible_programs; console open_with%%space
