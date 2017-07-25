@@ -306,7 +306,7 @@
 
     # Add a new tab.
     # Left it blank to disable this function key.
-    new_tab_key = Ctrl T
+    new_tab_key = Shift+Ctrl T
 
     # Close current tab.
     # Left it blank to disable this function key.
@@ -318,7 +318,7 @@
 
     # Find the strings matching the search regex.
     # Left it blank to disable this function key.
-    find_key = Ctrl F
+    find_key = Shift+Ctrl F
 
     # Find the previous string matching the search regex.
     # Left it blank to disable this function key.
@@ -346,19 +346,19 @@
 
     # Move current page forward.
     # Left it blank to disable this function key.
-    move_tab_forward = Ctrl bracketleft
+    move_tab_forward = Shift+Ctrl Page_Down
 
     # Move current page backward.
     # Left it blank to disable this function key.
-    move_tab_backward = Ctrl bracketright
+    move_tab_backward = Shift+Ctrl Page_Up
 
     # Move current page to first.
     # Left it blank to disable this function key.
-    move_tab_first = Ctrl Up
+    move_tab_first =
 
     # Move current page to last.
     # Left it blank to disable this function key.
-    move_tab_last = Ctrl Down
+    move_tab_last =
 
     # Switch to #1 tab directly.
     # Left it blank to disable this function key.
@@ -410,11 +410,11 @@
 
     # Open a new window with current dir.
     # Left it blank to disable this function key.
-    new_window = Shift+Ctrl T
+    new_window =
 
     # Select all the text in the Vte Terminal box.
     # Left it blank to disable this function key.
-    select_all = Ctrl A
+    select_all =
 
     # Copy the text to clipboard.
     # Left it blank to disable this function key.
@@ -442,11 +442,11 @@
 
     # Try to maximum the window to use all available space on your display.
     # Left it blank to disable this function key.
-    max_window = Alt F11
+    max_window =
 
     # Asks to place window in the fullscreen/unfullscreen state.
     # Left it blank to disable this function key.
-    full_screen = Alt Return
+    full_screen =
 
     # Emulate a mouse scroll up event on Vte Terminal box.
     # Left it blank to disable this function key.
