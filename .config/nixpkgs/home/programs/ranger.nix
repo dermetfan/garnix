@@ -182,6 +182,7 @@
       ext js  = node -- "$1"
       ext sh  = sh -- "$1"
       ext php = php -- "$1"
+      ext jar = java -jar "$1"
 
       #--------------------------------------------
       # Audio without X
@@ -262,7 +263,7 @@
       # avoid password prompt by providing empty password
       ext 7z, has 7z = 7z -p l "$@" | "$PAGER"
       # This requires atool
-      ext ace|ar|arc|bz2?|cab|cpio|cpt|deb|dgc|dmg|gz,  has als     = als -- "$@" | "$PAGER"
+      ext ace|ar|arc|bz2?|cab|cpio|cpt|deb|dgc|dmg|gz,     has als     = als -- "$@" | "$PAGER"
       ext iso|jar|msi|pkg|rar|shar|tar|tgz|xar|xpi|xz|zip, has als     = als -- "$@" | "$PAGER"
       ext 7z|ace|ar|arc|bz2?|cab|cpio|cpt|deb|dgc|dmg|gz,  has aunpack = aunpack -- "$@"
       ext iso|jar|msi|pkg|rar|shar|tar|tgz|xar|xpi|xz|zip, has aunpack = aunpack -- "$@"
