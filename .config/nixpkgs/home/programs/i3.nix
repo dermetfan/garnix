@@ -207,6 +207,7 @@
 
       # application shortcuts
       bindsym $mod+x exec lilyterm -e ranger
+      bindsym $mod+Shift+x exec sudo lilyterm -e ranger
     '';
 
     packages = with pkgs; [
