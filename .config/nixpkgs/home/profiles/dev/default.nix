@@ -7,6 +7,7 @@
     nox
     qemu
   ] ++ (lib.optionals config.xsession.enable [
+    aqemu
     meld
   ]);
 }
