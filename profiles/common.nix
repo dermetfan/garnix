@@ -99,13 +99,11 @@
       dermetfan = {
         isNormalUser = true;
         hashedPassword = "$6$0123456789012345$h8FEllCQBQYziYvFVOhIqGRvt/z3lPO5wU.07Uz9Y/E2AvSUtq9ITQZTivMFN0gSSpFrDJ0P32k9t5uG4c47D0";
-        extraGroups = (if config.security.sudo.enable then [
-          "wheel"
-        ] else []) ++ (if config.virtualisation.docker.enable then [
-          "docker"
-        ] else []) ++ (if config.programs.adb.enable then [
-          "adbusers"
-        ] else []);
+        extraGroups = with lib;
+          (optional config.security.sudo.enable "wheel") ++
+          (optional config.networking.networkmanager.enable "networkmanager") ++
+          (optional config.virtualisation.docker.enable "docker") ++
+          (optional config.programs.adb.enable "adbusers");
       };
     };
   };
