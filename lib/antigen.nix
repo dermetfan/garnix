@@ -1,30 +1,30 @@
 { zsh, curl, writeScript
-, fetchUrl ? "https://cdn.rawgit.com/zsh-users/antigen/v1.3.1/bin/antigen.zsh"
-, sha512 ? "a37f5165f41dd1db9d604e8182cc931e3ffce832cf341fce9a35796a5c3dcbb476ed7d6e6e9c8c773905427af77dbe8bdbb18f16e18b63563c6e460e102096f3" }:
+, fetchUrl ? "https://cdn.rawgit.com/zsh-users/antigen/v2.2.1/bin/antigen.zsh"
+, sha512 ? "f1551060bf9756c3b7881a22584986a0528d9b3c5acfedb9ea912d04901419db537f8c8e15fdd6539aa26a91175a59b7534bd83a03268db9f19cadc0331a523e" }:
 
 let
-  script = writeScript "antigen-install.zsh" ''
-    #!${zsh}/bin/zsh
+  script = let
+    _curl = "${curl}/bin/curl";
+  in writeScript "antigen-install.zsh" ''
+    #! ${zsh}/bin/zsh
 
     antigen="$HOME/.antigen/antigen.zsh"
-    url="${fetchUrl}"
-    checksum="${sha512}"
 
-    installed() { return `[ -f $antigen ]` }
+    installed() { return `[[ -f $antigen ]]` }
 
     ask() {
       printf "$1 [y/N] "
-      read answer
-      return `[ "$answer" = y ] || [ "$answer" = Y ]`
+      read
+      return `[[ "$REPLY" = y || "$REPLY" = Y ]]`
     }
 
     if ! installed && ask >&2 "Missing $antigen. Install?"; then
-      ${curl}/bin/curl $url > /tmp/antigen.zsh
+      ${_curl} ${fetchUrl} > /tmp/antigen.zsh
 
-      if ! `echo "$checksum /tmp/antigen.zsh" | sha512sum -c --status`; then
+      if ! `echo "${sha512} /tmp/antigen.zsh" | sha512sum -c --status`; then
         echo >&2 "Abort: wrong checksum!"
-        echo >&2 "downloaded from: $url"
-        echo >&2 "Expected sha512: $checksum"
+        echo >&2 "downloaded from: ${fetchUrl}"
+        echo >&2 "Expected sha512: ${sha512}"
         echo >&2 "Actual   sha512: `sha512sum /tmp/antigen.zsh | cut -d ' ' -f 1`"
         rm -f /tmp/antigen.zsh
       else
