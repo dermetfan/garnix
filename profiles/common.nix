@@ -17,9 +17,7 @@
   environment = {
     systemPackages = with pkgs; [
       ntfs3g
-    ] ++ (if config.programs.zsh.enable then [
-      nix-zsh-completions
-    ] else []);
+    ] ++ (lib.optional config.programs.zsh.enable nix-zsh-completions);
 
     variables = lib.mkIf config.services.xserver.enable {
       SDL_VIDEO_X11_DGAMOUSE = "0"; # fix for jumping mouse (in qemu)
@@ -57,9 +55,9 @@
   services = {
     openssh.enable = true;
 
-    wakeonlan.interfaces = if config ? passthru.hardware.interfaces.lan then [
+    wakeonlan.interfaces = lib.optionals (config ? passthru.hardware.interfaces.lan) [
       { interface = config.passthru.hardware.interfaces.lan; }
-    ] else [];
+    ];
 
     xserver = {
       layout = "us";
@@ -91,10 +89,7 @@
     defaultUserShell = pkgs.zsh;
 
     users = {
-      root = {
-        isSystemUser = true;
-        hashedPassword = "$6$9876543210987654$TOIH9KzZb/Tfa/0F2mobm4Hl2vwh5bFp8As6VFCaqSIu5KoqgdpESOmuMI04J8DUPGdvEjDMkWi9Lxqhu5gZ50";
-      };
+      root.hashedPassword = "$6$9876543210987654$TOIH9KzZb/Tfa/0F2mobm4Hl2vwh5bFp8As6VFCaqSIu5KoqgdpESOmuMI04J8DUPGdvEjDMkWi9Lxqhu5gZ50";
 
       dermetfan = {
         isNormalUser = true;

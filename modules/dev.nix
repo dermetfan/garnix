@@ -7,9 +7,10 @@
       internalInterfaces = [
         "ve-+" # nixos-containers
       ];
-      externalInterface = config.passthru.hardware.interfaces.lan
-        or config.passthru.hardware.interfaces.wlan
-        or null;
+      externalInterface =
+        config.passthru.hardware.interfaces.lan or
+        config.passthru.hardware.interfaces.wlan or
+        null;
     };
 
     networkmanager.unmanaged = [ "interface-name:ve-*" ];
