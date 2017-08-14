@@ -3,11 +3,11 @@
 {
   home.packages = with pkgs; [
     kid3
-  ] ++ (if config.xsession.enable then [
+  ] ++ (lib.optionals config.xsession.enable [
     audacity
     lmms
     gimp
     keymon
     obs-studio
-  ] else []);
+  ]);
 }

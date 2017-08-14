@@ -5,7 +5,7 @@
     abcde
     mplayer
     mpv
-  ] ++ (if config.xsession.enable then [
+  ] ++ (lib.optionals config.xsession.enable [
     vlc
-  ] else []);
+  ]);
 }

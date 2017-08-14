@@ -24,9 +24,8 @@ in {
       unrar
       unzip
       zip
-    ] ++ (if config.services.xscreensaver.enable then with pkgs; [
-      xscreensaver
-    ] else []) ++ (if config.xsession.enable then with pkgs; [
+    ] ++ (lib.optional config.services.xscreensaver.enable xscreensaver)
+      ++ (lib.optionals config.xsession.enable [
       # X
       arandr
       libnotify
@@ -51,7 +50,7 @@ in {
       nitrogen
       skype
       volumeicon
-    ] else []);
+    ]);
 
     keyboard = {
       variant = "norman";
