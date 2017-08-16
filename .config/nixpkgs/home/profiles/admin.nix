@@ -3,6 +3,7 @@
 {
   home.packages = with pkgs; [
     binutils
+    curl
     fdupes
     ftop
     fzy
@@ -10,8 +11,10 @@
     hdparm
     libsysfs
     lrzip
+    lsof
     ncdu
     parted
+    pciutils
     peco
     progress
     psmisc
