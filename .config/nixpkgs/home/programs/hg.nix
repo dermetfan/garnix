@@ -34,7 +34,6 @@
     rebase =
     histedit =
     mq =
-    hggit =
 
     [pager]
     pager = less
