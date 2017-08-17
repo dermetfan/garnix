@@ -105,7 +105,6 @@ in {
     in {
       directory = dir;
       library = "${dir}/beets.db";
-      import.move = true;
       plugins = [
         "fromfilename"
         "discogs"
