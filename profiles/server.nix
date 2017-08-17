@@ -62,6 +62,7 @@
       virtualHosts = {
         "server.dermetfan.net" = {
           default = true;
+          addSSL = true;
           forceSSL = true;
           enableACME = true;
           sslCertificate = /etc/private/host.cert;
@@ -72,6 +73,7 @@
         };
 
         "hydra.dermetfan.net" = {
+          addSSL = true;
           forceSSL = true;
           enableACME = true;
           sslCertificate = /etc/private/host.cert;
