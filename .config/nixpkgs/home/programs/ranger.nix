@@ -7,11 +7,6 @@
       # == Options
       # ===================================================================
 
-      # Ask for a confirmation when running the "delete" command?
-      # Valid values are "always", "never", "multiple" (default)
-      # With "multiple", ranger will ask only if you delete multiple files at once.
-      set confirm_on_delete always
-
       # State of the three backends git, hg, bzr. The possible states are
       # disabled, local (only show local info), enabled (show local and remote
       # information).
@@ -49,6 +44,11 @@
       map I  move down=0.5  pages=True
       copymap R <C-U>
       copymap I <C-D>
+
+      # Jumping around
+      map gm cd /run/media/${builtins.getEnv "USER"}
+      map gM cd /media
+      map gs cd /tmp
 
       # Sorting
       map lr set sort_reverse!
@@ -292,7 +292,6 @@
     ".config/ranger/bookmarks".text = ''
       w:/data/dermetfan/projects/workspaces/development
       d:/data/dermetfan
-      ':/home/dermetfan
     '';
   };
 }
