@@ -2,8 +2,12 @@
 
 {
   home.packages = with pkgs; [
+    gnupg
     htop
     pass
+    unrar
+    unzip
+    zip
   ] ++ (lib.optionals config.xsession.enable [
     audacious
     chromium

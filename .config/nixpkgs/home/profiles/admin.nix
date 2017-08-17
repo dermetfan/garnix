@@ -2,6 +2,7 @@
 
 {
   home.packages = with pkgs; [
+    bashmount
     binutils
     curl
     fdupes
@@ -19,6 +20,7 @@
     progress
     psmisc
     pv
+    nethogs
     rsync
     smartmontools
     sshfsFuse

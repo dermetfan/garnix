@@ -15,15 +15,8 @@ in {
 
   home = {
     packages = with pkgs; [
-      bashmount
-      exa
-      gnupg
-      nethogs
       ranger
       screenfetch
-      unrar
-      unzip
-      zip
     ] ++ (lib.optional config.services.xscreensaver.enable xscreensaver)
       ++ (lib.optionals config.xsession.enable [
       # X
@@ -44,6 +37,7 @@ in {
       numix-icon-theme
 
       # autostart
+      udevil
       parcellite
       tdesktop
       hipchat
@@ -74,14 +68,13 @@ in {
       xhost = "${pkgs.xorg.xhost}/bin/xhost";
       xmodmap = "${pkgs.xorg.xmodmap}/bin/xmodmap";
       xflux = "${pkgs.xflux}/bin/xflux";
-      devmon = "${pkgs.udevil}/bin/devmon";
     in ''
       ${xhost} local:root # allow root to connect to X server for key bindings
       ${xmodmap} -e "keycode 66 = Caps_Lock"
       ${xflux} -l 51.165691 -g 10.45152000000058
       xset r rate 225 27
       xset m 2
-      ${devmon} &
+      devmon &
       syndaemon -d -i 0.625 -K -R || :
 
       ~/.fehbg || nitrogen --restore
