@@ -57,7 +57,7 @@
 
     # Don't need to confirm for executing a program if it's in the whitelist,
     # separate with <space>.
-    execute_command_whitelist = ssh mosh ranger alsamixer
+    execute_command_whitelist = ssh mosh tmux htop ranger alsamixer
 
     # Launching executed command in a new tab instead of opening a new window.
     execute_command_in_new_tab = 0
