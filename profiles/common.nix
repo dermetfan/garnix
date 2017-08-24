@@ -28,7 +28,7 @@
   };
 
   programs = {
-    # bash.enableCompletion = true; # breaks impure nix-shell, see https://github.com/NixOS/nix/issues/976
+    bash.enableCompletion = builtins.compareVersions builtins.nixVersion "1.11.5" > 0; # breaks impure nix-shell, see https://github.com/NixOS/nix/issues/976
     zsh = {
       enable = true;
       shellAliases = {
