@@ -1,4 +1,4 @@
-{ ... }:
+{ config, lib, ... }:
 
 {
   home.file.".antigenrc".text = ''
@@ -24,5 +24,17 @@
     antigen bundle web-search; alias open_command=xdg-open
 
     antigen apply
+  '';
+
+  programs.zsh.initExtra = ''
+    if [[ -f ~/.antigen/antigen.zsh ]]; then
+        . ~/.antigen/antigen.zsh
+        antigen init ~/.antigenrc
+    fi
+
+    ${# apply aliases again, antigen may have changed them
+      lib.concatStringsSep "\n" (
+        lib.mapAttrsToList (k: v: "alias ${k}='${v}'") config.passthru.programs.zsh.shellAliases
+      )}
   '';
 }

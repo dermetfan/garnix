@@ -11,13 +11,24 @@ let
     ];
   }).config;
 in {
-  imports = import home/module-list.nix;
+  imports = import home/module-list.nix ++ [
+    <nixpkgs/nixos/modules/misc/passthru.nix>
+  ];
+
+  passthru.programs.zsh.shellAliases = {
+    l = "exa -lga";
+    ll = "exa -lg";
+    diff = "diff -r --suppress-common-lines";
+  };
 
   home = {
     packages = with pkgs; [
       ranger
       screenfetch
-    ] ++ (lib.optional config.services.xscreensaver.enable xscreensaver)
+    ] ++ (lib.optionals config.programs.zsh.enable [
+      exa
+      diffutils
+    ])++ (lib.optional config.services.xscreensaver.enable xscreensaver)
       ++ (lib.optionals config.xsession.enable [
       # X
       arandr
@@ -88,6 +99,19 @@ in {
 
   programs = {
     home-manager.enable = true;
+
+    zsh = {
+      enable = true;
+      shellAliases = lib.mkIf
+        (!config.home.file ? ".antigenrc")
+        config.passthru.programs.zsh.shellAliases;
+      initExtra = ''
+        # include Cargo binaries in PATH
+        typeset -U path
+        path+=(~/.cargo/bin)
+        export PATH
+      '';
+    };
 
     browserpass = {
       enable = true;
