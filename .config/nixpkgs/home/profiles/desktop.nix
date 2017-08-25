@@ -8,7 +8,7 @@
     unrar
     unzip
     zip
-  ] ++ (lib.optionals config.xsession.enable [
+  ] ++ lib.optionals config.xsession.enable [
     audacious
     chromium
     feh
@@ -21,5 +21,5 @@
     xarchiver
     xfe
     zathura
-  ]);
+  ];
 }

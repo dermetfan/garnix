@@ -6,8 +6,8 @@
     mercurial
     nox
     qemu
-  ] ++ (lib.optionals config.xsession.enable [
+  ] ++ lib.optionals config.xsession.enable [
     aqemu
     meld
-  ]);
+  ];
 }

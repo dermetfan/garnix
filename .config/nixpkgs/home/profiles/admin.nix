@@ -26,8 +26,8 @@
     sshfsFuse
     wakelan
     wget
-  ] ++ (lib.optionals config.xsession.enable [
+  ] ++ lib.optionals config.xsession.enable [
     gpa
     gparted
-  ]);
+  ];
 }

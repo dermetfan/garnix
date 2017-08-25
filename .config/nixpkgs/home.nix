@@ -22,40 +22,42 @@ in {
   };
 
   home = {
-    packages = with pkgs; [
-      ranger
-      screenfetch
-    ] ++ (lib.optionals config.programs.zsh.enable [
-      exa
-      diffutils
-    ])++ (lib.optional config.services.xscreensaver.enable xscreensaver)
-      ++ (lib.optionals config.xsession.enable [
-      # X
-      arandr
-      libnotify
-      xorg.xrandr
-      xorg.xkill
-      xclip
-      xsel
+    packages = with pkgs;
+      [ ranger
+        screenfetch
+      ] ++
+      lib.optionals config.programs.zsh.enable [
+        exa
+        diffutils
+      ] ++
+      lib.optional config.services.xscreensaver.enable xscreensaver ++
+      lib.optionals config.xsession.enable [
+        # X
+        arandr
+        libnotify
+        xorg.xrandr
+        xorg.xkill
+        xclip
+        xsel
 
-      # i3
-      i3-gaps
-      i3status
-      rofi
+        # i3
+        i3-gaps
+        i3status
+        rofi
 
-      # GTK
-      theme-vertex
-      numix-icon-theme
+        # GTK
+        theme-vertex
+        numix-icon-theme
 
-      # autostart
-      udevil
-      parcellite
-      tdesktop
-      hipchat
-      nitrogen
-      skype
-      volumeicon
-    ]);
+        # autostart
+        udevil
+        parcellite
+        tdesktop
+        hipchat
+        nitrogen
+        skype
+        volumeicon
+      ];
 
     keyboard = {
       variant = "norman";
