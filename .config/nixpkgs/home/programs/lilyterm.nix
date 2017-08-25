@@ -30,21 +30,21 @@
     fullscreen = 0
 
     # Transparent window. Only enabled when the window manager were composited.
-    transparent_window = 1
+    transparent_window = 0
 
     # The opacity of transparent window.
-    window_opacity = 0.175
+    window_opacity = 0
 
     # The opacity of transparent window when inactive.
     # Left it blank to disable this feature.
-    window_opacity_inactive = 0.175
+    window_opacity_inactive =
 
     # Use transparent background.
     # It will use true transparent if the window manager were composited.
     transparent_background = 1
 
     # The saturation of transparent background.
-    background_saturation = 0.175
+    background_saturation = 0.35
 
     # Scroll the background image along with the text.
     scroll_background = 0

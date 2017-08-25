@@ -1,10 +1,7 @@
 { config, pkgs, ... }:
 
 {
-  xsession.initExtra =
-    let
-      compton = "${pkgs.compton}/bin/compton";
-    in ''
-      ${compton} -bfD 2
-    '';
+  xsession.initExtra = "compton -b";
+
+  home.packages = [ pkgs.compton ];
 }
