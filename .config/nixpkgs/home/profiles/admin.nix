@@ -14,6 +14,7 @@
     lrzip
     lsof
     ncdu
+    neofetch
     parted
     pciutils
     peco

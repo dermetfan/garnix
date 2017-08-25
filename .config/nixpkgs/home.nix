@@ -23,9 +23,7 @@ in {
 
   home = {
     packages = with pkgs;
-      [ ranger
-        screenfetch
-      ] ++
+      [ ranger ] ++
       lib.optionals config.programs.zsh.enable [
         exa
         diffutils
