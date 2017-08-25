@@ -28,7 +28,8 @@
     blur-background = true;
     blur-background-exclude = [
       "window_type = 'dock'",
-      "window_type = 'desktop'"
+      "window_type = 'desktop'",
+      "class_g = 'XScreenSaver'"
     ];
     blur-kern = "7x7box";
 
