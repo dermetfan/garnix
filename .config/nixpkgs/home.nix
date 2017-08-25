@@ -100,7 +100,10 @@ in {
   };
 
   programs = {
-    home-manager.enable = true;
+    home-manager = {
+      enable = true;
+      modulesPath = "$HOME/.config/nixpkgs/overlays/home-manager/home-manager/modules";
+    };
 
     zsh = {
       enable = true;
