@@ -14,7 +14,8 @@
       "name = 'Notification'",
       "class_g = 'Conky'",
       "class_g ?= 'Notify-osd'",
-      "class_g = 'Cairo-clock'"
+      "class_g = 'Cairo-clock'",
+      "class_g = 'Dunst'"
     ];
 
     fading = true;
@@ -40,6 +41,7 @@
 
     inactive-dim = 0.2;
 
+    use-ewmh-active-win = true;
     mark-wmwin-focused = true;
     mark-ovredir-focused = true;
     focus-exclude = [
