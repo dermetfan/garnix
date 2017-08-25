@@ -35,7 +35,6 @@
         l = "ls -lah";
         ll = "ls -lh";
       };
-      interactiveShellInit = pkgs.callPackage ../lib/antigen.nix {};
     };
     nano.nanorc = ''
       set tabsize 4
