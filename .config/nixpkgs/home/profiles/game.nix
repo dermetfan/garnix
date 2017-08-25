@@ -4,6 +4,7 @@
   home.packages = with pkgs; [
     pkgs."2048-in-terminal"
     fortune
+    lolcat
     ponysay
     rogue
     sl
