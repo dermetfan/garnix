@@ -15,9 +15,9 @@
   time.timeZone = "Europe/Berlin";
 
   environment = {
-    systemPackages = with pkgs; [
-      ntfs3g
-    ] ++ (lib.optional config.programs.zsh.enable nix-zsh-completions);
+    systemPackages = with pkgs;
+      [ ntfs3g ] ++
+      lib.optional config.programs.zsh.enable nix-zsh-completions;
 
     variables = lib.mkIf config.services.xserver.enable {
       SDL_VIDEO_X11_DGAMOUSE = "0"; # fix for jumping mouse (in qemu)
