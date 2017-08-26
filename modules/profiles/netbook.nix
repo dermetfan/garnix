@@ -6,13 +6,8 @@ in {
   options.config.profiles.netbook.enable = lib.mkEnableOption "netbook settings";
 
   config = lib.mkIf cfg.enable {
-    config = {
-#      ../modules/lid.nix
-#      ../modules/touchpad.nix
-#      ../modules/graphical.nix
-    };
-
     services.xserver.synaptics = {
+      enable = true;
       minSpeed = "1";
       maxSpeed = "1.75";
     };

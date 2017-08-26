@@ -64,9 +64,19 @@
       ];
 
       xserver = {
+        enable = true;
+
         layout = "us";
         xkbVariant = "norman";
         xkbOptions = "compose:lwin,compose:rwin,eurosign:e";
+
+        displayManager.slim.defaultUser = "dermetfan";
+        desktopManager.xterm.enable = false;
+
+        synaptics = {
+          twoFingerScroll = true;
+          palmDetect = true;
+        };
       };
 
       kmscon = {
@@ -78,12 +88,18 @@
         hwRender = true;
       };
 
+      logind.extraConfig = "HandleLidSwitch=ignore";
+
       unclutter.enable = config.services.xserver.enable;
 
       znapzend.enable = builtins.any (x: x == "zfs") (builtins.map (fs: fs.fsType) (builtins.attrValues config.fileSystems));
     };
 
     sound.mediaKeys = {
+      # Does not work with hardware.pulseaudio.enable
+      # because amixer cannot connect to PulseAudio
+      # user daemon as another user (root)
+      # => share PulseAudio cookie?
       enable = !config.services.xserver.enable;
       volumeStep = "2%";
     };
