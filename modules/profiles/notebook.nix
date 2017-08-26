@@ -1,20 +1,21 @@
-{ pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
-{
-  imports = [
-    ./common.nix
-    ../modules/data-pool.nix
-    ../modules/hotkeys.nix
-    ../modules/lid.nix
-    ../modules/touchpad.nix
-    ../modules/graphical.nix
-    ../modules/dev.nix
-  ];
+let
+  cfg = config.config.profiles.notebook;
+in {
+  options.config.profiles.notebook.enable = lib.mkEnableOption "notebook settings";
 
-  config = {
-    config.dataPool = {
-      enable = true;
-      userFileSystems = true;
+  config = lib.mkIf cfg.enable {
+    config = {
+      dataPool = {
+        enable = true;
+        userFileSystems = true;
+      };
+
+#      ../modules/lid.nix
+#      ../modules/touchpad.nix
+#      ../modules/graphical.nix
+#      ../modules/dev.nix
     };
 
     nixpkgs.config.allowUnfree = true;

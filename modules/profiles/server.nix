@@ -1,12 +1,11 @@
 { config, pkgs, lib, ... }:
 
-{
-  imports = [
-    ./common.nix
-    ../modules/data-pool.nix
-  ];
+let
+  cfg = config.config.profiles.server;
+in {
+  options.config.profiles.server.enable = lib.mkEnableOption "server settings";
 
-  config = {
+  config = lib.mkIf cfg.enable {
     config.dataPool.enable = true;
 
     nixpkgs.config.allowUnfree = true;

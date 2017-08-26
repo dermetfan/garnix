@@ -2,13 +2,13 @@
 { config, lib, pkgs, ... }:
 
 let
-  cfg = config.machines."MSI PE60-6QE";
+  cfg = config.config.machine."MSI PE60-6QE";
 
   bumblebeeHack = pkgs.writeScript "bumblebeed.sh" ''
     ${pkgs.bumblebee}/bin/bumblebeed -Dg ${config.users.groups.wheel.name}
   '';
 in {
-  options.machines."MSI PE60-6QE" = {
+  options.config.machine."MSI PE60-6QE" = {
     enable = lib.mkEnableOption "MSI PE60-6QE";
 
     hyperThreading = with lib; mkOption {
