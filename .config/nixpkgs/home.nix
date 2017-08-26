@@ -9,16 +9,20 @@ let
         config = systemConfig.config;
       })
     ];
-  }).config;
+  });
 in {
   imports = import home/module-list.nix ++ [
     <nixpkgs/nixos/modules/misc/passthru.nix>
   ];
 
-  passthru.programs.zsh.shellAliases = {
-    l = "exa -lga";
-    ll = "exa -lg";
-    diff = "diff -r --suppress-common-lines";
+  passthru = {
+    inherit systemConfig;
+
+    programs.zsh.shellAliases = {
+      l = "exa -lga";
+      ll = "exa -lg";
+      diff = "diff -r --suppress-common-lines";
+    };
   };
 
   home = {
@@ -73,7 +77,7 @@ in {
   };
 
   xsession = {
-    enable = systemConfig.services.xserver.enable;
+    enable = systemConfig.config.services.xserver.enable;
     windowManager = "${pkgs.i3-gaps}/bin/i3";
     initExtra = let
       xhost = "${pkgs.xorg.xhost}/bin/xhost";

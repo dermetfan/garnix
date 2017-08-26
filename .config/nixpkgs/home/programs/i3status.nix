@@ -1,13 +1,16 @@
-{ ... }:
+{ config, ... }:
 
-{
+let
+  sysCfg = config.passthru.systemConfig.config;
+  data_dermetfan = "${sysCfg.config.dataPool.mountPoint}/${sysCfg.users.users.dermetfan.name}";
+in {
   home.file.".config/i3status/config".text = ''
     general {
         colors = true
         color_separator = "#55b5e7"
     }
 
-    order += "disk /data/dermetfan"
+    order += "disk ${data_dermetfan}"
     order += "disk /"
     #order += "ethernet _first_"
     #order += "wireless _first_"
@@ -38,7 +41,7 @@
 
     ethernet _first_ {}
 
-    disk "/data/dermetfan" {
+    disk "${data_dermetfan}" {
         format = "data: %free (%percentage_used)"
         low_threshold = 10
         threshold_type = percentage_free
