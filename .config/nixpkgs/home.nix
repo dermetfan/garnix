@@ -1,17 +1,19 @@
 { config, lib, pkgs, ... }:
 
 let
-  systemConfig = (import <nixpkgs/nixos/lib/eval-config.nix> {
+  systemModule = (import <nixpkgs/nixos/lib/eval-config.nix> {
     modules = [
       (import <nixos-config> {
         inherit pkgs;
         inherit (pkgs) system lib;
-        config = systemConfig.config;
+        config = systemModule.config;
       })
     ];
   });
+
+  systemConfig = systemModule.config;
 in {
-  imports = import home/module-list.nix ++ [
+  imports = import home/modules/module-list.nix ++ [
     <nixpkgs/nixos/modules/misc/passthru.nix>
   ];
 
@@ -52,6 +54,8 @@ in {
         numix-icon-theme
 
         # autostart
+        xorg.xmodmap
+        xflux
         udevil
         parcellite
         tdesktop
@@ -77,16 +81,11 @@ in {
   };
 
   xsession = {
-    enable = systemConfig.config.services.xserver.enable;
+    enable = systemConfig.services.xserver.enable;
     windowManager = "${pkgs.i3-gaps}/bin/i3";
-    initExtra = let
-      xhost = "${pkgs.xorg.xhost}/bin/xhost";
-      xmodmap = "${pkgs.xorg.xmodmap}/bin/xmodmap";
-      xflux = "${pkgs.xflux}/bin/xflux";
-    in ''
-      ${xhost} local:root # allow root to connect to X server for key bindings
-      ${xmodmap} -e "keycode 66 = Caps_Lock"
-      ${xflux} -l 51.165691 -g 10.45152000000058
+    initExtra = ''
+      xmodmap -e "keycode 66 = Caps_Lock"
+      xflux -l 51.165691 -g 10.45152000000058
       xset r rate 225 27
       xset m 2
       devmon &
@@ -130,9 +129,9 @@ in {
     };
 
     beets.settings = let
-      dir = let
-        data = /data/dermetfan;
-      in "${if builtins.pathExists data then builtins.toString data else "~"}/audio/music/library";
+      dir = (if systemConfig.config.dataPool.enable then
+        systemConfig.config.dataPool.mountPoint + (lib.optionalString systemConfig.config.dataPool.userFileSystems "/${systemConfig.users.users.dermetfan.name}")
+      else "~") + "/audio/music/library";
     in {
       directory = dir;
       library = "${dir}/beets.db";

@@ -1,7 +1,7 @@
 { config, ... }:
 
 let
-  sysCfg = config.passthru.systemConfig.config;
+  sysCfg = config.passthru.systemConfig;
   data_dermetfan = "${sysCfg.config.dataPool.mountPoint}/${sysCfg.users.users.dermetfan.name}";
 in {
   home.file.".config/i3status/config".text = ''
