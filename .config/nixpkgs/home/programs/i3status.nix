@@ -1,56 +1,65 @@
-{ config, ... }:
+{ config, lib, pkgs, ... }:
 
 let
+  cfg = config.config.programs.i3status;
   sysCfg = config.passthru.systemConfig;
   data_dermetfan = "${sysCfg.config.dataPool.mountPoint}/${sysCfg.users.users.dermetfan.name}";
 in {
-  home.file.".config/i3status/config".text = ''
-    general {
-        colors = true
-        color_separator = "#55b5e7"
-    }
+  options.config.programs.i3status.enable = lib.mkEnableOption "i3status";
 
-    order += "disk ${data_dermetfan}"
-    order += "disk /"
-    #order += "ethernet _first_"
-    #order += "wireless _first_"
-    order += "cpu_temperature 0"
-    order += "battery all"
-    #order += "volume master"
-    order += "time"
+  config = lib.mkIf cfg.enable {
+    home = {
+      packages = [ pkgs.i3status ];
 
-    time {
-        format = "%m-%d %H:%M:%S "
-    }
+      file.".config/i3status/config".text = ''
+        general {
+            colors = true
+            color_separator = "#55b5e7"
+        }
 
-    volume master {}
+        order += "disk ${data_dermetfan}"
+        order += "disk /"
+        #order += "ethernet _first_"
+        #order += "wireless _first_"
+        order += "cpu_temperature 0"
+        order += "battery all"
+        #order += "volume master"
+        order += "time"
 
-    battery all {
-        format = "%percentage %status %remaining %consumption"
-        integer_battery_capacity = true
-        low_threshold = 15
-        threshold_type = time
-    }
+        time {
+            format = "%m-%d %H:%M:%S "
+        }
 
-    cpu_temperature 0 {
-        format = "CPU: %degrees°C"
-        max_threshold = "90"
-    }
+        volume master {}
 
-    wireless _first_ {}
+        battery all {
+            format = "%percentage %status %remaining %consumption"
+            integer_battery_capacity = true
+            low_threshold = 15
+            threshold_type = time
+        }
 
-    ethernet _first_ {}
+        cpu_temperature 0 {
+            format = "CPU: %degrees°C"
+            max_threshold = "90"
+        }
 
-    disk "${data_dermetfan}" {
-        format = "data: %free (%percentage_used)"
-        low_threshold = 10
-        threshold_type = percentage_free
-    }
+        wireless _first_ {}
 
-    disk "/" {
-        format = "%free (%percentage_used)"
-        low_threshold = 25
-        threshold_type = percentage_free
-    }
-  '';
+        ethernet _first_ {}
+
+        disk "${data_dermetfan}" {
+            format = "data: %free (%percentage_used)"
+            low_threshold = 10
+            threshold_type = percentage_free
+        }
+
+        disk "/" {
+            format = "%free (%percentage_used)"
+            low_threshold = 25
+            threshold_type = percentage_free
+        }
+      '';
+    };
+  };
 }

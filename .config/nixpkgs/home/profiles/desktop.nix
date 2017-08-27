@@ -1,25 +1,37 @@
-{ config, pkgs, lib, ... }:
+{ config, lib, pkgs, ... }:
 
-{
-  home.packages = with pkgs; [
-    gnupg
-    htop
-    pass
-    unrar
-    unzip
-    zip
-  ] ++ lib.optionals config.xsession.enable [
-    audacious
-    chromium
-    feh
-    geany
-    lilyterm
-    qalculate-gtk
-    rss-glx
-    smplayer
-    vivaldi
-    xarchiver
-    xfe
-    zathura
-  ];
+let
+  cfg = config.config.profiles.desktop;
+in {
+  options.config.profiles.desktop.enable = lib.mkEnableOption "desktop programs";
+
+  config = lib.mkIf cfg.enable {
+    config = {
+      profiles = lib.mkIf (config.config.profiles ? media) {
+        media.enable = true;
+      };
+
+      programs = {
+        geany.enable = true;
+        lilyterm.enable = true;
+      };
+    };
+  
+    home.packages = with pkgs; [
+      gnupg
+      htop
+      pass
+      unrar
+      unzip
+      zip
+    ] ++ lib.optionals config.xsession.enable [
+      chromium
+      feh
+      qalculate-gtk
+      rss-glx
+      vivaldi
+      xarchiver
+      zathura
+    ];
+  };
 }

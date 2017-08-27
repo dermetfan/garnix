@@ -1,6 +1,6 @@
-{ pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
-{
+lib.mkIf (config.xsession.enable && config.gtk.enable) {
   home = {
     file.".config/gtk-3.0/bookmarks".text = ''
       file:///data/dermetfan
@@ -17,4 +17,3 @@
       in "${v2}/${v2v}/loaders.cache";
   };
 }
-

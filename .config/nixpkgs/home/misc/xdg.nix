@@ -1,6 +1,6 @@
-{ ... }:
+{ config, lib, ... }:
 
-{
+lib.mkIf config.xsession.enable {
   home.file.".config/user-dirs.dirs".text = ''
     XDG_DESKTOP_DIR="/home/dermetfan"
     XDG_DOWNLOAD_DIR="/home/dermetfan/downloads"
