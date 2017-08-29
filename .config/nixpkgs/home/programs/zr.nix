@@ -40,7 +40,8 @@ in {
               michaelxmcbride/zsh-dircycle \
               Tarrasch/zsh-bd \
               voronkovich/project.plugin.zsh \
-              ${lib.optionalString altKeyAvailable "eendroroy/zed-zsh"}
+              eendroroy/zed-zsh \
+              psprint/${if altKeyAvailable then "zsh-editing-workbench" else "zsh-cmd-architect"}
 
           # for some reason this loads faster
           # if compinit is called first
