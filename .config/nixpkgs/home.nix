@@ -123,6 +123,7 @@ in {
           l = "exa -lga";
           ll = "exa -lg";
           diff = "diff -r --suppress-common-lines";
+          d = "dirs -v | head -10";
           pu = "pushd";
           po = "popd";
         };
