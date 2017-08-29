@@ -16,5 +16,9 @@ in {
         vcs = "hg"
       '';
     };
+
+    programs.zsh.initExtra = ''
+      path+=(~/.cargo/bin)
+    '';
   };
 }

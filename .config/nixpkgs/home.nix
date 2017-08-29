@@ -20,12 +20,6 @@ in {
   config = {
     passthru = {
       inherit systemConfig;
-
-      programs.zsh.shellAliases = {
-        l = "exa -lga";
-        ll = "exa -lg";
-        diff = "diff -r --suppress-common-lines";
-      };
     };
 
     config = {
@@ -36,6 +30,7 @@ in {
 
       programs = {
         ranger.enable = true;
+        zr.enable = config.programs.zsh.enable;
 
         i3.enable           = config.xsession.enable;
         parcellite.enable   = config.xsession.enable;
@@ -120,14 +115,59 @@ in {
 
       zsh = {
         enable = true;
-        shellAliases = lib.mkIf
-          (!config.home.file ? ".antigenrc")
-          config.passthru.programs.zsh.shellAliases;
+        enableCompletion =
+          if config.config.programs ? zr
+          then !config.config.programs.zr.enable
+          else false;
+        shellAliases = {
+          l = "exa -lga";
+          ll = "exa -lg";
+          diff = "diff -r --suppress-common-lines";
+          pu = "pushd";
+          po = "popd";
+        };
         initExtra = ''
-          # include Cargo binaries in PATH
-          typeset -U path
-          path+=(~/.cargo/bin)
-          export PATH
+          setopt AUTO_CD
+          setopt AUTO_PUSHD
+          setopt AUTO_MENU
+          setopt COMPLETE_ALIASES
+          setopt COMPLETE_IN_WORD
+          setopt ALWAYS_TO_END
+          setopt EXTENDED_HISTORY
+          setopt HIST_EXPIRE_DUPS_FIRST
+          setopt HIST_IGNORE_ALL_DUPS
+          setopt HIST_IGNORE_SPACE
+          setopt HIST_VERIFY
+          setopt APPEND_HISTORY
+          setopt INC_APPEND_HISTORY
+          setopt PUSHD_IGNORE_DUPS
+
+          zstyle ':completion:*' menu select
+          zstyle ':completion:*' list-colors "''${(s.:.)LS_COLORS}"
+
+          ######################################### oh-my-zsh/lib/key-bindings.zsh #########################################
+          # start typing + [Up-Arrow] - fuzzy find history forward
+          if [[ "''${terminfo[kcuu1]}" != "" ]]; then
+            autoload -U up-line-or-beginning-search
+            zle -N up-line-or-beginning-search
+            bindkey "''${terminfo[kcuu1]}" up-line-or-beginning-search
+          fi
+          # start typing + [Down-Arrow] - fuzzy find history backward
+          if [[ "''${terminfo[kcud1]}" != "" ]]; then
+            autoload -U down-line-or-beginning-search
+            zle -N down-line-or-beginning-search
+            bindkey "''${terminfo[kcud1]}" down-line-or-beginning-search
+          fi
+
+          bindkey '^[[1;5C' forward-word                          # [Ctrl-RightArrow] - move forward one word
+          bindkey '^[[1;5D' backward-word                         # [Ctrl-LeftArrow] - move backward one word
+
+          if [[ "''${terminfo[kcbt]}" != "" ]]; then
+            bindkey "''${terminfo[kcbt]}" reverse-menu-complete   # [Shift-Tab] - move through the completion menu backwards
+          fi
+          ##################################################################################################################
+
+          typeset -U PATH path
         '';
       };
 

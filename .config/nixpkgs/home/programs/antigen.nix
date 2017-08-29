@@ -3,12 +3,7 @@
 let
   cfg = config.config.programs.antigen;
 in {
-  options.config.programs.antigen.enable = with lib; mkOption {
-    type = types.bool;
-    default = config.programs.zsh.enable;
-    defaultText = "<option>config.programs.zsh.enable</option>";
-    description = "antigen";
-  };
+  options.config.programs.antigen.enable = lib.mkEnableOption "antigen";
 
   config = lib.mkIf cfg.enable {
     home.file = {
@@ -47,9 +42,9 @@ in {
       . ~/.antigen/antigen.zsh
       antigen init ~/.antigenrc
 
-      ${# apply aliases again, antigen may have changed them
+      ${# force aliases
         lib.concatStringsSep "\n" (
-          lib.mapAttrsToList (k: v: "alias ${k}='${v}'") config.passthru.programs.zsh.shellAliases
+          lib.mapAttrsToList (k: v: "alias ${k}='${v}'") config.programs.zsh.shellAliases
         )}
     '';
   };
