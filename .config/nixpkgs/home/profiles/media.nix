@@ -20,7 +20,9 @@ in {
         smplayer
       ] ++
       lib.optionals cfg.enableEditors (
-        [ kid3 ] ++
+        [ ffmpeg
+          kid3
+        ] ++
         lib.optionals config.xsession.enable [
           audacity
           lmms

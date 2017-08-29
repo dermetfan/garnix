@@ -10,16 +10,22 @@ in {
       bashmount
       binutils
       curl
+      diffoscope
       fdupes
+      file
       ftop
       fzy
       gptfdisk
       hdparm
+      httpie
+      httping
       libsysfs
       lrzip
       lsof
       ncdu
       neofetch
+      ngrep
+      nix-index
       parted
       pciutils
       peco
@@ -29,10 +35,12 @@ in {
       nethogs
       rsync
       smartmontools
+      socat
       sshfsFuse
       wakelan
       wget
     ] ++ lib.optionals config.xsession.enable [
+      glxinfo
       gpa
       gparted
     ];
