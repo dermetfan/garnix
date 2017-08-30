@@ -458,19 +458,19 @@ in {
 
         # Emulate a mouse scroll up event on Vte Terminal box.
         # Left it blank to disable this function key.
-        scroll_up = Shift Left
+        scroll_up = Shift+Ctrl Left
 
         # Emulate a mouse scroll down event on Vte Terminal box.
         # Left it blank to disable this function key.
-        scroll_down = Shift Right
+        scroll_down = Shift+Ctrl Right
 
         # Asks to scroll up 1 line on Vte Terminal box.
         # Left it blank to disable this function key.
-        scroll_up_1_line = Shift Up
+        scroll_up_1_line = Shift+Ctrl Up
 
         # Asks to scroll down 1 line on Vte Terminal box.
         # Left it blank to disable this function key.
-        scroll_down_1_line = Shift Down
+        scroll_down_1_line = Shift+Ctrl Down
 
 
         [color]

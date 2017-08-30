@@ -84,7 +84,11 @@ in {
           map zV set use_preview_script!
         '';
 
-        ".config/ranger/rifle.conf".text = ''
+        ".config/ranger/rifle.conf".text = let
+          EDITOR = if config.home.sessionVariables ? EDITOR
+            then config.home.sessionVariables.EDITOR
+            else "$EDITOR";
+        in ''
           # vim: ft=cfg
           #
           # This is the configuration file of "rifle", ranger's file executor/opener.
@@ -167,11 +171,10 @@ in {
           #-------------------------------------------
           # Misc
           #-------------------------------------------
-          mime ^text,     has nano            = nano    -- "$@"
-          mime ^text,  X, has geany,   flag f = geany   -- "$@"
-          mime ^text,  label editor = $EDITOR -- "$@"
+          mime ^text,  label editor = ${EDITOR} -- "$@"
           mime ^text,  label pager  = $PAGER -- "$@"
-          !mime ^text, label editor, ext xml|json|csv|tex|py|pl|rb|js|sh|php|rs|nix = $EDITOR -- "$@"
+          mime ^text,  X, has geany,   flag f = geany   -- "$@"
+          !mime ^text, label editor, ext xml|json|csv|tex|py|pl|rb|js|sh|php|rs|nix = ${EDITOR} -- "$@"
           !mime ^text, label pager,  ext xml|json|csv|tex|py|pl|rb|js|sh|php|rs|nix = $PAGER -- "$@"
 
           ext 1                         = man "$1"
@@ -289,9 +292,9 @@ in {
           label wallpaper, number 14, mime ^image, has feh, X = feh --bg-fill "$1"
 
           # Define the editor for non-text files + pager as last action
-                        !mime ^text, !ext xml|json|csv|tex|py|pl|rb|js|sh|php  = ask
-          label editor, !mime ^text, !ext xml|json|csv|tex|py|pl|rb|js|sh|php  = $EDITOR -- "$@"
-          label pager,  !mime ^text, !ext xml|json|csv|tex|py|pl|rb|js|sh|php  = "$PAGER" -- "$@"
+                        !mime ^text, !ext xml|json|csv|tex|py|pl|rb|js|sh|php|rs|nix = ask
+          label editor, !mime ^text, !ext xml|json|csv|tex|py|pl|rb|js|sh|php|rs|nix = ${EDITOR} -- "$@"
+          label pager,  !mime ^text, !ext xml|json|csv|tex|py|pl|rb|js|sh|php|rs|nix = "$PAGER" -- "$@"
 
           # The very last action, so that it's never triggered accidentally, is to execute a program:
           mime application/x-executable = "$1"
