@@ -20,6 +20,7 @@
   programs/i3status.nix
   programs/lilyterm.nix
   programs/mercurial.nix
+  programs/micro.nix
   programs/minecraft.nix
   programs/nano.nix
   programs/nitrogen.nix

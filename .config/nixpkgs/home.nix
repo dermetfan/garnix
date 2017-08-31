@@ -30,6 +30,8 @@ in {
 
       programs = {
         ranger.enable = true;
+        micro.enable = true;
+
         zr.enable = config.programs.zsh.enable;
 
         i3.enable           = config.xsession.enable;
@@ -41,9 +43,7 @@ in {
 
     home = {
       packages = with pkgs;
-        [ micro
-          less
-        ] ++
+        [ less ] ++
         lib.optionals config.programs.zsh.enable [
           exa
           diffutils
