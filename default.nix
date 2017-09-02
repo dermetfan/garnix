@@ -104,6 +104,8 @@
       volumeStep = "2%";
     };
 
+    hardware.bluetooth.powerOnBoot = false;
+
     users = {
       mutableUsers = false;
       defaultUserShell = pkgs.zsh;
