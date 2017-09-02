@@ -15,9 +15,10 @@ in {
       mercurial.enable = true;
       cargo.enable = cfg.enableRust;
     };
-  
+
     home.packages = with pkgs;
-      [ jq
+      [ ack
+        jq
         nox
         qemu
       ] ++
@@ -37,6 +38,7 @@ in {
           android-studio
           jetbrains.idea-community
           visualvm
-        ]);
+        ]
+      );
   };
 }
