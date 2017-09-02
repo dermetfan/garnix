@@ -133,11 +133,11 @@ in {
             }
             {
               keys = [ Shift_L PrtScr ];
-              command = "mkdir -pm 777 /tmp/screenshots && maim -s -c 1,0,0,0.75 /tmp/screenshots/`date --iso-8601=ns`.png";
+              command = "mkdir -pm 777 /tmp/screenshots && maim -slc .5,.5,.5,.25 /tmp/screenshots/`date --iso-8601=ns`.png";
             }
             {
               keys = [ Shift_R PrtScr ];
-              command = "mkdir -pm 777 /tmp/screenshots && maim -s -c 1,0,0,0.75 /tmp/screenshots/`date --iso-8601=ns`.png";
+              command = "mkdir -pm 777 /tmp/screenshots && maim -sluc .5,.5,.5,.25 /tmp/screenshots/`date --iso-8601=ns`.png";
             }
             {
               keys = XF86Display;
