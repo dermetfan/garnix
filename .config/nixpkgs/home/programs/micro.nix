@@ -9,43 +9,33 @@ in {
     home = {
       packages = [ pkgs.micro ];
 
-      file.".config/micro/settings.json".text = ''
-        {
-          "autoclose": true,
-          "autoindent": true,
-          "autosave": false,
-          "colorcolumn": 0,
-          "colorscheme": "default",
-          "cursorline": true,
-          "eofnewline": true,
-          "ftoptions": true,
-          "ignorecase": true,
-          "indentchar": " ",
-          "infobar": true,
-          "keepautoindent": false,
-          "linter": true,
-          "pluginchannels": [ "https://raw.githubusercontent.com/micro-editor/plugin-channel/master/channel.json" ],
-          "pluginrepos": [],
-          "rmtrailingws": true,
-          "ruler": false,
-          "savecursor": true,
-          "saveundo": false,
-          "scrollmargin": 3,
-          "scrollspeed": 2,
-          "softwrap": false,
-          "splitBottom": true,
-          "splitRight": true,
-          "statusline": true,
-          "syntax": true,
-          "tabmovement": true,
-          "tabsize": 4,
-          "tabstospaces": true,
-          "termtitle": true,
-          "useprimary": true,
+      file = {
+        ".config/micro/settings.json".text = builtins.toJSON {
+          eofnewline = true;
+          ignorecase = true;
+          indentchar = " ";
+          rmtrailingws = true;
+          ruler = false;
+          savecursor = true;
+          tabstospaces = true;
+          tabmovement = true;
+          termtitle = true;
 
-          "*.nix": { "tabsize": 2 }
-        }
-      '';
+          /* Options added by plugins need to be provided
+           * or micro will attempt to save them on startup. */
+          autoclose = true;
+          linter = true;
+          ftoptions = true;
+
+          "*.nix" = {
+            tabsize = 2;
+          };
+        };
+
+        ".config/micro/bindings.json".text = builtins.toJSON {
+          Esc = "RemoveAllMultiCursors,Escape";
+        };
+      };
     };
   };
 }
