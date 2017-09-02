@@ -31,6 +31,7 @@ in {
       programs = {
         ranger.enable = true;
         micro.enable = true;
+        nano.enable = true;
 
         zr.enable = config.programs.zsh.enable;
 
