@@ -23,7 +23,8 @@ in {
           "class_g = 'Conky'",
           "class_g ?= 'Notify-osd'",
           "class_g = 'Cairo-clock'",
-          "class_g = 'Dunst'"
+          "class_g = 'Dunst'",
+          "class_g = 'slop'"
         ];
 
         fading = true;
@@ -37,7 +38,8 @@ in {
         blur-background-exclude = [
           "window_type = 'dock'",
           "window_type = 'desktop'",
-          "class_g = 'XScreenSaver'"
+          "class_g = 'XScreenSaver'",
+          "class_g = 'slop'"
         ];
         blur-kern = "7x7box";
 
