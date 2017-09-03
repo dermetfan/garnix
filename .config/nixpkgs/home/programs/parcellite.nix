@@ -47,7 +47,7 @@ in {
         ellipsize=2
         multi_user=true
         icon_name=parcellite
-        menu_key=<Ctrl><Alt>P
+        menu_key=
         history_key=<Ctrl><Alt>H
         phistory_key=
         actions_key=
