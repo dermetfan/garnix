@@ -17,6 +17,7 @@ in {
           rmtrailingws = true;
           ruler = false;
           savecursor = true;
+          saveundo = true;
           tabstospaces = true;
           tabmovement = true;
           termtitle = true;
