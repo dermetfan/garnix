@@ -33,7 +33,14 @@ in {
         };
 
         ".config/micro/bindings.json".text = builtins.toJSON {
-          Esc = "RemoveAllMultiCursors,Escape";
+          Esc = "RemoveAllMultiCursors,ClearStatus,Escape";
+          Alt-m = "SpawnMultiCursor";
+          Alt-M = "RemoveMultiCursor";
+          Alt-p = "SkipMultiCursor";
+          "Alt-[" = "ScrollUp";
+          "Alt-]" = "ScrollDown";
+          CtrlM = "Center";
+          CtrlH = "Suspend";
         };
       };
     };
