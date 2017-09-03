@@ -33,8 +33,6 @@ in {
         micro.enable = true;
         nano.enable = true;
 
-        zr.enable = config.programs.zsh.enable;
-
         i3.enable           = config.xsession.enable;
         parcellite.enable   = config.xsession.enable;
         volumeicon.enable   = config.xsession.enable;
@@ -132,10 +130,6 @@ in {
 
       zsh = {
         enable = true;
-        enableCompletion =
-          if config.config.programs ? zr
-          then !config.config.programs.zr.enable
-          else false;
         shellAliases = {
           l = "exa -lga";
           ll = "exa -lg";

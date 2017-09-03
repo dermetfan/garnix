@@ -32,6 +32,7 @@
   programs/xpdf.nix
   programs/xscreensaver.nix
   programs/zr.nix
+  programs/zsh.nix
 ] ++ (if builtins.pathExists profiles/local.nix then [
   profiles/local.nix
 ] else [])
