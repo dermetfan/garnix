@@ -150,10 +150,10 @@ in {
         bindsym $mod+Shift+0 move container to workspace number 10
 
         # move current workspace to output
-        bindsym $mod+comma move workspace to output left
-        bindsym $mod+period move workspace to output right
-        bindsym $mod+Shift+comma move workspace to output up
-        bindsym $mod+Shift+period move workspace to output down
+        bindsym $mod+Ctrl+Left move workspace to output left
+        bindsym $mod+Ctrl+Right move workspace to output right
+        bindsym $mod+Ctrl+Up move workspace to output up
+        bindsym $mod+Ctrl+Down move workspace to output down
 
         # reload the configuration file
         bindsym $mod+k exec "i3-msg reload && timeout 1.75 i3-nagbar -t warning -m 'reloaded i3 configuration'"
