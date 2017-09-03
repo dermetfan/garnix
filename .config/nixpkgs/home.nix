@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, utils, pkgs, ... }:
 
 let
   systemModule = (import <nixpkgs/nixos/lib/eval-config.nix> {
@@ -14,6 +14,7 @@ let
   systemConfig = systemModule.config;
 in {
   imports = import home/module-list.nix ++ [
+    <nixpkgs/nixos/modules/misc/extra-arguments.nix>
     <nixpkgs/nixos/modules/misc/passthru.nix>
   ];
 
@@ -83,7 +84,10 @@ in {
         ];
       };
 
-      sessionVariableSetter = "pam";
+      sessionVariableSetter =
+        if with utils; toShellPath systemConfig.users.users.dermetfan.shell == toShellPath pkgs.zsh
+        then "zsh"
+        else "pam";
       sessionVariables = {
         EDITOR = let
           zsh-256color = pkgs.fetchFromGitHub {
