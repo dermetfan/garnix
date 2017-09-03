@@ -12,7 +12,6 @@ in {
       file.".hgrc".text = ''
         [ui]
         username = Robin Stumm <serverkorken@gmail.com>
-        editor = nano
         merge = meld
         ssh = ssh -C
         interface.chunkselector = curses
