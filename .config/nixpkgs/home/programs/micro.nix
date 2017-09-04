@@ -40,7 +40,7 @@ in {
           Alt-p = "SkipMultiCursor";
           "Alt-[" = "ScrollUp";
           "Alt-]" = "ScrollDown";
-          CtrlM = "Center";
+          Alt-y = "Center";
           CtrlH = "Suspend";
         };
       };
