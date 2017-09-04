@@ -129,7 +129,7 @@ in {
     programs = {
       home-manager = {
         enable = true;
-        modulesPath = "$HOME/.config/nixpkgs/overlays/home-manager/home-manager/modules";
+        modulesPath = "${pkgs.home-manager-src}/modules";
       };
 
       zsh = {
