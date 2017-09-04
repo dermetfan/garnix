@@ -28,7 +28,7 @@ in {
         ];
 
         fading = true;
-        fade-delta = 2;
+        fade-delta = 5;
 
         menu-opacity = 0.8;
 
