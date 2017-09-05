@@ -36,6 +36,7 @@
       bash.enableCompletion = builtins.compareVersions builtins.nixVersion "1.11.5" > 0; # breaks impure nix-shell, see https://github.com/NixOS/nix/issues/976
       zsh = {
         enable = true;
+        enableCompletion = lib.mkDefault false;
         shellAliases = {
           l = "ls -lah";
           ll = "ls -lh";
