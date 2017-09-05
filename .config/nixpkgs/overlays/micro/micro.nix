@@ -2,7 +2,7 @@
 
 buildGoPackage rec {
   name = "micro-${version}";
-  version = "1.3.1";
+  version = "1.3.2-dev";
 
   goPackagePath = "github.com/zyedidia/micro";
   subPackages = [ "cmd/micro" ];
@@ -10,9 +10,9 @@ buildGoPackage rec {
   src = fetchFromGitHub {
     owner = "zyedidia";
     repo = "micro";
-    rev = "v${version}";
+    rev = "d41a2553612e4c17d9b3ab8d23ae94acaa3295d6";
     fetchSubmodules = true;
-    sha256 = "0kmn4qn352dak3fnkyj019ghg8aizxlq8g9r068ka8y5ahng9lx6";
+    sha256 = "0y61fi2ipqh59dh0jfawh2m3i22crgs5m8lh3kwn106kavv73cwv";
   };
 
   goDeps = ./deps.nix;
