@@ -30,6 +30,7 @@ in {
           autoclose = true;
           linter = true;
           ftoptions = true;
+          trimdiff = false;
 
           "*.nix" = {
             tabsize = 2;
@@ -50,8 +51,8 @@ in {
         ".config/micro/plugins/vcs".source = pkgs.fetchFromBitbucket {
           owner = "dermetfan";
           repo = "micro-vcs";
-          rev = "6832f058a76951b3af46d3e05e700e3fcdaf7f74";
-          sha256 = "16nyjgv1vkr9bjyk4ijpsfnh791dwdca0bsp1ma7h7143ppk9f16";
+          rev = "e2311b9c1b360e3ca9ffd534e80a115578fa8fca";
+          sha256 = "1kcz1a6cvb0afnc21f33vjwc0jfgdilb8wphf04csldd8n9gqbfx";
         };
       };
     };
