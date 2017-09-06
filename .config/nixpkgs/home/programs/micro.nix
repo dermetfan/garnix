@@ -51,8 +51,8 @@ in {
         ".config/micro/plugins/vcs".source = pkgs.fetchFromBitbucket {
           owner = "dermetfan";
           repo = "micro-vcs";
-          rev = "e2311b9c1b360e3ca9ffd534e80a115578fa8fca";
-          sha256 = "1kcz1a6cvb0afnc21f33vjwc0jfgdilb8wphf04csldd8n9gqbfx";
+          rev = "b858072c8772a04a208e976ddbf7c00a7a69adb9";
+          sha256 = "148yy1g22078iypqcs41f2iwij0n7wlb7l8zib77r0zgm8s727rg";
         };
       };
     };
