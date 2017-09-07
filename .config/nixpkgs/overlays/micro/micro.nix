@@ -10,9 +10,9 @@ buildGoPackage rec {
   src = fetchFromGitHub {
     owner = "zyedidia";
     repo = "micro";
-    rev = "d41a2553612e4c17d9b3ab8d23ae94acaa3295d6";
+    rev = "65b5d6c5a93e61f04db60272ce001a3b6ebcb54b";
     fetchSubmodules = true;
-    sha256 = "0y61fi2ipqh59dh0jfawh2m3i22crgs5m8lh3kwn106kavv73cwv";
+    sha256 = "1vc75n4lq0lrsfwwca28pmpxlj5z90p2zf9jm3gnakbrnmd79ykk";
   };
 
   goDeps = ./deps.nix;
