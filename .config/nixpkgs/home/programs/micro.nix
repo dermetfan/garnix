@@ -21,9 +21,6 @@ in {
           tabstospaces = true;
           tabmovement = true;
           termtitle = true;
-          pluginrepos = [
-            https://bitbucket.org/dermetfan/micro-vcs/raw/default/repo.json
-          ];
 
           /* Options added by plugins need to be provided
            * or micro will attempt to save them on startup. */
@@ -46,13 +43,7 @@ in {
           "Alt-]" = "ScrollDown";
           Alt-y = "Center";
           CtrlH = "Suspend";
-        };
-
-        ".config/micro/plugins/vcs".source = pkgs.fetchFromBitbucket {
-          owner = "dermetfan";
-          repo = "micro-vcs";
-          rev = "b858072c8772a04a208e976ddbf7c00a7a69adb9";
-          sha256 = "148yy1g22078iypqcs41f2iwij0n7wlb7l8zib77r0zgm8s727rg";
+          CtrlG = "vcs.toggle";
         };
       };
     };
