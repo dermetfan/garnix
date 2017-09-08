@@ -165,16 +165,16 @@ in {
         bindsym $mod+Ctrl+k exec "i3-nagbar -t warning -m 'Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
         # Pressing left will shrink the window’s width. Pressing right will grow the window’s width. Pressing up will grow the window’s height. Pressing down will shrink the window’s height.
-        bindsym $mod+Ctrl+n resize grow width 10 px or 10 ppt
-        bindsym $mod+Ctrl+o resize shrink width 10 px or 10 ppt
-        bindsym $mod+Ctrl+r resize grow height 10 px or 10 ppt
-        bindsym $mod+Ctrl+i resize shrink height 10 px or 10 ppt
+        bindsym $mod+Ctrl+n resize shrink width 10 px or 10 ppt
+        bindsym $mod+Ctrl+o resize grow width 10 px or 10 ppt
+        bindsym $mod+Ctrl+r resize shrink height 10 px or 10 ppt
+        bindsym $mod+Ctrl+i resize grow height 10 px or 10 ppt
 
         # same bindings with Shift for precise control
-        bindsym $mod+Ctrl+Shift+n resize grow width 1 px or 1 ppt
-        bindsym $mod+Ctrl+Shift+o resize shrink width 1 px or 1 ppt
-        bindsym $mod+Ctrl+Shift+r resize grow height 1 px or 1 ppt
-        bindsym $mod+Ctrl+Shift+i resize shrink height 1 px or 1 ppt
+        bindsym $mod+Ctrl+Shift+n resize shrink width 1 px or 1 ppt
+        bindsym $mod+Ctrl+Shift+o resize grow width 1 px or 1 ppt
+        bindsym $mod+Ctrl+Shift+r resize shrink height 1 px or 1 ppt
+        bindsym $mod+Ctrl+Shift+i resize grow height 1 px or 1 ppt
 
         # same bindings, but for the arrow keys
         # bindsym $mod+Ctrl+Left resize grow width 10 px or 10 ppt
