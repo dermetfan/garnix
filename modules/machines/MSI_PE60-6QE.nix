@@ -67,6 +67,8 @@ in {
         case "$1" in
             start) systemctl start bumblebeed service ;;
             stop)  systemctl stop  bumblebeed service ;;
+            poweron)  ${config.boot.kernelPackages.bbswitch}/bin/discrete_vga_poweron  ;;
+            poweroff) ${config.boot.kernelPackages.bbswitch}/bin/discrete_vga_poweroff ;;
         esac
       '';
     in lib.mkIf cfg.enableBumblebeeHack {
@@ -83,21 +85,14 @@ in {
       '';
 
       powerManagement = let
-        paused = "/tmp/.bumblebeed-paused";
+        pid = "/run/bumblebeed.pid";
       in {
         powerDownCommands = ''
-          if systemctl is-active bumblebeed; then
-              touch ${paused}
-              ${script} stop
-          fi
+          test -e ${pid} && ${script} poweron
         '';
 
         resumeCommands = ''
-          [ -f ${paused} ] && rm ${paused} && ${script} start
-        '';
-
-        powerUpCommands = lib.optionalString (!config.boot.tmpOnTmpfs) ''
-          [ -f ${paused} ] && rm ${paused}
+          test -e ${pid} && ${script} poweroff
         '';
       };
     })
