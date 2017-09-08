@@ -13,7 +13,7 @@ in {
 
       programs = {
         geany.enable = true;
-        st.enable = true;
+        alacritty.enable = true;
       };
     };
 

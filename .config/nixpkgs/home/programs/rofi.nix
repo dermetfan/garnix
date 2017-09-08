@@ -9,7 +9,7 @@ in {
     home = {
       packages = with pkgs; [
         rofi
-        st
+        alacritty
       ];
 
       file.".config/rofi/config".text = ''
@@ -20,7 +20,7 @@ in {
         rofi.opacity: 25
         rofi.fake-transparency: true
         rofi.fake-background: screenshot
-        rofi.terminal: st
+        rofi.terminal: alacritty
         ! rofi.ssh-client: mosh
         #include "${pkgs.rofi}/share/rofi/themes/Monokai.theme"
       '';

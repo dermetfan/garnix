@@ -9,7 +9,7 @@ in {
     home = {
       packages = with pkgs; [
         xfe
-        st
+        alacritty
       ];
 
       file.".config/xfe/xferc".text = ''
@@ -120,7 +120,7 @@ in {
         txteditor=geany
         imgviewer=feh -FZ
         videoviewer=smplayer
-        xterm=st
+        xterm=alacritty
         txtviewer=geany -r
 
         [LEFT PANEL]

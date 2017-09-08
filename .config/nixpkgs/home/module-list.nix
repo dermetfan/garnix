@@ -10,6 +10,7 @@
   misc/gtk.nix
   misc/xdg.nix
 
+  programs/alacritty.nix
   programs/antigen.nix
   programs/cargo.nix
   programs/compton.nix

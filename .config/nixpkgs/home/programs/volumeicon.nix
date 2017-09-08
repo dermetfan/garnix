@@ -9,7 +9,7 @@ in {
     home = {
       packages = with pkgs; [
         volumeicon
-        st
+        alacritty
       ];
 
       file.".config/volumeicon/volumeicon".text = ''
@@ -22,7 +22,7 @@ in {
 
         [StatusIcon]
         stepsize=2
-        onclick=st -e alsamixer
+        onclick=alacritty -e alsamixer
         theme=Blue Bar
         use_panel_specific_icons=false
         lmb_slider=false
