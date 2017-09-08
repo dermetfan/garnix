@@ -45,15 +45,6 @@ in {
           config.xsession.windowManager != "${i3-gaps}/bin/i3";
     in [
       {
-        file = "zsh-256color.plugin.zsh";
-        src = pkgs.fetchFromGitHub {
-          owner = "chrissicool";
-          repo = "zsh-256color";
-          rev = "ae40a49ccfc7520d2d7b575aaea160ff876fe3dc";
-          sha256 = "0c2yzbd4y0fyn9yycrxh32am27r0df0x3r526gf1pmyqiv49rg5z";
-        };
-      }
-      {
         file = "fast-syntax-highlighting.plugin.zsh";
         src = pkgs.fetchFromGitHub {
           owner = "zdharma";
