@@ -29,6 +29,7 @@
   programs/ranger.nix
   programs/rofi.nix
   programs/st.nix
+  programs/tmux.nix
   programs/volumeicon.nix
   programs/xfe.nix
   programs/xpdf.nix
