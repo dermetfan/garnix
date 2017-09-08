@@ -22,6 +22,7 @@ in {
         rofi.fake-background: screenshot
         rofi.terminal: st
         ! rofi.ssh-client: mosh
+        #include "${pkgs.rofi}/share/rofi/themes/Monokai.theme"
       '';
     };
   };
