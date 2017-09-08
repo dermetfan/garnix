@@ -78,6 +78,9 @@ in {
           - { key: Back,     mods: Alt,     chars: "\x1b\x7f"                    }
           - { key: Insert,                  chars: "\x1b[2~"                     }
           - { key: Delete,                  chars: "\x1b[3~"                     }
+
+        selection:
+          semantic_escape_chars: ",│`|\"' ()[]{}<>‘’"
       '';
     };
   };
