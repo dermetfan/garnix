@@ -89,18 +89,7 @@ in {
         then "zsh"
         else "pam";
       sessionVariables = {
-        EDITOR = let
-          zsh-256color = pkgs.fetchFromGitHub {
-            owner = "chrissicool";
-            repo = "zsh-256color";
-            rev = "ae40a49ccfc7520d2d7b575aaea160ff876fe3dc";
-            sha256 = "0c2yzbd4y0fyn9yycrxh32am27r0df0x3r526gf1pmyqiv49rg5z";
-          };
-        in pkgs.writeScript "micro" ''
-          #! ${pkgs.zsh}/bin/zsh
-          . ${zsh-256color}/zsh-256color.plugin.zsh
-          micro "$@"
-        '';
+        EDITOR = "micro";
         PAGER = "less -R";
         SUDO_ASKPASS = "${pkgs.x11_ssh_askpass}/libexec/x11-ssh-askpass";
       };
