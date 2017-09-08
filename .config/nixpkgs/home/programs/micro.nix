@@ -7,7 +7,10 @@ in {
 
   config = lib.mkIf cfg.enable {
     home = {
-      packages = [ pkgs.micro ];
+      packages = with pkgs; [
+        micro
+        mkinfo
+      ];
 
       file = {
         ".config/micro/settings.json".text = builtins.toJSON {
