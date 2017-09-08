@@ -7,7 +7,10 @@ in {
 
   config = lib.mkIf cfg.enable {
     home = {
-      packages = [ pkgs.volumeicon ];
+      packages = with pkgs; [
+        volumeicon
+        st
+      ];
 
       file.".config/volumeicon/volumeicon".text = ''
         [Alsa]
@@ -19,7 +22,7 @@ in {
 
         [StatusIcon]
         stepsize=2
-        onclick=lilyterm -e alsamixer
+        onclick=st -e alsamixer
         theme=Blue Bar
         use_panel_specific_icons=false
         lmb_slider=false

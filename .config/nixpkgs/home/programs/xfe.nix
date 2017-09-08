@@ -7,7 +7,10 @@ in {
 
   config = lib.mkIf cfg.enable {
     home = {
-      packages = [ pkgs.xfe ];
+      packages = with pkgs; [
+        xfe
+        st
+      ];
 
       file.".config/xfe/xferc".text = ''
         [OPTIONS]
@@ -117,7 +120,7 @@ in {
         txteditor=geany
         imgviewer=feh -FZ
         videoviewer=smplayer
-        xterm=lilyterm
+        xterm=st
         txtviewer=geany -r
 
         [LEFT PANEL]

@@ -13,10 +13,10 @@ in {
 
       programs = {
         geany.enable = true;
-        lilyterm.enable = true;
+        st.enable = true;
       };
     };
-  
+
     home.packages = with pkgs; [
       gnupg
       htop

@@ -27,6 +27,7 @@
   programs/parcellite.nix
   programs/ranger.nix
   programs/rofi.nix
+  programs/st.nix
   programs/volumeicon.nix
   programs/xfe.nix
   programs/xpdf.nix

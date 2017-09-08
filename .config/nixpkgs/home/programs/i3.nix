@@ -19,7 +19,7 @@ in {
       packages = with pkgs; [
         i3status
         rofi
-        lilyterm
+        st
         ranger
       ];
 
@@ -54,7 +54,7 @@ in {
         bindsym $mod+Shift+b [workspace=__focused__] border toggle
 
         # start a terminal
-        bindsym $mod+Return exec lilyterm # i3-sensible-terminal
+        bindsym $mod+Return exec st # i3-sensible-terminal
 
         # kill focused window
         bindsym $mod+c kill
@@ -227,8 +227,8 @@ in {
         assign [class="^Skype$"] 10
 
         # application shortcuts
-        bindsym $mod+x exec lilyterm -e ranger
-        bindsym $mod+Shift+x exec sudo lilyterm -e ranger
+        bindsym $mod+x exec st -e ranger
+        bindsym $mod+Shift+x exec sudo st -e ranger
       '';
     };
   };

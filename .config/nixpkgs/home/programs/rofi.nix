@@ -9,7 +9,7 @@ in {
     home = {
       packages = with pkgs; [
         rofi
-        lilyterm
+        st
       ];
 
       file.".config/rofi/config".text = ''
@@ -20,7 +20,7 @@ in {
         rofi.opacity: 25
         rofi.fake-transparency: true
         rofi.fake-background: screenshot
-        rofi.terminal: lilyterm
+        rofi.terminal: st
         ! rofi.ssh-client: mosh
       '';
     };
