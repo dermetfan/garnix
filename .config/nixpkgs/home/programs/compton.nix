@@ -41,7 +41,7 @@ in {
           "class_g = 'XScreenSaver'",
           "class_g = 'slop'"
         ];
-        blur-kern = "7x7box";
+        blur-kern = "11x11gaussian";
 
         xrender-sync = true;
         xrender-sync-fence = true;
