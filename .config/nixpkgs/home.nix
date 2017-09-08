@@ -126,6 +126,7 @@ in {
         shellAliases = {
           l = "exa -lga";
           ll = "exa -lg";
+          less = "less -R";
           diff = "diff -r --suppress-common-lines";
           grep = "grep --color=auto";
           d = "dirs -v | head -10";
