@@ -224,7 +224,7 @@ in {
         userEmail = "serverkorken@gmail.com";
         aliases = {
           st = "status -s";
-          lg = "log --graph --branches --decorate --abbrev-commit --pretty=medium";
+          lg = "log --graph --branches --decorate --abbrev-commit --pretty=medium HEAD";
           co = "checkout";
           ci = "commit";
           spull = ''!git pull "$@" && git submodule sync --recursive && git submodule update --init --recursive'';
