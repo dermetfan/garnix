@@ -1,37 +1,10 @@
 { config, lib, pkgs, ... }:
 
-let
-  cfg = config.programs.zsh;
-in {
-  options.programs.zsh.plugins = with lib; mkOption {
-    type = with types; listOf (submodule {
-      options = {
-        src = mkOption {
-          type = path;
-        };
-
-        file = mkOption {
-          type = str;
-          description = "The plugin script to source.";
-        };
-      };
-    });
-    default = {};
-  };
-
-  config.programs.zsh = let
-    enablePlugins = (builtins.length cfg.plugins > 0);
-  in {
-    initExtra = lib.optionalString enablePlugins (
-      "autoload -Uz compinit; compinit -iCd $HOME/.zcompdump\n" +
-      lib.concatStrings (map (plugin: ''
-        path+="${plugin.src}"
-        fpath+="${plugin.src}"
-        source "${plugin.src}/${plugin.file}"
-      '') cfg.plugins)
-    );
-
-    enableCompletion = !enablePlugins;
+{
+  programs.zsh = {
+    enableCompletion = let
+      sysZshCfg = config.passthru.systemConfig.programs.zsh;
+    in !sysZshCfg.enable || !sysZshCfg.enableCompletion;
 
     plugins = let
       oh-my-zsh = pkgs.fetchFromGitHub {
@@ -45,7 +18,7 @@ in {
           config.xsession.windowManager != "${i3-gaps}/bin/i3";
     in [
       {
-        file = "fast-syntax-highlighting.plugin.zsh";
+        name = "fast-syntax-highlighting";
         src = pkgs.fetchFromGitHub {
           owner = "zdharma";
           repo = "fast-syntax-highlighting";
@@ -54,7 +27,7 @@ in {
         };
       }
       {
-        file = "zsh-autosuggestions.plugin.zsh";
+        name = "zsh-autosuggestions";
         src = pkgs.fetchFromGitHub {
           owner = "zsh-users";
           repo = "zsh-autosuggestions";
@@ -63,6 +36,7 @@ in {
         };
       }
       {
+        name = "enhancd";
         file = "init.sh";
         src = pkgs.fetchFromGitHub {
           owner = "b4b4r07";
@@ -72,54 +46,67 @@ in {
         };
       }
       {
+        name = "clipboard";
         file = "lib/clipboard.zsh";
         src = oh-my-zsh;
       }
       {
+        name = "spectrum";
         file = "lib/spectrum.zsh";
         src = oh-my-zsh;
       }
       {
+        name = "nicoulaj";
         file = "themes/nicoulaj.zsh-theme";
         src = oh-my-zsh;
       }
       {
+        name = "colored-man-pages";
         file = "plugins/colored-man-pages/colored-man-pages.plugin.zsh";
         src = oh-my-zsh;
       }
       {
+        name = "extract";
         file = "plugins/extract/extract.plugin.zsh";
         src = oh-my-zsh;
       }
       {
+        name = "history";
         file = "plugins/history/history.plugin.zsh";
         src = oh-my-zsh;
       }
       {
+        name = "sudo";
         file = "plugins/sudo/sudo.plugin.zsh";
         src = oh-my-zsh;
       }
       {
+        name = "mercurial";
         file = "plugins/mercurial/mercurial.plugin.zsh";
         src = oh-my-zsh;
       }
       {
+        name = "nyan";
         file = "plugins/nyan/nyan.plugin.zsh";
         src = oh-my-zsh;
       }
       {
+        name = "gradle";
         file = "plugins/gradle/gradle.plugin.zsh";
         src = oh-my-zsh;
       }
       {
+        name = "httpie";
         file = "plugins/httpie/httpie.plugin.zsh";
         src = oh-my-zsh;
       }
       {
+        name = "copybuffer";
         file = "plugins/copybuffer/copybuffer.plugin.zsh";
         src = oh-my-zsh;
       }
       {
+        name = "manydots-magic";
         file = "manydots-magic";
         src = pkgs.fetchFromGitHub {
           owner = "knu";
@@ -129,7 +116,7 @@ in {
         };
       }
       {
-        file = "dircycle.plugin.zsh";
+        name = "dircycle";
         src = pkgs.fetchFromGitHub {
           owner = "michaelxmcbride";
           repo = "zsh-dircycle";
@@ -138,7 +125,7 @@ in {
         };
       }
       {
-        file = "bd.plugin.zsh";
+        name = "bd";
         src = pkgs.fetchFromGitHub {
           owner = "Tarrasch";
           repo = "zsh-bd";
@@ -147,7 +134,7 @@ in {
         };
       }
       {
-        file = "project.plugin.zsh";
+        name = "project";
         src = pkgs.fetchFromGitHub {
           owner = "voronkovich";
           repo = "project.plugin.zsh";
@@ -156,6 +143,7 @@ in {
         };
       }
       {
+        name = "zed-zsh";
         file = "zed.zsh";
         src = pkgs.fetchFromGitHub {
           owner = "eendroroy";
@@ -167,7 +155,7 @@ in {
       }
     ] ++ (if altKeyAvailable then [
       {
-        file = "zsh-editing-workbench.plugin.zsh";
+        name = "zsh-editing-workbench";
         src = pkgs.fetchFromGitHub {
           owner = "psprint";
           repo = "zsh-editing-workbench";
@@ -177,7 +165,7 @@ in {
       }
     ] else [
       {
-        file = "zsh-cmd-architect.plugin.zsh";
+        name = "zsh-cmd-architect";
         src = pkgs.fetchFromGitHub {
           owner = "psprint";
           repo = "zsh-cmd-architect";
