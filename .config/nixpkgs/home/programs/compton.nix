@@ -3,9 +3,17 @@
 let
   cfg = config.config.programs.compton;
 in {
-  options.config.programs.compton.enable = lib.mkEnableOption "compton";
+  options.config.programs.compton.enable = with lib; mkOption {
+    type = types.bool;
+    default = config.services.compton.enable;
+    description = "Whether to enable compton.";
+  };
 
   config = lib.mkIf cfg.enable {
+    xsession.initExtra = lib.optionalString (!config.services.compton.enable) ''
+      compton -b
+    '';
+
     home = {
       packages = [ pkgs.compton ];
 

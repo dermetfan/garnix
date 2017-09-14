@@ -26,7 +26,6 @@ in {
     config = {
       profiles = {
         desktop.enable = config.xsession.enable;
-        effects.enable = config.xsession.enable;
       };
 
       programs = {
