@@ -41,11 +41,6 @@ in {
     programs.zsh.initExtra = ''
       . ~/.antigen/antigen.zsh
       antigen init ~/.antigenrc
-
-      ${# force aliases
-        lib.concatStringsSep "\n" (
-          lib.mapAttrsToList (k: v: "alias ${k}='${v}'") config.programs.zsh.shellAliases
-        )}
     '';
   };
 }
