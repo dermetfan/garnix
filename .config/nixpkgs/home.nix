@@ -30,12 +30,11 @@ in {
 
       programs = {
         ranger.enable = true;
-        micro.enable = true;
-        nano.enable = true;
+        micro .enable = true;
+        nano  .enable = true;
 
-        i3.enable           = config.xsession.enable;
-        parcellite.enable   = config.xsession.enable;
-        volumeicon.enable   = config.xsession.enable;
+        parcellite  .enable = config.xsession.enable;
+        volumeicon  .enable = config.xsession.enable;
         xscreensaver.enable = config.xsession.enable;
       };
     };
@@ -56,9 +55,6 @@ in {
           xorg.xkill
           xclip
           xsel
-
-          # i3
-          i3-gaps
 
           # GTK
           theme-vertex

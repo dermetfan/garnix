@@ -3,24 +3,33 @@
 let
   cfg = config.config.programs.i3;
 in {
-  options.config.programs.i3.enable = lib.mkEnableOption "i3";
+  options.config.programs.i3 = {
+    enable = with lib; mkOption {
+      type = types.bool;
+      default = builtins.baseNameOf config.xsession.windowManager == "i3";
+      description = "Whether to enable i3.";
+    };
+
+    enableGaps = with lib; mkOption {
+      type = types.bool;
+      default = config.xsession.windowManager == "${pkgs.i3-gaps}/bin/i3";
+      description = "Whether to enable i3-gaps.";
+    };
+  };
 
   config = lib.mkIf cfg.enable {
-    config.programs = lib.mkMerge [
-      (lib.mkIf (config.config.programs ? i3status) {
-        i3status.enable = true;
-      })
-      (lib.mkIf (config.config.programs ? rofi) {
-        rofi.enable = true;
-      })
-    ];
+    config.programs = {
+      i3status .enable = true;
+      rofi     .enable = true;
+      alacritty.enable = true;
+      ranger   .enable = true;
+    };
 
     home = {
-      packages = with pkgs; [
-        i3status
-        rofi
-        alacritty
-        ranger
+      packages = with pkgs; if cfg.enableGaps then [
+        i3-gaps
+      ] else [
+        i3
       ];
 
       file.".config/i3/config".text = ''
@@ -182,6 +191,26 @@ in {
         # bindsym $mod+Ctrl+Up resize grow height 10 px or 10 ppt
         # bindsym $mod+Ctrl+Down resize shrink height 10 px or 10 ppt
 
+        # Start i3bar to display a workspace bar (plus the system information i3status finds out, if available)
+        bar {
+            mode hide
+            modifier $mod
+            strip_workspace_numbers yes
+            status_command i3status
+            font pango:monospace 11
+            separator_symbol " | "
+            tray_output primary
+        }
+
+        # show applications on certain workspaces
+        assign [class="^TelegramDesktop$"] 10
+        assign [class="^HipChat$"] 10
+        assign [class="^Skype$"] 10
+
+        # application shortcuts
+        bindsym $mod+x exec alacritty -e ranger
+        bindsym $mod+Shift+x exec sudo alacritty -e ranger
+      '' + lib.optionalString cfg.enableGaps ''
         # gaps
         gaps inner 15
         smart_gaps on
@@ -209,26 +238,6 @@ in {
             bindsym Return mode "default"; bar hidden_state hide
             bindsym Escape mode "default"; bar hidden_state hide
         }
-
-        # Start i3bar to display a workspace bar (plus the system information i3status finds out, if available)
-        bar {
-            mode hide
-            modifier $mod
-            strip_workspace_numbers yes
-            status_command i3status
-            font pango:monospace 11
-            separator_symbol " | "
-            tray_output primary
-        }
-
-        # show applications on certain workspaces
-        assign [class="^TelegramDesktop$"] 10
-        assign [class="^HipChat$"] 10
-        assign [class="^Skype$"] 10
-
-        # application shortcuts
-        bindsym $mod+x exec alacritty -e ranger
-        bindsym $mod+Shift+x exec sudo alacritty -e ranger
       '';
     };
   };
