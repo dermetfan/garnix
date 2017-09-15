@@ -110,7 +110,7 @@ in {
         parcellite &
         telegram-desktop &
         hipchat &
-        skype &
+        skypeforlinux &
       '';
     };
 
