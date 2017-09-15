@@ -12,8 +12,8 @@ in {
       };
 
       programs = {
-        geany.enable = true;
-        alacritty.enable = true;
+        geany.enable     = config.xsession.enable;
+        alacritty.enable = config.xsession.enable;
       };
     };
 

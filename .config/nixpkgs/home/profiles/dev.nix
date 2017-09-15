@@ -11,7 +11,7 @@ in {
 
   config = lib.mkIf cfg.enable {
     config.programs = {
-      geany.enable = true;
+      geany.enable = config.xsession.enable;
       mercurial.enable = true;
       cargo.enable = cfg.enableRust;
     };

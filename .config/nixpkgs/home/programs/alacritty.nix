@@ -3,7 +3,7 @@
 let
   cfg = config.config.programs.alacritty;
 in {
-  options.config.programs.alacritty.enable = lib.mkEnableOption "alacritty";
+  options.config.programs.alacritty.enable = lib.mkEnableOption "Alacritty";
 
   config = lib.mkIf cfg.enable {
     home = {

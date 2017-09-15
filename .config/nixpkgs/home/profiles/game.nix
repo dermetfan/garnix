@@ -6,7 +6,7 @@ in {
   options.config.profiles.game.enable = lib.mkEnableOption "games";
 
   config = lib.mkIf cfg.enable {
-    config.programs.minecraft.enable = true;
+    config.programs.minecraft.enable = config.xsession.enable;
 
     home.packages = with pkgs; [
       pkgs."2048-in-terminal"
