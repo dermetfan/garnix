@@ -85,7 +85,7 @@ in {
         else "pam";
       sessionVariables = {
         EDITOR = "micro";
-        PAGER = "less -R";
+        PAGER = "less";
         SUDO_ASKPASS = "${pkgs.x11_ssh_askpass}/libexec/x11-ssh-askpass";
       };
     };
