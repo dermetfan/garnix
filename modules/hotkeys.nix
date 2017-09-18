@@ -119,7 +119,7 @@ in {
                 xscreensaver-command = "${pkgs.xscreensaver}/bin/xscreensaver-command";
                 script = pkgs.writeScript "XF86ScreenSaver.sh" ''
                   #! ${pkgs.bash}/bin/bash
-                  if [[ `who | wc -l` > 1 ]]; then
+                  if [[ `who | wc -l` > 0 ]]; then
                       systemctl start physlock
                   else
                       ${xscreensaver-command} -lock
@@ -173,6 +173,10 @@ in {
       physlock = {
         enable = true;
         disableSysRq = true;
+        lockOn = {
+          suspend = false;
+          hibernate = false;
+        };
       };
 
       xserver.displayManager.sessionCommands = ''
