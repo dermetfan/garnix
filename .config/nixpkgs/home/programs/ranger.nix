@@ -7,7 +7,10 @@ in {
 
   config = lib.mkIf cfg.enable {
     home = {
-      packages = [ pkgs.ranger ];
+      packages = with pkgs; [
+        ranger
+        atool
+      ];
 
       file = let
         env = name: if config.home.sessionVariables ? ${name}
@@ -242,7 +245,7 @@ in {
           ext pdf, has epdfview, X, flag f = epdfview -- "$@"
           ext pdf, has qpdfview, X, flag f = qpdfview "$@"
 
-          ext docx?, has catdoc,       terminal = catdoc -- "$@" | "$PAGER"
+          ext docx?, has catdoc,       terminal = catdoc -- "$@" | "${PAGER}"
 
           ext                        sxc|xlsx?|xlt|xlw|gnm|gnumeric, has gnumeric,    X, flag f = gnumeric -- "$@"
           ext                        sxc|xlsx?|xlt|xlw|gnm|gnumeric, has kspread,     X, flag f = kspread -- "$@"
@@ -274,15 +277,15 @@ in {
           # Archives
           #-------------------------------------------
           # avoid password prompt by providing empty password
-          ext 7z, has 7z = 7z -p l "$@" | "$PAGER"
+          ext 7z, has 7z = 7z -p l "$@" | "${PAGER}"
           # This requires atool
-          ext ace|ar|arc|bz2?|cab|cpio|cpt|deb|dgc|dmg|gz,     has als     = als -- "$@" | "$PAGER"
-          ext iso|jar|msi|pkg|rar|shar|tar|tgz|xar|xpi|xz|zip, has als     = als -- "$@" | "$PAGER"
-          ext 7z|ace|ar|arc|bz2?|cab|cpio|cpt|deb|dgc|dmg|gz,  has aunpack = aunpack -- "$@"
-          ext iso|jar|msi|pkg|rar|shar|tar|tgz|xar|xpi|xz|zip, has aunpack = aunpack -- "$@"
+          ext ace|ar|arc|bz2?|cab|cpio|cpt|deb|dgc|dmg|gz|iso|jar|msi|pkg|rar|shar|tar|tgz|xar|xpi|xz|zip,    has als     = als -- "$@" | "${PAGER}"
+          ext ace|ar|arc|bz2?|cab|cpio|cpt|deb|dgc|dmg|gz|iso|jar|msi|pkg|rar|shar|tar|tgz|xar|xpi|xz|zip|7z, has aunpack = aunpack -- "$@"
+
+          ext ace|ar|arc|bz2?|cab|cpio|cpt|deb|dgc|dmg|gz|iso|jar|msi|pkg|rar|shar|tar|tgz|tar\.gz|xar|xpi|xz|zip|7z, has xarchiver, X, flag f = xarchiver -- "$@"
 
           # Fallback:
-          ext tar|gz, has tar = tar vvtf "$@" | "$PAGER"
+          ext tar|gz, has tar = tar vvtf "$@" | "${PAGER}"
           ext tar|gz, has tar = tar vvxf "$@"
 
           #-------------------------------------------
