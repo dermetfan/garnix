@@ -21,4 +21,6 @@ stdenv.mkDerivation rec {
 
   propagatedBuildInputs = [ tcl tk ];
   buildFlags = [ "local" ];
+
+  meta.homepage = http://ncid.sourceforge.net;
 }
