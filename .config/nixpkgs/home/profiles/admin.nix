@@ -23,6 +23,7 @@ in {
       lrzip
       lsof
       ncdu
+      ncid
       neofetch
       ngrep
       nix-index
