@@ -87,7 +87,7 @@
         hwRender = true;
       };
 
-      logind.extraConfig = "HandleLidSwitch=ignore";
+      logind.lidSwitch = "ignore";
 
       unclutter.enable = config.services.xserver.enable;
 
