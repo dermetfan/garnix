@@ -17,7 +17,6 @@ in {
 
     home.packages = with pkgs; [
       gnupg
-      htop
       pass
       unrar
       unzip

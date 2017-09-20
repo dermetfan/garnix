@@ -30,6 +30,7 @@ in {
 
       programs = {
         ranger.enable = true;
+        htop  .enable = true;
         micro .enable = true;
         nano  .enable = true;
 
