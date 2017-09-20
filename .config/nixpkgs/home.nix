@@ -183,8 +183,8 @@ in {
       };
 
       beets.settings = let
-        dir = (if systemConfig.config.dataPool.enable then
-          systemConfig.config.dataPool.mountPoint + (lib.optionalString systemConfig.config.dataPool.userFileSystems "/${systemConfig.users.users.dermetfan.name}")
+        dir = (if systemConfig.config.data.enable then
+          systemConfig.config.data.mountPoint + (lib.optionalString systemConfig.config.data.userFileSystems "/${systemConfig.users.users.dermetfan.name}")
         else "~") + "/audio/music/library";
       in {
         directory = dir;

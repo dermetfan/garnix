@@ -3,7 +3,7 @@
 let
   cfg = config.config.programs.i3status;
   sysCfg = config.passthru.systemConfig;
-  data_dermetfan = "${sysCfg.config.dataPool.mountPoint}/${sysCfg.users.users.dermetfan.name}";
+  data_dermetfan = "${sysCfg.config.data.mountPoint}/${sysCfg.users.users.dermetfan.name}";
 in {
   options.config.programs.i3status.enable = lib.mkEnableOption "i3status";
 
