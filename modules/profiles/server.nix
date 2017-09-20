@@ -61,25 +61,22 @@ in {
         recommendedProxySettings = true;
         recommendedTlsSettings = true;
         recommendedGzipSettings = true;
-        virtualHosts = {
-          "server.dermetfan.net" = {
-            default = true;
-            addSSL = true;
+        virtualHosts = let
+          withSSL = x: x // {
             forceSSL = true;
             enableACME = true;
             sslCertificate = /etc/private/host.cert;
             sslCertificateKey = /etc/private/host.key;
+          };
+        in {
+          "server.dermetfan.net" = withSSL {
+            default = true;
             locations = {
               "/minecraft/resourcepacks/".alias = "${config.services.minecraft-server.dataDir}/resourcepacks/";
             };
           };
 
-          "hydra.dermetfan.net" = {
-            addSSL = true;
-            forceSSL = true;
-            enableACME = true;
-            sslCertificate = /etc/private/host.cert;
-            sslCertificateKey = /etc/private/host.key;
+          "hydra.dermetfan.net" = withSSL {
             locations."/" = {
               proxyPass = "http://localhost:${builtins.toString config.services.hydra.port}";
             };
@@ -98,7 +95,7 @@ in {
     };
 
     systemd.services = {
-      hydra-server.path = [ pkgs.ssmtp ];
+      hydra-server.path       = [ pkgs.ssmtp ];
       hydra-queue-runner.path = [ pkgs.ssmtp ];
     };
   };
