@@ -7,9 +7,7 @@ in {
 
   config = lib.mkIf cfg.enable {
     config = {
-      profiles = lib.mkIf (config.config.profiles ? media) {
-        media.enable = true;
-      };
+      profiles.media.enable = true;
 
       programs = {
         geany.enable     = config.xsession.enable;
