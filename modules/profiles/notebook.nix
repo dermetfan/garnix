@@ -7,7 +7,7 @@ in {
 
   config = lib.mkIf cfg.enable {
     config = {
-      dataPool = {
+      data = {
         enable = true;
         userFileSystems = true;
       };

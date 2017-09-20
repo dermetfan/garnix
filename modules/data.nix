@@ -1,17 +1,23 @@
 { config, lib, ... }:
 
 let
-  cfg = config.config.dataPool;
+  cfg = config.config.data;
 
   nonEmptyStr = with lib.types; addCheck str (x: x != "");
 in {
-  options.config.dataPool = with lib; {
-    enable = mkEnableOption "a dedicated zpool";
+  options.config.data = with lib; {
+    enable = mkEnableOption "a dedicated zfs file system";
 
     name = mkOption {
       type = nonEmptyStr;
       default = "data";
-      description = "The name of the zpool.";
+      description = "The name of the zfs file system.";
+    };
+
+    label = mkOption {
+      type = nonEmptyStr;
+      default = "data";
+      description = "The label given to the file system.";
     };
 
     mountPoint = mkOption {
@@ -19,12 +25,12 @@ in {
       default = "/data";
     };
 
-    userFileSystems = mkEnableOption "a file system for each user at <option>config.dataPool.mountPoint</option><literal>/&lt;user&gt;</literal>";
+    userFileSystems = mkEnableOption "a file system for each user at <option>config.data.mountPoint</option><literal>/&lt;user&gt;</literal>";
 
     bin = mkOption {
       type = types.bool;
       default = true;
-      description = "Wether to add <option>config.dataPool.mountPoint</option>[<literal>/&lt;user&gt;</literal>]<filename>/bin</filename> to <code>PATH</code>.";
+      description = "Wether to add <option>config.data.mountPoint</option>[<literal>/&lt;user&gt;</literal>]<filename>/bin</filename> to <code>PATH</code>.";
     };
   };
 
@@ -32,7 +38,7 @@ in {
     fileSystems = {
       "${cfg.mountPoint}" = {
         device = cfg.name;
-        label = cfg.name;
+        label = cfg.label;
         fsType = "zfs";
         encrypted.label = cfg.name;
       };

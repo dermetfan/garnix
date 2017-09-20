@@ -6,7 +6,7 @@ in {
   options.config.profiles.server.enable = lib.mkEnableOption "server settings";
 
   config = lib.mkIf cfg.enable {
-    config.dataPool.enable = true;
+    config.data.enable = true;
 
     nixpkgs.config.allowUnfree = true;
 

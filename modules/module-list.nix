@@ -1,5 +1,5 @@
 [
-  ./data-pool.nix
+  ./data.nix
   ./dev.nix
   ./hotkeys.nix
   ./steam-controller.nix
