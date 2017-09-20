@@ -20,8 +20,9 @@ in {
       networkmanager.enable = true;
     };
 
-    services = {
-      xserver.synaptics = {
+    services.xserver = {
+      enable = true;
+      synaptics = {
         enable = true;
         minSpeed = "0.825";
         maxSpeed = "2";

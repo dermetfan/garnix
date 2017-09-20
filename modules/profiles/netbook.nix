@@ -6,10 +6,13 @@ in {
   options.config.profiles.netbook.enable = lib.mkEnableOption "netbook settings";
 
   config = lib.mkIf cfg.enable {
-    services.xserver.synaptics = {
+    services.xserver = {
       enable = true;
-      minSpeed = "1";
-      maxSpeed = "1.75";
+      synaptics = {
+        enable = true;
+        minSpeed = "1";
+        maxSpeed = "1.75";
+      };
     };
 
     networking = {

@@ -65,8 +65,6 @@
       ];
 
       xserver = {
-        enable = true;
-
         layout = "us";
         xkbVariant = "norman";
         xkbOptions = "compose:lwin,compose:rwin,eurosign:e";
