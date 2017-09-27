@@ -4,8 +4,8 @@ self: super:
   home-manager-src = super.fetchFromGitHub {
     owner = "rycee";
     repo = "home-manager";
-    rev = "6ecf9e091c53d592edeb202378a5b5c920dfde55";
-    sha256 = "0sdmmfk2dvmn0l6k0gp6027jxlv4w4dvwd3yh8lnb5hv503xsmgb";
+    rev = "e1bceb2adb046d56b437d6c2c48fc717b0b028e3";
+    sha256 = "19smd3y6z2yvp6agmdk7li3pji4vpnvj899f898fgp4mp3b3q2j0";
   };
 
   home-manager = import self.home-manager-src {
