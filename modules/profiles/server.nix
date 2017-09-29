@@ -31,6 +31,11 @@ in {
     };
 
     services = {
+      nix-serve = {
+        enable = true;
+        secretKeyFile = "/etc/private/cache.sec";
+      };
+
       hydra = {
         enable = true;
         hydraURL = https://hydra.dermetfan.net;
@@ -62,24 +67,26 @@ in {
         recommendedTlsSettings = true;
         recommendedGzipSettings = true;
         virtualHosts = let
-          withSSL = x: x // {
+          forceSSL = x: x // {
             forceSSL = true;
             enableACME = true;
             sslCertificate = /etc/private/host.cert;
             sslCertificateKey = /etc/private/host.key;
           };
         in {
-          "server.dermetfan.net" = withSSL {
+          "server.dermetfan.net" = forceSSL {
             default = true;
             locations = {
               "/minecraft/resourcepacks/".alias = "${config.services.minecraft-server.dataDir}/resourcepacks/";
             };
           };
 
-          "hydra.dermetfan.net" = withSSL {
-            locations."/" = {
-              proxyPass = "http://localhost:${builtins.toString config.services.hydra.port}";
-            };
+          "hydra.dermetfan.net" = forceSSL {
+            locations."/".proxyPass = "http://localhost:${toString config.services.hydra.port}";
+          };
+
+          "cache.dermetfan.net" = forceSSL {
+            locations."/".proxyPass = "http://localhost:${toString config.services.nix-serve.port}";
           };
         };
       };
