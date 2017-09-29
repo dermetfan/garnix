@@ -6,6 +6,17 @@
   config = {
     config.hotkeys.enable = true;
 
+    nix = {
+      binaryCaches = [
+        "https://cache.dermetfan.net"
+        "https://cache.nixos.org"
+      ];
+      binaryCachePublicKeys = [
+        (builtins.readFile /etc/private/cache.pub)
+        "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+      ];
+    };
+
     boot = {
       loader.timeout = 1;
 
