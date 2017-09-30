@@ -225,13 +225,10 @@ in {
           ci = "commit";
           spull = ''!git pull "$@" && git submodule sync --recursive && git submodule update --init --recursive'';
         };
-        extraConfig = ''
-          [status]
-          submoduleSummary = true
-
-          [diff]
-          submodule = log
-        '';
+        extraConfig = {
+          status.submoduleSummary = true;
+          diff.submodule = "log";
+        };
       };
 
       firefox = {
