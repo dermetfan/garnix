@@ -3,24 +3,25 @@
 let
   cfg = config.config.programs.rofi;
 in {
-  options.config.programs.rofi.enable = lib.mkEnableOption "rofi";
+  options.config.programs.rofi.enable = with lib; mkOption {
+    type = types.bool;
+    default = config.programs.rofi.enable;
+    description = "Whether to enable rofi.";
+  };
 
   config = lib.mkIf cfg.enable {
-    home = {
-      packages = with pkgs; [
-        rofi
-        alacritty
-      ];
+    home.packages = [ pkgs.alacritty ];
 
-      file.".config/rofi/config".text = ''
-        rofi.bw: 0
-        rofi.separator-style: none
+    programs.rofi = {
+      borderWidth = 0;
+      separator = "none";
+      width = 25;
+      terminal = "alacritty";
+      extraConfig = ''
         rofi.scrollbar-width: 5
-        rofi.width: 25
         rofi.opacity: 25
         rofi.fake-transparency: true
         rofi.fake-background: screenshot
-        rofi.terminal: alacritty
         ! rofi.ssh-client: mosh
         #include "${pkgs.rofi}/share/rofi/themes/Monokai.theme"
       '';

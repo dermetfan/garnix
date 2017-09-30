@@ -20,10 +20,11 @@ in {
   config = lib.mkIf cfg.enable {
     config.programs = {
       i3status .enable = true;
-      rofi     .enable = true;
       alacritty.enable = true;
       ranger   .enable = true;
     };
+
+    programs.rofi.enable = true;
 
     home = {
       packages = with pkgs; if cfg.enableGaps then [
