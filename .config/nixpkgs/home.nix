@@ -241,9 +241,10 @@ in {
     };
 
     services = {
-      dunst.enable = config.xsession.enable;
+      blueman-applet.enable         = config.xsession.enable && systemConfig.hardware.bluetooth.enable;
+      dunst.enable                  = config.xsession.enable;
       network-manager-applet.enable = config.xsession.enable;
-      xscreensaver.enable = config.xsession.enable;
+      xscreensaver.enable           = config.xsession.enable;
     };
 
     gtk = {
