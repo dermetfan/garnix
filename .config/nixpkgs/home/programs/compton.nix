@@ -10,35 +10,33 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    xsession.initExtra = lib.optionalString (!config.services.compton.enable) ''
-      compton -b
-    '';
+    home.packages = [ pkgs.compton ];
 
-    home = {
-      packages = [ pkgs.compton ];
+    services.compton = {
+      shadow = true;
+      shadowOffsets = [ (-7) (-7) ];
+      shadowOpacity = "0.7";
+      shadowExclude = [
+        "name = 'Notification'"
+        "class_g = 'Conky'"
+        "class_g ?= 'Notify-osd'"
+        "class_g = 'Cairo-clock'"
+        "class_g = 'Dunst'"
+        "class_g = 'slop'"
+      ];
 
-      file.".config/compton.conf".text = ''
-        shadow = true;
+      menuOpacity = "0.8";
+
+      fade = true;
+      fadeDelta = 5;
+
+      vSync = "opengl-swc";
+
+      extraOptions = ''
         no-dnd-shadow = true;
         no-dock-shadow = true;
         clear-shadow = true;
         shadow-radius = 7;
-        shadow-offset-x = -7;
-        shadow-offset-y = -7;
-        shadow-opacity = 0.7;
-        shadow-exclude = [
-          "name = 'Notification'",
-          "class_g = 'Conky'",
-          "class_g ?= 'Notify-osd'",
-          "class_g = 'Cairo-clock'",
-          "class_g = 'Dunst'",
-          "class_g = 'slop'"
-        ];
-
-        fading = true;
-        fade-delta = 5;
-
-        menu-opacity = 0.8;
 
         alpha-step = 0.06;
 
@@ -54,8 +52,6 @@ in {
         xrender-sync = true;
         xrender-sync-fence = true;
 
-        backend = "glx";
-        vsync = "opengl-swc";
         paint-on-overlay = true;
 
         inactive-dim = 0.2;
