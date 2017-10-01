@@ -6,13 +6,13 @@ in {
   options.config.programs.i3 = {
     enable = with lib; mkOption {
       type = types.bool;
-      default = builtins.baseNameOf config.xsession.windowManager == "i3";
+      default = builtins.baseNameOf config.xsession.windowManager.command == "i3";
       description = "Whether to enable i3.";
     };
 
     enableGaps = with lib; mkOption {
       type = types.bool;
-      default = config.xsession.windowManager == "${pkgs.i3-gaps}/bin/i3";
+      default = config.xsession.windowManager.command == "${pkgs.i3-gaps}/bin/i3";
       description = "Whether to enable i3-gaps.";
     };
   };

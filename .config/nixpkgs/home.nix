@@ -93,7 +93,7 @@ in {
 
     xsession = {
       enable = systemConfig.services.xserver.enable;
-      windowManager = "${pkgs.i3-gaps}/bin/i3";
+      windowManager.command = "${pkgs.i3-gaps}/bin/i3";
       initExtra = ''
         xmodmap -e "keycode 66 = Caps_Lock"
         xflux -l 51.165691 -g 10.45152000000058

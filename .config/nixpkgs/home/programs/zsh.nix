@@ -14,8 +14,8 @@
         sha256 = "0mxmqkdpimwrskqjri3lp3haj1hzf583g7psnv34y3hyymzcx1h6";
       };
       altKeyAvailable = with pkgs;
-          config.xsession.windowManager != "${i3}/bin/i3" &&
-          config.xsession.windowManager != "${i3-gaps}/bin/i3";
+          config.xsession.windowManager.command != "${i3}/bin/i3" &&
+          config.xsession.windowManager.command != "${i3-gaps}/bin/i3";
     in [
       {
         name = "fast-syntax-highlighting";
