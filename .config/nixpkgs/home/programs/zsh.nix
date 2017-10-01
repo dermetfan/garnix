@@ -1,6 +1,10 @@
 { config, lib, pkgs, ... }:
 
 {
+  home.packages = with pkgs; [
+    fzy # enhancd
+  ];
+
   programs.zsh = {
     enableCompletion = let
       sysZshCfg = config.passthru.systemConfig.programs.zsh;
