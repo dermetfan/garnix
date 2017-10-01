@@ -70,7 +70,7 @@ in {
           forceSSL = x: x // {
             forceSSL = true;
             enableACME = true;
-            sslCertificate = /etc/private/host.cert;
+            sslCertificate = /etc/private/host.crt;
             sslCertificateKey = /etc/private/host.key;
           };
         in {
