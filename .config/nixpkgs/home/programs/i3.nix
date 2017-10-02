@@ -6,7 +6,7 @@ in {
   options.config.programs.i3 = {
     enable = with lib; mkOption {
       type = types.bool;
-      default = builtins.baseNameOf config.xsession.windowManager.command == "i3";
+      default = config.xsession.enable && builtins.baseNameOf config.xsession.windowManager.command == "i3";
       description = "Whether to enable i3.";
     };
 
