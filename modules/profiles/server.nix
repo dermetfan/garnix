@@ -8,6 +8,13 @@ in {
   config = lib.mkIf cfg.enable {
     config.data.enable = true;
 
+    nix = {
+      gc.automatic = true;
+      optimise.automatic = true;
+    };
+
+    system.autoUpgrade.enable = true;
+
     nixpkgs.config.allowUnfree = true;
 
     networking = {
