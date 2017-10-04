@@ -78,6 +78,8 @@
         { interface = config.passthru.hardware.interfaces.lan; }
       ];
 
+      dbus.packages = lib.optional config.hardware.bluetooth.enable pkgs.blueman;
+
       xserver = {
         layout = "us";
         xkbVariant = "norman";
