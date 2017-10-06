@@ -10,6 +10,19 @@
       sysZshCfg = config.passthru.systemConfig.programs.zsh;
     in !sysZshCfg.enable || !sysZshCfg.enableCompletion;
 
+    initExtra = ''
+      function sudof {
+          sudo zsh -c "`declare -f $1`; `echo $@`"
+      }
+
+      function zfs {
+          case "$1" in
+              tags) zfs get -Ht snapshot userrefs | grep -v $'\t'0 | cut -d $'\t' -f 1 | xargs zfs holds ;;
+              *) command zfs $@ ;;
+          esac
+      }
+    '';
+
     plugins = let
       oh-my-zsh = pkgs.fetchFromGitHub {
         owner = "robbyrussell";
