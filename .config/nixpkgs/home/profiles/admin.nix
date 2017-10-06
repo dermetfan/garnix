@@ -35,6 +35,7 @@ in {
       pv
       nethogs
       rsync
+      sipcalc
       smartmontools
       socat
       sshfsFuse
