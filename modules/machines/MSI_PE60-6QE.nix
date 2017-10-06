@@ -68,8 +68,8 @@ in {
       script = pkgs.writeScript "bumblebeeHack.sh" ''
         #! ${pkgs.bash}/bin/bash
         case "$1" in
-            start) systemctl start bumblebeed service ;;
-            stop)  systemctl stop  bumblebeed service ;;
+            start) systemctl start bumblebeed.service ;;
+            stop)  systemctl stop  bumblebeed.service ;;
             poweron)  ${config.boot.kernelPackages.bbswitch}/bin/discrete_vga_poweron  ;;
             poweroff) ${config.boot.kernelPackages.bbswitch}/bin/discrete_vga_poweroff ;;
         esac
@@ -79,13 +79,24 @@ in {
 
       systemd.services.bumblebeed.wantedBy = lib.mkForce [];
 
-      services.xserver.displayManager.sessionCommands = ''
-        sudo ${script} start
-      '';
+      services.xserver.displayManager = {
+        # There is no generic post display manager hook
+        # so this will only start, but not stop, bumblebeed.
+        sessionCommands = lib.optionalString (
+          !config.services.xserver.displayManager.slim.enable &&
+          !config.services.xserver.displayManager.sddm.enable)
+          "${script} start";
 
-      security.sudo.extraConfig = ''
-        %${config.users.groups.wheel.name} ALL=(ALL:ALL) NOPASSWD:${script}
-      '';
+        slim.extraConfig = ''
+          sessionstart_cmd ${script} start
+          sessionstop_cmd  ${script} stop
+        '';
+
+        sddm = {
+          setupScript = "${script} start";
+          stopScript  = "${script} stop";
+        };
+      };
 
       powerManagement = let
         pid = "/run/bumblebeed.pid";
