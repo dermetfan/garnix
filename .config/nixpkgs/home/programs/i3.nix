@@ -206,7 +206,7 @@ in {
         # show applications on certain workspaces
         assign [class="^TelegramDesktop$"] 10
         assign [class="^HipChat$"] 10
-        assign [class="^Skype$"] 10
+        assign [class="^skypeforlinux$"] 10
 
         # application shortcuts
         bindsym $mod+x exec alacritty -e ranger
