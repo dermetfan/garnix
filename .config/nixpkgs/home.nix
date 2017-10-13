@@ -1,17 +1,7 @@
 { config, lib, utils, pkgs, ... }:
 
 let
-  systemModule = (import <nixpkgs/nixos/lib/eval-config.nix> {
-    modules = [
-      (import <nixos-config> {
-        inherit pkgs;
-        inherit (pkgs) system lib;
-        config = systemModule.config;
-      })
-    ];
-  });
-
-  systemConfig = systemModule.config;
+  systemConfig = (import <nixpkgs/nixos> {}).config;
 in {
   imports = import home/module-list.nix ++ [
     <nixpkgs/nixos/modules/misc/extra-arguments.nix>
