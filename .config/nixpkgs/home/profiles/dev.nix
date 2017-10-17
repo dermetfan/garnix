@@ -25,6 +25,7 @@ in {
       lib.optionals config.xsession.enable [
         aqemu
         meld
+        pgadmin
       ] ++
       lib.optionals cfg.enableRust [
         rustracer
