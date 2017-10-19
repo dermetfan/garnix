@@ -23,7 +23,7 @@ in {
         rofi.fake-transparency: true
         rofi.fake-background: screenshot
         ! rofi.ssh-client: mosh
-        #include "${pkgs.rofi}/share/rofi/themes/Monokai.theme"
+        rofi.theme: ${pkgs.rofi}/share/rofi/themes/Monokai
       '';
     };
   };
