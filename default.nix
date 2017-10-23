@@ -74,10 +74,6 @@
     services = {
       openssh.enable = true;
 
-      wakeonlan.interfaces = lib.optionals (config ? passthru.hardware.interfaces.lan) [
-        { interface = config.passthru.hardware.interfaces.lan; }
-      ];
-
       dbus.packages = lib.optional config.hardware.bluetooth.enable pkgs.blueman;
 
       xserver = {

@@ -7,15 +7,13 @@ in {
 
   config = lib.mkIf cfg.enable {
     networking = {
+
       nat = {
         enable = true;
         internalInterfaces = [
           "ve-+" # nixos-containers
         ];
-        externalInterface =
-          config.passthru.hardware.interfaces.lan or
-          config.passthru.hardware.interfaces.wlan or
-          null;
+        externalInterface = "br0";
       };
 
       networkmanager.unmanaged = [ "interface-name:ve-*" ];
