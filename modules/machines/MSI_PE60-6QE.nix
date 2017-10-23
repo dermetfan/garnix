@@ -1,4 +1,4 @@
-# Tested on: MSI PE60-6QEI781
+# Tested on: MSI PE60-6QEi781
 { config, lib, pkgs, ... }:
 
 let
