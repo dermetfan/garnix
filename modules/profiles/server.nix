@@ -89,11 +89,11 @@ in {
           };
 
           "hydra.dermetfan.net" = forceSSL {
-            locations."/".proxyPass = "http://localhost:${toString config.services.hydra.port}";
+            locations."/".proxyPass = "http://127.0.0.1:${toString config.services.hydra.port}";
           };
 
           "cache.dermetfan.net" = forceSSL {
-            locations."/".proxyPass = "http://localhost:${toString config.services.nix-serve.port}";
+            locations."/".proxyPass = "http://127.0.0.1:${toString config.services.nix-serve.port}";
           };
         };
       };
