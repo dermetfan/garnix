@@ -11,6 +11,7 @@ let
 
   packages = with pkgs; [
     light
+    linuxPackages.cpupower
     maim
     slop # required by `maim -s`
     xorg.xhost
@@ -53,6 +54,10 @@ in {
           XF86Display = mkOption {
             type = listOf int;
             default = [ 25 125 ];
+          };
+          XF86Battery = mkOption {
+            type = listOf int;
+            default = [];
           };
         };
       };
@@ -153,7 +158,7 @@ in {
               in "${script}";
             }
           ] ++
-          (if builtins.length XF86Hibernate == 0 then [
+          (if XF86Hibernate == [] then [
             {
               keys = [ Shift_L ] ++ XF86Suspend;
               command = "systemctl hibernate";
@@ -162,12 +167,34 @@ in {
               keys = [ Shift_R ] ++ XF86Suspend;
               command = "systemctl hibernate";
             }
-          ] else [
-            {
-              keys = XF86Hibernate;
-              command = "systemctl hibernate";
-            }
-          ]);
+          ] else [ {
+            keys = XF86Hibernate;
+            command = "systemctl hibernate";
+          } ]) ++
+          (lib.optional (XF86Battery != []) {
+            keys = XF86Battery;
+            command = let
+              state = "/run/eco-cpufreq-governor";
+              script = pkgs.writeScript "XF86Battery.sh" ''
+                #! ${pkgs.bash}/bin/bash
+                governors=(`cpupower frequency-info -g \
+                    | grep 'available cpufreq governors: ' \
+                    | cut -d\  -f6-`)
+
+                if [[ -f ${state} ]] ; then
+                    idx=$((`cat ${state}` + 1))
+                    if [[ $idx = ''${#governors[@]} ]] ; then
+                        idx=0
+                    fi
+                else
+                    idx=0
+                fi
+                echo $idx > ${state}
+
+                cpupower frequency-set -g ''${governors[$idx]}
+              '';
+            in "${script}";
+          });
         };
 
       physlock = {
