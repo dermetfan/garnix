@@ -107,7 +107,7 @@ in {
               in
                 # synclient seems to have no effect while syndaemon is running (also doesn't disable mouse keys)
                 # "${synclient} TouchpadOff=$(${synclient} | grep -c 'TouchpadOff[[:space:]]*=[[:space:]]*0')";
-                "export DISPLAY=':0.0' && xinput --set-prop '${touchpad}' 'Device Enabled' $(xinput --list-props '${touchpad}' | grep -c 'Device Enabled (138):[[:space:]].*0')";
+                "export DISPLAY=':0' && xinput --set-prop '${touchpad}' 'Device Enabled' $(xinput --list-props '${touchpad}' | grep -c 'Device Enabled (138):[[:space:]].*0')";
             }
             {
               keys = XF86Suspend;
@@ -144,7 +144,7 @@ in {
               command = let
                 script = pkgs.writeScript "XF86Display.sh" ''
                   #! ${pkgs.bash}/bin/bash
-                  export DISPLAY=:0.0
+                  export DISPLAY=:0
                   outputs="`xrandr | grep -Eo '^.*[[:space:]]+connected' | cut -d ' ' -f 1`"
                   for output in $outputs; do
                     xrandr --output $output --auto
