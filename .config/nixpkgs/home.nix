@@ -118,6 +118,7 @@ in {
           d = "dirs -v | head -10";
           pu = "pushd";
           po = "popd";
+          watch = "watch --color";
         };
         initExtra = ''
           setopt AUTO_CD
