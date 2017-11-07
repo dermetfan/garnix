@@ -10,7 +10,7 @@ self: super:
 
   home-manager = import self.home-manager-src {
     pkgs = self;
-    modulesPath = "${self.home-manager-src}/modules";
+    path = self.home-manager-src;
   };
 }
 

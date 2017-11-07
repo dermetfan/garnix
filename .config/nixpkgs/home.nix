@@ -104,7 +104,7 @@ in {
     programs = {
       home-manager = {
         enable = true;
-        modulesPath = "${pkgs.home-manager-src}/modules";
+        path = "${pkgs.home-manager-src}";
       };
 
       zsh = {
