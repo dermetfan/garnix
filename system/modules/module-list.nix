@@ -8,5 +8,4 @@
 
   profiles/netbook.nix
   profiles/notebook.nix
-  profiles/server.nix
 ]

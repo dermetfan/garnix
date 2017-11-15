@@ -8,7 +8,7 @@
 
     nix = {
       binaryCaches = [
-        "https://cache.dermetfan.net"
+        # "https://cache.dermetfan.net"
         "https://cache.nixos.community"
         "https://cache.rrza.de"
         "https://cache.nixos.org"
@@ -136,5 +136,7 @@
         };
       };
     };
+
+    system.stateVersion = "18.03";
   };
 }
