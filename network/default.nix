@@ -38,6 +38,35 @@ in {
 
   master = { lib, config, pkgs, nodes, ... }: {
     config = {
+      deployment.keys = {
+        master_rsa.keyFile = ../keys/master_rsa;
+
+        "cache.sec" = {
+          keyFile = ../keys/cache.sec;
+          user = config.users.users.nginx.name;
+          group = config.users.users.nginx.group;
+          permissions = "0440";
+        };
+
+        "host.key" = {
+          keyFile = ../keys/host.key;
+          user = config.users.users.nginx.name;
+          group = config.users.users.nginx.group;
+          permissions = "0440";
+        };
+
+        ddns = {
+          keyFile = ../keys/ddns;
+          user = config.users.users.ddclient.name;
+          group = config.users.users.ddclient.group;
+          permissions = "0440";
+        };
+
+        ssmtp = {
+          keyFile = ../keys/ssmtp;
+        };
+      };
+
       config.data.enable = true;
 
       nix = {
@@ -61,7 +90,7 @@ in {
           root = "serverkorken@gmail.com";
           domain = "dermetfan.net";
           authUser = "serverkorken@gmail.com";
-          authPass = builtins.readFile ../keys/ssmtp;
+          authPass = "/run/keys/ssmtp";
           useTLS = true;
           useSTARTTLS = true;
         };
@@ -70,7 +99,7 @@ in {
       services = {
         nix-serve = {
           enable = true;
-          secretKeyFile = "../keys/cache.sec";
+          secretKeyFile = "/run/keys/cache.sec";
         };
 
         hydra = {
@@ -98,7 +127,7 @@ in {
               forceSSL = true;
               enableACME = true;
               sslCertificate = ../keys/host.crt;
-              sslCertificateKey = ../keys/host.key;
+              sslCertificateKey = "/run/keys/host.key";
             };
           in {
             "server.dermetfan.net" = forceSSL {
@@ -122,7 +151,7 @@ in {
           enable = true;
           server = "dynupdate.no-ip.com";
           username = "dermetfan";
-          password = builtins.readFile ../keys/ddns;
+          password = "/run/keys/ddns";
           domain = "dermetfan-server.ddns.net";
           use = "web, web=icanhazip.com";
         };
