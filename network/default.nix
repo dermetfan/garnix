@@ -1,9 +1,42 @@
-{
+{ pkgs ? import <nixpkgs> {} }:
+
+let
+  lib = pkgs.lib;
+in {
   network.description = "dermetfan.net";
 
-  defaults.imports = [ ../system ];
+  defaults = { config, nodes, ... }: {
+    imports = [ ../system ];
 
-  master = { lib, config, pkgs, ... }: {
+    options.node = {
+      name = with lib; mkOption {
+        type = types.str;
+        default = config._module.args.name;
+      };
+
+      buildMachine = with lib; mkOption {
+        type = types.attrs;
+        default = {
+          inherit (config.nix) maxJobs;
+        };
+      };
+    };
+
+    config = {
+      networking.hostName = lib.mkOverride 899 "dmf-${config.node.name}";
+
+      services.disnix.enable = true;
+
+      programs.ssh.knownHosts = map (node: {
+        hostNames = [ node.config.deployment.targetHost ];
+        publicKey = builtins.readFile (../keys + "/${node.config.node.name}_rsa.pub");
+      }) (builtins.attrValues nodes);
+
+      users.users.root.openssh.authorizedKeys.keyFiles = [ ../keys/master_rsa.pub ];
+    };
+  };
+
+  master = { lib, config, pkgs, nodes, ... }: {
     config = {
       config.data.enable = true;
 
@@ -17,8 +50,6 @@
       nixpkgs.config.allowUnfree = true;
 
       networking = {
-        hostName = "dermetfan-server";
-
         firewall.allowedTCPPorts = [
           80 443
           25575 # minecraft RCON
