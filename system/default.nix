@@ -103,7 +103,7 @@
 
       unclutter.enable = config.services.xserver.enable;
 
-      znapzend.enable = builtins.any (x: x == "zfs") (builtins.map (fs: fs.fsType) (builtins.attrValues config.fileSystems));
+      znapzend.enable = builtins.any (x: x == "zfs") (map (fs: fs.fsType) (builtins.attrValues config.fileSystems));
     };
 
     sound.mediaKeys = {
