@@ -30,7 +30,7 @@
           root = "serverkorken@gmail.com";
           domain = "dermetfan.net";
           authUser = "serverkorken@gmail.com";
-          authPass = builtins.readFile ../keys/ssmtp-pass;
+          authPass = builtins.readFile ../keys/ssmtp;
           useTLS = true;
           useSTARTTLS = true;
         };
@@ -91,7 +91,7 @@
           enable = true;
           server = "dynupdate.no-ip.com";
           username = "dermetfan";
-          password = builtins.readFile ../keys/ddns-pass;
+          password = builtins.readFile ../keys/ddns;
           domain = "dermetfan-server.ddns.net";
           use = "web, web=icanhazip.com";
         };
