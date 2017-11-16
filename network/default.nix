@@ -30,7 +30,7 @@
           root = "serverkorken@gmail.com";
           domain = "dermetfan.net";
           authUser = "serverkorken@gmail.com";
-          authPass = builtins.readFile /etc/private/ssmtp-pass;
+          authPass = builtins.readFile ../keys/ssmtp-pass;
           useTLS = true;
           useSTARTTLS = true;
         };
@@ -39,7 +39,7 @@
       services = {
         nix-serve = {
           enable = true;
-          secretKeyFile = "/etc/private/cache.sec";
+          secretKeyFile = "../keys/cache.sec";
         };
 
         hydra = {
@@ -66,8 +66,8 @@
             forceSSL = x: x // {
               forceSSL = true;
               enableACME = true;
-              sslCertificate = /etc/private/host.crt;
-              sslCertificateKey = /etc/private/host.key;
+              sslCertificate = ../keys/host.crt;
+              sslCertificateKey = ../keys/host.key;
             };
           in {
             "server.dermetfan.net" = forceSSL {
@@ -91,7 +91,7 @@
           enable = true;
           server = "dynupdate.no-ip.com";
           username = "dermetfan";
-          password = builtins.readFile /etc/private/ddns-pass;
+          password = builtins.readFile ../keys/ddns-pass;
           domain = "dermetfan-server.ddns.net";
           use = "web, web=icanhazip.com";
         };
