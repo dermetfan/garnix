@@ -40,10 +40,15 @@ in {
 
       programs.ssh.knownHosts = map (node: {
         hostNames = [ node.config.deployment.targetHost ];
-        publicKey = builtins.readFile (../keys + "/${node.config.node.name}_rsa.pub");
-      }) (builtins.attrValues nodes);
+        publicKey = lib.strings.removeSuffix
+          " root@${node.config.networking.hostName}\n"
+          (builtins.readFile (../keys + "/${node.config.node.name}_rsa.pub"));
+      }) (lib.filter (node:
+        node.config.node.name != config.node.name
+      ) (builtins.attrValues nodes));
 
-      users.users.root.openssh.authorizedKeys.keyFiles = lib.optional (config.node.name != nodes.master.config.node.name) ../keys/master_rsa.pub;
+      users.users.root.openssh.authorizedKeys.keyFiles =
+        lib.optional (config.node.name != nodes.master.config.node.name) ../keys/master_rsa.pub;
     };
   };
 
