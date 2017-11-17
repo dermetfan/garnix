@@ -5,7 +5,7 @@ let
 in {
   network.description = "dermetfan.net";
 
-  defaults = { config, nodes, ... }: {
+  defaults = { config, lib, nodes, ... }: {
     imports = [ ../system ];
 
     options.node = {
@@ -25,18 +25,29 @@ in {
     config = {
       networking.hostName = lib.mkOverride 899 "dmf-${config.node.name}";
 
-      services.disnix.enable = true;
+      services = {
+        disnix.enable = true;
+
+        ddclient = {
+          enable = true;
+          server = "dynupdate.no-ip.com";
+          username = "dermetfan";
+          password = builtins.readFile ../keys/ddns;
+          domain = lib.mkDefault "${config.networking.hostName}.ddns.net";
+          use = "web, web=icanhazip.com";
+        };
+      };
 
       programs.ssh.knownHosts = map (node: {
         hostNames = [ node.config.deployment.targetHost ];
         publicKey = builtins.readFile (../keys + "/${node.config.node.name}_rsa.pub");
       }) (builtins.attrValues nodes);
 
-      users.users.root.openssh.authorizedKeys.keyFiles = [ ../keys/master_rsa.pub ];
+      users.users.root.openssh.authorizedKeys.keyFiles = lib.optional (config.node.name != nodes.master.config.node.name) ../keys/master_rsa.pub;
     };
   };
 
-  master = { lib, config, pkgs, nodes, ... }: {
+  master = { config, pkgs, lib, nodes, ... }: {
     config = {
       deployment.keys = {
         master_rsa.keyFile = ../keys/master_rsa;
@@ -52,13 +63,6 @@ in {
           keyFile = ../keys/host.key;
           user = config.users.users.nginx.name;
           group = config.users.users.nginx.group;
-          permissions = "0440";
-        };
-
-        ddns = {
-          keyFile = ../keys/ddns;
-          user = config.users.users.ddclient.name;
-          group = config.users.users.ddclient.group;
           permissions = "0440";
         };
 
@@ -145,15 +149,6 @@ in {
               locations."/".proxyPass = "http://127.0.0.1:${toString config.services.nix-serve.port}";
             };
           };
-        };
-
-        ddclient = {
-          enable = true;
-          server = "dynupdate.no-ip.com";
-          username = "dermetfan";
-          password = "/run/keys/ddns";
-          domain = "dermetfan-server.ddns.net";
-          use = "web, web=icanhazip.com";
         };
       };
 
