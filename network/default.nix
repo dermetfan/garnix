@@ -76,6 +76,13 @@ in {
       nix = {
         gc.automatic = true;
         optimise.automatic = true;
+
+        distributedBuilds = true;
+        buildMachines = map (node: node.config.node.buildMachine // {
+          hostName = node.config.deployment.targetHost;
+          sshUser = "root";
+          sshKey = "/run/keys/master_rsa";
+        }) (builtins.attrValues nodes);
       };
 
       system.autoUpgrade.enable = true;
