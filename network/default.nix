@@ -111,7 +111,7 @@ in {
           hydraURL = https://hydra.dermetfan.net;
           notificationSender = "hydra@dermetfan.net";
           buildMachinesFiles = [];
-          smtpHost = "localhost";
+          smtpHost = "127.0.0.1";
           logo = lib.mkDefault /var/lib/hydra/logo.png;
         };
 
