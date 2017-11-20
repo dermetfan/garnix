@@ -1,6 +1,7 @@
-{ pkgs ? import <nixpkgs> {} }:
+# { pkgs ? import <nixpkgs> {} }:
 
 let
+  pkgs = import <nixpkgs> {};
   lib = pkgs.lib;
 in {
   network.description = "dermetfan.net";
@@ -89,8 +90,6 @@ in {
           sshKey = "/run/keys/master_rsa";
         }) (builtins.attrValues nodes);
       };
-
-      system.autoUpgrade.enable = true;
 
       nixpkgs.config.allowUnfree = true;
 
