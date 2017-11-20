@@ -81,6 +81,8 @@
         xkbVariant = "norman";
         xkbOptions = "compose:lwin,compose:rwin,eurosign:e";
 
+        plainX = true;
+
         displayManager.slim.defaultUser = "dermetfan";
         desktopManager.xterm.enable = false;
 
