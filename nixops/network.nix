@@ -7,7 +7,7 @@ in {
   network.description = "dermetfan.net";
 
   defaults = { config, lib, nodes, ... }: {
-    imports = [ ../system ];
+    imports = [ ../nixos ];
 
     options.node = {
       name = with lib; mkOption {
