@@ -47,10 +47,6 @@ in {
           xclip
           xsel
 
-          # GTK
-          theme-vertex
-          numix-icon-theme
-
           # autostart
           xorg.xmodmap
           xflux
@@ -237,8 +233,14 @@ in {
 
     gtk = {
       enable = config.xsession.enable;
-      themeName = "Vertex-Dark";
-      iconThemeName = "Numix";
+      theme = {
+        name = "Vertex-Dark";
+        package = pkgs.theme-vertex;
+      };
+      iconTheme = {
+        name = "Numix";
+        package = pkgs.numix-icon-theme;
+      };
     };
   };
 }
