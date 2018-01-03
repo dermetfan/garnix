@@ -35,7 +35,7 @@
 
     environment = {
       systemPackages = with pkgs;
-        [ ntfs3g ] ++
+        [ ntfs3g exfat ] ++
         lib.optional config.programs.zsh.enable nix-zsh-completions;
 
       variables = lib.mkIf config.services.xserver.enable {
