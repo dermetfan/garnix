@@ -27,6 +27,7 @@ in {
       neofetch
       ngrep
       nix-index
+      nixops
       parted
       pciutils
       peco

@@ -27,6 +27,7 @@ in {
           audacity
           lmms
           gimp
+          inkscape
           keymon
           obs-studio
         ]);

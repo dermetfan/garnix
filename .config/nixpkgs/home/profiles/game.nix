@@ -17,6 +17,7 @@ in {
       rogue
       sl
     ] ++ lib.optionals config.xsession.enable [
+      kobodeluxe
       cool-old-term
       teamspeak_client
     ];

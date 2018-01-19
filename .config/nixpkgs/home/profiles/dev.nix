@@ -19,6 +19,7 @@ in {
     home.packages = with pkgs;
       [ ack
         jq
+        loc
         nox
         qemu
       ] ++
