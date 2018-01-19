@@ -84,7 +84,7 @@ in {
         xmodmap -e "keycode 66 = Caps_Lock"
         xflux -l 51.165691 -g 10.45152000000058
         xset r rate 225 27
-        xset m 2
+        xset m 5 1
         devmon &
         syndaemon -d -i 0.625 -K -R || :
 
