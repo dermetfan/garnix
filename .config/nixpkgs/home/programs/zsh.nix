@@ -7,7 +7,10 @@
 
   programs.zsh = {
     enableCompletion = let
-      sysZshCfg = config.passthru.systemConfig.programs.zsh;
+      sysZshCfg = config.passthru.systemConfig.programs.zsh or {
+        enable = true;
+        enableCompletion = true;
+      };
     in !sysZshCfg.enable || !sysZshCfg.enableCompletion;
 
     initExtra = ''

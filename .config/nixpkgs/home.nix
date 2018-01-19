@@ -1,7 +1,7 @@
 { config, lib, utils, pkgs, ... }:
 
 let
-  systemConfig = (import <nixpkgs/nixos> {}).config;
+  sysCfg = config.passthru.systemConfig or {};
 in {
   imports = import home/module-list.nix ++ [
     <nixpkgs/nixos/modules/misc/extra-arguments.nix>
@@ -9,10 +9,6 @@ in {
   ];
 
   config = {
-    passthru = {
-      inherit systemConfig;
-    };
-
     config = {
       profiles = {
         desktop.enable = config.xsession.enable;
@@ -67,7 +63,7 @@ in {
       };
 
       sessionVariableSetter =
-        if with utils; toShellPath systemConfig.users.users.dermetfan.shell == toShellPath pkgs.zsh
+        if with utils; toShellPath sysCfg.users.users.dermetfan.shell or null  == toShellPath pkgs.zsh
         then "zsh"
         else "pam";
       sessionVariables = {
@@ -78,7 +74,7 @@ in {
     };
 
     xsession = {
-      enable = systemConfig.services.xserver.enable;
+      enable = sysCfg.services.xserver.enable or false;
       windowManager.command = "${pkgs.i3-gaps}/bin/i3";
       initExtra = ''
         xmodmap -e "keycode 66 = Caps_Lock"
@@ -171,8 +167,10 @@ in {
       };
 
       beets.settings = let
-        dir = (if systemConfig.config.data.enable then
-          systemConfig.config.data.mountPoint + (lib.optionalString systemConfig.config.data.userFileSystems "/${systemConfig.users.users.dermetfan.name}")
+        dir = (if sysCfg.config.data.enable or false then
+          sysCfg.config.data.mountPoint +
+          (lib.optionalString sysCfg.config.data.userFileSystems
+            "/${sysCfg.users.users.dermetfan.name}")
         else "~") + "/audio/music/library";
       in {
         directory = dir;
@@ -225,7 +223,7 @@ in {
     };
 
     services = {
-      blueman-applet.enable         = config.xsession.enable && systemConfig.hardware.bluetooth.enable;
+      blueman-applet.enable         = config.xsession.enable && sysCfg.hardware.bluetooth.enable or true;
       dunst.enable                  = config.xsession.enable;
       network-manager-applet.enable = config.xsession.enable;
       xscreensaver.enable           = config.xsession.enable;

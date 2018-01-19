@@ -1,4 +1,5 @@
 [
+  profiles/nixos.nix
   profiles/desktop.nix
   profiles/effects.nix
   profiles/media.nix

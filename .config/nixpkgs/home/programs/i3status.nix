@@ -2,7 +2,7 @@
 
 let
   cfg = config.config.programs.i3status;
-  sysCfg = config.passthru.systemConfig;
+  sysCfg = config.passthru.systemConfig or null;
   data_dermetfan = "${sysCfg.config.data.mountPoint}/${sysCfg.users.users.dermetfan.name}";
 in {
   options.config.programs.i3status.enable = lib.mkEnableOption "i3status";
@@ -17,7 +17,9 @@ in {
             color_separator = "#55b5e7"
         }
 
-        order += "disk ${data_dermetfan}"
+        ${lib.optionalString (sysCfg != null)
+          ''order += "disk ${data_dermetfan}"''
+        }
         order += "disk /"
         #order += "ethernet _first_"
         #order += "wireless _first_"
@@ -48,10 +50,13 @@ in {
 
         ethernet _first_ {}
 
-        disk "${data_dermetfan}" {
-            format = "data: %free (%percentage_used)"
-            low_threshold = 10
-            threshold_type = percentage_free
+        ${lib.optionalString (sysCfg != null) ''
+            disk "${data_dermetfan}" {
+                format = "data: %free (%percentage_used)"
+                low_threshold = 10
+                threshold_type = percentage_free
+            }
+          ''
         }
 
         disk "/" {

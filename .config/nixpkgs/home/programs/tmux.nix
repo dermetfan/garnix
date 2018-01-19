@@ -5,7 +5,7 @@ let
 in {
   options.config.programs.tmux.enable = with lib; mkOption {
     type = types.bool;
-    default = config.passthru.systemConfig.programs.tmux.enable;
+    default = config.passthru.systemConfig.programs.tmux.enable or false;
     description = "Whether to enable tmux.";
   };
 
