@@ -168,11 +168,12 @@ in {
 
       beets = lib.mkIf (builtins.any (x: x == pkgs.stdenv.system) pkgs.beets.meta.platforms) {
         settings = let
-          dir = (if sysCfg.config.data.enable or false then
-            sysCfg.config.data.mountPoint +
-            (lib.optionalString sysCfg.config.data.userFileSystems
-              "/${sysCfg.users.users.dermetfan.name}")
-          else "~") + "/audio/music/library";
+          dir = (
+            if sysCfg.config.data.enable or false
+            then sysCfg.config.data.mountPoint +
+              (lib.optionalString sysCfg.config.data.userFileSystems "/${sysCfg.users.users.dermetfan.name}")
+            else "~"
+          ) + "/audio/music/library";
         in {
           directory = dir;
           library = "${dir}/beets.db";
