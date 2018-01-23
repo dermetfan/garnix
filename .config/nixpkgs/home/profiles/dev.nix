@@ -19,9 +19,11 @@ in {
     home.packages = with pkgs;
       [ ack
         jq
-        loc
         nox
         qemu
+      ] ++
+      lib.optionals stdenv.isLinux [
+        loc
       ] ++
       lib.optionals config.xsession.enable [
         aqemu

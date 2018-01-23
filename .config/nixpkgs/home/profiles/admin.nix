@@ -10,39 +10,40 @@ in {
       bashmount
       binutils
       curl
-      diffoscope
       fdupes
       file
-      ftop
       fzy
       gptfdisk
-      hdparm
       httpie
-      httping
-      libsysfs
       lrzip
       lsof
       ncdu
       ncid
       neofetch
-      ngrep
       nix-index
       nixops
-      parted
-      pciutils
       peco
-      progress
-      psmisc
       pv
-      nethogs
       rsync
       sipcalc
       smartmontools
       socat
-      sshfsFuse
       wakelan
       wget
-    ] ++ lib.optionals config.xsession.enable [
+    ] ++ lib.optionals stdenv.isLinux [
+      diffoscope
+      ftop
+      hdparm
+      httping
+      libsysfs
+      nethogs
+      ngrep
+      parted
+      pciutils
+      psmisc
+      progress
+      sshfsFuse
+    ] ++ lib.optionals (config.xsession.enable && stdenv.isLinux) [
       glxinfo
       gpa
       gparted
