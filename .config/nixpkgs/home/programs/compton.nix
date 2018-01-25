@@ -37,6 +37,7 @@ in {
         no-dock-shadow = true;
         clear-shadow = true;
         shadow-radius = 7;
+        xinerama-shadow-crop = true;
 
         alpha-step = 0.06;
 

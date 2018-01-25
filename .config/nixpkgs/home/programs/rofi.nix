@@ -22,7 +22,6 @@ in {
         rofi.opacity: 25
         rofi.fake-transparency: true
         rofi.fake-background: screenshot
-        ! rofi.ssh-client: mosh
         rofi.theme: ${pkgs.rofi}/share/rofi/themes/Monokai
       '';
     };
