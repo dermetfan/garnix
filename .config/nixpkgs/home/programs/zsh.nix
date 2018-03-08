@@ -39,6 +39,15 @@
           config.xsession.windowManager.command != "${i3-gaps}/bin/i3";
     in [
       {
+        name = "nix-shell";
+        src = pkgs.fetchFromGitHub {
+          owner = "chisui";
+          repo = "zsh-nix-shell";
+          rev = "fdf2899ac5e0623af97b4c7efaa312860f73964a";
+          sha256 = "172p7fzg5rwc26wkr0zdc3rmyx9cl8k6dqwp72pn4ayv1j3y59r9";
+        };
+      }
+      {
         name = "fast-syntax-highlighting";
         src = pkgs.fetchFromGitHub {
           owner = "zdharma";
