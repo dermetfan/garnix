@@ -10,6 +10,7 @@ in {
       packages = with pkgs; [
         volumeicon
         alacritty
+        alsaUtils
       ];
 
       file.".config/volumeicon/volumeicon".text = ''
