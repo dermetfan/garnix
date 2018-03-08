@@ -63,7 +63,7 @@ in {
       };
 
       sessionVariableSetter =
-        if with utils; toShellPath sysCfg.users.users.dermetfan.shell or null  == toShellPath pkgs.zsh
+        if with utils; toShellPath sysCfg.users.users.dermetfan.shell or null == toShellPath pkgs.zsh
         then "zsh"
         else "pam";
       sessionVariables = {
