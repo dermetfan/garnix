@@ -164,15 +164,6 @@
         };
       }
       {
-        name = "project";
-        src = pkgs.fetchFromGitHub {
-          owner = "voronkovich";
-          repo = "project.plugin.zsh";
-          rev = "38610bfad06e7377dce03462ae871fd0f851ed13";
-          sha256 = "06cm0ymx5xvx37817bhqrf5dghhbyi0dsp23xzs641h63z701cwn";
-        };
-      }
-      {
         name = "zed-zsh";
         file = "zed.zsh";
         src = pkgs.fetchFromGitHub {
