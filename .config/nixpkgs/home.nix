@@ -218,8 +218,6 @@ in {
           diff.submodule = "log";
         };
       };
-
-      firefox.enable = config.xsession.enable;
     };
 
     services = {

@@ -12,6 +12,7 @@ in {
       programs = {
         geany.enable     = config.xsession.enable;
         alacritty.enable = config.xsession.enable;
+        firefox.enable   = config.xsession.enable;
       };
     };
 
