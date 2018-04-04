@@ -16,6 +16,23 @@ in {
       cargo.enable = cfg.enableRust;
     };
 
+    programs.git = {
+      enable = true;
+      userName = "Robin Stumm";
+      userEmail = "serverkorken@gmail.com";
+      aliases = {
+        st = "status -s";
+        lg = "log --graph --branches --decorate --abbrev-commit --pretty=medium HEAD";
+        co = "checkout";
+        ci = "commit";
+        spull = ''!git pull "$@" && git submodule sync --recursive && git submodule update --init --recursive'';
+      };
+      extraConfig = {
+        status.submoduleSummary = true;
+        diff.submodule = "log";
+      };
+    };
+
     home.packages = with pkgs;
       [ ack
         jq

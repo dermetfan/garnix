@@ -10,10 +10,45 @@ in {
       profiles.media.enable = true;
 
       programs = {
-        geany.enable     = config.xsession.enable;
-        alacritty.enable = config.xsession.enable;
-        firefox.enable   = config.xsession.enable;
+        parcellite  .enable = config.xsession.enable;
+        volumeicon  .enable = config.xsession.enable;
+        xscreensaver.enable = config.xsession.enable;
+
+        geany       .enable = config.xsession.enable;
+        alacritty   .enable = config.xsession.enable;
       };
+    };
+
+    programs = {
+      firefox.enable = config.xsession.enable;
+
+      browserpass = {
+        enable = true;
+        browsers = [
+          "vivaldi"
+          "chromium"
+          "firefox"
+        ];
+      };
+    };
+
+    xsession = {
+      windowManager.command = "${pkgs.i3-gaps}/bin/i3";
+      initExtra = ''
+        xmodmap -e "keycode 66 = Caps_Lock"
+        xflux -l 51.165691 -g 10.45152000000058
+        xset r rate 225 27
+        xset m 5 1
+        devmon &
+        syndaemon -d -i 0.625 -K -R || :
+
+        ~/.fehbg || nitrogen --restore
+        volumeicon &
+        parcellite &
+        telegram-desktop &
+        hipchat &
+        skypeforlinux &
+      '';
     };
 
     home.packages = with pkgs; [
@@ -23,6 +58,15 @@ in {
       unzip
       zip
     ] ++ lib.optionals config.xsession.enable [
+      # autostart
+      xorg.xmodmap
+      xflux
+      udevil
+      tdesktop
+      hipchat
+      nitrogen
+      skype
+
       chromium
       feh
       qalculate-gtk
