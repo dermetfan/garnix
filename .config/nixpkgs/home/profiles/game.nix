@@ -9,7 +9,6 @@ in {
     config.programs.minecraft.enable = config.xsession.enable;
 
     home.packages = with pkgs; [
-      pkgs."2048-in-terminal"
       fortune
       lolcat
       mcrcon
