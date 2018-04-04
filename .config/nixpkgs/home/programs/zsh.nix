@@ -15,6 +15,7 @@
     in !sysZshCfg.enable || !sysZshCfg.enableCompletion;
 
     shellAliases = {
+      ls = "exa";
       l  = "exa -lga";
       ll = "exa -lg";
       less = "less -R";
