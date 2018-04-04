@@ -219,10 +219,7 @@ in {
         };
       };
 
-      firefox = {
-        enable = config.xsession.enable;
-        enableAdobeFlash = true;
-      };
+      firefox.enable = config.xsession.enable;
     };
 
     services = {
