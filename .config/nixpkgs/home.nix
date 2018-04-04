@@ -111,6 +111,7 @@ in {
           pu = "pushd";
           po = "popd";
           watch = "watch --color";
+          pv = "pv -pea";
         };
         initExtra = ''
           setopt AUTO_CD
