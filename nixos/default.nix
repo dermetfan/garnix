@@ -10,7 +10,6 @@
       binaryCaches = [
         "https://cache.dermetfan.net"
         "https://cache.nixos.community"
-        "https://cache.rrza.de"
         "https://cache.nixos.org"
       ];
       binaryCachePublicKeys = [
