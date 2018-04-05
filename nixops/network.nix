@@ -47,8 +47,13 @@ in {
         node.config.node.name != config.node.name
       ) (builtins.attrValues nodes));
 
-      users.users.root.openssh.authorizedKeys.keyFiles =
-        lib.optional (config.node.name != nodes.master.config.node.name) ../keys/master_rsa.pub;
+      users.users = {
+        root.openssh.authorizedKeys.keyFiles =
+          lib.optional (config.node.name != nodes.master.config.node.name) ../keys/master_rsa.pub;
+
+        nix-serve.extraGroups = [ "keys" ];
+        nginx    .extraGroups = [ "keys" ];
+      };
     };
   };
 
@@ -59,8 +64,7 @@ in {
 
         "cache.sec" = {
           keyFile = ../keys/cache.sec;
-          user = config.users.users.nginx.name;
-          group = config.users.users.nginx.group;
+          user = config.users.users.nix-serve.name;
           permissions = "0440";
         };
 
