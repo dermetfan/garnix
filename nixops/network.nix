@@ -75,9 +75,7 @@ in {
           permissions = "0440";
         };
 
-        ssmtp = {
-          keyFile = ../keys/ssmtp;
-        };
+        ssmtp.keyFile = ../keys/ssmtp;
       };
 
       config.data.enable = true;
