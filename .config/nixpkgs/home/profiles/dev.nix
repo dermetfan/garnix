@@ -34,7 +34,8 @@ in {
     };
 
     home.packages = with pkgs;
-      [ ack
+      [ ripgrep
+        ack
         jq
         nox
         qemu
