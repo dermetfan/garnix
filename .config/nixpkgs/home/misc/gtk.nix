@@ -1,6 +1,18 @@
 { config, lib, pkgs, ... }:
 
 lib.mkIf (config.xsession.enable && config.gtk.enable) {
+  gtk = {
+    enable = config.xsession.enable;
+    theme = {
+      name = "Vertex-Dark";
+      package = pkgs.theme-vertex;
+    };
+    iconTheme = {
+      name = "Numix";
+      package = pkgs.numix-icon-theme;
+    };
+  };
+
   home = {
     file.".config/gtk-3.0/bookmarks".text = ''
       file:///data/dermetfan

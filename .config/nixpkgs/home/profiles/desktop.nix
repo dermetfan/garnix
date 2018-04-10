@@ -2,6 +2,7 @@
 
 let
   cfg = config.config.profiles.desktop;
+  sysCfg = config.passthru.systemConfig or null;
 in {
   options.config.profiles.desktop.enable = lib.mkEnableOption "desktop programs";
 
@@ -30,6 +31,13 @@ in {
           "firefox"
         ];
       };
+    };
+
+    services = {
+      blueman-applet.enable         = config.xsession.enable && sysCfg.hardware.bluetooth.enable or true;
+      dunst.enable                  = config.xsession.enable;
+      network-manager-applet.enable = config.xsession.enable;
+      xscreensaver.enable           = config.xsession.enable;
     };
 
     xsession = {

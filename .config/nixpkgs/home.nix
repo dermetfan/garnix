@@ -10,15 +10,14 @@ in {
 
   config = {
     config = {
-      profiles = {
-        desktop.enable = config.xsession.enable;
-      };
+      profiles.desktop.enable = config.xsession.enable;
 
       programs = {
         ranger.enable = true;
         htop  .enable = true;
         micro .enable = true;
         nano  .enable = true;
+        tmux  .enable = true;
       };
     };
 
@@ -63,25 +62,6 @@ in {
       };
 
       zsh.enable = true;
-    };
-
-    services = {
-      blueman-applet.enable         = config.xsession.enable && sysCfg.hardware.bluetooth.enable or true;
-      dunst.enable                  = config.xsession.enable;
-      network-manager-applet.enable = config.xsession.enable;
-      xscreensaver.enable           = config.xsession.enable;
-    };
-
-    gtk = {
-      enable = config.xsession.enable;
-      theme = {
-        name = "Vertex-Dark";
-        package = pkgs.theme-vertex;
-      };
-      iconTheme = {
-        name = "Numix";
-        package = pkgs.numix-icon-theme;
-      };
     };
   };
 }
