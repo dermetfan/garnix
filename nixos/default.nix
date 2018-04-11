@@ -1,7 +1,17 @@
 { config, pkgs, lib, ... }:
 
 {
-  imports = import modules/module-list.nix;
+  imports = [
+    ./data.nix
+    ./dev.nix
+    ./hotkeys.nix
+    ./steam-controller.nix
+
+    machines/MSI_PE60-6QE.nix
+
+    profiles/netbook.nix
+    profiles/notebook.nix
+  ];
 
   config = {
     config.hotkeys.enable = true;
