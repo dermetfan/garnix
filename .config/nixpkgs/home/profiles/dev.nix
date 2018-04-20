@@ -39,6 +39,7 @@ in {
         jq
         nox
         qemu
+        dos2unix
       ] ++
       lib.optionals stdenv.isLinux [
         loc
@@ -49,6 +50,7 @@ in {
         pgadmin
       ] ++
       lib.optionals cfg.enableRust [
+        lldb
         rustracer
         rustracerd
       ] ++
