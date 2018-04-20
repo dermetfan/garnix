@@ -2,7 +2,6 @@
 
 lib.mkIf (config.xsession.enable && config.gtk.enable) {
   gtk = {
-    enable = config.xsession.enable;
     theme = {
       name = "Vertex-Dark";
       package = pkgs.theme-vertex;

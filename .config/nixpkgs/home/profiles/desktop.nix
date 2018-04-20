@@ -59,6 +59,8 @@ in {
       '';
     };
 
+    gtk.enable = config.xsession.enable;
+
     home.packages = with pkgs; [
       gnupg
       pass
