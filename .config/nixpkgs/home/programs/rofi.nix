@@ -10,7 +10,10 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    home.packages = [ pkgs.alacritty ];
+    home.packages = with pkgs; [
+      rofi-unwrapped
+      alacritty
+    ];
 
     programs.rofi = {
       borderWidth = 0;
@@ -22,7 +25,7 @@ in {
         rofi.opacity: 25
         rofi.fake-transparency: true
         rofi.fake-background: screenshot
-        rofi.theme: ${pkgs.rofi}/share/rofi/themes/Monokai
+        rofi.theme: ${pkgs.rofi-unwrapped}/share/rofi/themes/Monokai
       '';
     };
   };
