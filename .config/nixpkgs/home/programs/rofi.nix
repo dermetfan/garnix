@@ -23,8 +23,6 @@ in {
       extraConfig = ''
         rofi.scrollbar-width: 5
         rofi.opacity: 25
-        rofi.fake-transparency: true
-        rofi.fake-background: screenshot
         rofi.theme: ${pkgs.rofi-unwrapped}/share/rofi/themes/Monokai
       '';
     };
