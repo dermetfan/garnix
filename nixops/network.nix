@@ -58,6 +58,14 @@ in {
   };
 
   master = { config, pkgs, lib, nodes, ... }: {
+    imports = [
+      # nix-binary-cache-cache
+      "${(builtins.fetchGit {
+        url = https://gist.github.com/f495fc6cc4130f155e8b670609a1e57b.git;
+        rev = "ea9052f1bd4d5c57b0abe3d0c1ff3786b3c02d79";
+      }).outPath}/nix-binary-cache-cache.nix"
+    ];
+
     config = {
       deployment.keys = {
         master_rsa.keyFile = ../keys/master_rsa;
@@ -114,8 +122,14 @@ in {
 
       services = {
         nix-serve = {
-          enable = true;
+          enable = !(config.services.nixBinaryCacheCache.enable or false);
           secretKeyFile = "/run/keys/cache.sec";
+        };
+
+        nixBinaryCacheCache = {
+          enable = true;
+          virtualHost = "cache.dermetfan.net";
+          resolver = "127.0.0.1 ipv6=off";
         };
 
         hydra = {
@@ -157,9 +171,12 @@ in {
               locations."/".proxyPass = "http://127.0.0.1:${toString config.services.hydra.port}";
             };
 
-            "cache.dermetfan.net" = forceSSL {
-              locations."/".proxyPass = "http://127.0.0.1:${toString config.services.nix-serve.port}";
-            };
+            ${config.services.nixBinaryCacheCache.virtualHost or "cache.dermetfan.net"} =
+              if config.services.nix-serve.enable
+              then forceSSL {
+                locations."/".proxyPass = "http://127.0.0.1:${toString config.services.nix-serve.port}";
+              }
+              else forceSSL {};
           };
         };
       };
