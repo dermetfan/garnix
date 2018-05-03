@@ -1,10 +1,10 @@
 { config, lib, pkgs, ... }:
 
 let
-  cfg = config.config.profiles.media;
+  cfg = config.profiles.media;
   sysCfg = config.passthru.systemConfig or null;
 in {
-  options.config.profiles.media = with lib; {
+  options.profiles.media = with lib; {
     enable = mkEnableOption "media viewers";
     enableEditors = mkEnableOption "media editing programs";
   };

@@ -3,55 +3,59 @@
 let
   cfg = config.config.programs.mercurial;
 in {
-  options.config.programs.mercurial.enable = lib.mkEnableOption "mercurial";
+  options.config.programs.mercurial.enable = with lib; mkOption {
+    type = types.bool;
+    default = config.programs.mercurial.enable;
+    defaultText = "<option>programs.mercurial.enable</option>";
+    description = "Whether to configure Mercurial.";
+  };
 
-  config = lib.mkIf cfg.enable {
-    home = {
-      packages = [ pkgs.mercurial ];
+  config.programs.mercurial = lib.mkIf cfg.enable {
+    userName  = "Robin Stumm";
+    userEmail = "serverkorken@gmail.com";
 
-      file.".hgrc".text = ''
-        [ui]
-        username = Robin Stumm <serverkorken@gmail.com>
-        merge = meld
-        ssh = ssh -C
-        interface.chunkselector = curses
-
-        [alias]
-        lg = log -G
-        qnew = qnew -e
-
-        [auth]
-        bb.prefix = https://bitbucket.org/
-        bb.username = dermetfan
-        gh.prefix = https://github.com/
-        gh.username = dermetfan
-
-        [merge-tools]
-        meld.args = $base $local $other
-
-        [extensions]
-        color =
-        progress =
-        shelve =
-        strip =
-        purge =
-        pager =
-        eol =
-        convert =
-        rebase =
-        histedit =
-        mq =
-
-        [pager]
-        pager = less
-        attend = lg, log, diff, annotate, help
-
-        [diff]
-        git = true
-
-        [mq]
-        secret = true
-      '';
+    aliases = {
+      lg   = "log -G";
+      qnew = "qnew -e";
     };
+
+    extraConfig = ''
+      [ui]
+      merge = meld
+      ssh = ssh -C
+      interface.chunkselector = curses
+
+      [auth]
+      bb.prefix = https://bitbucket.org/
+      bb.username = dermetfan
+      gh.prefix = https://github.com/
+      gh.username = dermetfan
+
+      [merge-tools]
+      meld.args = $base $local $other
+
+      [extensions]
+      color =
+      progress =
+      shelve =
+      strip =
+      purge =
+      pager =
+      eol =
+      convert =
+      rebase =
+      histedit =
+      mq =
+
+      [pager]
+      pager = less
+      attend = lg, log, diff, annotate, help
+
+      [diff]
+      git = true
+
+      [mq]
+      secret = true
+    '';
   };
 }

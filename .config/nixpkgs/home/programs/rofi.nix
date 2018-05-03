@@ -6,7 +6,8 @@ in {
   options.config.programs.rofi.enable = with lib; mkOption {
     type = types.bool;
     default = config.programs.rofi.enable;
-    description = "Whether to enable rofi.";
+    defaultText = "<option>programs.rofi.enable</option>";
+    description = "Whether to configure rofi.";
   };
 
   config = lib.mkIf cfg.enable {
@@ -25,6 +26,7 @@ in {
         rofi.opacity: 25
         rofi.theme: ${pkgs.rofi-unwrapped}/share/rofi/themes/Monokai
       '';
+      # TODO rofi-pass
     };
   };
 }

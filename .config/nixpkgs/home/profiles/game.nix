@@ -1,12 +1,12 @@
 { config, lib, pkgs, ... }:
 
 let
-  cfg = config.config.profiles.game;
+  cfg = config.profiles.game;
 in {
-  options.config.profiles.game.enable = lib.mkEnableOption "games";
+  options.profiles.game.enable = lib.mkEnableOption "games";
 
   config = lib.mkIf cfg.enable {
-    config.programs.minecraft.enable = config.xsession.enable;
+    programs.minecraft.enable = config.xsession.enable;
 
     home.packages = with pkgs; [
       fortune

@@ -1,9 +1,9 @@
 { config, lib, pkgs, ... }:
 
 let
-  cfg = config.config.profiles.admin;
+  cfg = config.profiles.admin;
 in {
-  options.config.profiles.admin.enable = lib.mkEnableOption "sysadmin programs";
+  options.profiles.admin.enable = lib.mkEnableOption "sysadmin programs";
 
   config = lib.mkIf cfg.enable {
     home.packages = with pkgs; [

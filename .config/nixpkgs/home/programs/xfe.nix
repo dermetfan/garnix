@@ -3,14 +3,19 @@
 let
   cfg = config.config.programs.xfe;
 in {
-  options.config.programs.xfe.enable = lib.mkEnableOption "xfe";
+  options       .programs.xfe.enable = lib.mkEnableOption "xfe";
+  options.config.programs.xfe.enable = with lib; mkOption {
+    type = types.bool;
+    default = config.programs.xfe.enable;
+    defaultText = "<option>programs.xfe.enable</option>";
+    description = "Whether to configure Xfe.";
+  };
 
-  config = lib.mkIf cfg.enable {
-    home = {
-      packages = with pkgs; [
-        xfe
-        alacritty
-      ];
+  config.home = lib.mkMerge [
+    { packages = lib.optional config.programs.xfe.enable pkgs.xfe; }
+
+    (lib.mkIf cfg.enable {
+      packages = [ pkgs.alacritty ];
 
       file.".config/xfe/xferc".text = ''
         [OPTIONS]
@@ -160,6 +165,6 @@ in {
         BOOKMARK1=/data/dermetfan
         BOOKMARK2=/data/dermetfan/projects/workspaces/development
       '';
-    };
-  };
+    })
+  ];
 }

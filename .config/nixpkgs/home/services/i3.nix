@@ -1,9 +1,9 @@
 { config, lib, pkgs, ... }:
 
 let
-  cfg = config.config.programs.i3;
+  cfg = config.config.services.i3;
 in {
-  options.config.programs.i3 = {
+  options.config.services.i3 = {
     enable = with lib; mkOption {
       type = types.bool;
       default = config.xsession.enable && builtins.baseNameOf config.xsession.windowManager.command == "i3";
@@ -18,7 +18,7 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    config.programs = {
+    programs = {
       i3status .enable = true;
       alacritty.enable = true;
       ranger   .enable = true;

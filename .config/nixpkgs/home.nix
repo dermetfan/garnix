@@ -9,17 +9,7 @@ in {
   ];
 
   config = {
-    config = {
-      profiles.desktop.enable = config.xsession.enable;
-
-      programs = {
-        ranger.enable = true;
-        htop  .enable = true;
-        micro .enable = true;
-        nano  .enable = true;
-        tmux  .enable = true;
-      };
-    };
+    profiles.desktop.enable = lib.mkDefault config.xsession.enable;
 
     home = {
       packages = with pkgs;
@@ -42,10 +32,6 @@ in {
         ];
       };
 
-      sessionVariableSetter =
-        if with utils; toShellPath sysCfg.users.users.dermetfan.shell or null == toShellPath pkgs.zsh
-        then "zsh"
-        else "pam";
       sessionVariables = {
         EDITOR = "micro";
         PAGER = "less";
@@ -55,13 +41,22 @@ in {
 
     xsession.enable = sysCfg.services.xserver.enable or false;
 
+    services.unclutter.enable = config.xsession.enable && !sysCfg.services.unclutter.enable;
+
     programs = {
       home-manager = {
         enable = true;
         path = "${pkgs.home-manager-src}";
       };
 
-      zsh.enable = true;
+      ranger.enable = true;
+      htop  .enable = true;
+      micro .enable = true;
+      nano  .enable = true;
+      tmux  .enable = true;
+      zsh   .enable = true;
     };
+
+    systemd.user.startServices = true;
   };
 }

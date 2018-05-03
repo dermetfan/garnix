@@ -1,26 +1,19 @@
 { config, lib, pkgs, ... }:
 
 let
-  cfg = config.config.profiles.desktop;
+  cfg = config.profiles.desktop;
   sysCfg = config.passthru.systemConfig or null;
 in {
-  options.config.profiles.desktop.enable = lib.mkEnableOption "desktop programs";
+  options.profiles.desktop.enable = lib.mkEnableOption "desktop programs";
 
   config = lib.mkIf cfg.enable {
-    config = {
-      profiles.media.enable = true;
-
-      programs = {
-        parcellite  .enable = config.xsession.enable;
-        volumeicon  .enable = config.xsession.enable;
-        xscreensaver.enable = config.xsession.enable;
-
-        geany       .enable = config.xsession.enable;
-        alacritty   .enable = config.xsession.enable;
-      };
-    };
+    profiles.media.enable = true;
 
     programs = {
+      volumeicon.enable = config.xsession.enable;
+      alacritty .enable = config.xsession.enable;
+      geany     .enable = config.xsession.enable;
+
       firefox.enable = config.xsession.enable;
 
       browserpass = {
@@ -34,10 +27,11 @@ in {
     };
 
     services = {
-      blueman-applet.enable         = config.xsession.enable && sysCfg.hardware.bluetooth.enable or true;
-      dunst.enable                  = config.xsession.enable;
+      blueman-applet        .enable = config.xsession.enable && sysCfg.hardware.bluetooth.enable or true;
+      dunst                 .enable = config.xsession.enable;
       network-manager-applet.enable = config.xsession.enable;
-      xscreensaver.enable           = config.xsession.enable;
+      parcellite            .enable = config.xsession.enable;
+      xscreensaver          .enable = config.xsession.enable;
     };
 
     xsession = {

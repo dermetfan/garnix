@@ -1,12 +1,12 @@
 { config, lib, pkgs, ... }:
 
 let
-  cfg = config.config.programs.parcellite;
+  cfg = config.config.services.parcellite;
 in {
-  options.config.programs.parcellite.enable = lib.mkEnableOption "parcellite";
+  options.config.services.parcellite.enable = lib.mkEnableOption "parcellite";
 
-  config = lib.mkIf cfg.enable {
-    home.file.".config/parcellite/parcelliterc".text = ''
+  config.home.file = lib.mkIf cfg.enable {
+    ".config/parcellite/parcelliterc".text = ''
       [rc]
       RCVersion=1
       use_copy=true

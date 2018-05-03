@@ -3,12 +3,19 @@
 let
   cfg = config.config.programs.volumeicon;
 in {
-  options.config.programs.volumeicon.enable = lib.mkEnableOption "volumeicon";
+  options       .programs.volumeicon.enable = lib.mkEnableOption "volumeicon";
+  options.config.programs.volumeicon.enable = with lib; mkOption {
+    type = types.bool;
+    default = config.programs.volumeicon.enable;
+    defaultText = "<option>programs.volumeicon.enable</option>";
+    description = "Whether to configure volumeicon.";
+  };
 
-  config = lib.mkIf cfg.enable {
-    home = {
+  config.home = lib.mkMerge [
+    { packages = lib.optional config.programs.volumeicon.enable pkgs.volumeicon; }
+
+    (lib.mkIf cfg.enable {
       packages = with pkgs; [
-        volumeicon
         alacritty
         alsaUtils
       ];
@@ -40,6 +47,6 @@ in {
         down=XF86AudioLowerVolume
         mute=XF86AudioMute
       '';
-    };
-  };
+    })
+  ];
 }

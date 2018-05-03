@@ -3,604 +3,607 @@
 let
   cfg = config.config.programs.lilyterm;
 in {
-  options.config.programs.lilyterm.enable = lib.mkEnableOption "lilyterm";
+  options       .programs.lilyterm.enable = lib.mkEnableOption "LilyTerm";
+  options.config.programs.lilyterm.enable = with lib; mkOption {
+    type = types.bool;
+    default = config.programs.lilyterm.enable;
+    defaultText = "<option>programs.lilyterm.enable</option>";
+    description = "Whether to configure LilyTerm.";
+  };
 
-  config = lib.mkIf cfg.enable {
-    home = {
-      packages = [ pkgs.lilyterm ];
+  config.home.packages = lib.optional config.programs.lilyterm.enable pkgs.lilyterm;
+  config.home.file = lib.mkIf cfg.enable {
+    ".config/lilyterm/default.conf".text = ''
+      [main]
 
-      file.".config/lilyterm/default.conf".text = ''
-        [main]
+      # Auto save settings when closing window.
+      auto_save = 0
 
-        # Auto save settings when closing window.
-        auto_save = 0
+      # The version of this profile's format. DO NOT EDIT IT!
+      version = 0.9.9.3
 
-        # The version of this profile's format. DO NOT EDIT IT!
-        version = 0.9.9.3
+      # The default font name of vte terminal.
+      font_name = Monospace 12
 
-        # The default font name of vte terminal.
-        font_name = Monospace 12
+      # The default column of vte terminal.
+      column =
 
-        # The default column of vte terminal.
-        column =
+      # The default row of vte terminal.
+      row =
 
-        # The default row of vte terminal.
-        row =
+      # Use true opacity in vte box.
+      # 0: do NOT use rgba, 1: force to use rgba.
+      # Left it blank will enable it automatically
+      # if the window manager were composited.
+      # Disable it will disable transparent_window, too.
+      use_rgba =
 
-        # Use true opacity in vte box.
-        # 0: do NOT use rgba, 1: force to use rgba.
-        # Left it blank will enable it automatically
-        # if the window manager were composited.
-        # Disable it will disable transparent_window, too.
-        use_rgba =
+      # Start up with fullscreen.
+      fullscreen = 0
 
-        # Start up with fullscreen.
-        fullscreen = 0
+      # Transparent window. Only enabled when the window manager were composited.
+      transparent_window = 0
 
-        # Transparent window. Only enabled when the window manager were composited.
-        transparent_window = 0
+      # The opacity of transparent window.
+      window_opacity = 0
 
-        # The opacity of transparent window.
-        window_opacity = 0
+      # The opacity of transparent window when inactive.
+      # Left it blank to disable this feature.
+      window_opacity_inactive =
 
-        # The opacity of transparent window when inactive.
-        # Left it blank to disable this feature.
-        window_opacity_inactive =
+      # Use transparent background.
+      # It will use true transparent if the window manager were composited.
+      transparent_background = 1
 
-        # Use transparent background.
-        # It will use true transparent if the window manager were composited.
-        transparent_background = 1
+      # The saturation of transparent background.
+      background_saturation = 0.35
 
-        # The saturation of transparent background.
-        background_saturation = 0.35
+      # Scroll the background image along with the text.
+      scroll_background = 0
 
-        # Scroll the background image along with the text.
-        scroll_background = 0
+      # Sets a background image.
+      background_image =
 
-        # Sets a background image.
-        background_image =
+      # Confirm to execute command with -e/-x/--execute option.
+      confirm_to_execute_command = 1
 
-        # Confirm to execute command with -e/-x/--execute option.
-        confirm_to_execute_command = 1
+      # Don't need to confirm for executing a program if it's in the whitelist,
+      # separate with <space>.
+      execute_command_whitelist = ssh mosh tmux htop ranger nano micro alsamixer
 
-        # Don't need to confirm for executing a program if it's in the whitelist,
-        # separate with <space>.
-        execute_command_whitelist = ssh mosh tmux htop ranger nano micro alsamixer
+      # Launching executed command in a new tab instead of opening a new window.
+      execute_command_in_new_tab = 0
 
-        # Launching executed command in a new tab instead of opening a new window.
-        execute_command_in_new_tab = 0
+      # If a program is running on foreground,
+      # Don't need to confirm for terminating it if it's in the whitelist,
+      # separate with <space>.
+      foreground_program_whitelist = bash dash csh ksh tcsh zsh screen tmux
 
-        # If a program is running on foreground,
-        # Don't need to confirm for terminating it if it's in the whitelist,
-        # separate with <space>.
-        foreground_program_whitelist = bash dash csh ksh tcsh zsh screen tmux
+      # If a program is running in background,
+      # Don't need to confirm for terminating it if it's in the whitelist,
+      # separate with <space>.
+      background_program_whitelist = bash dash csh ksh tcsh zsh su sudo
 
-        # If a program is running in background,
-        # Don't need to confirm for terminating it if it's in the whitelist,
-        # separate with <space>.
-        background_program_whitelist = bash dash csh ksh tcsh zsh su sudo
+      # Confirm before pasting texts to vte terminal.
+      confirm_to_paste = 1
 
-        # Confirm before pasting texts to vte terminal.
-        confirm_to_paste = 1
+      # If the program is running on foreground,,
+      # Don't need to confirm for pasting texts to it if it's in the whitelist,
+      # separate with <space>.
+      paste_texts_whitelist = editor vi vim elvis nano emacs emacs23 nano joe ne mg ssh
 
-        # If the program is running on foreground,,
-        # Don't need to confirm for pasting texts to it if it's in the whitelist,
-        # separate with <space>.
-        paste_texts_whitelist = editor vi vim elvis nano emacs emacs23 nano joe ne mg ssh
+      # Confirm to close multi tabs.
+      confirm_to_close_multi_tabs = 0
 
-        # Confirm to close multi tabs.
-        confirm_to_close_multi_tabs = 0
+      # Shows [Transparent Background], [Background Saturation]
+      # [Transparent Window] and [Window Opacity] on right click menu.
+      show_background_menu = 1
 
-        # Shows [Transparent Background], [Background Saturation]
-        # [Transparent Window] and [Window Opacity] on right click menu.
-        show_background_menu = 1
+      # Shows [Change the foreground color]
+      # and [Change the background color] on right click menu.
+      show_color_selection_menu = 1
+
+      # The normal text color used in vte terminal.
+      # You may use black, #000000 or #000000000000 here.
+      foreground_color =
+
+      # The background color used in vte terminal.
+      # You may use black, #000000 or #000000000000 here.
+      background_color =
+
+      # Sets the background color for text which is under the cursor.
+      # You may use black, #000000 or #000000000000 here.
+      cursor_color = #5555b5b5e7e7
+
+      # Shows [Increase window size], [Decrease window size],
+      # [Reset to default font/size] and [Reset to system font/size]
+      # on right click menu.
+      show_resize_menu = 1
+
+      # The ratio when resizing font via function key <Ctrl><+> and <Ctrl><->.
+      # 0: the font size is +/- 1 when resizing.
+      font_resize_ratio = 0.000
+
+      # The ratio when resizing window via right click menu.
+      # 0: the font size is +/- 1 when resizing window.
+      window_resize_ratio = 1.120
+
+      # When user double clicks on a text, which character will be selected.
+      word_chars = -A-Za-z0-9_.+!@&=/~%
+
+      # The lines of scrollback history. -1 means unlimited (vte >= 0.22.3).
+      scrollback_lines = 1024
+
+      # Shows scroll_bar or not.
+      # 0: Never shows the scroll_bar; 1: Always shows the scroll_bar.
+      # Left it blank: Hide when fullscreen, or scrollback_lines = 0.
+      show_scroll_bar = 0
+
+      # The position of scroll_bar.
+      # 0: scroll_bar is on left; 1: scroll_bar is on right.
+      scroll_bar_position = 1
+
+      # Shows input method menu on right click menu.
+      show_input_method_menu = 0
+
+      # Shows change page name menu on right click menu.
+      show_change_page_name_menu = 1
+
+      # Shows exit menu on right click menu.
+      show_exit_menu = 1
 
-        # Shows [Change the foreground color]
-        # and [Change the background color] on right click menu.
-        show_color_selection_menu = 1
+      # Enable hyperlink in vte terminal.
+      enable_hyperlink = 1
 
-        # The normal text color used in vte terminal.
-        # You may use black, #000000 or #000000000000 here.
-        foreground_color =
+      # Sets whether or not the cursor will blink in vte terminal.
+      # 0: Follow GTK+ settings for cursor blinking.
+      # 1: Cursor blinks.
+      # 2: Cursor does not blink.
+      cursor_blinks = 1
 
-        # The background color used in vte terminal.
-        # You may use black, #000000 or #000000000000 here.
-        background_color =
-
-        # Sets the background color for text which is under the cursor.
-        # You may use black, #000000 or #000000000000 here.
-        cursor_color = #5555b5b5e7e7
-
-        # Shows [Increase window size], [Decrease window size],
-        # [Reset to default font/size] and [Reset to system font/size]
-        # on right click menu.
-        show_resize_menu = 1
-
-        # The ratio when resizing font via function key <Ctrl><+> and <Ctrl><->.
-        # 0: the font size is +/- 1 when resizing.
-        font_resize_ratio = 0.000
-
-        # The ratio when resizing window via right click menu.
-        # 0: the font size is +/- 1 when resizing window.
-        window_resize_ratio = 1.120
-
-        # When user double clicks on a text, which character will be selected.
-        word_chars = -A-Za-z0-9_.+!@&=/~%
-
-        # The lines of scrollback history. -1 means unlimited (vte >= 0.22.3).
-        scrollback_lines = 1024
-
-        # Shows scroll_bar or not.
-        # 0: Never shows the scroll_bar; 1: Always shows the scroll_bar.
-        # Left it blank: Hide when fullscreen, or scrollback_lines = 0.
-        show_scroll_bar = 0
-
-        # The position of scroll_bar.
-        # 0: scroll_bar is on left; 1: scroll_bar is on right.
-        scroll_bar_position = 1
-
-        # Shows input method menu on right click menu.
-        show_input_method_menu = 0
-
-        # Shows change page name menu on right click menu.
-        show_change_page_name_menu = 1
-
-        # Shows exit menu on right click menu.
-        show_exit_menu = 1
+      # Shows copy/paste menu on right click menu.
+      show_copy_paste_menu = 1
 
-        # Enable hyperlink in vte terminal.
-        enable_hyperlink = 1
+      # Embed the copy/paste menu to the main menu.
+      embedded_copy_paste_menu = 1
 
-        # Sets whether or not the cursor will blink in vte terminal.
-        # 0: Follow GTK+ settings for cursor blinking.
-        # 1: Cursor blinks.
-        # 2: Cursor does not blink.
-        cursor_blinks = 1
+      # Sets whether or not the terminal will beep
+      # when the child outputs the "bl" sequence.
+      audible_bell = 1
 
-        # Shows copy/paste menu on right click menu.
-        show_copy_paste_menu = 1
+      # Sets whether or not the terminal will flash
+      # when the child outputs the "bl" sequence.
+      visible_bell = 1
 
-        # Embed the copy/paste menu to the main menu.
-        embedded_copy_paste_menu = 1
+      # Sets whether or not the window's urgent tag will be set
+      # when the child outputs the "bl" sequence.
+      urgent_bell = 1
 
-        # Sets whether or not the terminal will beep
-        # when the child outputs the "bl" sequence.
-        audible_bell = 1
+      # Which string the terminal should send to an application
+      # when the user presses the Delete or Backspace keys.
+      # 0: VTE_ERASE_AUTO
+      # 1: VTE_ERASE_ASCII_BACKSPACE
+      # 2: VTE_ERASE_ASCII_DELETE
+      # 3: VTE_ERASE_DELETE_SEQUENCE
+      # 4: VTE_ERASE_TTY
+      erase_binding = 2
 
-        # Sets whether or not the terminal will flash
-        # when the child outputs the "bl" sequence.
-        visible_bell = 1
+      # Sets the shape of the cursor drawn.
+      # 0: VTE_CURSOR_SHAPE_BLOCK
+      # 1: VTE_CURSOR_SHAPE_IBEAM
+      # 2: VTE_CURSOR_SHAPE_UNDERLINE
+      cursor_shape = 0
 
-        # Sets whether or not the window's urgent tag will be set
-        # when the child outputs the "bl" sequence.
-        urgent_bell = 1
+      # The default locale used when initing a vte terminal.
+      # You may use "zh_TW", "zh_TW.Big5", or "zh_TW.UTF-8" here.
+      default_locale =
 
-        # Which string the terminal should send to an application
-        # when the user presses the Delete or Backspace keys.
-        # 0: VTE_ERASE_AUTO
-        # 1: VTE_ERASE_ASCII_BACKSPACE
-        # 2: VTE_ERASE_ASCII_DELETE
-        # 3: VTE_ERASE_DELETE_SEQUENCE
-        # 4: VTE_ERASE_TTY
-        erase_binding = 2
+      # The locales list on right click menu, separate with <space>.
+      # You may use "ja_JP", "ja_JP.EUC-JP", or "ja_JP.UTF-8" here.
+      # You may want to use "UTF-8" here if you have no locale data installed.
+      # Left it blank will disable locale and encoding select menu items.
+      locales_list = UTF-8
 
-        # Sets the shape of the cursor drawn.
-        # 0: VTE_CURSOR_SHAPE_BLOCK
-        # 1: VTE_CURSOR_SHAPE_IBEAM
-        # 2: VTE_CURSOR_SHAPE_UNDERLINE
-        cursor_shape = 0
+      # Sets what type of terminal attempts to emulate.
+      # It will also set the TERM environment.
+      # Unless you are interested in this feature, always use "xterm".
+      emulate_term = xterm
 
-        # The default locale used when initing a vte terminal.
-        # You may use "zh_TW", "zh_TW.Big5", or "zh_TW.UTF-8" here.
-        default_locale =
+      # The environment 'VTE_CJK_WIDTH' used when initing a vte terminal.
+      # 0: get via environment; 1: use narrow ideograph; 2: use wide ideograph.
+      VTE_CJK_WIDTH = 1
 
-        # The locales list on right click menu, separate with <space>.
-        # You may use "ja_JP", "ja_JP.EUC-JP", or "ja_JP.UTF-8" here.
-        # You may want to use "UTF-8" here if you have no locale data installed.
-        # Left it blank will disable locale and encoding select menu items.
-        locales_list = UTF-8
+      # The geometry of window when starting.
+      # A reasonable example value is "80x24+0+0",
+      # witch means "WIDTH x HEIGHT {+-} XOFFSET {+-} YOFFSET", and NO SPACE in it.
+      # Notice that it will overwrite the default column and row settings above.
+      geometry =
 
-        # Sets what type of terminal attempts to emulate.
-        # It will also set the TERM environment.
-        # Unless you are interested in this feature, always use "xterm".
-        emulate_term = xterm
 
-        # The environment 'VTE_CJK_WIDTH' used when initing a vte terminal.
-        # 0: get via environment; 1: use narrow ideograph; 2: use wide ideograph.
-        VTE_CJK_WIDTH = 1
+      [page]
 
-        # The geometry of window when starting.
-        # A reasonable example value is "80x24+0+0",
-        # witch means "WIDTH x HEIGHT {+-} XOFFSET {+-} YOFFSET", and NO SPACE in it.
-        # Notice that it will overwrite the default column and row settings above.
-        geometry =
+      # The max character width of page name.
+      page_width = 16
 
+      # Show the tabs bar or not.
+      # 0: Never shows the tabs ; 1: Always shows the tabs bar.
+      # Left it blank: Hide when fullscreen, or tabs number = 1.
+      show_tabs_bar =
 
-        [page]
+      # The position of tabs bar.
+      # 0: Top, 1: bottom.
+      tabs_bar_position = 0
 
-        # The max character width of page name.
-        page_width = 16
+      # The label of tabs will fill the tab bar.
+      fill_tabs_bar = 0
 
-        # Show the tabs bar or not.
-        # 0: Never shows the tabs ; 1: Always shows the tabs bar.
-        # Left it blank: Hide when fullscreen, or tabs number = 1.
-        show_tabs_bar =
+      # The page name used for a new page.
+      page_name = Terminal
 
-        # The position of tabs bar.
-        # 0: Top, 1: bottom.
-        tabs_bar_position = 0
+      # The page names list used for new pages, separate with <space>.
+      page_names = Terminal
 
-        # The label of tabs will fill the tab bar.
-        fill_tabs_bar = 0
+      # Reuse the page name in the page names list.
+      reuse_page_names = 1
 
-        # The page name used for a new page.
-        page_name = Terminal
+      # Shows a (number no) on the page name.
+      page_shows_number = 0
 
-        # The page names list used for new pages, separate with <space>.
-        page_names = Terminal
+      # Shows the foreground running command on the page name.
+      page_shows_current_cmdline = 1
 
-        # Reuse the page name in the page names list.
-        reuse_page_names = 1
+      # Shows the terminal's idea of what the window's title should be.
+      page_shows_window_title = 1
 
-        # Shows a (number no) on the page name.
-        page_shows_number = 0
+      # Shows current directory on the page name.
+      page_shows_current_dir = 1
 
-        # Shows the foreground running command on the page name.
-        page_shows_current_cmdline = 1
+      # Check if the running command is root privileges.
+      check_root_privileges = 1
 
-        # Shows the terminal's idea of what the window's title should be.
-        page_shows_window_title = 1
+      # Shows current encoding on the page name.
+      page_shows_encoding = 1
 
-        # Shows current directory on the page name.
-        page_shows_current_dir = 1
+      # Bold the text of current page name.
+      bold_current_page_name = 1
 
-        # Check if the running command is root privileges.
-        check_root_privileges = 1
+      # Bold the text of action page name.
+      bold_action_page_name = 1
 
-        # Shows current encoding on the page name.
-        page_shows_encoding = 1
+      # Shows the page name of current page on window title.
+      window_title_shows_current_page = 1
 
-        # Bold the text of current page name.
-        bold_current_page_name = 1
+      # Append a package name (- LilyTerm) to the window title.
+      window_title_append_package_name = 1
 
-        # Bold the text of action page name.
-        bold_action_page_name = 1
+      # Shows a close button [X] on current tab.
+      show_close_button_on_tab = 1
 
-        # Shows the page name of current page on window title.
-        window_title_shows_current_page = 1
+      # Shows a close button [X] on all tabs.
+      show_close_button_on_all_tabs = 0
 
-        # Append a package name (- LilyTerm) to the window title.
-        window_title_append_package_name = 1
+      # Use colorful text on page.
+      use_color_page = 1
 
-        # Shows a close button [X] on current tab.
-        show_close_button_on_tab = 1
+      # The color used for showing Window Title on page name.
+      # You may use black, #000000 or #000000000000 here.
+      page_win_title_color = #9A6401
 
-        # Shows a close button [X] on all tabs.
-        show_close_button_on_all_tabs = 0
+      # The color used for showing Running Command on page name.
+      # You may use black, #000000 or #000000000000 here.
+      page_cmdline_color = #1C1CDC
 
-        # Use colorful text on page.
-        use_color_page = 1
+      # The color used for showing Current Dir on page name.
+      # You may use black, #000000 or #000000000000 here.
+      page_dir_color = #215E3E
 
-        # The color used for showing Window Title on page name.
-        # You may use black, #000000 or #000000000000 here.
-        page_win_title_color = #9A6401
+      # The color used for showing Custom Tab Name on page name.
+      # You may use black, #000000 or #000000000000 here.
+      page_custom_color = #9C0A81
 
-        # The color used for showing Running Command on page name.
-        # You may use black, #000000 or #000000000000 here.
-        page_cmdline_color = #1C1CDC
+      # The color used for showing Root Privileges on page name.
+      # You may use black, #000000 or #000000000000 here.
+      page_root_color = #BE0020
 
-        # The color used for showing Current Dir on page name.
-        # You may use black, #000000 or #000000000000 here.
-        page_dir_color = #215E3E
+      # The color used for showing Normal Text on page name.
+      # You may use black, #000000 or #000000000000 here.
+      page_normal_color = #333333
 
-        # The color used for showing Custom Tab Name on page name.
-        # You may use black, #000000 or #000000000000 here.
-        page_custom_color = #9C0A81
 
-        # The color used for showing Root Privileges on page name.
-        # You may use black, #000000 or #000000000000 here.
-        page_root_color = #BE0020
+      [key]
 
-        # The color used for showing Normal Text on page name.
-        # You may use black, #000000 or #000000000000 here.
-        page_normal_color = #333333
+      # Disable/Enable hyperlinks, function keys and right click menu.
+      # Left it blank to disable this function key.
+      disable_key_binding = Ctrl grave
 
+      # Add a new tab.
+      # Left it blank to disable this function key.
+      new_tab_key = Shift+Ctrl T
 
-        [key]
+      # Close current tab.
+      # Left it blank to disable this function key.
+      close_tab_key =
 
-        # Disable/Enable hyperlinks, function keys and right click menu.
-        # Left it blank to disable this function key.
-        disable_key_binding = Ctrl grave
+      # Rename the page name of current tab.
+      # Left it blank to disable this function key.
+      edit_label_key =
 
-        # Add a new tab.
-        # Left it blank to disable this function key.
-        new_tab_key = Shift+Ctrl T
+      # Find the strings matching the search regex.
+      # Left it blank to disable this function key.
+      find_key = Shift+Ctrl F
 
-        # Close current tab.
-        # Left it blank to disable this function key.
-        close_tab_key =
+      # Find the previous string matching the search regex.
+      # Left it blank to disable this function key.
+      find_key_prev =
 
-        # Rename the page name of current tab.
-        # Left it blank to disable this function key.
-        edit_label_key =
+      # Find the next string matching the search regex.
+      # Left it blank to disable this function key.
+      find_key_next =
 
-        # Find the strings matching the search regex.
-        # Left it blank to disable this function key.
-        find_key = Shift+Ctrl F
+      # Switch to prev tab.
+      # Left it blank to disable this function key.
+      prev_tab_key = Ctrl Page_Up
 
-        # Find the previous string matching the search regex.
-        # Left it blank to disable this function key.
-        find_key_prev =
+      # Switch to next tab.
+      # Left it blank to disable this function key.
+      next_tab_key = Ctrl Page_Down
 
-        # Find the next string matching the search regex.
-        # Left it blank to disable this function key.
-        find_key_next =
+      # Switch to first tab.
+      # Left it blank to disable this function key.
+      first_tab_key = Ctrl Home
 
-        # Switch to prev tab.
-        # Left it blank to disable this function key.
-        prev_tab_key = Ctrl Page_Up
+      # Switch to last tab.
+      # Left it blank to disable this function key.
+      last_tab_key = Ctrl End
 
-        # Switch to next tab.
-        # Left it blank to disable this function key.
-        next_tab_key = Ctrl Page_Down
+      # Move current page forward.
+      # Left it blank to disable this function key.
+      move_tab_forward = Shift+Ctrl Page_Down
 
-        # Switch to first tab.
-        # Left it blank to disable this function key.
-        first_tab_key = Ctrl Home
+      # Move current page backward.
+      # Left it blank to disable this function key.
+      move_tab_backward = Shift+Ctrl Page_Up
 
-        # Switch to last tab.
-        # Left it blank to disable this function key.
-        last_tab_key = Ctrl End
+      # Move current page to first.
+      # Left it blank to disable this function key.
+      move_tab_first =
 
-        # Move current page forward.
-        # Left it blank to disable this function key.
-        move_tab_forward = Shift+Ctrl Page_Down
+      # Move current page to last.
+      # Left it blank to disable this function key.
+      move_tab_last =
 
-        # Move current page backward.
-        # Left it blank to disable this function key.
-        move_tab_backward = Shift+Ctrl Page_Up
+      # Switch to #1 tab directly.
+      # Left it blank to disable this function key.
+      switch_to_tab_1 = Ctrl F1
 
-        # Move current page to first.
-        # Left it blank to disable this function key.
-        move_tab_first =
+      # Switch to #2 tab directly.
+      # Left it blank to disable this function key.
+      switch_to_tab_2 = Ctrl F2
 
-        # Move current page to last.
-        # Left it blank to disable this function key.
-        move_tab_last =
+      # Switch to #3 tab directly.
+      # Left it blank to disable this function key.
+      switch_to_tab_3 = Ctrl F3
 
-        # Switch to #1 tab directly.
-        # Left it blank to disable this function key.
-        switch_to_tab_1 = Ctrl F1
+      # Switch to #4 tab directly.
+      # Left it blank to disable this function key.
+      switch_to_tab_4 = Ctrl F4
 
-        # Switch to #2 tab directly.
-        # Left it blank to disable this function key.
-        switch_to_tab_2 = Ctrl F2
+      # Switch to #5 tab directly.
+      # Left it blank to disable this function key.
+      switch_to_tab_5 = Ctrl F5
 
-        # Switch to #3 tab directly.
-        # Left it blank to disable this function key.
-        switch_to_tab_3 = Ctrl F3
+      # Switch to #6 tab directly.
+      # Left it blank to disable this function key.
+      switch_to_tab_6 = Ctrl F6
 
-        # Switch to #4 tab directly.
-        # Left it blank to disable this function key.
-        switch_to_tab_4 = Ctrl F4
+      # Switch to #7 tab directly.
+      # Left it blank to disable this function key.
+      switch_to_tab_7 = Ctrl F7
 
-        # Switch to #5 tab directly.
-        # Left it blank to disable this function key.
-        switch_to_tab_5 = Ctrl F5
+      # Switch to #8 tab directly.
+      # Left it blank to disable this function key.
+      switch_to_tab_8 = Ctrl F8
 
-        # Switch to #6 tab directly.
-        # Left it blank to disable this function key.
-        switch_to_tab_6 = Ctrl F6
+      # Switch to #9 tab directly.
+      # Left it blank to disable this function key.
+      switch_to_tab_9 = Ctrl F9
 
-        # Switch to #7 tab directly.
-        # Left it blank to disable this function key.
-        switch_to_tab_7 = Ctrl F7
+      # Switch to #10 tab directly.
+      # Left it blank to disable this function key.
+      switch_to_tab_10 = Ctrl F10
 
-        # Switch to #8 tab directly.
-        # Left it blank to disable this function key.
-        switch_to_tab_8 = Ctrl F8
+      # Switch to #11 tab directly.
+      # Left it blank to disable this function key.
+      switch_to_tab_11 = Ctrl F11
 
-        # Switch to #9 tab directly.
-        # Left it blank to disable this function key.
-        switch_to_tab_9 = Ctrl F9
+      # Switch to #12 tab directly.
+      # Left it blank to disable this function key.
+      switch_to_tab_12 = Ctrl F12
 
-        # Switch to #10 tab directly.
-        # Left it blank to disable this function key.
-        switch_to_tab_10 = Ctrl F10
+      # Open a new window with current dir.
+      # Left it blank to disable this function key.
+      new_window =
 
-        # Switch to #11 tab directly.
-        # Left it blank to disable this function key.
-        switch_to_tab_11 = Ctrl F11
+      # Select all the text in the Vte Terminal box.
+      # Left it blank to disable this function key.
+      select_all =
 
-        # Switch to #12 tab directly.
-        # Left it blank to disable this function key.
-        switch_to_tab_12 = Ctrl F12
+      # Copy the text to clipboard.
+      # Left it blank to disable this function key.
+      copy_clipboard = Shift+Ctrl C
 
-        # Open a new window with current dir.
-        # Left it blank to disable this function key.
-        new_window =
+      # Paste the text in clipboard.
+      # Left it blank to disable this function key.
+      paste_clipboard = Shift+Ctrl V
 
-        # Select all the text in the Vte Terminal box.
-        # Left it blank to disable this function key.
-        select_all =
+      # Paste the text in the primary clipboard.
+      # Left it blank to disable this function key.
+      paste_clipboard in primary = Shift Insert
 
-        # Copy the text to clipboard.
-        # Left it blank to disable this function key.
-        copy_clipboard = Shift+Ctrl C
+      # Increase the font size of current tab.
+      # Left it blank to disable this function key.
+      increase_font_size = Ctrl equal
 
-        # Paste the text in clipboard.
-        # Left it blank to disable this function key.
-        paste_clipboard = Shift+Ctrl V
+      # Decrease the font size of current tab.
+      # Left it blank to disable this function key.
+      decrease_font_size = Ctrl minus
 
-        # Paste the text in the primary clipboard.
-        # Left it blank to disable this function key.
-        paste_clipboard in primary = Shift Insert
+      # Reset the font of current tab to original size.
+      # Left it blank to disable this function key.
+      reset_font_size = Ctrl 0
 
-        # Increase the font size of current tab.
-        # Left it blank to disable this function key.
-        increase_font_size = Ctrl equal
+      # Try to maximum the window to use all available space on your display.
+      # Left it blank to disable this function key.
+      max_window =
 
-        # Decrease the font size of current tab.
-        # Left it blank to disable this function key.
-        decrease_font_size = Ctrl minus
+      # Asks to place window in the fullscreen/unfullscreen state.
+      # Left it blank to disable this function key.
+      full_screen =
 
-        # Reset the font of current tab to original size.
-        # Left it blank to disable this function key.
-        reset_font_size = Ctrl 0
+      # Emulate a mouse scroll up event on Vte Terminal box.
+      # Left it blank to disable this function key.
+      scroll_up =
 
-        # Try to maximum the window to use all available space on your display.
-        # Left it blank to disable this function key.
-        max_window =
+      # Emulate a mouse scroll down event on Vte Terminal box.
+      # Left it blank to disable this function key.
+      scroll_down =
 
-        # Asks to place window in the fullscreen/unfullscreen state.
-        # Left it blank to disable this function key.
-        full_screen =
+      # Asks to scroll up 1 line on Vte Terminal box.
+      # Left it blank to disable this function key.
+      scroll_up_1_line = Shift+Ctrl Up
 
-        # Emulate a mouse scroll up event on Vte Terminal box.
-        # Left it blank to disable this function key.
-        scroll_up =
+      # Asks to scroll down 1 line on Vte Terminal box.
+      # Left it blank to disable this function key.
+      scroll_down_1_line = Shift+Ctrl Down
 
-        # Emulate a mouse scroll down event on Vte Terminal box.
-        # Left it blank to disable this function key.
-        scroll_down =
 
-        # Asks to scroll up 1 line on Vte Terminal box.
-        # Left it blank to disable this function key.
-        scroll_up_1_line = Shift+Ctrl Up
+      [color]
 
-        # Asks to scroll down 1 line on Vte Terminal box.
-        # Left it blank to disable this function key.
-        scroll_down_1_line = Shift+Ctrl Down
+      # The main ansi color theme used in vte.
+      # Possible values are linux, xterm, rxvt, and tango.
+      # or left it blank to use the default settings form libvte.
+      theme =
 
+      # Invert the ansi colors, like invert the darkred to red, darkblue to bule.
+      invert_color = 0
 
-        [color]
+      # Enable the custom colors specified with Color# below.
+      custom_theme = 0
 
-        # The main ansi color theme used in vte.
-        # Possible values are linux, xterm, rxvt, and tango.
-        # or left it blank to use the default settings form libvte.
-        theme =
+      # The brightness for ansi colors used in terminal.
+      brightness = 0.200
 
-        # Invert the ansi colors, like invert the darkred to red, darkblue to bule.
-        invert_color = 0
+      # The brightness for ansi colors used in terminal when inactive.
+      # Left it blank to disable this feature.
+      inactive_brightness = 0.200
 
-        # Enable the custom colors specified with Color# below.
-        custom_theme = 0
+      # The ANSI color code for Dark Red
+      # You may use black, #000000 or #000000000000 here.
+      Color1 =
 
-        # The brightness for ansi colors used in terminal.
-        brightness = 0.200
-
-        # The brightness for ansi colors used in terminal when inactive.
-        # Left it blank to disable this feature.
-        inactive_brightness = 0.200
-
-        # The ANSI color code for Dark Red
-        # You may use black, #000000 or #000000000000 here.
-        Color1 =
-
-        # The ANSI color code for Dark Green
-        # You may use black, #000000 or #000000000000 here.
-        Color2 =
-
-        # The ANSI color code for Dark Yellow
-        # You may use black, #000000 or #000000000000 here.
-        Color3 =
-
-        # The ANSI color code for Dark Blue
-        # You may use black, #000000 or #000000000000 here.
-        Color4 =
-
-        # The ANSI color code for Dark Magenta
-        # You may use black, #000000 or #000000000000 here.
-        Color5 =
-
-        # The ANSI color code for Dark Cyan
-        # You may use black, #000000 or #000000000000 here.
-        Color6 =
-
-        # The ANSI color code for Dark White
-        # You may use black, #000000 or #000000000000 here.
-        Color7 =
-
-        # The ANSI color code for Bright Black
-        # You may use black, #000000 or #000000000000 here.
-        Color8 =
-
-        # The ANSI color code for Bright Red
-        # You may use black, #000000 or #000000000000 here.
-        Color9 =
-
-        # The ANSI color code for Bright Green
-        # You may use black, #000000 or #000000000000 here.
-        Color10 =
-
-        # The ANSI color code for Bright Yellow
-        # You may use black, #000000 or #000000000000 here.
-        Color11 =
-
-        # The ANSI color code for Bright Blue
-        # You may use black, #000000 or #000000000000 here.
-        Color12 =
-
-        # The ANSI color code for Bright Magenta
-        # You may use black, #000000 or #000000000000 here.
-        Color13 =
-
-        # The ANSI color code for Bright Cyan
-        # You may use black, #000000 or #000000000000 here.
-        Color14 =
-
-
-        [command]
-
-        # The parameters of the APPLICATION should be separated with <tab>, if any.
-        #
-        # method = {0,1,2}
-        # 0: Open the hyperlink in new tab.
-        #    Use it if the command were using CLI, like w3m.
-        # 1: Open the hyperlink with gdk_spawn_on_screen_with_pipes().
-        #    Use it if the command were using GUI, like firefox.
-        # 2: Open the hyperlink in new window,
-        #    Use it if you not sure.
-        #
-        # VTE_CJK_WIDTH = {0,1,2}
-        # 0: get via environment
-        # 1: use narrow ideograph
-        # 2: use wide ideograph.
-        #
-        # The ENVIRONS will apply to the application, separated with <tab>, too.
-        #
-        # The LOCALE will apply to the application as locale environs.
-        # You may use "zh_TW", "zh_TW.Big5", or "zh_TW.UTF-8" here.
-        # Left it blank to use the locale environs from current page.
-
-        # The web browser using for http(s)://
-        web_browser = vivaldi
-        web_method = 1
-        web_VTE_CJK_WIDTH = 0
-        web_environ =
-        web_locale =
-
-        # The ftp client using for ftp(s)://
-        ftp_client = filezilla
-        ftp_method = 1
-        ftp_VTE_CJK_WIDTH = 0
-        ftp_environ =
-        ftp_locale =
-
-        # The file manager using for file:// and [Open current directory with file manager]
-        file_manager = xfe
-        file_method = 1
-        file_VTE_CJK_WIDTH = 0
-        file_environ =
-        file_locale =
-
-        # The email client using for user@host
-        email_client = vivaldi
-        email_method = 1
-        email_VTE_CJK_WIDTH = 0
-        email_environ =
-        email_locale =
-      '';
-    };
+      # The ANSI color code for Dark Green
+      # You may use black, #000000 or #000000000000 here.
+      Color2 =
+
+      # The ANSI color code for Dark Yellow
+      # You may use black, #000000 or #000000000000 here.
+      Color3 =
+
+      # The ANSI color code for Dark Blue
+      # You may use black, #000000 or #000000000000 here.
+      Color4 =
+
+      # The ANSI color code for Dark Magenta
+      # You may use black, #000000 or #000000000000 here.
+      Color5 =
+
+      # The ANSI color code for Dark Cyan
+      # You may use black, #000000 or #000000000000 here.
+      Color6 =
+
+      # The ANSI color code for Dark White
+      # You may use black, #000000 or #000000000000 here.
+      Color7 =
+
+      # The ANSI color code for Bright Black
+      # You may use black, #000000 or #000000000000 here.
+      Color8 =
+
+      # The ANSI color code for Bright Red
+      # You may use black, #000000 or #000000000000 here.
+      Color9 =
+
+      # The ANSI color code for Bright Green
+      # You may use black, #000000 or #000000000000 here.
+      Color10 =
+
+      # The ANSI color code for Bright Yellow
+      # You may use black, #000000 or #000000000000 here.
+      Color11 =
+
+      # The ANSI color code for Bright Blue
+      # You may use black, #000000 or #000000000000 here.
+      Color12 =
+
+      # The ANSI color code for Bright Magenta
+      # You may use black, #000000 or #000000000000 here.
+      Color13 =
+
+      # The ANSI color code for Bright Cyan
+      # You may use black, #000000 or #000000000000 here.
+      Color14 =
+
+
+      [command]
+
+      # The parameters of the APPLICATION should be separated with <tab>, if any.
+      #
+      # method = {0,1,2}
+      # 0: Open the hyperlink in new tab.
+      #    Use it if the command were using CLI, like w3m.
+      # 1: Open the hyperlink with gdk_spawn_on_screen_with_pipes().
+      #    Use it if the command were using GUI, like firefox.
+      # 2: Open the hyperlink in new window,
+      #    Use it if you not sure.
+      #
+      # VTE_CJK_WIDTH = {0,1,2}
+      # 0: get via environment
+      # 1: use narrow ideograph
+      # 2: use wide ideograph.
+      #
+      # The ENVIRONS will apply to the application, separated with <tab>, too.
+      #
+      # The LOCALE will apply to the application as locale environs.
+      # You may use "zh_TW", "zh_TW.Big5", or "zh_TW.UTF-8" here.
+      # Left it blank to use the locale environs from current page.
+
+      # The web browser using for http(s)://
+      web_browser = vivaldi
+      web_method = 1
+      web_VTE_CJK_WIDTH = 0
+      web_environ =
+      web_locale =
+
+      # The ftp client using for ftp(s)://
+      ftp_client = filezilla
+      ftp_method = 1
+      ftp_VTE_CJK_WIDTH = 0
+      ftp_environ =
+      ftp_locale =
+
+      # The file manager using for file:// and [Open current directory with file manager]
+      file_manager = xfe
+      file_method = 1
+      file_VTE_CJK_WIDTH = 0
+      file_environ =
+      file_locale =
+
+      # The email client using for user@host
+      email_client = vivaldi
+      email_method = 1
+      email_VTE_CJK_WIDTH = 0
+      email_environ =
+      email_locale =
+    '';
   };
 }

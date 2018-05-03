@@ -3,14 +3,19 @@
 let
   cfg = config.config.programs.ranger;
 in {
-  options.config.programs.ranger.enable = lib.mkEnableOption "ranger";
+  options       .programs.ranger.enable = lib.mkEnableOption "ranger";
+  options.config.programs.ranger.enable = with lib; mkOption {
+    type = types.bool;
+    default = config.programs.ranger.enable;
+    defaultText = "<option>config.programs.ranger.enable</option>";
+    description = "Whether to configure ranger.";
+  };
 
-  config = lib.mkIf cfg.enable {
-    home = {
-      packages = with pkgs; [
-        ranger
-        atool
-      ];
+  config.home = lib.mkMerge [
+    { packages = lib.optional config.programs.ranger.enable pkgs.ranger; }
+
+    (lib.mkIf cfg.enable {
+      packages = [ pkgs.atool ];
 
       file = let
         env = name: if config.home.sessionVariables ? ${name}
@@ -18,6 +23,7 @@ in {
           else "${name}";
         EDITOR = env "EDITOR";
         PAGER  = env "PAGER";
+        ROFLCOPTER = env "ROFLCOPTER"; # TODO remove
       in {
         ".config/ranger/rc.conf".text = ''
           # ===================================================================
@@ -310,6 +316,6 @@ in {
           d:/data/dermetfan
         '';
       };
-    };
-  };
+    })
+  ];
 }
