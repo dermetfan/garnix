@@ -24,6 +24,7 @@ in {
         ack
         jq
         nox
+        pijul
         qemu
         dos2unix
       ] ++
