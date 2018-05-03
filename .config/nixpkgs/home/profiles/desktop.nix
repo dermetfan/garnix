@@ -52,7 +52,6 @@ in {
 
         ~/.fehbg || nitrogen --restore
         volumeicon &
-        parcellite &
         telegram-desktop &
         hipchat &
         skypeforlinux &
