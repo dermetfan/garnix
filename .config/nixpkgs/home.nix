@@ -41,6 +41,11 @@ in {
 
     xsession.enable = sysCfg.services.xserver.enable or false;
 
+    qt = {
+      enable = config.xsession.enable;
+      useGtkTheme = true;
+    };
+
     services.unclutter.enable = config.xsession.enable && !sysCfg.services.unclutter.enable;
 
     programs = {
