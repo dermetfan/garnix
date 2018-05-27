@@ -20,7 +20,6 @@ in {
       eofnewline = true;
       ignorecase = true;
       indentchar = " ";
-      rmtrailingws = true;
       ruler = false;
       savecursor = true;
       saveundo = true;
@@ -38,6 +37,40 @@ in {
       "*.nix" = {
         tabsize = 2;
       };
+
+      /* Include defaults to stop micro >= 1.4.0 from trying
+       * to write missing settings on startup. */
+      autoindent = true;
+      autosave = false;
+      basename = false;
+      colorcolumn = 0;
+      colorscheme = "default";
+      cursorline = true;
+      fastdirty = true;
+      fileformat = "unix";
+      infobar = true;
+      keepautoindent = false;
+      keymenu = false;
+      literate = true;
+      matchbrace = false;
+      mouse = true;
+      pluginchannels = [
+        https://raw.githubusercontent.com/micro-editor/plugin-channel/master/channel.json
+      ];
+      pluginrepos = [];
+      rmtrailingws = false;
+      savehistory = true;
+      scrollbar = false;
+      scrollmargin = 3;
+      scrollspeed = 2;
+      softwrap = false;
+      splitbottom = true;
+      splitright = true;
+      statusline = true;
+      sucmd = "sudo";
+      syntax = true;
+      tabsize = 4;
+      useprimary = true;
     };
 
     ".config/micro/bindings.json".text = builtins.toJSON {

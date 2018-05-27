@@ -2,7 +2,7 @@
 
 buildGoPackage rec {
   name = "micro-${version}";
-  version = "1.3.4";
+  version = "1.4.0";
 
   goPackagePath = "github.com/zyedidia/micro";
   subPackages = [ "cmd/micro" ];
@@ -12,26 +12,25 @@ buildGoPackage rec {
     repo = "micro";
     rev = "v${version}";
     fetchSubmodules = true;
-    sha256 = "1giyp2xk2rb6vdyfnj5wa7qb9fwbcmmwm16wdlnmq7xnp7qamdkw";
+    sha256 = "0w1rmh81h28n1jlb05k89i751h498i6p883hrsjr70hvrwq5zjpb";
   };
 
   patches = [
     (writeText "ldflags.patch" ''
       diff --git a/cmd/micro/micro.go b/cmd/micro/micro.go
-      index 483d74e..1d981d5 100644
+      index dc35ed2..25e7a56 100644
       --- a/cmd/micro/micro.go
       +++ b/cmd/micro/micro.go
-      @@ -44,8 +44,8 @@ var (
-
+      @@ -46,7 +46,7 @@ var (
        	// Version is the version number or commit hash
        	// These variables should be set by the linker when compiling
-      -	Version     = "0.0.0-unknown"
-      -	CommitHash  = "Unknown"
-      +	Version     = "${version}"
-      +	CommitHash  = "${src.rev}"
+      -	Version = "0.0.0-unknown"
+      +	Version = "${version}"
+       	// CommitHash is the commit this version was built on
+      -	CommitHash = "Unknown"
+      +	CommitHash = "${src.rev}"
+       	// CompileDate is the date this binary was compiled on
        	CompileDate = "Unknown"
-
-       	// L is the lua state
     '')
   ];
 }
