@@ -13,7 +13,7 @@ in {
         internalInterfaces = [
           "ve-+" # nixos-containers
         ];
-        externalInterface = "enp3s0";
+        externalInterface = "enp3s0"; # TODO make configurable
       };
 
       networkmanager.unmanaged = [ "interface-name:ve-*" ];

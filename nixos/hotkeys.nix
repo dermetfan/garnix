@@ -6,7 +6,7 @@ let
   keyCodes = {
     Shift_L = 42;
     Shift_R = 54;
-    PrtScr = 99;
+    PrtScr  = 99;
   };
 
   packages = with pkgs; [
@@ -201,7 +201,7 @@ in {
         enable = true;
         disableSysRq = true;
         lockOn = {
-          suspend = false;
+          suspend   = false;
           hibernate = false;
         };
       };

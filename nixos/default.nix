@@ -35,7 +35,7 @@
       supportedFilesystems = [ "zfs" ];
 
       zfs = {
-        forceImportAll = false;
+        forceImportAll  = false;
         forceImportRoot = false;
       };
     };
@@ -95,7 +95,7 @@
 
         synaptics = {
           twoFingerScroll = true;
-          palmDetect = true;
+          palmDetect      = true;
         };
       };
 
@@ -138,11 +138,11 @@
           isNormalUser = true;
           hashedPassword = "$6$0123456789012345$h8FEllCQBQYziYvFVOhIqGRvt/z3lPO5wU.07Uz9Y/E2AvSUtq9ITQZTivMFN0gSSpFrDJ0P32k9t5uG4c47D0";
           extraGroups = with lib;
-            optional config.security.sudo.enable                  "wheel"          ++
-            optional config.networking.networkmanager.enable      "networkmanager" ++
-            optional config.virtualisation.docker.enable          "docker"         ++
+            optional config.security.sudo                 .enable "wheel"          ++
+            optional config.networking.networkmanager     .enable "networkmanager" ++
+            optional config.virtualisation.docker         .enable "docker"         ++
             optional config.virtualisation.virtualbox.host.enable "vboxusers"      ++
-            optional config.programs.adb.enable                   "adbusers";
+            optional config.programs.adb                  .enable "adbusers";
         };
       };
     };
