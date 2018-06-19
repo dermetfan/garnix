@@ -33,7 +33,7 @@ in {
           server = "dynupdate.no-ip.com";
           username = "dermetfan";
           password = builtins.readFile ../keys/ddns;
-          domain = lib.mkDefault "${config.networking.hostName}.ddns.net";
+          domains = lib.mkDefault [ "${config.networking.hostName}.ddns.net" ];
           use = "web, web=icanhazip.com";
         };
       };
