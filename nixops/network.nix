@@ -83,7 +83,11 @@ in {
           permissions = "0440";
         };
 
-        ssmtp.keyFile = ../keys/ssmtp;
+        ssmtp = {
+          keyFile = ../keys/ssmtp;
+          group = "keys";
+          permissions = "0440";
+        };
       };
 
       config.data.enable = true;
@@ -114,7 +118,7 @@ in {
           root = "serverkorken@gmail.com";
           domain = "dermetfan.net";
           authUser = "serverkorken@gmail.com";
-          authPass = "/run/keys/ssmtp";
+          authPassFile = "/run/keys/ssmtp";
           useTLS = true;
           useSTARTTLS = true;
         };
