@@ -37,7 +37,6 @@ in {
     xsession = {
       windowManager.command = "${pkgs.i3-gaps}/bin/i3";
       initExtra = ''
-        xmodmap -e "keycode 66 = Caps_Lock"
         xflux -l 51.165691 -g 10.45152000000058
         xset r rate 225 27
         xset m 5 1
