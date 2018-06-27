@@ -24,9 +24,22 @@ in {
     ];
 
     menuOpacity = "0.8";
+    opacityRule = [
+      # https://github.com/i3/i3/issues/1648
+      # https://www.reddit.com/r/unixporn/comments/330zxl/webmi3_no_more_overlaying_shadows_and_windows_in/
+      "0:_NET_WM_STATE@:32a *= '_NET_WM_STATE_HIDDEN'"
+    ];
 
     fade = true;
     fadeDelta = 5;
+
+    blur = true;
+    blurExclude = [
+      "window_type = 'dock'"
+      "window_type = 'desktop'"
+      "class_g = 'XScreenSaver'"
+      "class_g = 'slop'"
+    ];
 
     vSync = "opengl-swc";
 
@@ -39,13 +52,6 @@ in {
 
       alpha-step = 0.06;
 
-      blur-background = true;
-      blur-background-exclude = [
-        "window_type = 'dock'",
-        "window_type = 'desktop'",
-        "class_g = 'XScreenSaver'",
-        "class_g = 'slop'"
-      ];
       blur-kern = "11x11gaussian";
 
       xrender-sync = true;
@@ -74,12 +80,6 @@ in {
           focus = true;
         };
       };
-
-      # https://github.com/i3/i3/issues/1648
-      # https://www.reddit.com/r/unixporn/comments/330zxl/webmi3_no_more_overlaying_shadows_and_windows_in/
-      opacity-rule = [
-        "0:_NET_WM_STATE@:32a *= '_NET_WM_STATE_HIDDEN'"
-      ];
     '';
   };
 }
