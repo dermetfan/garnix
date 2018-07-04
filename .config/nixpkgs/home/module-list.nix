@@ -20,6 +20,7 @@
   programs/alacritty.nix
   programs/antigen.nix
   programs/cargo.nix
+  programs/firefox.nix
   programs/geany.nix
   programs/git.nix
   programs/htop.nix
