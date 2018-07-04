@@ -23,7 +23,6 @@ in {
           else "${name}";
         EDITOR = env "EDITOR";
         PAGER  = env "PAGER";
-        ROFLCOPTER = env "ROFLCOPTER"; # TODO remove
       in {
         ".config/ranger/rc.conf".text = ''
           # ===================================================================
