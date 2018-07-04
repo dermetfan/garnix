@@ -312,7 +312,7 @@ in {
         '';
 
         ".config/ranger/bookmarks".text = ''
-          w:/data/dermetfan/projects/workspaces/development
+          w:/data/dermetfan/projects/development
           d:/data/dermetfan
         '';
       };
