@@ -46,7 +46,6 @@ in {
         ~/.fehbg || nitrogen --restore
         volumeicon &
         telegram-desktop &
-        hipchat &
         skypeforlinux &
       '';
     };
@@ -65,7 +64,6 @@ in {
       xflux
       udevil
       tdesktop
-      hipchat
       nitrogen
       skype
 
