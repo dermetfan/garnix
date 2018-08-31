@@ -270,7 +270,7 @@ in {
 
           mime ^image, has pqiv,      X, flag f = pqiv -- "$@"
           mime ^image, has sxiv,      X, flag f = sxiv -- "$@"
-          mime ^image, has feh,       X, flag f = feh -- "$@"
+          mime ^image, has feh,       X, flag f = feh --scale-down -- "$@"
           mime ^image, has mirage,    X, flag f = mirage -- "$@"
           mime ^image, has ristretto, X, flag f = ristretto "$@"
           mime ^image, has eog,       X, flag f = eog -- "$@"

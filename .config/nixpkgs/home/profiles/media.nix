@@ -62,7 +62,7 @@ in {
         ] ++
         lib.optionals config.xsession.enable [
           audacity
-          lmms
+          # lmms
           gimp
           inkscape
           keymon
