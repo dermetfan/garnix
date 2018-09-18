@@ -6,6 +6,7 @@
     ./dev.nix
     ./hotkeys.nix
     ./uhk.nix
+    ./dns-watch.nix
     ./steam-controller.nix
 
     machines/MSI_PE60-6QE.nix
