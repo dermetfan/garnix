@@ -20,9 +20,8 @@
 
     nix = {
       binaryCaches = [
-        "https://cache.dermetfan.net"
-        "https://cache.nixos.community"
-        "https://cache.nixos.org"
+        https://cache.nixos.community
+        https://cache.nixos.org
       ];
       binaryCachePublicKeys = [
         (builtins.readFile ../keys/cache.pub)
