@@ -136,6 +136,11 @@ in {
           resolver = "127.0.0.1 ipv6=off";
         };
 
+        syncthing = {
+          enable = true;
+          openDefaultPorts = true;
+        };
+
         hydra = {
           enable = true;
           hydraURL = https://hydra.dermetfan.net;

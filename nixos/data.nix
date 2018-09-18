@@ -61,6 +61,7 @@ in {
       hydra.logo = "${cfg.mountPoint}/hydra/logo.png";
       postgresql.dataDir = "${cfg.mountPoint}/postgresql";
       minecraft-server.dataDir = "${cfg.mountPoint}/minecraft";
+      syncthing.dataDir = "${cfg.mountPoint}/syncthing";
     };
   };
 }
