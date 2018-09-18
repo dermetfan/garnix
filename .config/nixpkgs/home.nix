@@ -56,7 +56,10 @@ in {
       useGtkTheme = true;
     };
 
-    services.unclutter.enable = config.xsession.enable && !sysCfg.services.unclutter.enable;
+    services = {
+      syncthing.enable = true;
+      unclutter.enable = config.xsession.enable && !sysCfg.services.unclutter.enable;
+    };
 
     programs = {
       home-manager = {
