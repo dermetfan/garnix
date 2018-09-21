@@ -6,19 +6,7 @@ let
   nonEmptyStr = with lib.types; addCheck str (x: x != "");
 in {
   options.config.data = with lib; {
-    enable = mkEnableOption "a dedicated zfs file system";
-
-    name = mkOption {
-      type = nonEmptyStr;
-      default = "data";
-      description = "The name of the zfs file system.";
-    };
-
-    label = mkOption {
-      type = nonEmptyStr;
-      default = "data";
-      description = "The label given to the file system.";
-    };
+    enable = mkEnableOption "a dedicated file system";
 
     mountPoint = mkOption {
       type = nonEmptyStr;
@@ -35,19 +23,12 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    fileSystems = {
-      "${cfg.mountPoint}" = {
-        device = cfg.name;
-        label = cfg.label;
-        fsType = "zfs";
-        encrypted.label = cfg.name;
-      };
-    };
-
     security.pam.mount = lib.mkIf cfg.userFileSystems {
       enable = true;
-      extraVolumes = [
-        ''<volume pgrp="${config.users.groups.users.name}" mountpoint="${cfg.mountPoint}/%(USER)" path="${cfg.name}/%(USER)" fstype="zfs" />''
+      extraVolumes = let
+        fileSystem = config.fileSystems."${cfg.mountPoint}";
+      in [
+        ''<volume pgrp="${config.users.groups.users.name}" mountpoint="${cfg.mountPoint}/%(USER)" path="${fileSystem.device}/%(USER)" fstype="${fileSystem.fsType}"/>''
       ];
     };
 
