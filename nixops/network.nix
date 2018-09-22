@@ -106,10 +106,10 @@ in {
       nixpkgs.config.allowUnfree = true;
 
       networking = {
-        firewall.allowedTCPPorts = [
-          80 443
-          25575 # minecraft RCON
-        ];
+        firewall.allowedTCPPorts =
+          [ 80 443 ] ++
+          lib.optional (config.services.syncthing.enable        && config.services.syncthing.openDefaultPorts)    8384 ++ # web GUI
+          lib.optional (config.services.minecraft-server.enable && config.services.minecraft-server.openFirewall) 25575; # RCON
 
         defaultMailServer = {
           directDelivery = true;
