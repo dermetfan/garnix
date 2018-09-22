@@ -2,8 +2,9 @@
 
 let
   lib = pkgs.lib;
+  domain = "dermetfan.net";
 in {
-  network.description = "dermetfan.net";
+  network.description = domain;
 
   defaults = { config, lib, nodes, ... }: {
     imports = [ ../nixos ];
@@ -116,7 +117,7 @@ in {
           directDelivery = true;
           hostName = "smtp.gmail.com:587";
           root = "serverkorken@gmail.com";
-          domain = "dermetfan.net";
+          domain = domain;
           authUser = "serverkorken@gmail.com";
           authPassFile = "/run/keys/ssmtp";
           useTLS = true;
@@ -132,7 +133,7 @@ in {
 
         nixBinaryCacheCache = {
           enable = true;
-          virtualHost = "cache.dermetfan.net";
+          virtualHost = "cache.${domain}";
           resolver = "127.0.0.1 ipv6=off";
         };
 
@@ -143,8 +144,8 @@ in {
 
         hydra = {
           enable = true;
-          hydraURL = https://hydra.dermetfan.net;
-          notificationSender = "hydra@dermetfan.net";
+          hydraURL = "https://hydra.${domain}";
+          notificationSender = "hydra@${domain}";
           buildMachinesFiles = [];
           smtpHost = "127.0.0.1";
           logo = lib.mkDefault /var/lib/hydra/logo.png;
@@ -162,30 +163,30 @@ in {
           recommendedTlsSettings = true;
           recommendedGzipSettings = true;
           virtualHosts = let
-            forceSSL = x: x // {
-              forceSSL = true;
+            withSSL = x: x // {
               enableACME = true;
               sslCertificate = ../keys/host.crt;
               sslCertificateKey = "/run/keys/host.key";
             };
           in {
-            "server.dermetfan.net" = forceSSL {
+            "server.${domain}" = withSSL {
               default = true;
+              forceSSL = true;
               locations = {
                 "/minecraft/resourcepacks/".alias = "${config.services.minecraft-server.dataDir}/resourcepacks/";
               };
             };
 
-            "hydra.dermetfan.net" = forceSSL {
+            "hydra.${domain}" = withSSL {
+              forceSSL = true;
               locations."/".proxyPass = "http://127.0.0.1:${toString config.services.hydra.port}";
             };
 
-            ${config.services.nixBinaryCacheCache.virtualHost or "cache.dermetfan.net"} =
-              if config.services.nix-serve.enable
-              then forceSSL {
-                locations."/".proxyPass = "http://127.0.0.1:${toString config.services.nix-serve.port}";
-              }
-              else forceSSL {};
+            ${config.services.nixBinaryCacheCache.virtualHost or "cache.${domain}"} = withSSL {
+              forceSSL = true;
+            } // (if config.services.nix-serve.enable then {
+              locations."/".proxyPass = "http://127.0.0.1:${toString config.services.nix-serve.port}";
+            } else {});
           };
         };
       };
