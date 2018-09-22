@@ -27,8 +27,6 @@ in {
       networking.hostName = lib.mkOverride 899 "dmf-${config.node.name}";
 
       services = {
-        disnix.enable = true;
-
         ddclient = {
           enable = true;
           server = "dynupdate.no-ip.com";
