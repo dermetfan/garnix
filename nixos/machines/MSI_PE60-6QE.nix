@@ -58,9 +58,8 @@ in {
           support32Bit = true;
         };
       };
-
-      services.xserver.videoDrivers = [ "intel" ];
     }
+
     (let
       script = pkgs.writeScript "bumblebeeHack.sh" ''
         #! ${pkgs.bash}/bin/bash
@@ -72,6 +71,8 @@ in {
         esac
       '';
     in lib.mkIf cfg.enableBumblebeeHack {
+      services.xserver.videoDrivers = [ "intel" ];
+
       hardware.bumblebee.enable = true;
 
       systemd.services.bumblebeed.wantedBy = lib.mkForce [];
@@ -106,6 +107,20 @@ in {
           test -e ${pid} && ${script} poweroff
         '';
       };
+    })
+
+    (lib.mkIf (!cfg.enableBumblebeeHack) {
+        services.xserver.videoDrivers = [ "nvidia" ];
+
+        hardware.nvidia = {
+          modesetting.enable = true;
+
+          optimus_prime = {
+            enable = true;
+            nvidiaBusId = "PCI:1:0:0";
+            intelBusId  = "PCI:0:2:0";
+          };
+        };
     })
   ]);
 }

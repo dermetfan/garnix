@@ -91,8 +91,7 @@
         xkbVariant = "norman";
         xkbOptions = "compose:lwin,compose:rwin,eurosign:e";
 
-        displayManager.slim.defaultUser = "dermetfan";
-        desktopManager.xterm.enable = false;
+        displayManager.slim.defaultUser = lib.mkDefault config.users.users.dermetfan.name;
 
         synaptics = {
           twoFingerScroll = true;
