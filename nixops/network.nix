@@ -78,7 +78,7 @@ in {
 
         "host.key" = {
           keyFile = ../keys/host.key;
-          user = config.users.users.nginx.name;
+          user  = config.users.users.nginx.name;
           group = config.users.users.nginx.group;
         };
 
@@ -117,7 +117,7 @@ in {
           directDelivery = true;
           hostName = "smtp.gmail.com:587";
           root = "serverkorken@gmail.com";
-          domain = domain;
+          inherit domain;
           authUser = "serverkorken@gmail.com";
           authPassFile = "/run/keys/ssmtp";
           useTLS = true;
@@ -168,10 +168,10 @@ in {
 
         nginx = {
           enable = true;
-          recommendedOptimisation = true;
+          recommendedOptimisation  = true;
           recommendedProxySettings = true;
-          recommendedTlsSettings = true;
-          recommendedGzipSettings = true;
+          recommendedTlsSettings   = true;
+          recommendedGzipSettings  = true;
           virtualHosts = let
             withSSL = x: x // {
               enableACME = true;
