@@ -66,26 +66,28 @@ in {
     ];
 
     config = {
-      deployment.keys = {
+      deployment.keys = lib.mapAttrs (name: value: {
+        permissions = "0440";
+      } // value) {
         master_rsa.keyFile = ../keys/master_rsa;
 
         "cache.sec" = {
           keyFile = ../keys/cache.sec;
           user = config.users.users.nix-serve.name;
-          permissions = "0440";
         };
 
         "host.key" = {
           keyFile = ../keys/host.key;
           user = config.users.users.nginx.name;
           group = config.users.users.nginx.group;
-          permissions = "0440";
         };
 
-        ssmtp = {
-          keyFile = ../keys/ssmtp;
-          group = "keys";
-          permissions = "0440";
+        ssmtp.keyFile = ../keys/ssmtp;
+
+        nextcloud = {
+          keyFile = ../keys/nextcloud;
+          user  = config.users.users.nextcloud.name;
+          group = config.users.users.nextcloud.group;
         };
       };
 
@@ -154,6 +156,16 @@ in {
           openFirewall = true;
         };
 
+        nextcloud = {
+          enable = true;
+          hostName = "nextcloud.${domain}";
+          nginx.enable = true;
+          config = {
+            adminuser = "dermetfan";
+            adminpassFile = "/run/keys/nextcloud"
+          };
+        };
+
         nginx = {
           enable = true;
           recommendedOptimisation = true;
@@ -185,6 +197,10 @@ in {
             } // (if config.services.nix-serve.enable then {
               locations."/".proxyPass = "http://127.0.0.1:${toString config.services.nix-serve.port}";
             } else {});
+
+            ${config.services.nextcloud.hostName} = withSSL {
+              forceSSL = true;
+            };
           };
         };
       };

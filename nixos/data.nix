@@ -43,6 +43,7 @@ in {
       postgresql.dataDir = "${cfg.mountPoint}/postgresql";
       minecraft-server.dataDir = "${cfg.mountPoint}/minecraft";
       syncthing.dataDir = "${cfg.mountPoint}/syncthing";
+      nextcloud.home = "${cfg.mountPoint}/nextcloud";
     };
   };
 }
