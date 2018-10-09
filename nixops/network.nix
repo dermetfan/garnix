@@ -71,7 +71,7 @@ in {
       } // value) {
         master_rsa.keyFile = ../keys/master_rsa;
 
-        "cache.sec" = {
+        "cache.sec" = lib.mkIf config.services.nix-serve.enable {
           keyFile = ../keys/cache.sec;
           user = config.users.users.nix-serve.name;
         };
