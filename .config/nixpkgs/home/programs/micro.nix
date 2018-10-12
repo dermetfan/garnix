@@ -26,6 +26,14 @@ in {
       tabstospaces = true;
       tabmovement = true;
       termtitle = true;
+      matchbrace = true;
+
+      "*.nix" = {
+        tabsize = 2;
+      };
+      "*.sql" = {
+        tabsize = 2;
+      };
 
       /* Options added by plugins need to be provided
        * or micro will attempt to save them on startup. */
@@ -33,10 +41,6 @@ in {
       linter = true;
       ftoptions = true;
       trimdiff = false;
-
-      "*.nix" = {
-        tabsize = 2;
-      };
 
       /* Include defaults to stop micro >= 1.4.0 from trying
        * to write missing settings on startup. */
@@ -52,7 +56,6 @@ in {
       keepautoindent = false;
       keymenu = false;
       literate = true;
-      matchbrace = false;
       mouse = true;
       pluginchannels = [
         https://raw.githubusercontent.com/micro-editor/plugin-channel/master/channel.json
