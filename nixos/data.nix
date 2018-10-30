@@ -39,7 +39,10 @@ in {
     '';
 
     services = {
-      hydra.logo = "${cfg.mountPoint}/hydra/logo.png";
+      hydra = {
+        logo = "${cfg.mountPoint}/hydra/logo.png";
+        extraEnv.HYDRA_DATA = "${cfg.mountPoint}/hydra";
+      };
       postgresql.dataDir = "${cfg.mountPoint}/postgresql";
       minecraft-server.dataDir = "${cfg.mountPoint}/minecraft";
       syncthing.dataDir = "${cfg.mountPoint}/syncthing";
