@@ -162,7 +162,7 @@ in {
           nginx.enable = true;
           config = {
             adminuser = "dermetfan";
-            adminpassFile = "/run/keys/nextcloud"
+            adminpassFile = "/run/keys/nextcloud";
           };
         };
 
