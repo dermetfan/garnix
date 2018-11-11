@@ -146,6 +146,6 @@
       };
     };
 
-    system.nixos.stateVersion = lib.mkDefault "18.09";
+    system.stateVersion = lib.mkDefault "18.09";
   };
 }
