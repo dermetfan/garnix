@@ -147,6 +147,7 @@ in {
           hydraURL = "https://hydra.${domain}";
           notificationSender = "hydra@${domain}";
           buildMachinesFiles = [];
+          useSubstitutes = true;
           smtpHost = "127.0.0.1";
           logo = lib.mkDefault /var/lib/hydra/logo.png;
         };
