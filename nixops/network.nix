@@ -189,7 +189,12 @@ in {
 
             "hydra.${domain}" = withSSL {
               forceSSL = true;
-              locations."/".proxyPass = "http://127.0.0.1:${toString config.services.hydra.port}";
+              locations."/".proxyPass = let
+                # nginx does not understand * for all interfaces
+                listenHost = if config.services.hydra.listenHost == "*"
+                  then "0.0.0.0"
+                  else config.services.hydra.listenHost;
+              in "http://${listenHost}:${toString config.services.hydra.port}";
             };
 
             ${config.services.nixBinaryCacheCache.virtualHost or "cache.${domain}"} = withSSL {
