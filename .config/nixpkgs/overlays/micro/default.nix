@@ -1,5 +1,3 @@
-self: super:
-
-{
+self: super: {
   micro = super.callPackage ./micro.nix {};
 }

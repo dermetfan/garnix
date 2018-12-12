@@ -1,6 +1,4 @@
-self: super:
-
-{
+self: super: {
   home-manager-src = super.fetchFromGitHub {
     owner = "rycee";
     repo = "home-manager";

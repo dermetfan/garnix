@@ -1,6 +1,4 @@
-self: super:
-
-{
+self: super: {
   st = with super; assert st ? version && st.version  == "0.7" || st.name == "st-0.7"; st.override {
     patches = let
       select = custom: default:

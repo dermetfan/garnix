@@ -13,8 +13,7 @@ in {
       volumeicon.enable = config.xsession.enable;
       alacritty .enable = config.xsession.enable;
       geany     .enable = config.xsession.enable;
-
-      firefox.enable = config.xsession.enable;
+      firefox   .enable = config.xsession.enable;
 
       browserpass = {
         enable = true;

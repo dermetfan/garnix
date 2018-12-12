@@ -1,5 +1,3 @@
-self: super:
-
-{
+self: super: {
   zr = super.callPackage ./zr.nix {};
 }
