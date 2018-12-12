@@ -12,6 +12,8 @@ in {
     profiles.desktop.enable = lib.mkDefault config.xsession.enable;
 
     home = {
+      stateVersion = "18.09";
+
       packages = with pkgs;
         [ less ] ++
         lib.optionals config.xsession.enable [
