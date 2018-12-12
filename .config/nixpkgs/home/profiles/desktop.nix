@@ -46,6 +46,7 @@ in {
         volumeicon &
         telegram-desktop &
         skypeforlinux &
+        alacritty --class WeeChat -t WeeChat -e weechat &
       '';
     };
 
