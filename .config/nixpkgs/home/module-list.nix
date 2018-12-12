@@ -9,7 +9,6 @@
   profiles/game.nix
 
   misc/gtk.nix
-  misc/xdg.nix
 
   services/compton.nix
   services/dunst.nix
