@@ -129,7 +129,8 @@ in {
         nixBinaryCacheCache = {
           enable = true;
           virtualHost = "cache.${domain}";
-          resolver = "127.0.0.1 ipv6=off";
+          resolver = lib.concatStringsSep " " config.networking.nameservers +
+            lib.optionalString (!config.networking.enableIPv6) " ipv6=off";
         };
 
         syncthing = {
