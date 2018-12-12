@@ -10,10 +10,14 @@ in {
     profiles.media.enable = true;
 
     programs = {
+      taskwarrior.enable = true;
+
       volumeicon.enable = config.xsession.enable;
       alacritty .enable = config.xsession.enable;
       geany     .enable = config.xsession.enable;
       firefox   .enable = config.xsession.enable;
+      chromium  .enable = config.xsession.enable;
+      zathura   .enable = config.xsession.enable;
 
       browserpass = {
         enable = true;
@@ -58,7 +62,6 @@ in {
       unrar
       unzip
       zip
-      taskwarrior
       timewarrior
       weechat
     ] ++ lib.optionals config.xsession.enable [
@@ -70,13 +73,11 @@ in {
       nitrogen
       skype
 
-      chromium
       feh
       gucharmap
       qalculate-gtk
       rss-glx
       xarchiver
-      zathura
     ];
   };
 }
