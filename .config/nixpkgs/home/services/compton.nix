@@ -44,8 +44,6 @@ in {
     vSync = "opengl-swc";
 
     extraOptions = ''
-      no-dnd-shadow = true;
-      no-dock-shadow = true;
       clear-shadow = true;
       shadow-radius = 7;
       xinerama-shadow-crop = true;
