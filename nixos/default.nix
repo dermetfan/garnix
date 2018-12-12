@@ -18,16 +18,10 @@
   config = {
     config.hotkeys.enable = true;
 
-    nix = {
-      binaryCaches = [
-        https://cache.nixos.community
-        https://cache.nixos.org
-      ];
-      binaryCachePublicKeys = [
-        (builtins.readFile ../keys/cache.pub)
-        "hydra.nixos.org-1:CNHJZBh9K4tP3EKF6FkkgeVYsS3ohTl+oS0Qa8bezVs="
-      ];
-    };
+    nix.binaryCachePublicKeys = [
+      (builtins.readFile ../keys/cache.pub)
+      "hydra.nixos.org-1:CNHJZBh9K4tP3EKF6FkkgeVYsS3ohTl+oS0Qa8bezVs="
+    ];
 
     boot = {
       loader.timeout = 1;
