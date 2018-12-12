@@ -46,13 +46,8 @@ in {
         node.config.node.name != config.node.name
       ) (builtins.attrValues nodes));
 
-      users.users = {
-        root.openssh.authorizedKeys.keyFiles =
-          lib.optional (config.node.name != nodes.master.config.node.name) ../keys/master_rsa.pub;
-
-        nix-serve.extraGroups = [ "keys" ];
-        nginx    .extraGroups = [ "keys" ];
-      };
+      users.users.root.openssh.authorizedKeys.keyFiles =
+        lib.optional (config.node.name != nodes.master.config.node.name) ../keys/master_rsa.pub;
     };
   };
 
