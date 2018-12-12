@@ -65,10 +65,7 @@ in {
     };
 
     programs = {
-      home-manager = {
-        enable = true;
-        path = "${pkgs.home-manager-src}";
-      };
+      home-manager.enable = true;
 
       ranger.enable = true;
       htop  .enable = true;
