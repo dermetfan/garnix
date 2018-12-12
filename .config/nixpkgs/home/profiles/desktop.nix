@@ -58,6 +58,9 @@ in {
       unrar
       unzip
       zip
+      taskwarrior
+      timewarrior
+      weechat
     ] ++ lib.optionals config.xsession.enable [
       # autostart
       xorg.xmodmap
@@ -69,9 +72,9 @@ in {
 
       chromium
       feh
+      gucharmap
       qalculate-gtk
       rss-glx
-      vivaldi
       xarchiver
       zathura
     ];

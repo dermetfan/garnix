@@ -7,6 +7,7 @@ in {
   options.profiles.media = with lib; {
     enable = mkEnableOption "media viewers";
     enableEditors = mkEnableOption "media editing programs";
+    enableStudios = mkEnableOption "media creation studios";
   };
 
   config = lib.mkIf cfg.enable {
@@ -62,11 +63,17 @@ in {
         ] ++
         lib.optionals config.xsession.enable [
           audacity
-          # lmms
           gimp
           inkscape
-          keymon
-          obs-studio
-        ]);
+        ]
+      ) ++
+      lib.optionals (cfg.enableStudios && config.xsession.enable) [
+        lmms
+        obs-studio
+
+        # utils
+        keymon
+      ]
+    ;
   };
 }

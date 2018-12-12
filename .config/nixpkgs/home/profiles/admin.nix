@@ -14,13 +14,13 @@ in {
       file
       fzy
       gptfdisk
-      httpie
       lrzip
       lsof
       ncdu
       ncid
       neofetch
       nix-index
+      nix-prefetch-scripts
       nixops
       peco
       pv
@@ -34,7 +34,6 @@ in {
       diffoscope
       ftop
       hdparm
-      httping
       libsysfs
       nethogs
       ngrep
@@ -47,6 +46,7 @@ in {
       glxinfo
       gpa
       gparted
+      filezilla
     ];
   };
 }

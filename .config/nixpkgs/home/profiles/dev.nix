@@ -7,6 +7,7 @@ in {
     enable     = mkEnableOption "developer programs";
     enableRust = mkEnableOption "Rust developer programs";
     enableJava = mkEnableOption "Java developer programs";
+    enableWeb  = mkEnableOption "web developer programs";
   };
 
   config = lib.mkIf cfg.enable {
@@ -50,6 +51,13 @@ in {
           jetbrains.idea-community
           visualvm
         ]
-      );
+      ) ++
+      lib.optionals cfg.enableWeb (
+        [ httpie ] ++
+        lib.optionals pkgs.stdenv.isLinux [
+          httping
+        ]
+      )
+    ;
   };
 }
