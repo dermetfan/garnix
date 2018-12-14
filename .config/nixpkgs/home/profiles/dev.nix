@@ -14,6 +14,7 @@ in {
     programs = {
       mercurial.enable = true;
       git      .enable = true;
+      jq       .enable = true;
 
       geany.enable = config.xsession.enable;
 
@@ -23,7 +24,6 @@ in {
     home.packages = with pkgs;
       [ ripgrep
         ack
-        jq
         nox
         pijul
         qemu
