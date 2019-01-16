@@ -35,12 +35,15 @@ in {
       network-manager-applet.enable = config.xsession.enable;
       parcellite            .enable = config.xsession.enable;
       xscreensaver          .enable = config.xsession.enable;
+      redshift = {
+        enable = config.xsession.enable;
+        tray = true;
+      };
     };
 
     xsession = {
       windowManager.command = "${pkgs.i3-gaps}/bin/i3";
       initExtra = ''
-        xflux -l 51.165691 -g 10.45152000000058
         xset r rate 225 27
         xset m 5 1
         devmon &
@@ -67,7 +70,6 @@ in {
     ] ++ lib.optionals config.xsession.enable [
       # autostart
       xorg.xmodmap
-      xflux
       udevil
       tdesktop
       nitrogen
