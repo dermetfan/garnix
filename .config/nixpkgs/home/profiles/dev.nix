@@ -25,6 +25,7 @@ in {
       [ ripgrep
         ack
         nox
+        nixos-shell
         pijul
         qemu
         dos2unix
