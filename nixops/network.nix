@@ -97,7 +97,9 @@ in {
           hostName = node.config.deployment.targetHost;
           sshUser = "root";
           sshKey = "/run/keys/master_rsa";
-        }) (builtins.attrValues nodes);
+        }) (builtins.attrValues (
+          lib.filterAttrs (name: node: node.extraArgs.name != config.node.name) nodes
+        ));
       };
 
       nixpkgs.config.allowUnfree = true;
