@@ -25,9 +25,9 @@ in {
       in !sysZshCfg.enable || !sysZshCfg.enableCompletion;
 
       shellAliases = {
-        ls = "exa";
-        l  = "exa -lga";
-        ll = "exa -lg";
+        ls = "exa --group-directories-first";
+        l  = "exa -lga --group-directories-first";
+        ll = "exa -lg --group-directories-first";
         less = "less -R";
         diff = "diff -r --suppress-common-lines";
         grep = "grep --color=auto";
