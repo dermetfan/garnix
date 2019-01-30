@@ -15,12 +15,15 @@ in {
     { packages = lib.optional config.programs.ranger.enable pkgs.ranger; }
 
     (lib.mkIf cfg.enable {
-      packages = [ pkgs.atool ];
+      packages = with pkgs; [
+        atool
+        dragon-drop
+      ];
 
       file = let
         env = name: if config.home.sessionVariables ? ${name}
           then config.home.sessionVariables.${name}
-          else "${name}";
+          else name;
         EDITOR = env "EDITOR";
         PAGER  = env "PAGER";
       in {
@@ -51,6 +54,8 @@ in {
           map h display_file
 
           map k chain draw_possible_programs; console open_with%%space
+
+          map yD shell -f dragon -x %p
 
           # Searching
           map j  search_next
