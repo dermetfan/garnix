@@ -49,6 +49,7 @@ in {
       };
 
       obs-studio.enable = cfg.enableStudios && config.xsession.enable;
+      feh.enable = config.xsession.enable;
     };
 
     home.packages = with pkgs;
@@ -58,7 +59,6 @@ in {
       ] ++
       lib.optionals config.xsession.enable [
         audacious
-        feh
         smplayer
       ] ++
       lib.optionals cfg.enableEditors (

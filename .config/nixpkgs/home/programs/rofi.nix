@@ -11,22 +11,20 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    home.packages = with pkgs; [
-      rofi-unwrapped
-      alacritty
-    ];
+    programs = {
+      alacritty.enable = true;
 
-    programs.rofi = {
-      borderWidth = 0;
-      separator = "none";
-      width = 25;
-      terminal = "alacritty";
-      extraConfig = ''
-        rofi.scrollbar-width: 5
-        rofi.opacity: 25
-        rofi.theme: ${pkgs.rofi-unwrapped}/share/rofi/themes/Monokai
-      '';
-      # TODO rofi-pass
+      rofi = {
+        borderWidth = 0;
+        separator = "none";
+        width = 25;
+        terminal = "alacritty";
+        extraConfig = ''
+          rofi.scrollbar-width: 5
+          rofi.opacity: 25
+          rofi.theme: ${pkgs.rofi}/share/rofi/themes/Monokai
+        '';
+      };
     };
   };
 }
