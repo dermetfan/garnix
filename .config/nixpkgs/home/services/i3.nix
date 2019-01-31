@@ -37,7 +37,7 @@ in {
 
       bars = [ {
         mode = "hide";
-        fonts = [ "pango:monospace 11" ];
+        fonts = [ "monospace 11" ];
         workspaceNumbers = false;
         statusCommand = "i3status-rs ${config.config.programs.i3status-rust.configFile}";
       } ];
