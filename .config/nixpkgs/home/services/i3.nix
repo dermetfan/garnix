@@ -19,12 +19,11 @@ in {
 
   config = lib.mkIf cfg.enable {
     programs = {
-      i3status .enable = true;
+      i3status-rust.enable = true;
       alacritty.enable = true;
-      ranger   .enable = true;
+      ranger.enable = true;
+      rofi.enable = true;
     };
-
-    programs.rofi.enable = true;
 
     home = {
       packages = with pkgs; if cfg.enableGaps then [
@@ -201,6 +200,7 @@ in {
             font pango:monospace 11
             separator_symbol " | "
             tray_output primary
+            status_command i3status-rs ${config.config.programs.i3status-rust.configFile}
         }
 
         # show applications on certain workspaces
