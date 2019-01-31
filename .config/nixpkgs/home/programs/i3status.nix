@@ -14,8 +14,8 @@ in {
   };
 
   config.home.packages = lib.optional config.programs.i3status.enable pkgs.i3status;
-  config.home.file = lib.mkIf cfg.enable {
-    ".config/i3status/config".text = ''
+  config.xdg.configFile = lib.mkIf cfg.enable {
+    "i3status/config".text = ''
       general {
           colors = true
           color_separator = "#55b5e7"

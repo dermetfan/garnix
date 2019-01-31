@@ -15,8 +15,8 @@ in {
     micro
     mkinfo
   ];
-  config.home.file = lib.mkIf cfg.enable {
-    ".config/micro/settings.json".text = builtins.toJSON {
+  config.xdg.configFile = lib.mkIf cfg.enable {
+    "micro/settings.json".text = builtins.toJSON {
       eofnewline = true;
       ignorecase = true;
       indentchar = " ";
@@ -76,7 +76,7 @@ in {
       useprimary = true;
     };
 
-    ".config/micro/bindings.json".text = builtins.toJSON {
+    "micro/bindings.json".text = builtins.toJSON {
       Esc = "RemoveAllMultiCursors,ClearStatus,Escape";
       Alt-m = "SpawnMultiCursor";
       Alt-M = "RemoveMultiCursor";

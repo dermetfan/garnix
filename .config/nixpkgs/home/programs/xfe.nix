@@ -11,13 +11,13 @@ in {
     description = "Whether to configure Xfe.";
   };
 
-  config.home = lib.mkMerge [
-    { packages = lib.optional config.programs.xfe.enable pkgs.xfe; }
+  config = lib.mkMerge [
+    { home.packages = lib.optional config.programs.xfe.enable pkgs.xfe; }
 
     (lib.mkIf cfg.enable {
-      packages = [ pkgs.alacritty ];
+      home.packages = [ pkgs.alacritty ];
 
-      file.".config/xfe/xferc".text = ''
+      xdg.configFile."xfe/xferc".text = ''
         [OPTIONS]
         treepanel_tree_pct=0.1325
         treetwopanels_lpanel_pct=0.4

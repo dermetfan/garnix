@@ -12,8 +12,8 @@ in {
   };
 
   config.home.packages = lib.optional config.programs.lilyterm.enable pkgs.lilyterm;
-  config.home.file = lib.mkIf cfg.enable {
-    ".config/lilyterm/default.conf".text = ''
+  config.xdg.configFile = lib.mkIf cfg.enable {
+    "lilyterm/default.conf".text = ''
       [main]
 
       # Auto save settings when closing window.

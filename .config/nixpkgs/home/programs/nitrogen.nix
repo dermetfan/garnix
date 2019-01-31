@@ -12,8 +12,8 @@ in {
   };
 
   config.home.packages = lib.optional config.programs.nitrogen.enable pkgs.nitrogen;
-  config.home.file = lib.mkIf cfg.enable {
-    ".config/nitrogen/nitrogen.cfg".text = ''
+  config.xdg.configFile = lib.mkIf cfg.enable {
+    "nitrogen/nitrogen.cfg".text = ''
       [nitrogen]
       view=icon
       recurse=true

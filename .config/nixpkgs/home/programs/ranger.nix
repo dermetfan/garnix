@@ -11,23 +11,23 @@ in {
     description = "Whether to configure ranger.";
   };
 
-  config.home = lib.mkMerge [
-    { packages = lib.optional config.programs.ranger.enable pkgs.ranger; }
+  config = lib.mkMerge [
+    { home.packages = lib.optional config.programs.ranger.enable pkgs.ranger; }
 
     (lib.mkIf cfg.enable {
-      packages = with pkgs; [
+      home.packages = with pkgs; [
         atool
         dragon-drop
       ];
 
-      file = let
+      xdg.configFile = let
         env = name: if config.home.sessionVariables ? ${name}
           then config.home.sessionVariables.${name}
           else name;
         EDITOR = env "EDITOR";
         PAGER  = env "PAGER";
       in {
-        ".config/ranger/rc.conf".text = ''
+        "ranger/rc.conf".text = ''
           # ===================================================================
           # == Options
           # ===================================================================
@@ -103,7 +103,7 @@ in {
           map zV set use_preview_script!
         '';
 
-        ".config/ranger/rifle.conf".text = ''
+        "ranger/rifle.conf".text = ''
           # vim: ft=cfg
           #
           # This is the configuration file of "rifle", ranger's file executor/opener.
@@ -315,7 +315,7 @@ in {
           mime application/x-executable = "$1"
         '';
 
-        ".config/ranger/bookmarks".text = ''
+        "ranger/bookmarks".text = ''
           w:/data/dermetfan/projects/development
           d:/data/dermetfan
         '';

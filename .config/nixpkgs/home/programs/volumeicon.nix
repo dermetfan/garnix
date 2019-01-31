@@ -11,16 +11,16 @@ in {
     description = "Whether to configure volumeicon.";
   };
 
-  config.home = lib.mkMerge [
-    { packages = lib.optional config.programs.volumeicon.enable pkgs.volumeicon; }
+  config = lib.mkMerge [
+    { home.packages = lib.optional config.programs.volumeicon.enable pkgs.volumeicon; }
 
     (lib.mkIf cfg.enable {
-      packages = with pkgs; [
+      home.packages = with pkgs; [
         alacritty
         alsaUtils
       ];
 
-      file.".config/volumeicon/volumeicon".text = ''
+      xdg.configFile."volumeicon/volumeicon".text = ''
         [Alsa]
         card=default
 

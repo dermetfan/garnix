@@ -5,8 +5,8 @@ let
 in {
   options.config.services.parcellite.enable = lib.mkEnableOption "parcellite";
 
-  config.home.file = lib.mkIf cfg.enable {
-    ".config/parcellite/parcelliterc".text = ''
+  config.xdg.configFile = lib.mkIf cfg.enable {
+    "parcellite/parcelliterc".text = ''
       [rc]
       RCVersion=1
       use_copy=true

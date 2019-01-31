@@ -12,8 +12,8 @@ in {
   };
 
   config.home.packages = lib.optional config.programs.geany.enable pkgs.geany;
-  config.home.file = lib.mkIf cfg.enable {
-    ".config/geany/keybindings.conf".text = ''
+  config.xdg.configFile = lib.mkIf cfg.enable {
+    "geany/keybindings.conf".text = ''
       [Bindings]
       menu_new=<Primary>n
       menu_open=<Primary>o
@@ -180,7 +180,7 @@ in {
       split_unsplit=
     '';
 
-    ".config/geany/plugins/filebrowser/filebrowser.conf".text = ''
+    "geany/plugins/filebrowser/filebrowser.conf".text = ''
       [filebrowser]
       open_command=xfe "%d"
       show_hidden_files=false
@@ -190,7 +190,7 @@ in {
       fb_set_project_base_path=true
     '';
 
-    ".config/geany/colorschemes".source = pkgs.fetchFromGitHub {
+    "geany/colorschemes".source = pkgs.fetchFromGitHub {
       owner = "RobLoach";
       repo = "base16-geany";
       rev = "40fc74c52ddec7efddbeff8a9b7b25652e7b45f6";

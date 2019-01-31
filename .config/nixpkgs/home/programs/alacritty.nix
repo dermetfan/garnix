@@ -12,8 +12,8 @@ in {
   };
 
   config.home.packages = lib.optional config.programs.alacritty.enable pkgs.alacritty;
-  config.home.file = lib.mkIf cfg.enable {
-    ".config/alacritty/alacritty.yml".text = ''
+  config.xdg.configFile = lib.mkIf cfg.enable {
+    "alacritty/alacritty.yml".text = ''
       visual_bell:
         animation: EaseOutSine
         duration: 100
