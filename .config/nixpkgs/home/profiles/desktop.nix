@@ -42,7 +42,7 @@ in {
     };
 
     xsession = {
-      windowManager.command = "${pkgs.i3-gaps}/bin/i3";
+      windowManager.i3.enable = true;
       initExtra = ''
         xset r rate 225 27
         xset m 5 1
