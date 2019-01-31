@@ -28,6 +28,12 @@ in {
         hideEdgeBorders = "both";
       };
 
+      gaps = {
+        inner = 15;
+        smartGaps = true;
+        smartBorders = "on";
+      };
+
       assigns."10" = [
         { class = "^TelegramDesktop$"; }
         { class = "^HipChat$"; }
