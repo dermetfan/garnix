@@ -15,6 +15,12 @@ in {
 
     data = mkEnableOption "user's data root.";
 
+    batteries = with lib; mkOption {
+      type = with types; listOf str;
+      default = filter (hasPrefix "BAT")
+        (builtins.attrNames (builtins.readDir /sys/class/power_supply));
+    };
+
     configFile = mkOption {
       type = types.path;
       default = config.home.homeDirectory + "/" + config.xdg.configFile."i3/status.toml".target;
@@ -43,15 +49,15 @@ in {
         warning = 25
         alert = 10
         show_percentage = true
-      '' + (lib.optionalString (cfg.data && sysCfg.config.data.enable or false) ''
+      '' + lib.optionalString (cfg.data && sysCfg.config.data.enable or false) ''
         [[block]]
         block = "disk_space"
         alias = "data"
         path = "${sysCfg.config.data.mountPoint}${lib.optionalString sysCfg.config.data.userFileSystems "/${builtins.getEnv "USER"}"}"
-      '') + ''
+      '' + lib.optionalString (builtins.any (lib.hasPrefix "nvidia") sysCfg.services.xserver.videoDrivers) ''
         [[block]]
         block = "nvidia_gpu"
-
+      '' + ''
         [[block]]
         block = "memory"
         format_mem = "{Mupi}% {MAg}G"
@@ -63,12 +69,12 @@ in {
 
         [[block]]
         block = "load"
-
+      '' + lib.concatStrings (map (battery: ''
         [[block]]
         block = "battery"
-        device = "BAT1"
+        device = "${battery}"
         format = "{percentage}% {time} {power}"
-
+      '') cfg.batteries) + ''
         [[block]]
         block = "time"
         interval = 1
