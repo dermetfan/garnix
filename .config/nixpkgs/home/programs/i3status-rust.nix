@@ -32,7 +32,10 @@ in {
     { home.packages = lib.optional config.programs.i3status-rust.enable pkgs.i3status-rust; }
 
     (lib.mkIf cfg.enable {
-      home.packages = with pkgs; [ font-awesome_5 ];
+      home.packages = with pkgs; [
+        font-awesome_5
+        lm_sensors
+      ];
 
       xdg.configFile."i3/status.toml".text = ''
         icons = "awesome"
