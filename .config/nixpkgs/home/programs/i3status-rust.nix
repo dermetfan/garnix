@@ -17,8 +17,8 @@ in {
 
     batteries = with lib; mkOption {
       type = with types; listOf str;
-      default = filter (hasPrefix "BAT")
-        (builtins.attrNames (builtins.readDir /sys/class/power_supply));
+      default = if !pkgs.stdenv.isLinux then [] else
+        filter (hasPrefix "BAT") (builtins.attrNames (builtins.readDir /sys/class/power_supply));
     };
 
     configFile = mkOption {
