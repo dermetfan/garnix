@@ -7,7 +7,6 @@ in {
 
   config = lib.mkIf cfg.enable {
     networking = {
-
       nat = {
         enable = true;
         internalInterfaces = [

@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, ... }:
 
 let
   cfg = config.config.profiles.notebook;
@@ -6,28 +6,7 @@ in {
   options.config.profiles.notebook.enable = lib.mkEnableOption "notebook settings";
 
   config = lib.mkIf cfg.enable {
-    config = {
-      data = {
-        enable = true;
-        userFileSystems = true;
-      };
-    };
-
-    nixpkgs.config.allowUnfree = true;
-
-    networking = {
-      hostName = "dermetfan";
-      networkmanager.enable = true;
-    };
-
-    services.xserver = {
-      enable = true;
-      synaptics = {
-        enable = true;
-        minSpeed = "0.825";
-        maxSpeed = "2";
-      };
-    };
+    networking.networkmanager.enable = true;
 
     fonts = {
       enableFontDir = true;
