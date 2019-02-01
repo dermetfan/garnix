@@ -78,7 +78,7 @@ in {
         [[block]]
         block = "time"
         interval = 1
-        format = "%m-%d %H:%M:%S"
+        format = "%b %m-%d %a %H:%M:%S"
       '';
     })
   ];
