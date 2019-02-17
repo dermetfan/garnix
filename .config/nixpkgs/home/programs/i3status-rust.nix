@@ -68,7 +68,7 @@ in {
 
         [[block]]
         block = "temperature"
-        format = "⌀{average}° ↑{max}°"
+        format = "⌀{average}°C ↑{max}°C"
 
         [[block]]
         block = "load"
