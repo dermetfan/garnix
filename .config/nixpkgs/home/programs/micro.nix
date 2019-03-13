@@ -19,14 +19,15 @@ in {
     "micro/settings.json".text = builtins.toJSON {
       eofnewline = true;
       ignorecase = true;
-      indentchar = " ";
       ruler = false;
       savecursor = true;
       saveundo = true;
-      tabstospaces = true;
       tabmovement = true;
       termtitle = true;
       matchbrace = true;
+      basename = true;
+      rmtrailingws = true;
+      softwrap = true;
 
       "*.nix" = {
         tabsize = 2;
@@ -46,12 +47,12 @@ in {
        * to write missing settings on startup. */
       autoindent = true;
       autosave = false;
-      basename = false;
       colorcolumn = 0;
       colorscheme = "default";
       cursorline = true;
       fastdirty = true;
       fileformat = "unix";
+      indentchar = "\t";
       infobar = true;
       keepautoindent = false;
       keymenu = false;
@@ -61,18 +62,17 @@ in {
         https://raw.githubusercontent.com/micro-editor/plugin-channel/master/channel.json
       ];
       pluginrepos = [];
-      rmtrailingws = false;
       savehistory = true;
       scrollbar = false;
       scrollmargin = 3;
       scrollspeed = 2;
-      softwrap = false;
       splitbottom = true;
       splitright = true;
       statusline = true;
       sucmd = "sudo";
       syntax = true;
       tabsize = 4;
+      tabstospaces = false;
       useprimary = true;
     };
 
