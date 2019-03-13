@@ -10,52 +10,56 @@ in {
     description = "Whether to configure Mercurial.";
   };
 
-  config.programs.mercurial = lib.mkIf cfg.enable {
-    userName  = "Robin Stumm";
-    userEmail = "serverkorken@gmail.com";
+  config = lib.mkIf cfg.enable {
+    home.packages = [ pkgs.meld ];
 
-    aliases = {
-      lg   = "log -G";
-      qnew = "qnew -e";
+    programs.mercurial = {
+      userName  = "Robin Stumm";
+      userEmail = "serverkorken@gmail.com";
+
+      aliases = {
+        lg   = "log -G";
+        qnew = "qnew -e";
+      };
+
+      extraConfig = ''
+        [ui]
+        merge = meld
+        ssh = ssh -C
+        interface.chunkselector = curses
+
+        [auth]
+        bb.prefix = https://bitbucket.org/
+        bb.username = dermetfan
+        gh.prefix = https://github.com/
+        gh.username = dermetfan
+
+        [merge-tools]
+        meld.args = $base $local $other
+
+        [extensions]
+        color =
+        progress =
+        shelve =
+        strip =
+        purge =
+        pager =
+        eol =
+        convert =
+        rebase =
+        histedit =
+        mq =
+
+        [pager]
+        pager = less
+        attend = lg, log, diff, annotate, help
+
+        [diff]
+        git = true
+
+        [mq]
+        secret = true
+      '';
     };
-
-    extraConfig = ''
-      [ui]
-      merge = meld
-      ssh = ssh -C
-      interface.chunkselector = curses
-
-      [auth]
-      bb.prefix = https://bitbucket.org/
-      bb.username = dermetfan
-      gh.prefix = https://github.com/
-      gh.username = dermetfan
-
-      [merge-tools]
-      meld.args = $base $local $other
-
-      [extensions]
-      color =
-      progress =
-      shelve =
-      strip =
-      purge =
-      pager =
-      eol =
-      convert =
-      rebase =
-      histedit =
-      mq =
-
-      [pager]
-      pager = less
-      attend = lg, log, diff, annotate, help
-
-      [diff]
-      git = true
-
-      [mq]
-      secret = true
-    '';
   };
 }
