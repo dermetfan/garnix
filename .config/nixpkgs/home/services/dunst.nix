@@ -9,13 +9,13 @@ in {
     defaultText = "<option>services.dunst.enable</option";
   };
 
-  config = {
+  config = lib.mkIf cfg.enable {
     programs = {
       rofi.enable = true;
       firefox.enable = true;
     };
 
-    services.dunst.settings = lib.mkIf cfg.enable {
+    services.dunst.settings = {
       global = {
         font = "Monospace 8";
         allow_markup = true;
