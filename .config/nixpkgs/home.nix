@@ -56,7 +56,7 @@ in {
 
     qt = {
       enable = config.xsession.enable;
-      useGtkTheme = true;
+      platformTheme = "gtk";
     };
 
     services = {
