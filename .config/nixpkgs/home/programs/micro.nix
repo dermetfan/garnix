@@ -31,6 +31,7 @@ in {
 
       "*.nix" = {
         tabsize = 2;
+        tabstospaces = true;
       };
       "*.sql" = {
         tabsize = 2;
