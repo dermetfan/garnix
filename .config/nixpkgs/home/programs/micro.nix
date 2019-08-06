@@ -36,6 +36,9 @@ in {
       "*.sql" = {
         tabsize = 2;
       };
+      "*.md" = {
+        rmtrailingws = false;
+      };
 
       /* Options added by plugins need to be provided
        * or micro will attempt to save them on startup. */
