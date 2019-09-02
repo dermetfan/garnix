@@ -11,6 +11,7 @@ in {
 
     programs = {
       taskwarrior.enable = true;
+      timewarrior.enable = true;
 
       volumeicon.enable = config.xsession.enable;
       alacritty .enable = config.xsession.enable;
@@ -65,7 +66,6 @@ in {
       unrar
       unzip
       zip
-      timewarrior
       weechat
     ] ++ lib.optionals config.xsession.enable [
       # autostart

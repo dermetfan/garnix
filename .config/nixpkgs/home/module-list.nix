@@ -34,6 +34,7 @@
   programs/ranger.nix
   programs/rofi.nix
   programs/st.nix
+  programs/timewarrior.nix
   programs/tmux.nix
   programs/volumeicon.nix
   programs/xfe.nix
