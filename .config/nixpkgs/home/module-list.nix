@@ -9,6 +9,7 @@
   profiles/game.nix
 
   misc/gtk.nix
+  misc/pulseaudio-oneshot.nix
 
   services/compton.nix
   services/dunst.nix
