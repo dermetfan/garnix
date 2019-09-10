@@ -11,21 +11,18 @@ in {
     description = "Whether to configure timewarrior.";
   };
 
-  config.home = lib.mkIf cfg.enable {
+  config.home = {
     packages = lib.optional config.programs.timewarrior.enable pkgs.timewarrior;
 
-    file.".timewarrior/timewarrior.cfg" = {
-      text = ''
+    file = lib.mkIf cfg.enable {
+      ".timewarrior/timewarrior.cfg".text = ''
         import ${pkgs.timewarrior}/share/doc/timew/doc/themes/dark.theme
       '';
 
-      # hack to write file instead of linking (needs to be writable)
-      onChange = let
-        target = config.home.file.".timewarrior/timewarrior.cfg".target;
-      in ''
-        cat ${target} > ${target}.tmp
-        mv ${target}.tmp ${target}
-      '';
+      ".timewarrior/extensions/totals" = {
+        source = "${pkgs.timewarrior}/share/doc/timew/ext/totals.py";
+        executable = true;
+      };
     };
   };
 }
