@@ -30,6 +30,7 @@ in {
         qemu
         dos2unix
       ] ++
+      (lib.optional config.programs.tmux.enable tmuxp) ++
       lib.optionals stdenv.isLinux [
         loc
       ] ++
