@@ -78,7 +78,6 @@ in {
       feh
       gucharmap
       qalculate-gtk
-      rss-glx
       xarchiver
     ];
   };
