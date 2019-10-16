@@ -79,16 +79,17 @@ in {
 
     xdg = {
       enable = true;
-      configFile."user-dirs.dirs".text = ''
-        XDG_DESKTOP_DIR="/home/dermetfan"
-        XDG_DOWNLOAD_DIR="/home/dermetfan/downloads"
-        XDG_TEMPLATES_DIR="/home/dermetfan"
-        XDG_PUBLICSHARE_DIR="/home/dermetfan"
-        XDG_DOCUMENTS_DIR="/data/dermetfan/documents"
-        XDG_MUSIC_DIR="/data/dermetfan/audio/music"
-        XDG_PICTURES_DIR="/data/dermetfan/images"
-        XDG_VIDEOS_DIR="/data/dermetfan/videos"
-      '';
+      userDirs = {
+        enable = true;
+        desktop = "/home/dermetfan";
+        download = "/home/dermetfan/downloads";
+        templates = "/home/dermetfan";
+        publishShare = "/home/dermetfan";
+        documents = "/data/dermetfan/documents";
+        music = "/data/dermetfan/audio/music";
+        pictures = "/data/dermetfan/images";
+        videos = "/data/dermetfan/videos";
+      };
     };
   };
 }
