@@ -52,9 +52,6 @@ in {
 
         ~/.fehbg || nitrogen --restore
         volumeicon &
-        telegram-desktop &
-        skypeforlinux &
-        alacritty --class WeeChat -t WeeChat -e weechat &
       '';
     };
 
@@ -71,10 +68,10 @@ in {
       # autostart
       xorg.xmodmap
       udevil
-      tdesktop
       nitrogen
-      skype
 
+      tdesktop
+      skype
       feh
       gucharmap
       qalculate-gtk
