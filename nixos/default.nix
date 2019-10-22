@@ -7,6 +7,7 @@
     ./hotkeys.nix
     ./uhk.nix
     ./dns-watch.nix
+    ./1.1.1.1.nix
     ./steam-controller.nix
 
     profiles/netbook.nix
