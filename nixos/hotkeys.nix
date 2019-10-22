@@ -22,6 +22,11 @@ in {
   options.config.hotkeys = with lib; {
     enable = mkEnableOption "hotkeys";
 
+    screenshotsDirectory = mkOption {
+      type = types.path;
+      default = "/tmp/screenshots";
+    };
+
     keyCodes = mkOption {
       type = with types; submodule {
         options = {
@@ -134,15 +139,15 @@ in {
             }
             {
               keys = [ PrtScr ];
-              command = "mkdir -pm 777 /tmp/screenshots && maim /tmp/screenshots/`date --iso-8601=ns`.png";
+              command = "mkdir -pm 777 ${cfg.screenshotsDirectory} && maim ${cfg.screenshotsDirectory}/`date --iso-8601=ns`.png";
             }
             {
               keys = [ Shift_L PrtScr ];
-              command = "mkdir -pm 777 /tmp/screenshots && maim -slc .5,.5,.5,.25 /tmp/screenshots/`date --iso-8601=ns`.png";
+              command = "mkdir -pm 777 ${cfg.screenshotsDirectory} && maim -slc .5,.5,.5,.25 ${cfg.screenshotsDirectory}/`date --iso-8601=ns`.png";
             }
             {
               keys = [ Shift_R PrtScr ];
-              command = "mkdir -pm 777 /tmp/screenshots && maim -sluc .5,.5,.5,.25 /tmp/screenshots/`date --iso-8601=ns`.png";
+              command = "mkdir -pm 777 ${cfg.screenshotsDirectory} && maim -sluc .5,.5,.5,.25 ${cfg.screenshotsDirectory}/`date --iso-8601=ns`.png";
             }
             {
               keys = XF86Display;
