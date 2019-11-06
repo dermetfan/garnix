@@ -59,7 +59,7 @@ in {
 
     home.packages = with pkgs; [
       gnupg
-      pass
+      (pass.withExtensions (exts: with exts; [ pass-otp ]))
       unrar
       unzip
       zip
