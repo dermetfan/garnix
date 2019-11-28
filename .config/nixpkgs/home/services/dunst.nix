@@ -6,7 +6,7 @@ in {
   options.config.services.dunst.enable = with lib; mkOption {
     type = types.bool;
     default = config.services.dunst.enable;
-    defaultText = "<option>services.dunst.enable</option";
+    defaultText = "<option>services.dunst.enable</option>";
   };
 
   config = lib.mkIf cfg.enable {
