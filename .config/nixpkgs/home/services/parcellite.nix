@@ -3,7 +3,11 @@
 let
   cfg = config.config.services.parcellite;
 in {
-  options.config.services.parcellite.enable = lib.mkEnableOption "parcellite";
+  options.config.services.parcellite.enable = with lib; mkOption {
+    type = types.bool;
+    default = config.services.parcellite.enable;
+    defaultText = "<option>services.parcellite.enable</option>";
+  };
 
   config.xdg.configFile = lib.mkIf cfg.enable {
     "parcellite/parcelliterc".text = ''
