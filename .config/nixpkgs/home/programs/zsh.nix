@@ -18,10 +18,19 @@ in {
 
     programs.zsh = {
       enableCompletion = let
-        sysZshCfg = config.passthru.systemConfig.programs.zsh or {
-          enable = true;
-          enableCompletion = true;
-        };
+        sysZshCfg = config.passthru.systemConfig.programs.zsh or (
+          builtins.trace
+            ''
+              It is unknown whether zsh completion is loaded on startup.
+              Not loading it to avoid doing so twice by mistake.
+              You may get an error on zsh startup about `compdef` not being found.
+              Add `programs.zsh.enableCompletion = lib.mkForce true` to your `~/.config/nixpkgs/home/profiles/local.nix` if needed.
+            ''
+            {
+              enable = true;
+              enableCompletion = true;
+            }
+        );
       in !sysZshCfg.enable || !sysZshCfg.enableCompletion;
 
       shellAliases = {
