@@ -30,6 +30,7 @@ in {
       socat
       wakelan
       wget
+      gotty
     ] ++ lib.optionals stdenv.isLinux [
       diffoscope
       ftop
