@@ -191,7 +191,7 @@ in {
               forceSSL = true;
               locations = {
                 "/minecraft/resourcepacks/".alias = "${config.services.minecraft-server.dataDir}/resourcepacks/";
-                "/shellinabox".proxyPass = "http://127.0.0.1:4200/";
+                "/shellinabox".proxyPass = http://127.0.0.1:4200/;
               };
             };
 
