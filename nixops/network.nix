@@ -165,6 +165,14 @@ in {
           };
         };
 
+        shellinabox = {
+          enable = true;
+          extraOptions = [
+            "--localhost-only"
+            "--user-css Dark:+${pkgs.shellinabox}/lib/white-on-black.css,Light:-/dev/null"
+          ];
+        };
+
         nginx = {
           enable = true;
           recommendedOptimisation  = true;
@@ -183,6 +191,7 @@ in {
               forceSSL = true;
               locations = {
                 "/minecraft/resourcepacks/".alias = "${config.services.minecraft-server.dataDir}/resourcepacks/";
+                "/shellinabox".proxyPass = "http://127.0.0.1:4200/";
               };
             };
 
