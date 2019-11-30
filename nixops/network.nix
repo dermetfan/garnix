@@ -192,6 +192,10 @@ in {
               locations = {
                 "/minecraft/resourcepacks/".alias = "${config.services.minecraft-server.dataDir}/resourcepacks/";
                 "/shellinabox".proxyPass = http://127.0.0.1:4200/;
+                "/gotty/" = {
+                  proxyPass = http://127.0.0.1:4201/;
+                  proxyWebsockets = true;
+                };
               };
             };
 
@@ -221,6 +225,31 @@ in {
       systemd.services = {
         hydra-server.path       = [ pkgs.ssmtp ];
         hydra-queue-runner.path = [ pkgs.ssmtp ];
+
+        gotty = {
+          wantedBy = [ "multi-user.target" ];
+          path = with pkgs; [
+            # until https://github.com/NixOS/nixpkgs/pull/74552/files is merged
+            (gotty.overrideAttrs (oldAttrs: rec {
+              version = "2.0.0-alpha.3";
+              rev = "v${version}";
+
+              src = fetchFromGitHub {
+                inherit rev;
+                owner = "yudai";
+                repo = "gotty";
+                sha256 = "1vhhs7d4k1vpkf2k69ai2r3bp3zwnwa8l9q7vza0rck69g4nmz7a";
+              };
+
+              goDeps = null;
+            }))
+          ];
+          script = "gotty /run/current-system/sw/bin/login";
+          environment = {
+            GOTTY_PORT = "4201";
+            GOTTY_PERMIT_WRITE = "1";
+          };
+        };
       };
     };
   };
