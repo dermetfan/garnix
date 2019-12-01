@@ -4,10 +4,10 @@
 let
   cfg = config.config.machine."MSI PE60-6QE";
 in {
-  options.config.machine."MSI PE60-6QE" = {
-    enable = lib.mkEnableOption "MSI PE60-6QE";
+  options.config.machine."MSI PE60-6QE" = with lib; {
+    enable = mkEnableOption "MSI PE60-6QE";
 
-    hyperThreading = with lib; mkOption {
+    hyperThreading = mkOption {
       type = types.bool;
       default = true;
       description = ''
@@ -20,7 +20,10 @@ in {
       '';
     };
 
-    enableBumblebeeHack = lib.mkEnableOption "the Bumblebee hack to turn off the dedicated GPU";
+    enableGPU = mkOption {
+      type = types.enum [ true false "bumblebee" ];
+      default = "bumblebee";
+    };
   };
 
   config = lib.mkIf cfg.enable (lib.mkMerge [
@@ -70,7 +73,7 @@ in {
             poweroff) ${config.boot.kernelPackages.bbswitch}/bin/discrete_vga_poweroff ;;
         esac
       '';
-    in lib.mkIf cfg.enableBumblebeeHack {
+    in lib.mkIf (cfg.enableGPU == "bumblebee") {
       services.xserver.videoDrivers = [ "intel" ];
 
       hardware.bumblebee.enable = true;
@@ -109,7 +112,7 @@ in {
       };
     })
 
-    (lib.mkIf (!cfg.enableBumblebeeHack) {
+    (lib.mkIf (cfg.enableGPU == true) {
         services.xserver.videoDrivers = [ "nvidia" ];
 
         hardware.nvidia = {
@@ -121,6 +124,12 @@ in {
             intelBusId  = "PCI:0:2:0";
           };
         };
+    })
+
+    (lib.mkIf (cfg.enableGPU == false) {
+      services.xserver.videoDrivers = [ "intel" ];
+
+      hardware.nvidiaOptimus.disable = true;
     })
   ]);
 }
