@@ -16,6 +16,7 @@
   services/i3.nix
   services/parcellite.nix
   services/xscreensaver.nix
+  services/rsibreak.nix
 
   programs/alacritty.nix
   programs/antigen.nix
