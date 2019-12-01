@@ -131,5 +131,29 @@ in {
 
       hardware.nvidiaOptimus.disable = true;
     })
+
+    { nesting.clone = with lib; [
+      { config = {
+        boot.loader.grub.configurationName = "MSI PE60-6QE: performance";
+
+        powerManagement.cpuFreqGovernor = mkForce "performance";
+
+        config.machine."MSI PE60-6QE".enableGPU = mkForce true;
+      }; }
+
+      { config = {
+        boot.loader.grub.configurationName = "MSI PE60-6QE: powersave";
+
+        powerManagement.cpuFreqGovernor = mkForce "powersave";
+
+        config.machine."MSI PE60-6QE".enableGPU = mkForce false;
+      }; }
+
+      { config = {
+        boot.loader.grub.configurationName = "MSI PE60-6QE: bumblebee";
+
+        config.machine."MSI PE60-6QE".enableGPU = mkForce "bumblebee";
+      }; }
+    ]; }
   ]);
 }
