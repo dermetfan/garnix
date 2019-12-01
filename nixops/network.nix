@@ -147,7 +147,6 @@ in {
           buildMachinesFiles = [];
           useSubstitutes = true;
           smtpHost = "127.0.0.1";
-          logo = lib.mkDefault /var/lib/hydra/logo.png;
         };
 
         minecraft-server = {
