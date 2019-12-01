@@ -129,10 +129,10 @@ in {
                 xscreensaver-command = "${pkgs.xscreensaver}/bin/xscreensaver-command";
                 script = pkgs.writeScript "XF86ScreenSaver.sh" ''
                   #! ${pkgs.bash}/bin/bash
-                  if [[ `who | wc -l` > 0 ]]; then
-                      systemctl start physlock
-                  else
+                  if [[ `who | wc -l` = 1 && `systemctl is-active display-manager` ]]; then
                       ${xscreensaver-command} -lock
+                  else
+                      systemctl start physlock
                   fi
                 '';
               in "${script}";
