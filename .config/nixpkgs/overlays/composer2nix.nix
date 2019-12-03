@@ -9,5 +9,7 @@ self: super: {
   in (import "${src}/release.nix" {
     nixpkgs = super.path;
     systems = [ builtins.currentSystem ];
-  }).package.${builtins.currentSystem};
+  }).package.${builtins.currentSystem}.overrideAttrs (oldAttrs: {
+    meta.broken = true;
+  });
 }
