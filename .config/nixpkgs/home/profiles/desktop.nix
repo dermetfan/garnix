@@ -37,6 +37,7 @@ in {
       parcellite            .enable = config.xsession.enable;
       xscreensaver          .enable = config.xsession.enable;
       rsibreak              .enable = config.xsession.enable;
+      flameshot             .enable = config.xsession.enable;
       redshift = {
         enable = config.xsession.enable;
         tray = true;
