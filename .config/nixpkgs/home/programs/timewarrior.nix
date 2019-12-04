@@ -15,10 +15,6 @@ in {
     packages = lib.optional config.programs.timewarrior.enable pkgs.timewarrior;
 
     file = lib.mkIf cfg.enable {
-      ".timewarrior/timewarrior.cfg".text = ''
-        import ${pkgs.timewarrior}/share/doc/timew/doc/themes/dark.theme
-      '';
-
       ".timewarrior/extensions/totals" = {
         source = "${pkgs.timewarrior}/share/doc/timew/ext/totals.py";
         executable = true;

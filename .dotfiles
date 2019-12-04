@@ -2,3 +2,4 @@ ln bin/dotfiles
 ln .config/nixpkgs
 cp .config/geany/geany.conf
 ln .config/filezilla/sitemanager.xml
+ln .timewarrior/timewarrior.cfg
