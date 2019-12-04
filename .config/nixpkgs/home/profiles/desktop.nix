@@ -19,15 +19,6 @@ in {
       firefox   .enable = config.xsession.enable;
       chromium  .enable = config.xsession.enable;
       zathura   .enable = config.xsession.enable;
-
-      browserpass = {
-        enable = true;
-        browsers = [
-          "vivaldi"
-          "chromium"
-          "firefox"
-        ];
-      };
     };
 
     services = {

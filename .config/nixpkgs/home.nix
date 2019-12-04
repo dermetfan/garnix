@@ -74,6 +74,18 @@ in {
       nano  .enable = true;
       tmux  .enable = true;
       zsh   .enable = true;
+
+      browserpass = {
+        enable = lib.mkDefault (
+          config.programs.firefox.enable ||
+          config.programs.chromium.enable
+        );
+        browsers = [
+          "vivaldi"
+          "chromium"
+          "firefox"
+        ];
+      };
     };
 
     systemd.user.startServices = true;
