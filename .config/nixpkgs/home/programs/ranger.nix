@@ -53,7 +53,7 @@ in {
 
           map h display_file
 
-          map k chain draw_possible_programs; console open_with%%space
+          map k chain draw_possible_programs; console open_with%space
 
           map yD shell -f dragon -x %p
 
