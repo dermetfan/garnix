@@ -151,6 +151,7 @@ in {
 
         minecraft-server = {
           enable = true;
+          eula = true;
           openFirewall = true;
         };
 
