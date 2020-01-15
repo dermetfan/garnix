@@ -33,6 +33,9 @@ in {
         tabsize = 2;
         tabstospaces = true;
       };
+      "*.zig" = {
+        tabstospaces = true;
+      };
       "*.sql" = {
         tabsize = 2;
       };
