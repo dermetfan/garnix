@@ -4,17 +4,18 @@ let
   cfg = config.profiles.dev;
 in {
   options.profiles.dev = with lib; {
-    enable     = mkEnableOption "developer programs";
-    enableRust = mkEnableOption "Rust developer programs";
-    enableJava = mkEnableOption "Java developer programs";
-    enableWeb  = mkEnableOption "web developer programs";
+    enable = mkEnableOption "development programs";
+    enableNative = mkEnableOption "native development programs";
+    enableRust = mkEnableOption "Rust development programs";
+    enableJava = mkEnableOption "Java development programs";
+    enableWeb = mkEnableOption "web development programs";
   };
 
   config = lib.mkIf cfg.enable {
     programs = {
       mercurial.enable = true;
-      git      .enable = true;
-      jq       .enable = true;
+      git.enable = true;
+      jq.enable = true;
 
       geany.enable = config.xsession.enable;
 
@@ -38,9 +39,14 @@ in {
         aqemu
         meld
         pgadmin
+        sqlitebrowser
+      ] ++
+      lib.optionals cfg.enableNative [
+        lldb
+        valgrind
+        qcachegrind
       ] ++
       lib.optionals cfg.enableRust [
-        lldb
         rustracer
         rustracerd
       ] ++
