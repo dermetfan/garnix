@@ -39,6 +39,7 @@
     environment = {
       systemPackages = with pkgs;
         [ ntfs3g exfat ] ++
+        lib.optional (config.hardware.pulseaudio.enable && config.services.xserver.enable) pavucontrol ++
         lib.optional config.programs.zsh.enable nix-zsh-completions;
 
       variables = lib.mkIf config.services.xserver.enable {
