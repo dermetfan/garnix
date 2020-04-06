@@ -85,13 +85,13 @@
         xkbVariant = "norman";
         xkbOptions = "compose:lwin,compose:rwin,eurosign:e";
 
-        displayManager.slim.defaultUser = lib.mkDefault config.users.users.dermetfan.name;
-
         synaptics = {
           twoFingerScroll = true;
           palmDetect      = true;
         };
-      };
+      } // (if lib.versionOlder "19.09" lib.version then {} else {
+        displayManager.slim.defaultUser = lib.mkDefault config.users.users.dermetfan.name;
+      });
 
       kmscon = {
         extraConfig = ''

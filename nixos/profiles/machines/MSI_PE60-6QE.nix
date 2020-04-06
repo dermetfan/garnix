@@ -80,24 +80,26 @@ in {
 
       systemd.services.bumblebeed.wantedBy = lib.mkForce [];
 
-      services.xserver.displayManager = {
+      services.xserver.displayManager = let
+        hasSlim = lib.versionOlder "19.09" lib.version;
+      in {
         # There is no generic post display manager hook
         # so this will only start, but not stop, bumblebeed.
         sessionCommands = lib.optionalString (
-          !config.services.xserver.displayManager.slim.enable &&
-          !config.services.xserver.displayManager.sddm.enable)
-          "${script} start";
-
-        slim.extraConfig = ''
-          sessionstart_cmd ${script} start
-          sessionstop_cmd  ${script} stop
-        '';
+          (!hasSlim || !config.services.xserver.displayManager.slim.enable) &&
+          !config.services.xserver.displayManager.sddm.enable
+        ) "${script} start";
 
         sddm = {
           setupScript = "${script} start";
           stopScript  = "${script} stop";
         };
-      };
+      } // (if hasSlim then {} else {
+        slim.extraConfig = ''
+          sessionstart_cmd ${script} start
+          sessionstop_cmd  ${script} stop
+        '';
+      });
 
       powerManagement = let
         pid = "/run/bumblebeed.pid";
