@@ -81,7 +81,7 @@ in {
       systemd.services.bumblebeed.wantedBy = lib.mkForce [];
 
       services.xserver.displayManager = let
-        hasSlim = lib.versionOlder "19.09" lib.version;
+        hasSlim = lib.versionOlder lib.version "20.03";
       in {
         # There is no generic post display manager hook
         # so this will only start, but not stop, bumblebeed.
@@ -94,7 +94,7 @@ in {
           setupScript = "${script} start";
           stopScript  = "${script} stop";
         };
-      } // (if hasSlim then {} else {
+      } // (if !hasSlim then {} else {
         slim.extraConfig = ''
           sessionstart_cmd ${script} start
           sessionstop_cmd  ${script} stop
