@@ -73,7 +73,7 @@
       tmux.enable = true;
     };
 
-    i18n.consoleUseXkbConfig = true;
+    console.useXkbConfig = true;
 
     services = {
       openssh.enable = true;
