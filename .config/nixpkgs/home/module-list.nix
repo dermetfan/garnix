@@ -36,6 +36,7 @@
   programs/ranger.nix
   programs/rofi.nix
   programs/st.nix
+  programs/starship.nix
   programs/timewarrior.nix
   programs/tmux.nix
   programs/volumeicon.nix
