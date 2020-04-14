@@ -118,7 +118,22 @@
       volumeStep = "2%";
     };
 
-    hardware.bluetooth.powerOnBoot = false;
+    hardware = {
+      bluetooth = {
+        powerOnBoot = false;
+
+        # https://nixos.wiki/wiki/Bluetooth#Enabling_A2DP_Sink
+        extraConfig = "
+          [General]
+          Enable=Source,Sink,Media,Socket
+        ";
+      };
+
+      pulseaudio.extraConfig = ''
+        load-module module-echo-cancel source_name=noecho
+        set-default-source noecho
+      '';
+    };
 
     users = {
       mutableUsers = false;
