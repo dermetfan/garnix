@@ -78,7 +78,7 @@
     services = {
       openssh.enable = true;
 
-      dbus.packages = lib.optional config.hardware.bluetooth.enable pkgs.blueman;
+      blueman.enable = config.services.xserver.enable && config.hardware.bluetooth.enable;
 
       xserver = {
         layout = "us";
