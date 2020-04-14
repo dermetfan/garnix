@@ -68,12 +68,13 @@ in {
       home-manager.enable = true;
 
       ranger.enable = true;
-      broot .enable = true;
-      htop  .enable = true;
-      micro .enable = true;
-      nano  .enable = true;
-      tmux  .enable = true;
-      zsh   .enable = true;
+      broot.enable = true;
+      htop.enable = true;
+      micro.enable = true;
+      nano.enable = true;
+      tmux.enable = true;
+      zsh.enable = true;
+      elvish.enable = true;
 
       browserpass = {
         enable = lib.mkDefault (

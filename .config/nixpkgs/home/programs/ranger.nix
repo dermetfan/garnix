@@ -4,11 +4,18 @@ let
   cfg = config.config.programs.ranger;
 in {
   options       .programs.ranger.enable = lib.mkEnableOption "ranger";
-  options.config.programs.ranger.enable = with lib; mkOption {
-    type = types.bool;
-    default = config.programs.ranger.enable;
-    defaultText = "<option>config.programs.ranger.enable</option>";
-    description = "Whether to configure ranger.";
+  options.config.programs.ranger = with lib; {
+    enable = mkOption {
+      type = types.bool;
+      default = config.programs.ranger.enable;
+      defaultText = "<option>config.programs.ranger.enable</option>";
+      description = "Whether to configure ranger.";
+    };
+
+    shell = mkOption {
+      type = with types; nullOr str;
+      description = "The shell command to use.";
+    };
   };
 
   config = lib.mkMerge [
@@ -56,6 +63,8 @@ in {
           map k chain draw_possible_programs; console open_with%space
 
           map yD shell -f dragon -x %p
+
+          ${lib.optionalString (cfg.shell != null) "map S shell ${cfg.shell}"}
 
           # Searching
           map j  search_next
