@@ -37,7 +37,31 @@ in {
         lm_sensors
       ];
 
-      xdg.configFile."i3/status.toml".text = ''
+      xdg.configFile."i3/status.toml".text = let
+        eco = builtins.trace
+          ''
+            The i3status-rust "eco" block requires cpupower to be usable without password through sudo.
+            Please put this in your NixOS config if necessary:
+
+            security.sudo.extraRules = lib.mkAfter [
+              {
+                commands = [ {
+                  command = "''${pkgs.linuxPackages.cpupower}/bin/cpupower";
+                  options = [ "NOPASSWD" ];
+                } ];
+                groups = [ config.users.groups.wheel.gid ];
+              }
+            ];
+          ''
+          pkgs.writeScript "eco.sh" ''
+            #! ${pkgs.stdenv.shell}
+            # XXX should this be a script provided by the system config with sudo rights?
+            case "$1" in
+                on) systemctl --user stop compton && sudo cpupower frequency-set -g powersave ;;
+                off) systemctl --user start compton && sudo cpupower frequency-set -g performance ;;
+            esac
+          '';
+      in ''
         icons = "awesome"
 
         [theme]
@@ -78,6 +102,13 @@ in {
         device = "${battery}"
         format = "{percentage}% {time} {power}"
       '') cfg.batteries) + ''
+        [[block]]
+        block = "toggle"
+        text = "eco"
+        command_on = "${eco} on"
+        command_off = "${eco} off"
+        command_state = "${eco}"
+
         [[block]]
         block = "time"
         interval = 1
