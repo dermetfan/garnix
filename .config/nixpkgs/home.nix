@@ -36,7 +36,7 @@ in {
 
       sessionVariables = {
         TERMINAL = "alacritty";
-        EDITOR = "micro";
+        EDITOR = "kak";
         PAGER = "less";
         SHELL = "elvish";
         SUDO_ASKPASS = "${pkgs.x11_ssh_askpass}/libexec/x11-ssh-askpass";
@@ -72,6 +72,7 @@ in {
       broot.enable = true;
       htop.enable = true;
       micro.enable = true;
+      kakoune.enable = true;
       nano.enable = true;
       tmux.enable = true;
       zsh.enable = true;
