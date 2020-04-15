@@ -31,7 +31,7 @@ in {
       xdg.configFile = let
         env = name: if config.home.sessionVariables ? ${name}
           then config.home.sessionVariables.${name}
-          else name;
+          else "\$${name}";
         EDITOR = env "EDITOR";
         PAGER  = env "PAGER";
       in {
