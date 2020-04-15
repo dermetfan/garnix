@@ -57,6 +57,7 @@ in {
       unzip
       zip
       weechat
+      buku
     ] ++ lib.optionals config.xsession.enable [
       # autostart
       xorg.xmodmap
