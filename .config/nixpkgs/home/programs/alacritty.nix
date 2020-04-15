@@ -84,6 +84,8 @@ in {
       ];
 
       selection.semantic_escape_chars = ",│`|\"' ()[]{}<>‘’";
-    };
+    } // (if config.home.sessionVariables ? "SHELL" then {
+      shell.program = config.home.sessionVariables.SHELL;
+    } else {});
   };
 }

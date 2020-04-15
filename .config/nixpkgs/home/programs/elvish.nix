@@ -31,9 +31,5 @@ in {
 
       # edit:-matcher['''] = [p]{ edit:match-prefix &smart-case $p }
     '';
-
-    config.programs.ranger = lib.mkIf cfg.enableRanger {
-      shell = "${pkgs.elvish}/bin/elvish";
-    };
   };
 }

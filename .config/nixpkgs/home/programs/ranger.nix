@@ -14,6 +14,7 @@ in {
 
     shell = mkOption {
       type = with types; nullOr str;
+      default = config.home.sessionVariables.SHELL or null;
       description = "The shell command to use.";
     };
   };
