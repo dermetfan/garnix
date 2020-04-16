@@ -46,19 +46,17 @@ in {
     inactiveDim = "0.2";
 
     extraOptions = ''
-      clear-shadow = true;
       shadow-radius = 7;
       xinerama-shadow-crop = true;
 
-      alpha-step = 0.06;
-
       blur-kern = "11x11gaussian";
 
-      xrender-sync = true;
       xrender-sync-fence = true;
 
-      paint-on-overlay = true;
+      glx-no-stencil = true;
+      glx-no-rebind-pixmap = true;
 
+      use-damage = true;
       use-ewmh-active-win = true;
       mark-wmwin-focused = true;
       mark-ovredir-focused = true;
@@ -72,7 +70,6 @@ in {
     '';
 
     /*
-    TODO man picom /tooltip
     wintypes: {
       tooltip: {
         fade = true;
