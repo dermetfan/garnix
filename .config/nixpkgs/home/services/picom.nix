@@ -1,16 +1,16 @@
 { config, lib, pkgs, ... }:
 
 let
-  cfg = config.config.services.compton;
+  cfg = config.config.services.picom;
 in {
-  options.config.services.compton.enable = with lib; mkOption {
+  options.config.services.picom.enable = with lib; mkOption {
     type = types.bool;
-    default = config.services.compton.enable;
-    defaultText = "<option>services.compton.enable</option>";
-    description = "Whether to configure compton.";
+    default = config.services.picom.enable;
+    defaultText = "<option>services.picom.enable</option>";
+    description = "Whether to configure picom.";
   };
 
-  config.services.compton = lib.mkIf cfg.enable {
+  config.services.picom = lib.mkIf cfg.enable {
     shadow = true;
     shadowOffsets = [ (-7) (-7) ];
     shadowOpacity = "0.7";
@@ -41,7 +41,9 @@ in {
       "class_g = 'slop'"
     ];
 
-    vSync = "opengl-swc";
+    vSync = true;
+
+    inactiveDim = "0.2";
 
     extraOptions = ''
       clear-shadow = true;
@@ -57,8 +59,6 @@ in {
 
       paint-on-overlay = true;
 
-      inactive-dim = 0.2;
-
       use-ewmh-active-win = true;
       mark-wmwin-focused = true;
       mark-ovredir-focused = true;
@@ -69,15 +69,18 @@ in {
       detect-client-opacity = true;
       detect-transient = true;
       detect-client-leader = true;
-
-      wintypes: {
-        tooltip: {
-          fade = true;
-          shadow = false;
-          opacity = 0.75;
-          focus = true;
-        };
-      };
     '';
+
+    /*
+    TODO man picom /tooltip
+    wintypes: {
+      tooltip: {
+        fade = true;
+        shadow = false;
+        opacity = 0.75;
+        focus = true;
+      };
+    };
+    */
   };
 }

@@ -11,7 +11,7 @@
   misc/gtk.nix
   misc/pulseaudio-oneshot.nix
 
-  services/compton.nix
+  services/picom.nix
   services/dunst.nix
   services/i3.nix
   services/parcellite.nix

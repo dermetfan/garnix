@@ -6,6 +6,6 @@ in {
   options.profiles.effects.enable = lib.mkEnableOption "desktop effects";
 
   config = lib.mkIf cfg.enable {
-    services.compton.enable = config.xsession.enable;
+    services.picom.enable = config.xsession.enable;
   };
 }

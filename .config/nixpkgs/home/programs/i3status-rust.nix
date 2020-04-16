@@ -57,8 +57,8 @@ in {
             #! ${pkgs.stdenv.shell}
             # XXX should this be a script provided by the system config with sudo rights?
             case "$1" in
-                on) systemctl --user stop compton && sudo cpupower frequency-set -g powersave ;;
-                off) systemctl --user start compton && sudo cpupower frequency-set -g performance ;;
+                on) systemctl --user stop picom && sudo cpupower frequency-set -g powersave ;;
+                off) systemctl --user start picom && sudo cpupower frequency-set -g performance ;;
             esac
           '';
       in ''

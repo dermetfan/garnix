@@ -100,7 +100,7 @@ in {
         desktop = "/home/dermetfan";
         download = "/home/dermetfan/downloads";
         templates = "/home/dermetfan";
-        publishShare = "/home/dermetfan";
+        publicShare = "/home/dermetfan";
         documents = "/data/dermetfan/documents";
         music = "/data/dermetfan/audio/music";
         pictures = "/data/dermetfan/images";
