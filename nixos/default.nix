@@ -73,7 +73,7 @@
       tmux.enable = true;
     };
 
-    i18n.consoleUseXkbConfig = true;
+    console.useXkbConfig = true;
 
     services = {
       openssh.enable = true;
@@ -123,10 +123,7 @@
         powerOnBoot = false;
 
         # https://nixos.wiki/wiki/Bluetooth#Enabling_A2DP_Sink
-        extraConfig = "
-          [General]
-          Enable=Source,Sink,Media,Socket
-        ";
+        config.General.Enable = lib.concatStringsSep "," ["Source" "Sink" "Media" "Socket"];
       };
 
       pulseaudio.extraConfig = ''
