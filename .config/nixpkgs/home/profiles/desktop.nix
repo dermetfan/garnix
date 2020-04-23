@@ -12,6 +12,7 @@ in {
     programs = {
       taskwarrior.enable = true;
       timewarrior.enable = true;
+      gpg.enable = true;
 
       volumeicon.enable = config.xsession.enable;
       alacritty .enable = config.xsession.enable;
@@ -22,6 +23,8 @@ in {
     };
 
     services = {
+      gpg-agent.enable = true;
+
       blueman-applet        .enable = config.xsession.enable && sysCfg.hardware.bluetooth.enable or true;
       dunst                 .enable = config.xsession.enable;
       network-manager-applet.enable = config.xsession.enable;
@@ -51,7 +54,6 @@ in {
     gtk.enable = config.xsession.enable;
 
     home.packages = with pkgs; [
-      gnupg
       (pass.withExtensions (exts: with exts; [ pass-otp ]))
       unrar
       unzip
