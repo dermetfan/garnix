@@ -11,6 +11,8 @@ in {
   config = {
     profiles.desktop.enable = lib.mkDefault config.xsession.enable;
 
+    fonts.fontconfig.enable = true;
+
     home = {
       stateVersion = "19.09";
 
