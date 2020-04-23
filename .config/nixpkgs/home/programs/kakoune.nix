@@ -70,6 +70,18 @@ in {
             key = "f";
             effect = ": fzf-mode<ret>";
           }
+          {
+            docstring = "(un)comment line";
+            mode = "user";
+            key = "c";
+            effect = ": comment-line<ret>";
+          }
+          {
+            docstring = "(un)comment block";
+            mode = "user";
+            key = "<s-c>";
+            effect = ": comment-block<ret>";
+          }
         ];
         hooks = [
           {
