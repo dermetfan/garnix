@@ -49,5 +49,7 @@ in {
       gparted
       filezilla
     ];
+
+    programs.bat.enable = true;
   };
 }
