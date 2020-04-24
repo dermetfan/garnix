@@ -295,6 +295,10 @@ in {
             commands = ''
               set-option buffer indentwidth 2
               set-option buffer tabstop 2
+
+              # smarttab plugin
+              expandtab
+              set-option buffer softtabstop 2
             '';
           }
           {
@@ -464,6 +468,12 @@ in {
         rev = "a09c5b73525fbfd89a4467f530c975efda722ac6";
         sha256 = "0vhvkpaahwqmdp7cnsjk091d5qh0syx01p43af8rym1klxh9v90i";
       } + "/phantom-selection.kak";
+      "kak/autoload/smarttab.kak".source = pkgs.fetchFromGitHub {
+        owner = "andreyorst";
+        repo = "smarttab.kak";
+        rev = "1321c308edac6bd892e2bd2f683432402a04be98";
+        sha256 = "048qq8aj405q3zm28jjh6ardxb8ixkq6gs1h3bwdv2qc4zi2nj4g";
+      } + "/rc/smarttab.kak";
     };
 
     home.packages = with pkgs; [
