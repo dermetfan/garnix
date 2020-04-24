@@ -134,6 +134,14 @@ in {
         hooks = [
           {
             name = "ModuleLoaded";
+            option = "nix";
+            commands = ''
+              set-option buffer indentwidth 2
+              set-option buffer tabstop 2
+            '';
+          }
+          {
+            name = "ModuleLoaded";
             option = "powerline";
             commands = ''
               powerline-theme ${config.programs.kakoune.config.colorScheme}
