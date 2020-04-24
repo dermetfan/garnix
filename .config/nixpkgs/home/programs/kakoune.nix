@@ -3,11 +3,24 @@
 let
   cfg = config.config.programs.kakoune;
 in {
-  options.config.programs.kakoune.enable = with lib; mkOption {
-    type = types.bool;
-    default = config.programs.kakoune.enable;
-    defaultText = "<option>config.programs.kakoune.enable</option>";
-    description = "Whether to configure kakoune.";
+  options.config.programs.kakoune = with lib; {
+    enable = mkOption {
+      type = types.bool;
+      default = config.programs.kakoune.enable;
+      defaultText = "<option>config.programs.kakoune.enable</option>";
+      description = "Whether to configure kakoune.";
+    };
+
+    remapMovement = mkOption {
+      type = types.bool;
+      default = true;
+      description = ''
+        Whether to enable a keymap
+        that uses JKIL instead of HJKL,
+        but for the Norman keyboard layout,
+        so it is NIRO.
+      '';
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -39,7 +52,145 @@ in {
           enableMouse = true;
           setTitle = true;
         };
-        keyMappings = [
+        keyMappings = (lib.optionals cfg.remapMovement [
+          {
+            mode = "normal";
+            key = "r";
+            effect = "k";
+          }
+          {
+            mode = "normal";
+            key = "k";
+            effect = "r";
+          }
+          {
+            mode = "normal";
+            key = "R";
+            effect = "K";
+          }
+          {
+            mode = "normal";
+            key = "K";
+            effect = "R";
+          }
+
+          {
+            mode = "normal";
+            key = "i";
+            effect = "j";
+          }
+          {
+            mode = "normal";
+            key = "h";
+            effect = "i";
+          }
+          {
+            mode = "normal";
+            key = "I";
+            effect = "J";
+          }
+          {
+            mode = "normal";
+            key = "H";
+            effect = "I";
+          }
+
+          {
+            mode = "normal";
+            key = "n";
+            effect = "h";
+          }
+          {
+            mode = "normal";
+            key = "j";
+            effect = "n";
+          }
+          {
+            mode = "normal";
+            key = "N";
+            effect = "H";
+          }
+          {
+            mode = "normal";
+            key = "J";
+            effect = "N";
+          }
+          {
+            mode = "normal";
+            key = "<a-n>";
+            effect = "<a-h>";
+          }
+          {
+            mode = "normal";
+            key = "<a-j>";
+            effect = "<a-n>";
+          }
+          /*
+          { # <a-H> effect does not exist
+            mode = "normal";
+            key = "<a-N>";
+            effect = "<a-H>";
+          }
+          */
+          {
+            mode = "normal";
+            key = "<a-J>";
+            effect = "<a-N>";
+          }
+          {
+            mode = "normal";
+            key = "<a-h>";
+            effect = "<a-j>";
+          }
+          {
+            mode = "normal";
+            key = "<a-H>";
+            effect = "<a-J>";
+          }
+
+          {
+            mode = "normal";
+            key = "o";
+            effect = "l";
+          }
+          {
+            mode = "normal";
+            key = "l";
+            effect = "o";
+          }
+          {
+            mode = "normal";
+            key = "O";
+            effect = "L";
+          }
+          {
+            mode = "normal";
+            key = "L";
+            effect = "O";
+          }
+          {
+            mode = "normal";
+            key = "<a-o>";
+            effect = "<a-l>";
+          }
+          {
+            mode = "normal";
+            key = "<a-l>";
+            effect = "<a-o>";
+          }
+          /*
+          { # <a-L> does not exist
+            mode = "normal";
+            key = "<a-O>";
+            effect = "<a-L>";
+          }
+          */
+          {
+            mode = "normal";
+            key = "<a-L>";
+            effect = "<a-O>";
+          }
+        ]) ++ [
           {
             docstring = "case insensitive search";
             mode = "user";
@@ -64,12 +215,14 @@ in {
             key = "<a-?>";
             effect = "<a-?>(?i)";
           }
+
           {
             docstring = "fzf mode";
             mode = "user";
             key = "f";
             effect = ": fzf-mode<ret>";
           }
+
           {
             docstring = "(un)comment line";
             mode = "user";
@@ -82,12 +235,14 @@ in {
             key = "<s-c>";
             effect = ": comment-block<ret>";
           }
+
           {
             docstring = "easymotion mode";
             mode = "user";
             key = "m";
             effect = ": enter-user-mode easymotion<ret>";
           }
+
           {
             docstring = "move line down";
             mode = "normal";
@@ -100,12 +255,14 @@ in {
             key = "\"<a-'>\"";
             effect = ": move-line-above<ret>";
           }
+
           {
             docstring = "expand selection";
             mode = "normal";
             key = "+";
             effect = ": expand<ret>";
           }
+
           {
             docstring = "add selections to phantom selections";
             mode = "user";
