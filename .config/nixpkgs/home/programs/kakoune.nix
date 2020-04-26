@@ -474,6 +474,12 @@ in {
         rev = "1321c308edac6bd892e2bd2f683432402a04be98";
         sha256 = "048qq8aj405q3zm28jjh6ardxb8ixkq6gs1h3bwdv2qc4zi2nj4g";
       } + "/rc/smarttab.kak";
+      "kak/autoload/kakboard.kak".source = pkgs.fetchFromGitHub {
+        owner = "lePerdu";
+        repo = "kakboard";
+        rev = "4cc87b2e2a1cb1e8d61d36de172751e874ff9300";
+        sha256 = "06gdz5d5i3c15lhx3r8v88xsvy62q746bmrv122yr0cs8qlmza8i";
+      } + "/kakboard.kak";
     };
 
     home.packages = with pkgs; [
