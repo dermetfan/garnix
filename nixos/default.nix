@@ -9,6 +9,7 @@
     ./dns-watch.nix
     ./1.1.1.1.nix
     ./steam-controller.nix
+    ./swaylock.nix
 
     profiles/netbook.nix
     profiles/notebook.nix
