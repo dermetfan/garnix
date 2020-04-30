@@ -9,15 +9,18 @@ let
     PrtScr  = 99;
   };
 
-  packages = with pkgs; [
-    light
-    linuxPackages.cpupower
-    maim
-    slop # required by `maim -s`
-    xorg.xhost
-    xorg.xinput
-    xorg.xrandr
-  ];
+  packages = with pkgs;
+    [
+      light
+      linuxPackages.cpupower
+    ] ++
+    (lib.optionals config.services.xserver.enable [
+      maim slop
+      xorg.xhost
+      xorg.xinput
+      xorg.xrandr
+      xscreensaver
+    ]);
 in {
   options.config.hotkeys = with lib; {
     enable = mkEnableOption "hotkeys";
@@ -107,47 +110,25 @@ in {
               command = "light -rU 1";
             }
             {
-              keys = XF86TouchpadToggle;
-              # since we use xinput instead of synclient, make sure to authorize root for your X server
-              # use `xauth add` to authorize root or copy an authorized user's ~/.Xauthority to /root or run `xhost local:root`
-              command = let
-                # apparently resolves wrong package, xf86-input-synaptics-1.8.3-dev, in which bin/synclient doesn't exist
-                # synclient = "${pkgs.xorg.xf86inputsynaptics}/bin/synclient";
-                touchpad = "SynPS/2 Synaptics TouchPad";
-              in
-                # synclient seems to have no effect while syndaemon is running (also doesn't disable mouse keys)
-                # "${synclient} TouchpadOff=$(${synclient} | grep -c 'TouchpadOff[[:space:]]*=[[:space:]]*0')";
-                "export DISPLAY=':0' && xinput --set-prop '${touchpad}' 'Device Enabled' $(xinput --list-props '${touchpad}' | grep -c 'Device Enabled ([[:digit:]]\\+):[[:space:]].*0')";
-            }
-            {
               keys = XF86Suspend;
               command = "systemctl suspend";
             }
             {
               keys = XF86ScreenSaver;
               command = let
-                xscreensaver-command = "${pkgs.xscreensaver}/bin/xscreensaver-command";
                 script = pkgs.writeScript "XF86ScreenSaver.sh" ''
                   #! ${pkgs.bash}/bin/bash
-                  if [[ `who | wc -l` = 1 && `systemctl is-active display-manager` ]]; then
-                      ${xscreensaver-command} -lock
-                  else
-                      systemctl start physlock
+                  num_logins=`who | wc -l`
+                  ${lib.optionalString config.services.xserver.enable ''
+                    if [[ $num_logins = 1 && `systemctl is-active display-manager` ]]; then
+                        ${pkgs.xscreensaver}/bin/xscreensaver-command -lock && exit
+                    fi
+                  ''}
+                  if [[ $num_logins > 1 ]]; then
+                    systemctl start physlock
                   fi
                 '';
               in "${script}";
-            }
-            {
-              keys = [ PrtScr ];
-              command = "mkdir -pm 777 ${cfg.screenshotsDirectory} && maim ${cfg.screenshotsDirectory}/`date --iso-8601=ns`.png";
-            }
-            {
-              keys = [ Shift_L PrtScr ];
-              command = "mkdir -pm 777 ${cfg.screenshotsDirectory} && maim -slc .5,.5,.5,.25 ${cfg.screenshotsDirectory}/`date --iso-8601=ns`.png";
-            }
-            {
-              keys = [ Shift_R PrtScr ];
-              command = "mkdir -pm 777 ${cfg.screenshotsDirectory} && maim -sluc .5,.5,.5,.25 ${cfg.screenshotsDirectory}/`date --iso-8601=ns`.png";
             }
             {
               keys = XF86Display;
@@ -199,7 +180,34 @@ in {
                 cpupower frequency-set -g ''${governors[$idx]}
               '';
             in "${script}";
-          });
+          }) ++
+          (lib.optionals config.services.xserver.enable [
+            {
+              keys = [ PrtScr ];
+              command = "mkdir -pm 777 ${cfg.screenshotsDirectory} && maim ${cfg.screenshotsDirectory}/`date --iso-8601=ns`.png";
+            }
+            {
+              keys = [ Shift_L PrtScr ];
+              command = "mkdir -pm 777 ${cfg.screenshotsDirectory} && maim -slc .5,.5,.5,.25 ${cfg.screenshotsDirectory}/`date --iso-8601=ns`.png";
+            }
+            {
+              keys = [ Shift_R PrtScr ];
+              command = "mkdir -pm 777 ${cfg.screenshotsDirectory} && maim -sluc .5,.5,.5,.25 ${cfg.screenshotsDirectory}/`date --iso-8601=ns`.png";
+            }
+            {
+              keys = XF86TouchpadToggle;
+              # since we use xinput instead of synclient, make sure to authorize root for your X server
+              # use `xauth add` to authorize root or copy an authorized user's ~/.Xauthority to /root or run `xhost local:root`
+              command = let
+                # apparently resolves wrong package, xf86-input-synaptics-1.8.3-dev, in which bin/synclient doesn't exist
+                # synclient = "${pkgs.xorg.xf86inputsynaptics}/bin/synclient";
+                touchpad = "SynPS/2 Synaptics TouchPad";
+              in
+                # synclient seems to have no effect while syndaemon is running (also doesn't disable mouse keys)
+                # "${synclient} TouchpadOff=$(${synclient} | grep -c 'TouchpadOff[[:space:]]*=[[:space:]]*0')";
+                "export DISPLAY=':0' && xinput --set-prop '${touchpad}' 'Device Enabled' $(xinput --list-props '${touchpad}' | grep -c 'Device Enabled ([[:digit:]]\\+):[[:space:]].*0')";
+            }
+          ]);
         };
 
       physlock = {
