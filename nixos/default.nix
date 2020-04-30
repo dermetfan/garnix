@@ -119,6 +119,8 @@
     };
 
     hardware = {
+      opengl.enable = true;
+
       bluetooth = {
         powerOnBoot = false;
 
