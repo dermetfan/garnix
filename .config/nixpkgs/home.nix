@@ -9,7 +9,7 @@ in {
     fonts.fontconfig.enable = true;
 
     home = {
-      stateVersion = "19.09";
+      stateVersion = "20.03";
 
       packages = with pkgs; [ less ];
 
