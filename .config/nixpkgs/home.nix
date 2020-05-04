@@ -17,7 +17,6 @@ in {
         TERMINAL = "alacritty";
         EDITOR = "kak";
         PAGER = "less";
-        SHELL = "elvish";
       };
     };
 
