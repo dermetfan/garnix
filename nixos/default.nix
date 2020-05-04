@@ -11,6 +11,7 @@
     ./steam-controller.nix
     ./swaylock.nix
 
+    profiles/gui.nix
     profiles/netbook.nix
     profiles/notebook.nix
     profiles/machines/MSI_PE60-6QE.nix
@@ -47,13 +48,7 @@
     environment = {
       systemPackages = with pkgs;
         [ ntfs3g exfat ] ++
-        lib.optional (config.hardware.pulseaudio.enable && config.services.xserver.enable) pavucontrol ++
         lib.optional config.programs.zsh.enable nix-zsh-completions;
-
-      variables = lib.mkIf config.services.xserver.enable {
-        SDL_VIDEO_X11_DGAMOUSE = "0"; # fix for jumping mouse (in qemu)
-        _JAVA_AWT_WM_NONREPARENTING = "1"; # fix for some blank java windows
-      };
 
       noXlibs = !config.services.xserver.enable;
     };
@@ -86,8 +81,6 @@
     services = {
       openssh.enable = true;
 
-      blueman.enable = config.services.xserver.enable && config.hardware.bluetooth.enable;
-
       xserver = {
         layout = "us";
         xkbVariant = "norman";
@@ -112,19 +105,14 @@
 
       logind.lidSwitch = "ignore";
 
-      unclutter.enable = config.services.xserver.enable;
-
       znapzend.enable = builtins.any (x: x == "zfs") (map (fs: fs.fsType) (builtins.attrValues config.fileSystems));
     };
 
-    sound.mediaKeys = {
-      # Does not work with hardware.pulseaudio.enable
-      # because amixer cannot connect to PulseAudio
-      # user daemon as another user (root)
-      # => share PulseAudio cookie?
-      enable = !config.services.xserver.enable;
-      volumeStep = "2%";
-    };
+    # Does not work with hardware.pulseaudio.enable
+    # because amixer cannot connect to PulseAudio
+    # user daemon as another user (root)
+    # => share PulseAudio cookie?
+    sound.mediaKeys.volumeStep = "2%";
 
     hardware = {
       opengl.enable = true;
