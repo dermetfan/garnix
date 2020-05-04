@@ -109,10 +109,10 @@ in {
           rev = "d848c94804918138375041a9f800f401bec12068";
           sha256 = "0mxmqkdpimwrskqjri3lp3haj1hzf583g7psnv34y3hyymzcx1h6";
         };
-        altKeyAvailable = with pkgs;
-            config.xsession.enable &&
-            config.xsession.windowManager.command != "${i3}/bin/i3" &&
-            config.xsession.windowManager.command != "${i3-gaps}/bin/i3";
+        altKeyAvailable = with pkgs; !config.xsession.enable || (
+          config.xsession.windowManager.command != "${i3}/bin/i3" &&
+          config.xsession.windowManager.command != "${i3-gaps}/bin/i3"
+        );
       in [
         {
           name = "nix-shell";

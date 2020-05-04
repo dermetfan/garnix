@@ -47,8 +47,8 @@ in {
         };
       };
 
-      obs-studio.enable = cfg.enableStudios && config.xsession.enable;
-      feh.enable = config.xsession.enable;
+      obs-studio.enable = cfg.enableStudios && config.profiles.gui.enable;
+      feh.enable = config.profiles.gui.enable;
     };
 
     home.packages = with pkgs;
@@ -56,7 +56,7 @@ in {
         mplayer
         mpv
       ] ++
-      lib.optionals config.xsession.enable [
+      lib.optionals config.profiles.gui.enable [
         audacious
         smplayer
       ] ++
@@ -64,13 +64,13 @@ in {
         [ ffmpeg
           kid3
         ] ++
-        lib.optionals config.xsession.enable [
+        lib.optionals config.profiles.gui.enable [
           audacity
           gimp
           inkscape
         ]
       ) ++
-      lib.optionals (cfg.enableStudios && config.xsession.enable) [
+      lib.optionals (cfg.enableStudios && config.profiles.gui.enable) [
         lmms
 
         # utils

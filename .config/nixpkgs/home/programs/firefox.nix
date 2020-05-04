@@ -22,6 +22,8 @@ in {
   config = lib.mkIf cfg.enable {
     programs = {
       firefox = {
+        package = lib.mkIf (!config.xsession.enable) pkgs.firefox-wayland;
+
         profiles.dermetfan.userChrome = ''
           /**
            * @name Dim Unloaded Tabs

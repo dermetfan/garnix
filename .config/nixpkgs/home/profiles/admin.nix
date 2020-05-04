@@ -43,7 +43,7 @@ in {
       psmisc
       progress
       sshfsFuse
-    ] ++ lib.optionals (config.xsession.enable && stdenv.isLinux) [
+    ] ++ lib.optionals (config.profiles.gui.enable && stdenv.isLinux) [
       glxinfo
       gpa
       gparted

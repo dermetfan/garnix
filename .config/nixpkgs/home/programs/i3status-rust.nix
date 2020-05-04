@@ -54,11 +54,17 @@ in {
             ];
           ''
           pkgs.writeScript "eco.sh" ''
-            #! ${pkgs.stdenv.shell}
+            #! ${pkgs.bash}/bin/bash
             # XXX should this be a script provided by the system config with sudo rights?
             case "$1" in
-                on) systemctl --user stop picom && sudo cpupower frequency-set -g powersave ;;
-                off) systemctl --user start picom && sudo cpupower frequency-set -g performance ;;
+                on)
+                    ${lib.optionalString config.xsession.enable "systemctl --user stop picom"}
+                    sudo cpupower frequency-set -g powersave
+                    ;;
+                off)
+                    ${lib.optionalString config.xsession.enable "systemctl --user start picom"}
+                    sudo cpupower frequency-set -g performance
+                    ;;
             esac
           '';
       in ''

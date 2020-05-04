@@ -1,6 +1,6 @@
 { config, lib, pkgs, ... }:
 
-lib.mkIf (config.xsession.enable && config.gtk.enable) {
+lib.mkIf (config.profiles.gui.enable && config.gtk.enable) {
   gtk = {
     theme = {
       name = "Vertex-Dark";
@@ -24,6 +24,5 @@ lib.mkIf (config.xsession.enable && config.gtk.enable) {
           builtins.readDir v2
         )
       ) 0;
-    in "${v2}/${v2v}/loaders.cache"
-  ;
+    in "${v2}/${v2v}/loaders.cache";
 }

@@ -17,7 +17,7 @@ in {
       git.enable = true;
       jq.enable = true;
 
-      geany.enable = config.xsession.enable;
+      geany.enable = config.profiles.gui.enable;
 
       cargo.enable = cfg.enableRust;
     };
@@ -35,7 +35,7 @@ in {
       lib.optionals stdenv.isLinux [
         loc
       ] ++
-      lib.optionals config.xsession.enable [
+      lib.optionals config.profiles.gui.enable [
         aqemu
         meld
         pgadmin
@@ -54,7 +54,7 @@ in {
         [ openjdk
           gradle
         ] ++
-        lib.optionals config.xsession.enable [
+        lib.optionals config.profiles.gui.enable [
           android-studio
           jetbrains.idea-community
           visualvm

@@ -15,43 +15,38 @@ in {
       gpg.enable = true;
 
       volumeicon.enable = config.xsession.enable;
-      alacritty .enable = config.xsession.enable;
-      geany     .enable = config.xsession.enable;
-      firefox   .enable = config.xsession.enable;
-      chromium  .enable = config.xsession.enable;
-      zathura   .enable = config.xsession.enable;
+
+      alacritty.enable = config.profiles.gui.enable;
+      geany    .enable = config.profiles.gui.enable;
+      firefox  .enable = config.profiles.gui.enable;
+      chromium .enable = config.profiles.gui.enable;
+      zathura  .enable = config.profiles.gui.enable;
+
+      mako.enable = config.profiles.gui.enable && !config.xsession.enable;
     };
+
+    xsession.initExtra = ''
+      ~/.fehbg || nitrogen --restore
+      volumeicon &
+    '';
 
     services = {
       gpg-agent.enable = true;
 
-      blueman-applet        .enable = config.xsession.enable && sysCfg.hardware.bluetooth.enable or true;
-      dunst                 .enable = config.xsession.enable;
-      network-manager-applet.enable = config.xsession.enable;
-      parcellite            .enable = config.xsession.enable;
-      xscreensaver          .enable = config.xsession.enable;
-      rsibreak              .enable = config.xsession.enable;
-      flameshot             .enable = config.xsession.enable;
+      blueman-applet        .enable = config.profiles.gui.enable && sysCfg.hardware.bluetooth.enable or true;
+      network-manager-applet.enable = config.profiles.gui.enable;
+      rsibreak              .enable = config.profiles.gui.enable;
+
+      parcellite  .enable = config.xsession.enable;
+      flameshot   .enable = config.xsession.enable;
+      dunst       .enable = config.xsession.enable;
+      xscreensaver.enable = config.xsession.enable;
+
       redshift = {
-        enable = config.xsession.enable;
+        enable = config.profiles.gui.enable;
         tray = true;
       };
     };
-
-    xsession = {
-      windowManager.i3.enable = true;
-      initExtra = ''
-        xset r rate 225 27
-        xset m 5 1
-        devmon &
-        syndaemon -d -i 0.625 -K -R || :
-
-        ~/.fehbg || nitrogen --restore
-        volumeicon &
-      '';
-    };
-
-    gtk.enable = config.xsession.enable;
 
     home.packages = with pkgs; [
       (pass.withExtensions (exts: with exts; [ pass-otp ]))
@@ -63,8 +58,10 @@ in {
     ] ++ lib.optionals config.xsession.enable [
       # autostart
       xorg.xmodmap
-      udevil
       nitrogen
+    ] ++ lib.optionals config.profiles.gui.enable [
+      # autostart
+      udevil
 
       tdesktop
       skype
