@@ -26,6 +26,11 @@ in {
     config = {
       networking.hostName = lib.mkOverride 899 "dmf-${config.node.name}";
 
+      security.acme = {
+        acceptTerms = true;
+        email = "serverkorken@gmail.com";
+      };
+
       services = {
         ddclient = {
           enable = true;
