@@ -136,8 +136,19 @@ in {
         nixBinaryCacheCache = {
           enable = true;
           virtualHost = "cache.${domain}";
-          resolver = lib.concatStringsSep " " config.networking.nameservers +
-            lib.optionalString (!config.networking.enableIPv6) " ipv6=off";
+          resolver = let
+            isIPv4 = ip: 3 == lib.count (c: c == ".") (lib.stringToCharacters ip);
+            ips = if config.networking.enableIPv6
+              then map
+                (ip: if isIPv4 ip then ip else "[${ip}]")
+                config.networking.nameservers
+              else lib.filter
+                isIPv4
+                config.networking.nameservers;
+          in lib.concatStringsSep " " (
+            ips ++
+            lib.optional (!config.networking.enableIPv6) "ipv6=off"
+          );
         };
 
         syncthing = {
