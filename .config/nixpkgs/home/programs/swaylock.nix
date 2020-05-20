@@ -17,7 +17,7 @@ in {
       Without it you will not be able to unlock: https://github.com/swaywm/sway/issues/3631
       Add this to your system configuration if required:
 
-      security.pam.services.swaylock.text = builtins.readFile "${pkgs.swaylock}/etc/pam.d/swaylock";
+      security.pam.services.swaylock.text = builtins.readFile "''${pkgs.swaylock}/etc/pam.d/swaylock";
 
       or
 
