@@ -49,7 +49,10 @@ in {
     };
 
     home.packages = with pkgs; [
-      (pass.withExtensions (exts: with exts; [ pass-otp ]))
+      ((pass.override {
+        x11Support = config.xsession.enable;
+        waylandSupport = config.profiles.gui.enable && !config.xsession.enable;
+      }).withExtensions (exts: with exts; [ pass-otp ]))
       unrar
       unzip
       zip
