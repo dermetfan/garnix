@@ -40,6 +40,11 @@ in {
           domains = lib.mkDefault [ "${config.networking.hostName}.ddns.net" ];
           use = "web, web=icanhazip.com";
         };
+
+        openssh = {
+          passwordAuthentication = false;
+          challengeResponseAuthentication = false;
+        };
       };
 
       programs.ssh.knownHosts = lib.listToAttrs (map (node: {
