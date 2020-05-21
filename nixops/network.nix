@@ -173,14 +173,6 @@ in {
           };
         };
 
-        shellinabox = {
-          enable = true;
-          extraOptions = [
-            "--localhost-only"
-            "--user-css Dark:+${pkgs.shellinabox}/lib/white-on-black.css,Light:-/dev/null"
-          ];
-        };
-
         ssmtp = {
           enable = true;
           hostName = "smtp.gmail.com:587";
@@ -210,11 +202,6 @@ in {
               forceSSL = true;
               locations = {
                 "/minecraft/resourcepacks/".alias = "${config.services.minecraft-server.dataDir}/resourcepacks/";
-                "/shellinabox".proxyPass = http://127.0.0.1:4200/;
-                "/gotty/" = {
-                  proxyPass = http://127.0.0.1:4201/;
-                  proxyWebsockets = true;
-                };
               };
             };
 
@@ -244,16 +231,6 @@ in {
       systemd.services = {
         hydra-server.path       = [ pkgs.ssmtp ];
         hydra-queue-runner.path = [ pkgs.ssmtp ];
-
-        gotty = {
-          wantedBy = [ "multi-user.target" ];
-          path = [ pkgs.gotty ];
-          script = "gotty /run/current-system/sw/bin/login";
-          environment = {
-            GOTTY_PORT = "4201";
-            GOTTY_PERMIT_WRITE = "1";
-          };
-        };
       };
     };
   };
