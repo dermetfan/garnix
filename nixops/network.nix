@@ -42,14 +42,14 @@ in {
         };
       };
 
-      programs.ssh.knownHosts = map (node: {
-        hostNames = [ node.config.deployment.targetHost ];
-        publicKey = lib.strings.removeSuffix
+      programs.ssh.knownHosts = lib.listToAttrs (map (node: {
+        name = node.config.deployment.targetHost;
+        value.publicKey = lib.strings.removeSuffix
           " root@${node.config.networking.hostName}\n"
           (builtins.readFile (../keys + "/${node.config.node.name}_rsa.pub"));
       }) (lib.filter (node:
         node.config.node.name != config.node.name
-      ) (builtins.attrValues nodes));
+      ) (builtins.attrValues nodes)));
 
       users.users.root.openssh.authorizedKeys.keyFiles =
         lib.optional (config.node.name != nodes.master.config.node.name) ../keys/master_rsa.pub;
@@ -109,23 +109,10 @@ in {
 
       nixpkgs.config.allowUnfree = true;
 
-      networking = {
-        firewall.allowedTCPPorts =
-          [ 80 443 ] ++
-          lib.optional (config.services.syncthing.enable        && config.services.syncthing.openDefaultPorts)    8384 ++ # web GUI
-          lib.optional (config.services.minecraft-server.enable && config.services.minecraft-server.openFirewall) 25575; # RCON
-
-        defaultMailServer = {
-          directDelivery = true;
-          hostName = "smtp.gmail.com:587";
-          root = "serverkorken@gmail.com";
-          inherit domain;
-          authUser = "serverkorken@gmail.com";
-          authPassFile = "/run/keys/ssmtp";
-          useTLS = true;
-          useSTARTTLS = true;
-        };
-      };
+      networking.firewall.allowedTCPPorts =
+        [ 80 443 ] ++
+        lib.optional (config.services.syncthing.enable        && config.services.syncthing.openDefaultPorts)    8384 ++ # web GUI
+        lib.optional (config.services.minecraft-server.enable && config.services.minecraft-server.openFirewall) 25575; # RCON
 
       services = {
         nix-serve = {
@@ -187,6 +174,17 @@ in {
             "--localhost-only"
             "--user-css Dark:+${pkgs.shellinabox}/lib/white-on-black.css,Light:-/dev/null"
           ];
+        };
+
+        ssmtp = {
+          enable = true;
+          hostName = "smtp.gmail.com:587";
+          root = "serverkorken@gmail.com";
+          inherit domain;
+          authUser = "serverkorken@gmail.com";
+          authPassFile = "/run/keys/ssmtp";
+          useTLS = true;
+          useSTARTTLS = true;
         };
 
         nginx = {
