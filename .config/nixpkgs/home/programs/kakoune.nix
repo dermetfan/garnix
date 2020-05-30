@@ -193,27 +193,52 @@ in {
         ]) ++ [
           {
             docstring = "case insensitive search";
-            mode = "user";
+            mode = "normal";
             key = "/";
             effect = "/(?i)";
           }
           {
             docstring = "case insensitive backward search";
-            mode = "user";
+            mode = "normal";
             key = "<a-/>";
             effect = "<a-/>(?i)";
           }
           {
             docstring = "case insensitive extend search";
-            mode = "user";
+            mode = "normal";
             key = "?";
             effect = "?(?i)";
           }
           {
             docstring = "case insensitive backward extend search";
-            mode = "user";
+            mode = "normal";
             key = "<a-?>";
             effect = "<a-?>(?i)";
+          }
+
+          {
+            docstring = "search";
+            mode = "user";
+            key = "/";
+            effect = "/";
+          }
+          {
+            docstring = "backward search";
+            mode = "user";
+            key = "<a-/>";
+            effect = "<a-/>";
+          }
+          {
+            docstring = "extend search";
+            mode = "user";
+            key = "?";
+            effect = "?";
+          }
+          {
+            docstring = "backward extend search";
+            mode = "user";
+            key = "<a-?>";
+            effect = "<a-?>";
           }
 
           {
@@ -257,6 +282,19 @@ in {
           }
 
           {
+            docstring = "scroll half a page up";
+            mode = "normal";
+            key = "<s-pageup>";
+            effect = "<c-u>";
+          }
+          {
+            docstring = "scroll half a page down";
+            mode = "normal";
+            key = "<s-pagedown>";
+            effect = "<c-d>";
+          }
+
+          {
             docstring = "expand selection";
             mode = "normal";
             key = "+";
@@ -266,25 +304,25 @@ in {
           {
             docstring = "add selections to phantom selections";
             mode = "user";
-            key = "p";
+            key = "<a-p>";
             effect = ": phantom-selection-add-selection<ret>";
           }
           {
             docstring = "clear phantom selections";
             mode = "user";
-            key = "P";
+            key = "<a-P>";
             effect = ": phantom-selection-select-all; phantom-selection-clear<ret>";
           }
           {
             docstring = "select next phantom selection";
             mode = "user";
-            key = "<a-p>";
+            key = "p";
             effect = ": phantom-selection-iterate-next<ret>";
           }
           {
             docstring = "select previous phantom selection";
             mode = "user";
-            key = "<a-P>";
+            key = "P";
             effect = ": phantom-selection-iterate-prev<ret>";
           }
         ];
