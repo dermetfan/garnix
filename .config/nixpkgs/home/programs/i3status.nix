@@ -5,7 +5,6 @@ let
   sysCfg = config.passthru.systemConfig or null;
   data_dermetfan = "${sysCfg.config.data.mountPoint}/${sysCfg.users.users.dermetfan.name}";
 in {
-  options       .programs.i3status.enable = lib.mkEnableOption "i3status";
   options.config.programs.i3status.enable = with lib; mkOption {
     type = types.bool;
     default = config.programs.i3status.enable;
@@ -13,7 +12,7 @@ in {
     description = "Whether to configure i3status.";
   };
 
-  config.home.packages = lib.optional config.programs.i3status.enable pkgs.i3status;
+  # TODO use home-manager module options now that it exists
   config.xdg.configFile = lib.mkIf cfg.enable {
     "i3status/config".text = ''
       general {
