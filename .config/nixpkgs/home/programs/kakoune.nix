@@ -342,12 +342,19 @@ in {
       "kak/autoload/buffers.kak".source = "${kak-buffers}/share/kak/autoload/plugins/buffers.kak";
       "kak/autoload/powerline".source = "${kak-powerline}/share/kak/autoload/plugins/powerline";
       "kak/autoload/fzf".source = "${kak-fzf}/share/kak/autoload/plugins/fzf";
+      "kak/autoload/ansi.kak".source = "${kak-ansi}/share/kak/autoload/plugins/ansi.kak";
       "kak/autoload/state-save.kak".source = pkgs.fetchFromGitLab {
         owner = "Screwtapello";
         repo = "kakoune-state-save";
         rev = "ab7c0c765326a4a80af78857469ee8c80814c52a";
         sha256 = "1q53b1pw0mi1q8h5xv1wxqsj9fa9081r7r6ry1y6vp6q8hdq40q0";
       } + "/state-save.kak";
+      "kak/autoload/gdb.kak".source = pkgs.fetchFromGitHub {
+        owner = "occivink";
+        repo = "kakoune-gdb";
+        rev = "57e2467e00a907d2bea798b66c56dcb5c1112efd";
+        sha256 = "06djnkfjawfakh14gsg3bxj301yxkc8i6v02yzdaha1j4287lpra";
+      } + "/gdb.kak";
       "kak/autoload/easymotion.kak".source = pkgs.fetchFromGitHub {
         owner = "danr";
         repo = "kakoune-easymotion";
@@ -484,8 +491,9 @@ in {
 
     home.packages = with pkgs; [
       powerline-fonts
-      ripgrep
+      ripgrep # fzf
       shellcheck
+      perl socat # gdb
     ];
 
     programs.bat.enable = true;
