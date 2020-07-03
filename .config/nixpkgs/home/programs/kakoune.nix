@@ -190,6 +190,146 @@ in {
             key = "<a-L>";
             effect = "<a-O>";
           }
+
+          {
+            mode = "easymotion-custom";
+            docstring = "char →";
+            key = "l";
+            effect = ": easy-motion-f<ret>";
+          }
+          {
+            mode = "easymotion-custom";
+            docstring = "char ←";
+            key = "u";
+            effect = ": easy-motion-alt-f<ret>";
+          }
+          {
+            mode = "easymotion-custom";
+            docstring = "word →";
+            key = "o";
+            effect = ": easy-motion-w<ret>";
+          }
+          {
+            mode = "easymotion-custom";
+            docstring = "word ←";
+            key = "n";
+            effect = ": easy-motion-b<ret>";
+          }
+          {
+            mode = "easymotion-custom";
+            docstring = "WORD →";
+            key = "O";
+            effect = ": easy-motion-W<ret>";
+          }
+          {
+            mode = "easymotion-custom";
+            docstring = "WORD ←";
+            key = "N";
+            effect = ": easy-motion-B<ret>";
+          }
+          {
+            mode = "easymotion-custom";
+            docstring = "line ↓";
+            key = "i";
+            effect = ": easy-motion-j<ret>";
+          }
+          {
+            mode = "easymotion-custom";
+            docstring = "line ↑";
+            key = "r";
+            effect = ": easy-motion-k<ret>";
+          }
+
+          {
+            docstring = "view mode";
+            mode = "normal";
+            key = "v";
+            effect = ": enter-user-mode view-custom<ret>";
+          }
+          {
+            docstring = "view lock mode";
+            mode = "normal";
+            key = "V";
+            effect = ": enter-user-mode -lock view-custom<ret>";
+          }
+          {
+            mode = "view-custom";
+            docstring = "center cursor (vertically)";
+            key = "v";
+            effect = "vv";
+          }
+          {
+            mode = "view-custom";
+            docstring = "center cursor (vertically)";
+            key = "c";
+            effect = "vc";
+          }
+          {
+            mode = "view-custom";
+            docstring = "center cursor (horizontally)";
+            key = "m";
+            effect = "vm";
+          }
+          {
+            mode = "view-custom";
+            docstring = "cursor on top";
+            key = "t";
+            effect = "vt";
+          }
+          {
+            mode = "view-custom";
+            docstring = "cursor on bottom";
+            key = "b";
+            effect = "vb";
+          }
+          {
+            mode = "view-custom";
+            docstring = "scroll up";
+            key = "r";
+            effect = "5vkgc";
+          }
+          {
+            mode = "view-custom";
+            docstring = "scroll down";
+            key = "i";
+            effect = "5vjgc";
+          }
+          {
+            mode = "view-custom";
+            docstring = "scroll left";
+            key = "n";
+            effect = "5vh";
+          }
+          {
+            mode = "view-custom";
+            docstring = "scroll right";
+            key = "o";
+            effect = "5vl";
+          }
+          {
+            mode = "view-custom";
+            docstring = "scroll one page up";
+            key = "<pageup>";
+            effect = "<c-b>";
+          }
+          {
+            mode = "view-custom";
+            docstring = "scroll one page down";
+            key = "<pagedown>";
+            effect = "<c-f>";
+          }
+          {
+            mode = "view-custom";
+            docstring = "scroll half a page up";
+            key = "<s-pageup>";
+            effect = "<c-u>";
+          }
+          {
+            mode = "view-custom";
+            docstring = "scroll half a page down";
+            key = "<s-pagedown>";
+            effect = "<c-d>";
+          }
         ]) ++ [
           {
             docstring = "case insensitive search";
@@ -265,7 +405,7 @@ in {
             docstring = "easymotion mode";
             mode = "user";
             key = "m";
-            effect = ": enter-user-mode easymotion<ret>";
+            effect = ": enter-user-mode easymotion${lib.optionalString cfg.remapMovement "-custom"}<ret>";
           }
 
           {
@@ -325,6 +465,19 @@ in {
             key = "P";
             effect = ": phantom-selection-iterate-prev<ret>";
           }
+
+          {
+            docstring = "enable system clipboard";
+            mode = "user";
+            key = "s";
+            effect = ": kakboard-enable<ret>";
+          }
+          {
+            docstring = "disable system clipboard";
+            mode = "user";
+            key = "S";
+            effect = ": kakboard-disable<ret>";
+          }
         ];
         hooks = [
           {
@@ -368,6 +521,8 @@ in {
 
         set-face global crosshairs_line default,rgb:383838+d
         set-face global crosshairs_column default,rgb:383838+d
+
+        set-option global kakboard_paste_keys p P K <a-p> <a-P> <a-R>
       '';
     };
 
