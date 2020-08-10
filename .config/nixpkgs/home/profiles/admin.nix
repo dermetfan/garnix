@@ -8,11 +8,14 @@ in {
   config = lib.mkIf cfg.enable {
     home.packages = with pkgs; [
       bashmount
+      bandwhich
       binutils
       curl
+      fd
       fdupes
       file
       fzy
+      du-dust
       gptfdisk
       lrzip
       lsof
@@ -23,14 +26,17 @@ in {
       nix-prefetch-scripts
       nixops
       peco
+      procs
       pv
       rsync
+      sd
       sipcalc
       smartmontools
       socat
       wakelan
       wget
       gotty
+      ytop
     ] ++ lib.optionals stdenv.isLinux [
       diffoscope
       ftop

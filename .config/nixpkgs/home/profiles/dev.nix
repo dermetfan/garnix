@@ -30,6 +30,8 @@ in {
         pijul
         qemu
         dos2unix
+        tokei
+        hyperfine
       ] ++
       (lib.optional config.programs.tmux.enable tmuxp) ++
       lib.optionals stdenv.isLinux [
