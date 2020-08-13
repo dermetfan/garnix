@@ -2,7 +2,7 @@ self: super: {
   nixos-shell = super.fetchFromGitHub {
     owner = "Mic92";
     repo = "nixos-shell";
-    rev = "39936f8b60c6ff3644ae508af38505d39f97730c";
-    sha256 = "11aj2ck9kh4iaiidrsf8kxp6rqpghi0zw88hncmv5r37wcby7ika";
+    rev = "60e8f7f41e5ac1ec7acf1ec2fc2fbdad38d78111";
+    sha256 = "0mc4cn4bkh2frkiswp29kwy033jyggkfgflmgrw5dfp2d0l06j4l";
   };
 }
