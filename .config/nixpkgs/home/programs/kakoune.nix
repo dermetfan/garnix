@@ -478,6 +478,13 @@ in {
             key = "S";
             effect = ": kakboard-disable<ret>";
           }
+
+          {
+            docstring = "close tag";
+            mode = "user";
+            key = "T";
+            effect = ": close-tag<ret>";
+          }
         ];
         hooks = [
           {
