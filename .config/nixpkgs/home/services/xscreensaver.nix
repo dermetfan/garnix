@@ -50,7 +50,7 @@ in {
       selected = -1;
       textMode = "program";
       textLiteral = "XScreenSaver";
-      textProgram = "/home/dermetfan/.nix-profile/bin/fortune";
+      textProgram = "${config.home.homeDirectory}/.nix-profile/bin/fortune";
       textURL = https://en.wikipedia.org/w/index.php?title=Special:NewPages&feed=rss;
       pointerPollTime = "0:00:05";
       pointerHysteresis = 10;

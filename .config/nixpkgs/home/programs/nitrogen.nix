@@ -19,7 +19,7 @@ in {
       recurse=true
       sort=alpha
       icon_caps=false
-      dirs=/data/dermetfan/images/wallpapers;
+      dirs=/data/${config.home.username}/images/wallpapers;
     '';
   };
 }

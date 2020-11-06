@@ -18,7 +18,7 @@ in {
           directory = (
             if sysCfg.config.data.enable or false
             then sysCfg.config.data.mountPoint +
-              (lib.optionalString sysCfg.config.data.userFileSystems "/${sysCfg.users.users.dermetfan.name}")
+              (lib.optionalString sysCfg.config.data.userFileSystems "/${config.home.username}")
             else "~"
           ) + "/audio/music/library";
           library = "${directory}/beets.db";

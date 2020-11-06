@@ -3,7 +3,7 @@
 let
   cfg = config.config.programs.i3status;
   sysCfg = config.passthru.systemConfig or null;
-  data_dermetfan = "${sysCfg.config.data.mountPoint}/${sysCfg.users.users.dermetfan.name}";
+  data = "${sysCfg.config.data.mountPoint}/${config.home.username}";
 in {
   options.config.programs.i3status.enable = with lib; mkOption {
     type = types.bool;
@@ -21,7 +21,7 @@ in {
       }
 
       ${lib.optionalString (sysCfg != null)
-        ''order += "disk ${data_dermetfan}"''
+        ''order += "disk ${data}"''
       }
       order += "disk /"
       #order += "ethernet _first_"
@@ -54,7 +54,7 @@ in {
       ethernet _first_ {}
 
       ${lib.optionalString (sysCfg != null) ''
-          disk "${data_dermetfan}" {
+          disk "${data}" {
               format = "data: %free (%percentage_used)"
               low_threshold = 10
               threshold_type = percentage_free

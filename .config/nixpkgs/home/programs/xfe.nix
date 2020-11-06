@@ -162,8 +162,8 @@ in {
         size_size=60
 
         [bookmarks]
-        BOOKMARK1=/data/dermetfan
-        BOOKMARK2=/data/dermetfan/projects/workspaces/development
+        BOOKMARK1=/data/${config.home.username}
+        BOOKMARK2=/data/${config.home.username}/projects/workspaces/development
       '';
     })
   ];

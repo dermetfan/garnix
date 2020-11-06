@@ -326,8 +326,8 @@ in {
         '';
 
         "ranger/bookmarks".text = ''
-          w:/data/dermetfan/projects/development
-          d:/data/dermetfan
+          w:/data/${config.home.username}/projects/development
+          d:/data/${config.home.username}
         '';
       };
     })

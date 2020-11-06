@@ -24,7 +24,7 @@ in {
       firefox = {
         package = lib.mkIf (!config.xsession.enable) pkgs.firefox-wayland;
 
-        profiles.dermetfan.userChrome = ''
+        profiles.${config.home.username}.userChrome = ''
           /**
            * @name Dim Unloaded Tabs
            * @author Niklas Gollenstede
@@ -70,7 +70,7 @@ in {
       browserpass.enable = true;
     };
 
-    home.file.".mozilla/firefox/${config.programs.firefox.profiles.dermetfan.path}/chrome/userContent.css".text = ''
+    home.file.".mozilla/firefox/${config.programs.firefox.profiles.${config.home.username}.path}/chrome/userContent.css".text = ''
       @-moz-document
       url('about:newtab'),
       url('about:blank') {

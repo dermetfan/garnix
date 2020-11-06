@@ -10,6 +10,8 @@ in {
 
     home = {
       stateVersion = "20.09";
+      username = sysCfg.users.users.dermetfan.name;
+      homeDirectory = sysCfg.users.users.dermetfan.home;
 
       packages = with pkgs; [ less ];
 
@@ -54,14 +56,14 @@ in {
       enable = true;
       userDirs = {
         enable = true;
-        desktop = "/home/dermetfan";
-        download = "/home/dermetfan/downloads";
-        templates = "/home/dermetfan";
-        publicShare = "/home/dermetfan";
-        documents = "/data/dermetfan/documents";
-        music = "/data/dermetfan/audio/music";
-        pictures = "/data/dermetfan/images";
-        videos = "/data/dermetfan/videos";
+        desktop = config.home.homeDirectory;
+        download = "${config.home.homeDirectory}/downloads";
+        templates = config.home.homeDirectory;
+        publicShare = config.home.homeDirectory;
+        documents = "/data/${config.home.username}/documents";
+        music = "/data/${config.home.username}/audio/music";
+        pictures = "/data/${config.home.username}/images";
+        videos = "/data/${config.home.username}/videos";
       };
     };
   };
