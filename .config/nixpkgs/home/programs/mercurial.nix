@@ -28,6 +28,9 @@ in {
         ssh = ssh -C
         interface.chunkselector = curses
 
+        [alias]
+        st = !$HG status $($HG root) $HG_ARGS
+
         [auth]
         bb.prefix = https://bitbucket.org/
         bb.username = dermetfan
