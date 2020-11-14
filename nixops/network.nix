@@ -166,7 +166,6 @@ in {
         nextcloud = {
           enable = true;
           hostName = "nextcloud.${domain}";
-          nginx.enable = true;
           config = {
             adminuser = "dermetfan";
             adminpassFile = "/run/keys/nextcloud";
@@ -200,9 +199,7 @@ in {
             "server.${domain}" = withSSL {
               default = true;
               forceSSL = true;
-              locations = {
-                "/minecraft/resourcepacks/".alias = "${config.services.minecraft-server.dataDir}/resourcepacks/";
-              };
+              locations."/minecraft/resourcepacks/".alias = "${config.services.minecraft-server.dataDir}/resourcepacks/";
             };
 
             "hydra.${domain}" = withSSL {
