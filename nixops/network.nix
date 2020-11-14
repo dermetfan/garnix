@@ -71,9 +71,7 @@ in {
     ];
 
     config = {
-      deployment.keys = lib.mapAttrs (name: value: {
-        permissions = "0440";
-      } // value) {
+      deployment.keys = {
         master_rsa.keyFile = ../keys/master_rsa;
 
         "cache.sec" = lib.mkIf config.services.nix-serve.enable {
