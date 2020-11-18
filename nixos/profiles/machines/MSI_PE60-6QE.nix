@@ -120,8 +120,8 @@ in {
         hardware.nvidia = {
           modesetting.enable = true;
 
-          optimus_prime = {
-            enable = true;
+          prime = {
+            sync.enable = true;
             nvidiaBusId = "PCI:1:0:0";
             intelBusId  = "PCI:0:2:0";
           };
@@ -134,28 +134,28 @@ in {
       hardware.nvidiaOptimus.disable = true;
     })
 
-    { nesting.clone = with lib; [
-      { config = {
+    { specialisation = with lib; {
+      performance.configuration.config = {
         boot.loader.grub.configurationName = "MSI PE60-6QE: performance";
 
         powerManagement.cpuFreqGovernor = mkForce "performance";
 
         config.machine."MSI PE60-6QE".enableGPU = mkForce true;
-      }; }
+      };
 
-      { config = {
+      powersave.configuration.config = {
         boot.loader.grub.configurationName = "MSI PE60-6QE: powersave";
 
         powerManagement.cpuFreqGovernor = mkForce "powersave";
 
         config.machine."MSI PE60-6QE".enableGPU = mkForce false;
-      }; }
+      };
 
-      { config = {
+      bumblebee.configuration.config = {
         boot.loader.grub.configurationName = "MSI PE60-6QE: bumblebee";
 
         config.machine."MSI PE60-6QE".enableGPU = mkForce "bumblebee";
-      }; }
-    ]; }
+      };
+    }; }
   ]);
 }
