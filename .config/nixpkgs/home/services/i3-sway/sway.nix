@@ -23,6 +23,14 @@ in {
         Change this if you do not want those applied on all keyboards.
       '';
     };
+
+    clamshellOutput = mkOption {
+      type = types.str;
+      default = "";
+      description = ''
+        Output to disable when the lid is closed.
+      '';
+    };
   };
 
   config = lib.mkIf cfg.enable (lib.mkMerge [
@@ -113,7 +121,10 @@ in {
           output * background ${config.xdg.configHome}/sway/background fill
           exec wl-paste -t text -w clipman store
           exec mkfifo $SWAYSOCK.wob && tail -f $SWAYSOCK.wob | wob
-        '';
+        '' + (lib.optionalString (cfg.clamshellOutput != "") ''
+          bindswitch --reload --locked lid:on output ${cfg.clamshellOutput} disable
+          bindswitch --reload --locked lid:off output ${cfg.clamshellOutput} enable
+        '');
 
         extraSessionCommands = ''
           export SDL_VIDEODRIVER=wayland
