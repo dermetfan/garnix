@@ -8,11 +8,20 @@ let
     cfg = config.wayland.windowManager.sway;
   };
 in {
-  options.config.wayland.windowManager.sway = {
-    enable = with lib; mkOption {
+  options.config.wayland.windowManager.sway = with lib; {
+    enable = mkOption {
       type = types.bool;
       default = config.wayland.windowManager.sway.enable;
       description = "Whether to configure sway.";
+    };
+
+    keyboardIdentifier = mkOption {
+      type = types.str;
+      default = "type:keyboard";
+      description = ''
+        Input device identifier to apply <option>home.keyboard</option> options to.
+        Change this if you do not want those applied on all keyboards.
+      '';
     };
   };
 
@@ -20,9 +29,17 @@ in {
     common.config
     { wayland.windowManager.sway = common.i3-sway; }
     {
+      wayland.windowManager.sway.config.input.${cfg.keyboardIdentifier} = with config.home.keyboard; {
+        xkb_layout = layout;
+        xkb_variant = variant;
+        xkb_options = lib.concatStringsSep "," options;
+      };
+    }
+    {
       programs = {
         swaylock.enable = true;
         mako    .enable = true;
+        jq      .enable = true;
       };
 
       home.packages = with pkgs; [
@@ -70,6 +87,24 @@ in {
 
             "XF86ScreenSaver"    = "exec swaylock";
             "${mod}+Scroll_Lock" = "exec swaylock";
+
+            "${mod}+Alt+Space" = let
+              toggle = pkgs.writeScript "sway-toggle-keymap" ''
+                swaymsg -t get_inputs | \
+                jq -r '
+                map(select(.type == "keyboard" and (.xkb_layout_names | length) > 1))[] |
+                ((.xkb_active_layout_index + 1) % (.xkb_layout_names | length)) as $index |
+                .identifier, $index, .name, .xkb_layout_names[$index]
+                ' | \
+                while read ident; do
+                    read index
+                    read name
+                    read layout
+                    swaymsg input "$ident" xkb_switch_layout $index
+                    timeout 1.75 swaynag -t warning -m "$layout on $name" &
+                done
+              '';
+            in "exec ${toggle}";
           };
         };
 

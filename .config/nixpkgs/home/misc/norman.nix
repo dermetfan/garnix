@@ -3,23 +3,10 @@
 let
   cfg = config.config.norman;
 in {
-  options.config.norman = with lib; {
-    enable = mkOption {
-      type = types.bool;
-      default = true;
-      description = "Enable the norman keyboard layout.";
-    };
-
-    swayKeyboardIdentifier = mkOption {
-      type = types.str;
-      default = "type:keyboard";
-      description = ''
-        Input device identifier for sway to apply norman to.
-        Use this if the default (all keyboards)
-        messes with your config for other keyboards
-        where you do not want the norman layout.
-      '';
-    };
+  options.config.norman.enable = with lib; mkOption {
+    type = types.bool;
+    default = true;
+    description = "Enable the norman keyboard layout.";
   };
 
   config = {
@@ -28,9 +15,9 @@ in {
       variant = "norman";
       options = [
         # "compose:lwin"
-        "compose:rwin"
+        "compose:rctrl"
         "eurosign:e"
-        # "caps:capslock" # handled in xsession.initExtra
+        "caps:capslock"
       ];
     };
 
@@ -42,11 +29,5 @@ in {
       # norman had the compose key on Super_R
       xmodmap -e "keycode 105 = Multi_key" # Control_R
     '';
-
-    wayland.windowManager.sway.config.input.${cfg.swayKeyboardIdentifier} = {
-      xkb_layout = config.home.keyboard.layout;
-      xkb_variant = config.home.keyboard.variant;
-      xkb_options = "compose:rctrl,caps:capslock";
-    };
   };
 }
