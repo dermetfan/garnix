@@ -71,6 +71,7 @@ in {
             };
           };
 
+          bindkeysToCode = true;
           keybindings = let
             mod = config.wayland.windowManager.sway.config.modifier;
             wobShowVolume = ''(amixer sget Master | grep -m 1 '\[on\]' | grep -E '\[[[:digit:]][[:digit:]][[:digit:]]?%\]' -o | grep -E '[[:digit:]][[:digit:]][[:digit:]]?' -o || echo 0) > $SWAYSOCK.wob'';
