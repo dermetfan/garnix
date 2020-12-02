@@ -15,7 +15,7 @@ in {
 
       keyboard = {
         layout = "us,ru";
-        variant = ",phonetic";
+        variant = "norman,phonetic";
       };
 
       packages = with pkgs; [ less ];
