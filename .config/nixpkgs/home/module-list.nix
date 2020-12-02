@@ -38,6 +38,7 @@
   programs/micro.nix
   programs/minecraft.nix
   programs/nano.nix
+  programs/networkmanager-dmenu.nix
   programs/nitrogen.nix
   programs/ranger.nix
   programs/rofi.nix

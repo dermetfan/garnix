@@ -12,6 +12,8 @@ in {
     alacritty    .enable = true;
     ranger       .enable = true;
     rofi         .enable = true;
+
+    networkmanager-dmenu.enable = sysCfg.networking.networkmanager.enable or false;
   };
 
   i3-sway.config = let
@@ -62,6 +64,8 @@ in {
         "${mod}+Shift+e"      = "exec rofi -show ssh";
         "${mod}+Ctrl+Shift+e" = "exec rofi -show combi";
         "${mod}+Tab"          = "exec rofi -show window";
+
+        "${mod}+m" = lib.mkIf config.programs.networkmanager-dmenu.enable "exec networkmanager_dmenu";
 
         "${mod}+q" = "kill";
 
