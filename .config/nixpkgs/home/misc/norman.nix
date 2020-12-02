@@ -10,9 +10,9 @@ in {
   };
 
   config = {
-    home.keyboard = {
-      layout = "us";
-      variant = "norman";
+    home.keyboard = with lib; {
+      layout = mkDefault "us";
+      variant = mkDefault "norman";
       options = [
         # "compose:lwin"
         "compose:rctrl"

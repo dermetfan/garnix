@@ -13,6 +13,11 @@ in {
       username = sysCfg.users.users.dermetfan.name;
       homeDirectory = sysCfg.users.users.dermetfan.home;
 
+      keyboard = {
+        layout = "us,ru";
+        variant = ",phonetic";
+      };
+
       packages = with pkgs; [ less ];
 
       sessionVariables = {
