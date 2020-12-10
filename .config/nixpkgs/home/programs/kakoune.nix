@@ -501,6 +501,17 @@ in {
           }
           {
             name = "ModuleLoaded";
+            option = "zig";
+            commands = ''
+              set-option buffer indentwidth 4
+
+              # smarttab plugin
+              expandtab
+              set-option buffer softtabstop 4
+            '';
+          }
+          {
+            name = "ModuleLoaded";
             option = "powerline";
             commands = ''
               powerline-theme ${config.programs.kakoune.config.colorScheme}
