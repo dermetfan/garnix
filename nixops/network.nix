@@ -1,13 +1,11 @@
-{ pkgs ? import <nixpkgs> {} }:
-
-let
-  lib = pkgs.lib;
-  domain = "dermetfan.net";
-in {
-  network.description = domain;
+{
+  network.description = "dermetfan.net";
 
   defaults = { config, lib, nodes, ... }: {
-    imports = [ ../nixos ];
+    imports = [
+      ./config
+      ../nixos
+    ];
 
     options.node = {
       name = with lib; mkOption {
@@ -26,20 +24,8 @@ in {
     config = {
       networking.hostName = lib.mkOverride 899 "dmf-${config.node.name}";
 
-      security.acme = {
-        acceptTerms = true;
-        email = "serverkorken@gmail.com";
-      };
-
       services = {
-        ddclient = {
-          enable = true;
-          server = "dynupdate.no-ip.com";
-          username = "dermetfan";
-          password = builtins.readFile ../keys/ddns;
-          domains = lib.mkDefault [ "${config.networking.hostName}.ddns.net" ];
-          use = "web, web=icanhazip.com";
-        };
+        ddclient.enable = true;
 
         openssh = {
           passwordAuthentication = false;
@@ -58,48 +44,19 @@ in {
 
       users.users.root.openssh.authorizedKeys.keyFiles =
         lib.optional (config.node.name != nodes.master.config.node.name) ../keys/master_rsa.pub;
-    };
-  };
-
-  master = { config, pkgs, lib, nodes, ... }: {
-    imports = [
-      # nix-binary-cache-cache
-      "${(builtins.fetchGit {
-        url = https://gist.github.com/f495fc6cc4130f155e8b670609a1e57b.git;
-        rev = "ea9052f1bd4d5c57b0abe3d0c1ff3786b3c02d79";
-      }).outPath}/nix-binary-cache-cache.nix"
-    ];
-
-    config = {
-      deployment.keys = {
-        master_rsa.keyFile = ../keys/master_rsa;
-
-        "cache.sec" = lib.mkIf config.services.nix-serve.enable {
-          keyFile = ../keys/cache.sec;
-          user = config.users.users.nix-serve.name;
-        };
-
-        "host.key" = {
-          keyFile = ../keys/host.key;
-          user  = config.users.users.nginx.name;
-          group = config.users.users.nginx.group;
-        };
-
-        ssmtp.keyFile = ../keys/ssmtp;
-
-        nextcloud = {
-          keyFile = ../keys/nextcloud;
-          user  = config.users.users.nextcloud.name;
-          group = config.users.users.nextcloud.group;
-        };
-      };
-
-      config.data.enable = true;
 
       nix = {
         gc.automatic = true;
         optimise.automatic = true;
+      };
+    };
+  };
 
+  master = { config, pkgs, lib, nodes, ... }: {
+    config = {
+      deployment.keys.master_rsa.keyFile = ../keys/master_rsa;
+
+      nix = {
         distributedBuilds = true;
         buildMachines = map (node: node.config.node.buildMachine // {
           hostName = node.config.deployment.targetHost;
@@ -110,122 +67,45 @@ in {
         ));
       };
 
-      nixpkgs.config.allowUnfree = true;
-
-      networking.firewall.allowedTCPPorts =
-        [ 80 443 ] ++
-        lib.optional (config.services.syncthing.enable        && config.services.syncthing.openDefaultPorts)    8384 ++ # web GUI
-        lib.optional (config.services.minecraft-server.enable && config.services.minecraft-server.openFirewall) 25575; # RCON
+      config.data.enable = true; # XXX should this belong to hardware config?
 
       services = {
-        nix-serve = {
-          enable = !(config.services.nixBinaryCacheCache.enable or false);
-          secretKeyFile = "/run/keys/cache.sec";
-        };
+        syncthing.enable = true;
+        # hydra.enable = true;
+        minecraft-server.enable = true;
+        nextcloud.enable = true;
+        ssmtp.enable = true;
 
-        nixBinaryCacheCache = {
-          enable = true;
-          virtualHost = "cache.${domain}";
-          resolver = let
-            isIPv4 = ip: 3 == lib.count (c: c == ".") (lib.stringToCharacters ip);
-            ips = if config.networking.enableIPv6
-              then map
-                (ip: if isIPv4 ip then ip else "[${ip}]")
-                config.networking.nameservers
-              else lib.filter
-                isIPv4
-                config.networking.nameservers;
-          in lib.concatStringsSep " " (
-            ips ++
-            lib.optional (!config.networking.enableIPv6) "ipv6=off"
-          );
-        };
 
-        syncthing = {
-          enable = true;
-          openDefaultPorts = true;
-        };
-
-        hydra = {
-          enable = true;
-          hydraURL = "https://hydra.${domain}";
-          notificationSender = "hydra@${domain}";
-          buildMachinesFiles = [];
-          useSubstitutes = true;
-          smtpHost = "127.0.0.1";
-        };
-
-        minecraft-server = {
-          enable = true;
-          eula = true;
-          openFirewall = true;
-        };
-
-        nextcloud = {
-          enable = true;
-          hostName = "nextcloud.${domain}";
-          config = {
-            adminuser = "dermetfan";
-            adminpassFile = "/run/keys/nextcloud";
-          };
-        };
-
-        ssmtp = {
-          enable = true;
-          hostName = "smtp.gmail.com:587";
-          root = "serverkorken@gmail.com";
-          inherit domain;
-          authUser = "serverkorken@gmail.com";
-          authPassFile = "/run/keys/ssmtp";
-          useTLS = true;
-          useSTARTTLS = true;
-        };
-
-        nginx = {
-          enable = true;
-          recommendedOptimisation  = true;
-          recommendedProxySettings = true;
-          recommendedTlsSettings   = true;
-          recommendedGzipSettings  = true;
-          virtualHosts = let
-            withSSL = x: x // {
-              enableACME = true;
-              sslCertificate = ../keys/host.crt;
-              sslCertificateKey = "/run/keys/host.key";
-            };
-          in {
-            "server.${domain}" = withSSL {
-              default = true;
-              forceSSL = true;
-              locations."/minecraft/resourcepacks/".alias = "${config.services.minecraft-server.dataDir}/resourcepacks/";
-            };
-
-            "hydra.${domain}" = withSSL {
-              forceSSL = true;
-              locations."/".proxyPass = let
-                # nginx does not understand * for all interfaces
-                listenHost = if config.services.hydra.listenHost == "*"
-                  then "0.0.0.0"
-                  else config.services.hydra.listenHost;
-              in "http://${listenHost}:${toString config.services.hydra.port}";
-            };
-
-            ${config.services.nixBinaryCacheCache.virtualHost or "cache.${domain}"} = withSSL {
-              forceSSL = true;
-            } // (if config.services.nix-serve.enable then {
-              locations."/".proxyPass = "http://127.0.0.1:${toString config.services.nix-serve.port}";
-            } else {});
-
-            ${config.services.nextcloud.hostName} = withSSL {
-              forceSSL = true;
-            };
-          };
-        };
+        nginx.virtualHosts."asb.siegstrolche.de".locations."/".proxyPass = "http://127.0.0.1:8080";
       };
+    };
+  };
 
-      systemd.services = {
-        hydra-server.path       = [ pkgs.ssmtp ];
-        hydra-queue-runner.path = [ pkgs.ssmtp ];
+  node1 = { config, lib, ... }: {
+    users.users.roman = {
+      isNormalUser = true;
+      password = "keins";
+      extraGroups = [ "wheel" ];
+    };
+
+    services.openssh = {
+      passwordAuthentication = lib.mkForce true;
+      challengeResponseAuthentication = lib.mkForce true;
+    };
+
+    networking.firewall = {
+      allowedTCPPorts = lib.optionals config.services.samba.enable [ 139 445 ];
+      allowedUDPPorts = lib.optionals config.services.samba.enable [ 137 138 ];
+    };
+
+    services.samba = {
+      enable = true;
+      shares.roman = {
+        path = config.users.users.roman.home;
+        browseable = "yes";
+        "guest ok" = "yes";
+        comment = "Roman's Dateien";
       };
     };
   };
