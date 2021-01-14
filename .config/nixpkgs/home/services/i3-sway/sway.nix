@@ -54,6 +54,8 @@ in {
         clipman wl-clipboard
         grim slurp
         wob
+        libnotify
+        bash
       ];
 
       wayland.windowManager.sway = {
@@ -98,19 +100,24 @@ in {
 
             "${mod}+Alt+Space" = let
               toggle = pkgs.writeScript "sway-toggle-keymap" ''
-                swaymsg -t get_inputs | \
-                jq -r '
-                map(select(.type == "keyboard" and (.xkb_layout_names | length) > 1))[] |
-                ((.xkb_active_layout_index + 1) % (.xkb_layout_names | length)) as $index |
-                .identifier, $index, .name, .xkb_layout_names[$index]
-                ' | \
+                #! ${pkgs.bash}/bin/bash
+
                 while read ident; do
                     read index
                     read name
                     read layout
                     swaymsg input "$ident" xkb_switch_layout $index
-                    timeout 1.75 swaynag -t warning -m "$layout on $name" &
-                done
+                    msg+="$layout on $name\n"
+                done < <(
+                  swaymsg -t get_inputs | \
+                  jq -r '
+                  map(select(.type == "keyboard" and (.xkb_layout_names | length) > 1))[] |
+                  ((.xkb_active_layout_index + 1) % (.xkb_layout_names | length)) as $index |
+                  .identifier, $index, .name, .xkb_layout_names[$index]
+                  '
+                )
+
+                notify-send 'Toggled keyboard layout' "$msg"
               '';
             in "exec ${toggle}";
           };
