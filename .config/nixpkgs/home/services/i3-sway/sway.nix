@@ -117,7 +117,7 @@ in {
                   '
                 )
 
-                notify-send 'Toggled keyboard layout' "$msg"
+                notify-send -t 1500 'Toggled keyboard layout' "$msg"
               '';
             in "exec ${toggle}";
           };
