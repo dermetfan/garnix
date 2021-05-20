@@ -56,6 +56,9 @@ in {
       filezilla
     ];
 
-    programs.bat.enable = true;
+    programs = {
+      bat.enable = true;
+      jq .enable = true;
+    };
   };
 }
