@@ -58,6 +58,7 @@ in {
       zip
       weechat
       buku
+      neuron-zettelkasten
     ] ++ lib.optionals config.xsession.enable [
       # autostart
       xorg.xmodmap
