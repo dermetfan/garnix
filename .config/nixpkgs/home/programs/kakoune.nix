@@ -485,6 +485,76 @@ in {
             key = "T";
             effect = ": close-tag<ret>";
           }
+
+          {
+            docstring = "language server mode";
+            mode = "user";
+            key = "l";
+            effect = ": enter-user-mode lsp<ret>";
+          }
+
+          {
+            docstring = "buffers mode";
+            mode = "user";
+            key = "b";
+            effect = ": enter-user-mode buffers<ret>";
+          }
+          {
+            docstring = "info";
+            mode = "buffers";
+            key = "i";
+            effect = ": info-buffers<ret>";
+          }
+          {
+            docstring = "buffer switcher";
+            mode = "buffers";
+            key = "b";
+            effect = ": buffer-switcher<ret>";
+          }
+
+          {
+            docstring = "neuron mode";
+            mode = "user";
+            key = "n";
+            effect = ": enter-user-mode neuron<ret>";
+          }
+
+          {
+            mode = "neuron";
+            docstring = "create new zettel with random ID";
+            key = "n";
+            effect = ": neuron-new<ret>";
+          }
+          {
+            mode = "neuron";
+            docstring = "create new zettel";
+            key = "N";
+            effect = ": neuron-new ";
+          }
+          {
+            mode = "neuron";
+            docstring = "search titles and open zettel";
+            key = "s";
+            effect = ": neuron-search-and-open<ret>";
+          }
+          {
+            mode = "neuron";
+            docstring = "search all and open zettel";
+            key = "S";
+            effect = ": neuron-search-and-open -a<ret>";
+          }
+          {
+            mode = "neuron";
+            docstring = "search titles and insert zettel ID";
+            key = "i";
+            effect = ": neuron-search-and-insert<ret>";
+          }
+          {
+            mode = "neuron";
+            docstring = "search all and insert zettel ID";
+            key = "I";
+            effect = ": neuron-search-and-insert -a<ret>";
+          }
         ];
         hooks = [
           {
@@ -525,11 +595,70 @@ in {
               set-option global fzf_highlight_command 'bat'
             '';
           }
+          {
+            name = "KakEnd";
+            option = ".*";
+            commands = ''
+              state-save-reg-save colon
+              state-save-reg-save pipe
+              state-save-reg-save slash
+            '';
+          }
+          {
+            name = "KakBegin";
+            option = ".*";
+            commands = ''
+              state-save-reg-load colon
+              state-save-reg-load pipe
+              state-save-reg-load slash
+            '';
+          }
+          {
+            name = "FocusOut";
+            option = ".*";
+            commands = ''
+              state-save-reg-save dquote
+            '';
+          }
+          {
+            name = "FocusIn";
+            option = ".*";
+            commands = ''
+              state-save-reg-load dquote
+            '';
+          }
+          {
+            name = "WinSetOption";
+            option = "filetype=zig";
+            commands = ''
+              lsp-enable-window
+            '';
+          }
+          {
+            name = "WinSetOption";
+            option = "filetype=zig";
+            commands = ''
+              set-option buffer formatcmd 'zig fmt'
+              set-option window lsp_auto_highlight_references true
+              set-option global lsp_server_configuration zls.zig_lib_path="%sh{zig env | jq -r .lib_dir}/lib/zig"
+              set-option -add global lsp_server_configuration zls.warn_style=true
+              set-option -add global lsp_server_configuration zls.enable_semantic_tokens=true
+              hook window -group semantic-tokens BufReload .* lsp-semantic-tokens
+              hook window -group semantic-tokens NormalIdle .* lsp-semantic-tokens
+              hook window -group semantic-tokens InsertIdle .* lsp-semantic-tokens
+              hook -once -always window WinSetOption filetype=.* %{
+                  remove-hooks window semantic-tokens
+              }
+            '';
+          }
         ];
       };
       extraConfig = ''
         set-option global auto_pairs_enabled true
         set-option global auto_pairs_surround_enabled true
+        require-module move-line
+        powerline-start
+        require-module word-select; word-select-add-mappings
 
         set-option global state_save_exclude_globs \
             '*/COMMIT_EDITMSG' \
@@ -541,163 +670,304 @@ in {
         set-face global crosshairs_column default,rgb:383838+d
 
         set-option global kakboard_paste_keys p P K <a-p> <a-P> <a-R>
+
+        eval %sh{kak-lsp --kakoune -s $kak_session}
       '';
+
+      plugins = with pkgs.kakounePlugins; [
+        kakoune-buffers
+        powerline-kak
+        fzf-kak
+        kak-ansi
+        kakoune-state-save
+        kakoune-easymotion
+        active-window-kak
+        kakoune-rainbow
+        kakboard
+        kak-lsp
+        (pkgs.kakouneUtils.buildKakounePluginFrom2Nix rec {
+          pname = "sudo-write";
+          version = src.rev;
+          src = pkgs.fetchFromGitHub {
+            owner = "occivink";
+            repo = "kakoune-sudo-write";
+            rev = "abe6bd6d6e111957d7e84e790e682955b8b319c6";
+            sha256 = "05b6hxsqvh3kmi7f139rihx0i9fn2j5fjz7yzy1g4flm8lb0h129";
+          };
+        })
+        (pkgs.kakouneUtils.buildKakounePluginFrom2Nix rec {
+          pname = "move-line";
+          version = src.rev;
+          src = pkgs.fetchFromGitHub {
+            owner = "alexherbo2";
+            repo = "move-line.kak";
+            rev = "bc1d08b8668a77297ecc69b05bf6b23ea09b314e";
+            sha256 = "0fj502vq99l3xfrsnsd7fszsl538iff7k36jlpqq2jv6yh6mvrnq";
+          };
+        })
+        (pkgs.kakouneUtils.buildKakounePluginFrom2Nix rec {
+          pname = "smarttab";
+          version = src.rev;
+          src = pkgs.fetchFromGitHub {
+            owner = "andreyorst";
+            repo = "smarttab.kak";
+            rev = "1dd3f33c4f65da5c13aee5d44b2e77399595830f";
+            sha256 = "0g49k47ggppng95nwanv2rqmcfsjsgy3z1764wrl5b49h9wifhg2";
+          };
+        })
+        (pkgs.kakouneUtils.buildKakounePluginFrom2Nix rec {
+          pname = "surround";
+          version = src.rev;
+          src = pkgs.fetchFromGitHub {
+            owner = "h-youhei";
+            repo = "kakoune-surround";
+            rev = "efe74c6f434d1e30eff70d4b0d737f55bf6c5022";
+            sha256 = "09fd7qhlsazf4bcl3z7xh9z0fklw69c5j32hminphihq74qrry6h";
+          };
+        })
+        (pkgs.kakouneUtils.buildKakounePluginFrom2Nix rec {
+          pname = "wordcount";
+          version = src.rev;
+          src = pkgs.fetchFromGitHub {
+            owner = "ftonneau";
+            repo = "wordcount.kak";
+            rev = "1a5216d5acfb7220378e825646b0597ea6219f79";
+            sha256 = "1d0k408sd48yy37vgip30rgywl20aj2w56lqimr2nw7cb3ggjk4p";
+          };
+        })
+        (pkgs.kakouneUtils.buildKakounePluginFrom2Nix rec {
+          pname = "tug";
+          version = src.rev;
+          src = pkgs.fetchFromGitHub {
+            owner = "matthias-margush";
+            repo = "tug";
+            rev = "23adaadb795af2d86dcb3daf7af3ebe12e932441";
+            sha256 = "0qldzh3gr3m7sa1hibbmf1br5lgiqwn84ggm75iin113zc67avbi";
+          };
+        })
+        (pkgs.kakouneUtils.buildKakounePluginFrom2Nix rec {
+          pname = "smart-quotes";
+          version = src.rev;
+          src = pkgs.fetchFromGitHub {
+            owner = "chambln";
+            repo = "kakoune-smart-quotes";
+            rev = "7eeebc475b3d5c2b8d471c42ed8b3c8f75a81cf9";
+            sha256 = "14fs48n29nd86ngwv6by3xb5yyd46q15xg6mvishi34g99nicm38";
+          };
+        })
+        (pkgs.kakouneUtils.buildKakounePluginFrom2Nix rec {
+          pname = "close-tag";
+          version = src.rev;
+          src = pkgs.fetchFromGitHub {
+            owner = "h-youhei";
+            repo = "kakoune-close-tag";
+            rev = "c719939cef45efbba24d3a6dbcc1aa273bbb8b1a";
+            sha256 = "0mfzgkgm0dbyxb7f2ghixlv4ad5kml433c2gpzjk3k1x4vxwz9dw";
+          };
+        })
+        (pkgs.kakouneUtils.buildKakounePluginFrom2Nix rec {
+          pname = "phantom-selection";
+          version = src.rev;
+          src = pkgs.fetchFromGitHub {
+            owner = "occivink";
+            repo = "kakoune-phantom-selection";
+            rev = "034d7a79f7f07e659e632468ef64c48ae82730f2";
+            sha256 = "0bwa6r7nqysjchsfjpj6jbxwvqb3dflh1ygij3pnyn29jplc8068";
+          };
+        })
+        (pkgs.kakouneUtils.buildKakounePluginFrom2Nix rec {
+          pname = "shellcheck";
+          version = src.rev;
+          src = pkgs.fetchFromGitHub {
+            owner = "whereswaldon";
+            repo = "shellcheck.kak";
+            rev = "4e633978c119bbb71f215828f7b59cea71a2c5a4";
+            sha256 = "1629jh4387ybl2iizyqc7k7r1n1rx2ljg5acn294z2jqfxg2n6mj";
+          };
+        })
+        (pkgs.kakouneUtils.buildKakounePluginFrom2Nix rec {
+          pname = "change-directory";
+          version = src.rev;
+          src = pkgs.fetchFromGitHub {
+            owner = "alexherbo2";
+            repo = "change-directory.kak";
+            rev = "a1e75c10abb65276d2481e5d7a349ab7911d3fd3";
+            sha256 = "1h57xi5r3a7lf4jh6cl46svampb73j9cn2rncad7ag55jq0d6zpc";
+          };
+        })
+        (pkgs.kakouneUtils.buildKakounePluginFrom2Nix rec {
+          pname = "explain-shell";
+          version = src.rev;
+          src = pkgs.fetchFromGitHub {
+            owner = "ath3";
+            repo = "explain-shell.kak";
+            rev = "503549ea7022a9ce9207be362d2fb74f7f6a72d6";
+            sha256 = "103kvf8jry2lwx74z1hwnmw87vhh3x95ppn2xlmq50w9z8zzh161";
+          };
+        })
+        (pkgs.kakouneUtils.buildKakounePluginFrom2Nix rec {
+          pname = "elvish";
+          version = src.rev;
+          src = pkgs.fetchFromGitLab {
+            owner = "SolitudeSF";
+            repo = "elvish.kak";
+            rev = "c71caa7575da93365e12fe031f5debc2baf73a6d";
+            sha256 = "0czxcnq16hfxvxdv61qbgk8ghxj7dgfh82xyrcasqqi3wswi143p";
+          };
+        })
+        (pkgs.kakouneUtils.buildKakounePluginFrom2Nix rec {
+          pname = "crosshairs";
+          version = src.rev;
+          src = pkgs.fetchFromGitHub {
+            owner = "insipx";
+            repo = "kak-crosshairs";
+            rev = "7edba13c535ce1bc67356b1c9461f5d261949d29";
+            sha256 = "18f3scwl87a91167zmrxgkmzy3fmmpz0l72cn1dd5fg5c4cgvsal";
+          };
+        })
+        (pkgs.kakouneUtils.buildKakounePluginFrom2Nix rec {
+          pname = "table";
+          version = src.rev;
+          src = pkgs.fetchFromGitLab {
+            owner = "listentolist";
+            repo = "kakoune-table";
+            rev = "c42ecaa91472cf778d87b289629d82d335e2b1e6";
+            sha256 = "1yri5n745bsz9a8lzg4m0kmba7l7p1shsyvnc4cc7q48va0ck35w";
+          };
+        })
+        (pkgs.kakouneUtils.buildKakounePluginFrom2Nix rec {
+          pname = "local-kakrc";
+          version = src.rev;
+          src = pkgs.fetchFromGitHub {
+            owner = "dgmulf";
+            repo = "local-kakrc";
+            rev = "2f3107e4aa1b1416f43e7551c18f8f6f0ef90348";
+            sha256 = "1dgjk1spzbjjw3sqsidqavwmbcb3kmb2ahfq5fps43c9v13k8m1l";
+          };
+        })
+        (pkgs.kakouneUtils.buildKakounePluginFrom2Nix rec {
+          pname = "expand";
+          version = src.rev;
+          src = pkgs.fetchFromGitHub {
+            owner = "occivink";
+            repo = "kakoune-expand";
+            rev = "e2c3c31e18a19ef73b8cc31e8b84255e11265689";
+            sha256 = "03afg4czqhsh21ig1mczi6jp4vypzjrbif61v2n87371v5zw6xbs";
+          };
+        })
+        (pkgs.kakouneUtils.buildKakounePluginFrom2Nix rec {
+          pname = "neuron";
+          version = src.rev;
+          src = pkgs.fetchFromGitHub {
+            owner = "MilanVasko";
+            repo = "neuron-kak";
+            rev = "bcf824ac837de95045e54d6d5a9fba48c06013e8";
+            sha256 = "1fzadn5bmd0nazm0lh2nh5r1ayggafi5qrg95c06z5z7ppkmdplb";
+          };
+        })
+        (pkgs.kakouneUtils.buildKakounePluginFrom2Nix rec {
+          pname = "buffer-switcher";
+          version = src.rev;
+          src = pkgs.fetchFromGitHub {
+            owner = "occivink";
+            repo = "kakoune-buffer-switcher";
+            rev = "6a27c45db87a23070c34fab36d2f8d812cd002a6";
+            sha256 = "1rmwy317908v8p54806m721bpzm8sgygb9abri34537ka6r05y5j";
+          };
+        })
+        # dependency of tmux-kak-copy-mode
+        (pkgs.kakouneUtils.buildKakounePluginFrom2Nix rec {
+          pname = "tmux-kak-info";
+          version = src.rev;
+          src = pkgs.fetchFromGitHub {
+            owner = "jbomanson";
+            repo = "tmux-kak-info.kak";
+            rev = "180bdabea21d7764663aa14c4f30f406f3aa2732";
+            sha256 = "0wk7h9g801k4gdc79cb5fjd7l4s3y5lyw7y1n3aaw8dzhnyfyf0r";
+          };
+        })
+        (pkgs.kakouneUtils.buildKakounePluginFrom2Nix rec {
+          pname = "csv";
+          version = src.rev;
+          src = pkgs.fetchFromGitHub {
+            owner = "gspia";
+            repo = "csv.kak";
+            rev = "00d0c4269645e15c8f61202e265328c470cd85c2";
+            sha256 = "03hcnxchgbd2h5w2wn3c16x1fb2264wjjrfbkwrdj0vfrgswk3nx";
+          };
+        })
+        (pkgs.kakouneUtils.buildKakounePluginFrom2Nix rec {
+          pname = "registers";
+          version = src.rev;
+          src = pkgs.fetchFromGitHub {
+            owner = "Delapouite";
+            repo = "kakoune-registers";
+            rev = "9531947baecd83c1d4c3bea0adf10f4462f1e120";
+            sha256 = "08v9ndghh7wvr8rsrqm05gksk9ai5vnwvw9gwqasbppb48cv4a8c";
+          };
+        })
+        (pkgs.kakouneUtils.buildKakounePluginFrom2Nix rec {
+          pname = "word-select";
+          version = src.rev;
+          src = pkgs.fetchFromGitHub {
+            owner = "alexherbo2";
+            repo = "word-select.kak";
+            rev = "48d9d4c59b5ab9669314c2cd40d37601d36b62da";
+            sha256 = "0w0shhmhaz9cidbkbh76vxmq580z8q3bi2rfkpjlnjmvid7h9vlc";
+          };
+        })
+      ];
     };
 
-    xdg.configFile = with pkgs.kakounePlugins; {
-      "kak/autoload" = {
-        source = "${pkgs.kakoune-unwrapped}/share/kak/autoload";
-        recursive = true;
+    xdg.configFile."kak-lsp/kak-lsp.toml".source = (pkgs.formats.toml {}).generate "kak-lsp.toml" {
+      snippet_support = true;
+      verbosity = 2;
+
+      semantic_tokens = {
+        type = "type";
+        variable = "variable";
+        namespace = "module";
+        function = "function";
+        string = "string";
+        keyword = "keyword";
+        operator = "operator";
+        comment = "comment";
       };
-      "kak/autoload/auto-pairs.kak".source = "${kak-auto-pairs}/share/kak/autoload/plugins/auto-pairs/auto-pairs.kak";
-      "kak/autoload/buffers.kak".source = "${kak-buffers}/share/kak/autoload/plugins/buffers.kak";
-      "kak/autoload/powerline".source = "${kak-powerline}/share/kak/autoload/plugins/powerline";
-      "kak/autoload/fzf".source = "${kak-fzf}/share/kak/autoload/plugins/fzf";
-      "kak/autoload/ansi.kak".source = "${kak-ansi}/share/kak/autoload/plugins/ansi.kak";
-      "kak/autoload/state-save.kak".source = pkgs.fetchFromGitLab {
-        owner = "Screwtapello";
-        repo = "kakoune-state-save";
-        rev = "ab7c0c765326a4a80af78857469ee8c80814c52a";
-        sha256 = "1q53b1pw0mi1q8h5xv1wxqsj9fa9081r7r6ry1y6vp6q8hdq40q0";
-      } + "/state-save.kak";
-      "kak/autoload/gdb.kak".source = pkgs.fetchFromGitHub {
-        owner = "occivink";
-        repo = "kakoune-gdb";
-        rev = "57e2467e00a907d2bea798b66c56dcb5c1112efd";
-        sha256 = "06djnkfjawfakh14gsg3bxj301yxkc8i6v02yzdaha1j4287lpra";
-      } + "/gdb.kak";
-      "kak/autoload/easymotion.kak".source = pkgs.fetchFromGitHub {
-        owner = "danr";
-        repo = "kakoune-easymotion";
-        rev = "0ca75450023a149efc70e8e383e459b571355c70";
-        sha256 = "15czvl0qj2k767pysr6xk2v31mkhvcbmv76xs2a8yrslchms70b5";
-      } + "/easymotion.kak";
-      "kak/autoload/sudo-write.kak".source = pkgs.fetchFromGitHub {
-        owner = "occivink";
-        repo = "kakoune-sudo-write";
-        rev = "9a11b5c8c229c517848c069e3614f591a43d6ad3";
-        sha256 = "0ga8048z7hkfpl1gjrw76d4dk979a6vjpg8jsnrs3swg493qr6ix";
-      } + "/sudo-write.kak";
-      "kak/autoload/surround.kak".source = pkgs.fetchFromGitHub {
-        owner = "h-youhei";
-        repo = "kakoune-surround";
-        rev = "efe74c6f434d1e30eff70d4b0d737f55bf6c5022";
-        sha256 = "09fd7qhlsazf4bcl3z7xh9z0fklw69c5j32hminphihq74qrry6h";
-      } + "/surround.kak";
-      "kak/autoload/crosshairs.kak".source = pkgs.fetchFromGitHub {
-        owner = "insipx";
-        repo = "kak-crosshairs";
-        rev = "7edba13c535ce1bc67356b1c9461f5d261949d29";
-        sha256 = "18f3scwl87a91167zmrxgkmzy3fmmpz0l72cn1dd5fg5c4cgvsal";
-      } + "/crosshairs.kak";
-      "kak/autoload/move-line.kak".source = pkgs.fetchFromGitHub {
-        owner = "alexherbo2";
-        repo = "move-line.kak";
-        rev = "00221c1ddb2d9ef984facfbdc71b56b789daddaf";
-        sha256 = "1z6793y2ig5pc5w48kg1rphpsswpq485bw3l2aj7qzjfcyzjys6y";
-      } + "/rc/move-line.kak";
-      "kak/autoload/table.kak".source = pkgs.fetchFromGitLab {
-        owner = "listentolist";
-        repo = "kakoune-table";
-        rev = "61602e8bb7df9bac4d758092980e0fcd16fc7ee2";
-        sha256 = "0vf3aiarfcsqqqgjr0bk1fc61pyandq5ksi1kr4wg67n1dm8h3bp";
-      } + "/table.kak";
-      "kak/autoload/elvish.kak".source = pkgs.fetchFromGitLab {
-        owner = "notramo";
-        repo = "elvish.kak";
-        rev = "d7d8e29dedde1234d11a9a899a2f428944b3f43c";
-        sha256 = "1dc9gd1wmjgqhjr01aqhyrc4c53f662xp6b65nzwbksa10vcmm4q";
-      } + "/elvish.kak";
-      "kak/autoload/wordcount.kak".source = pkgs.fetchFromGitHub {
-        owner = "ftonneau";
-        repo = "wordcount.kak";
-        rev = "1a5216d5acfb7220378e825646b0597ea6219f79";
-        sha256 = "1d0k408sd48yy37vgip30rgywl20aj2w56lqimr2nw7cb3ggjk4p";
-      } + "/wordcount.kak";
-      "kak/autoload/local-kakrc.kak".source = pkgs.fetchFromGitHub {
-        owner = "dgmulf";
-        repo = "local-kakrc";
-        rev = "2f3107e4aa1b1416f43e7551c18f8f6f0ef90348";
-        sha256 = "1dgjk1spzbjjw3sqsidqavwmbcb3kmb2ahfq5fps43c9v13k8m1l";
-      } + "/rc/local-kakrc.kak";
-      "kak/autoload/tug.kak".source = pkgs.fetchFromGitHub {
-        owner = "matthias-margush";
-        repo = "tug";
-        rev = "23adaadb795af2d86dcb3daf7af3ebe12e932441";
-        sha256 = "0qldzh3gr3m7sa1hibbmf1br5lgiqwn84ggm75iin113zc67avbi";
-      } + "/rc/tug.kak";
-      "kak/autoload/smart-quotes.kak".source = pkgs.fetchFromGitHub {
-        owner = "chambln";
-        repo = "kakoune-smart-quotes";
-        rev = "8307bd56652c334e416d8920ad988de69c2a07a0";
-        sha256 = "1z2xmcprb5l8ib1xyksp079g26n6y8sqp3hvv9nfpxhls31jncj2";
-      } + "/smart-quotes.kak";
-      "kak/autoload/explain-shell.kak".source = pkgs.fetchFromGitHub {
-        owner = "ath3";
-        repo = "explain-shell.kak";
-        rev = "503549ea7022a9ce9207be362d2fb74f7f6a72d6";
-        sha256 = "103kvf8jry2lwx74z1hwnmw87vhh3x95ppn2xlmq50w9z8zzh161";
-      } + "/explain-shell.kak";
-      "kak/autoload/change-directory.kak".source = pkgs.fetchFromGitHub {
-        owner = "alexherbo2";
-        repo = "change-directory.kak";
-        rev = "3ae31a18a2ecd5461f526f9ca66e98470fb28ef2";
-        sha256 = "0fb8ki3ym5w7d9qfr7vilwjb3n2lazx9y3pal8ddp00k0lwjya08";
-      } + "/rc/change-directory.kak";
-      "kak/autoload/active-window.kak".source = pkgs.fetchFromGitHub {
-        owner = "greenfork";
-        repo = "active-window.kak";
-        rev = "90213163a06abad4ce60b0ebf1da09eb02882cb7";
-        sha256 = "00cvglz0nvpknxbjfg6glcqwmymm9qnjq726kl05nki32fy0hyfz";
-      } + "/rc/active-window.kak";
-      "kak/autoload/each-line-selection.kak".source = pkgs.fetchFromGitHub {
-        owner = "h-youhei";
-        repo = "kakoune-each-line-selection";
-        rev = "53e15d6f071bfb820c9fd82b972c0fa147dc5100";
-        sha256 = "0cbl1v9c8mjhqk8cx22kj3a6lgf7q2jsxwr93dv3vpfvvx6lhkvb";
-      } + "/each-line-selection.kak";
-      "kak/autoload/close-tag.kak".source = pkgs.fetchFromGitHub {
-        owner = "h-youhei";
-        repo = "kakoune-close-tag";
-        rev = "c719939cef45efbba24d3a6dbcc1aa273bbb8b1a";
-        sha256 = "0mfzgkgm0dbyxb7f2ghixlv4ad5kml433c2gpzjk3k1x4vxwz9dw";
-      } + "/close-tag.kak";
-      "kak/autoload/shellcheck.kak".source = pkgs.fetchFromGitHub {
-        owner = "whereswaldon";
-        repo = "shellcheck.kak";
-        rev = "9acad49508ee95c215541e58353335d9d5b8a927";
-        sha256 = "00hyiag96qx74mmp0z0mpysb6x85n6wfb0cy50xnddgxv58pglg4";
-      } + "/shellcheck.kak";
-      "kak/autoload/rainbow.kak".source = pkgs.fetchFromGitHub {
-        owner = "JJK96";
-        repo = "kakoune-rainbow";
-        rev = "34caf77ce14da52a4d8af6b8893a404605dda62a";
-        sha256 = "1fmic508842161zzwmzilljz8p0fanjb15ycqb8hbsjpdy3fwvwi";
-      } + "/rainbow.kak";
-      "kak/autoload/expand.kak".source = pkgs.fetchFromGitHub {
-        owner = "occivink";
-        repo = "kakoune-expand";
-        rev = "e2c3c31e18a19ef73b8cc31e8b84255e11265689";
-        sha256 = "03afg4czqhsh21ig1mczi6jp4vypzjrbif61v2n87371v5zw6xbs";
-      } + "/expand.kak";
-      "kak/autoload/phantom-selection.kak".source = pkgs.fetchFromGitHub {
-        owner = "occivink";
-        repo = "kakoune-phantom-selection";
-        rev = "a09c5b73525fbfd89a4467f530c975efda722ac6";
-        sha256 = "0vhvkpaahwqmdp7cnsjk091d5qh0syx01p43af8rym1klxh9v90i";
-      } + "/phantom-selection.kak";
-      "kak/autoload/smarttab.kak".source = pkgs.fetchFromGitHub {
-        owner = "andreyorst";
-        repo = "smarttab.kak";
-        rev = "1321c308edac6bd892e2bd2f683432402a04be98";
-        sha256 = "048qq8aj405q3zm28jjh6ardxb8ixkq6gs1h3bwdv2qc4zi2nj4g";
-      } + "/rc/smarttab.kak";
-      "kak/autoload/kakboard.kak".source = pkgs.fetchFromGitHub {
-        owner = "lePerdu";
-        repo = "kakboard";
-        rev = "4cc87b2e2a1cb1e8d61d36de172751e874ff9300";
-        sha256 = "06gdz5d5i3c15lhx3r8v88xsvy62q746bmrv122yr0cs8qlmza8i";
-      } + "/kakboard.kak";
+
+      semantic_token_modifiers = {
+        documentation = "documentation";
+        readonly = "default+d";
+      };
+
+      server.timeout = 1800;
+
+      language = {
+        nix = {
+          filetypes = ["nix"];
+          roots = ["flake.nix" "shell.nix" "release.nix" ".git" ".hg" "default.nix"];
+          command = "rnix-lsp";
+        };
+
+        php = {
+          filetypes = ["php"];
+          roots = ["psalm.xml" "composer.json" ".git" ".hg"];
+          command = "psalm";
+          args = ["--language-server"];
+        };
+
+        yaml = {
+          filetypes = ["yaml" "yml"];
+          roots = [".git" ".hg"];
+          command = "yaml-language-server";
+          args = ["--stdio"];
+        };
+
+        zig = {
+          filetypes = ["zig"];
+          roots = ["build.zig"];
+          command = "zls";
+        };
+      };
     };
 
     home.packages = with pkgs; [
@@ -705,6 +975,12 @@ in {
       ripgrep # fzf
       shellcheck
       perl socat # gdb
+
+      # kak-lsp
+      rnix-lsp
+      zls jq
+      yaml-language-server
+      phpPackages.psalm
     ];
 
     programs.bat.enable = true;
