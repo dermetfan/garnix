@@ -33,7 +33,6 @@ in {
         tokei
         hyperfine
       ] ++
-      (lib.optional config.programs.tmux.enable tmuxp) ++
       lib.optionals stdenv.isLinux [
         loc
       ] ++
