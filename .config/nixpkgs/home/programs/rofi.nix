@@ -19,11 +19,11 @@ in {
         separator = "none";
         width = 25;
         terminal = "alacritty";
-        extraConfig = ''
-          rofi.scrollbar-width: 5
-          rofi.opacity: 25
-          rofi.theme: ${pkgs.rofi}/share/rofi/themes/Monokai
-        '';
+        extraConfig = {
+          scrollbar-width = 5;
+          opacity = 25;
+          theme = "${pkgs.rofi}/share/rofi/themes/Monokai";
+        };
       };
     };
   };
