@@ -24,9 +24,9 @@ in {
       '';
     };
 
-    gtk.enable = config.profiles.gui.enable;
+    gtk.enable = true;
     qt = {
-      enable = /*builtins.trace (builtins.toJSON config.systemd.user.targets.sway-session.Unit)*/ true;
+      enable = true;
       platformTheme = "gtk";
     };
 
