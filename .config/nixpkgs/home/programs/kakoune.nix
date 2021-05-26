@@ -47,7 +47,7 @@ in {
           word = true;
         };
         ui = {
-          assistant = "cat";
+          assistant = "none";
           statusLine = "top";
           enableMouse = true;
           setTitle = true;
