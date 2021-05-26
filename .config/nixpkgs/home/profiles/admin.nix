@@ -37,6 +37,8 @@ in {
       wget
       gotty
       ytop
+    ] ++ lib.optionals config.profiles.gui.enable [
+      tigervnc
     ] ++ lib.optionals stdenv.isLinux [
       diffoscope
       ftop
