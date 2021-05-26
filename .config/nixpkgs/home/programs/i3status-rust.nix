@@ -78,10 +78,10 @@ in {
 
         [[block]]
         block = "disk_space"
-        info_type = "available"
-        warning = 25
-        alert = 10
-        show_percentage = true
+        format = "{icon} {path} {percentage} {free}"
+        info_type = "used"
+        warning = 75
+        alert = 90
       '' + lib.optionalString (cfg.data && sysCfg.config.data.enable or false) ''
         [[block]]
         block = "disk_space"
@@ -93,12 +93,12 @@ in {
       '' + ''
         [[block]]
         block = "memory"
-        format_mem = "{Mupi}% {MAg}G"
-        format_swap = "{SUpi}% {SFg}G"
+        format_mem = "{mem_used_percents} {mem_avail;G}"
+        format_swap = "{swap_used_percents} {swap_free;G}"
 
         [[block]]
         block = "temperature"
-        format = "⌀{average}°C ↑{max}°C"
+        format = "⌀{average}C ↑{max}C"
 
         [[block]]
         block = "load"
@@ -106,7 +106,7 @@ in {
         [[block]]
         block = "battery"
         device = "${battery}"
-        format = "{percentage}% {time} {power}"
+        format = "{percentage} {time} {power}"
       '') cfg.batteries) + ''
         [[block]]
         block = "toggle"
