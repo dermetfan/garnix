@@ -121,7 +121,7 @@
         powerOnBoot = false;
 
         # https://nixos.wiki/wiki/Bluetooth#Enabling_A2DP_Sink
-        config.General.Enable = lib.concatStringsSep "," ["Source" "Sink" "Media" "Socket"];
+        settings.General.Enable = lib.concatStringsSep "," ["Source" "Sink" "Media" "Socket"];
       };
 
       pulseaudio.extraConfig = ''

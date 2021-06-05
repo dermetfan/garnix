@@ -9,7 +9,7 @@ in {
     networking.networkmanager.enable = true;
 
     fonts = {
-      enableFontDir = true;
+      fontDir.enable = true;
       enableGhostscriptFonts = true;
     };
   };
