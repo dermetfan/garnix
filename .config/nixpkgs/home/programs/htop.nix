@@ -11,21 +11,22 @@ in {
   };
 
   config.programs.htop = lib.mkIf cfg.enable {
-    hideUserlandThreads = true;
-    showProgramPath = false;
-    treeView = true;
-    meters = {
-      left = [
-        "LeftCPUs"
-        "Memory"
-        "Swap"
-      ];
-      right = [
-        "RightCPUs"
-        "Tasks"
-        "LoadAverage"
-        "Uptime"
-      ];
-    };
+    settings = {
+      hide_userland_threads = true;
+      show_program_path = false;
+      tree_view = true;
+    } // (with config.lib.htop;
+      (leftMeters [
+        (bar "LeftCPUs")
+        (bar "Memory")
+        (bar "Swap")
+      ]) //
+      (rightMeters [
+        (bar "RightCPUs")
+        (text "Tasks")
+        (text "LoadAverage")
+        (text "Uptime")
+      ])
+    );
   };
 }
