@@ -19,6 +19,8 @@
     };
   };
 
+  users.users.nextcloud.extraGroups = [ "keys" ];
+
   deployment.keys.nextcloud = lib.mkIf config.services.nextcloud.enable {
     keyFile = ../../keys/nextcloud;
     user  = config.users.users.nextcloud.name;
