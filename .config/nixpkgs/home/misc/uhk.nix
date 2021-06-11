@@ -1,7 +1,7 @@
 { config, lib, ... }:
 
 {
-  wayland.windowManager.sway.config.input."7504:24866:Ultimate_Gadget_Laboratories_Ultimate_Hacking_Keyboard" = {
+  wayland.windowManager.sway.config.input."7504:24866:Ultimate_Gadget_Laboratories_UHK_60_v1" = {
     xkb_layout = config.home.keyboard.layout;
     xkb_variant = with lib; concatStringsSep "," (
       zipListsWith # remove variant for us layout (that is what UHK keymaps are for)
