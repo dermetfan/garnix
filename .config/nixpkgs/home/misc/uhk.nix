@@ -10,5 +10,8 @@
         (splitString "," config.home.keyboard.variant)
     );
     xkb_options = "compose:rctrl";
+
+    accel_profile = "flat";
+    pointer_accel = "0";
   };
 }
