@@ -44,6 +44,7 @@
   programs/rofi.nix
   programs/st.nix
   programs/starship.nix
+  programs/swappy.nix
   programs/swaylock.nix
   programs/timewarrior.nix
   programs/tmux.nix

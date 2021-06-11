@@ -45,6 +45,7 @@ in {
     }
     {
       programs = {
+        swappy  .enable = true;
         swaylock.enable = true;
         mako    .enable = true;
         jq      .enable = true;
@@ -52,7 +53,7 @@ in {
 
       home.packages = with pkgs; [
         clipman wl-clipboard
-        grim slurp swappy
+        grim slurp
         wob
         libnotify
         bash
