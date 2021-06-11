@@ -11,6 +11,8 @@
     );
     xkb_options = "compose:rctrl";
 
+    inherit (config.wayland.windowManager.sway.config.input."type:keyboard") repeat_delay repeat_rate;
+
     accel_profile = "flat";
     pointer_accel = "0";
   };
