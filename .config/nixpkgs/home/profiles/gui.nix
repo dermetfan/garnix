@@ -47,6 +47,7 @@ in {
         ] ++
         lib.optionals (!config.xsession.enable) [
           wdisplays
+          wayvnc
         ];
     };
 
