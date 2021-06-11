@@ -22,7 +22,6 @@ in {
       ncdu
       ncid
       neofetch
-      nix-index
       nix-prefetch-scripts
       nixops
       peco
@@ -60,7 +59,8 @@ in {
 
     programs = {
       bat.enable = true;
-      jq .enable = true;
+      jq.enable = true;
+      nix-index.enable = true;
     };
   };
 }
