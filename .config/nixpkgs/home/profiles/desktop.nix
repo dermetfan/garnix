@@ -23,6 +23,14 @@ in {
       zathura  .enable = config.profiles.gui.enable;
 
       mako.enable = config.profiles.gui.enable && !config.xsession.enable;
+
+      password-store = {
+        enable = true;
+        package = (pkgs.pass.override {
+          x11Support = config.xsession.enable;
+          waylandSupport = config.profiles.gui.enable && !config.xsession.enable;
+        }).withExtensions (exts: with exts; [ pass-otp ]);
+      };
     };
 
     xsession.initExtra = ''
@@ -49,10 +57,6 @@ in {
     };
 
     home.packages = with pkgs; [
-      ((pass.override {
-        x11Support = config.xsession.enable;
-        waylandSupport = config.profiles.gui.enable && !config.xsession.enable;
-      }).withExtensions (exts: with exts; [ pass-otp ]))
       unrar
       unzip
       zip
