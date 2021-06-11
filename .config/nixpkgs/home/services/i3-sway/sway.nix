@@ -67,7 +67,11 @@ in {
               repeat_delay = "225";
               repeat_rate = "27";
             };
-            "*" = {
+            "2:7:SynPS\/2_Synaptics_TouchPad" = {
+              accel_profile = "adaptive";
+              pointer_accel = "0.5";
+            };
+            "1118:57:Microsoft_Microsoft_5-Button_Mouse_with_IntelliEye(TM)" = {
               accel_profile = "adaptive";
               pointer_accel = "0.95";
             };
