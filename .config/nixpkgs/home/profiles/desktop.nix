@@ -51,9 +51,10 @@ in {
       xscreensaver.enable = config.xsession.enable;
 
       redshift = {
-        enable = config.profiles.gui.enable;
+        enable = config.xsession.enable;
         tray = true;
       };
+      wlsunset.enable = config.profiles.gui.enable && !config.xsession.enable;
     };
 
     home.packages = with pkgs; [
