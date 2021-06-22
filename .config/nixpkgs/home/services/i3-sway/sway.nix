@@ -54,7 +54,7 @@ in {
       home.packages = with pkgs; [
         clipman wl-clipboard
         grim slurp
-        wob
+        wob alsaUtils
         libnotify
         bash
       ];
