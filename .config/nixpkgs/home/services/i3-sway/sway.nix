@@ -80,7 +80,8 @@ in {
 
           keybindings = let
             mod = config.wayland.windowManager.sway.config.modifier;
-            wobShowVolume = ''(amixer sget Master | grep -m 1 '\[on\]' | grep -E '\[[[:digit:]]{1,3}%\]' -o | grep -E '[[:digit:]]{1,3}' -o || echo 0) > $SWAYSOCK.wob'';
+            wobShowVolume = ''printf "%d #D9000000 #F2FF4040 #F2FFFFFF\n" $(amixer sget Master | grep -m 1 '\[on\]' | grep -E '\[[[:digit:]]{1,3}%\]' -o | grep -E '[[:digit:]]{1,3}' -o || echo 0) > $SWAYSOCK.wob'';
+            wobShowBacklight = ''printf '%.0f #D9000000 #F2FFFFFF #F2FFFFFF\n' $(light -G) > $SWAYSOCK.wob'';
           in {
             "${mod}+c" = "exec clipman pick -t rofi";
 
@@ -91,6 +92,7 @@ in {
             "Shift+Print" = ''exec grim - | swappy -f - -o "${config.xdg.userDirs.pictures}/$(date --iso-8601=ns).png"'';
 
             "Ctrl+Space" = lib.mkIf config.programs.mako.enable ''exec makoctl dismiss'';
+            "Ctrl+Shift+Space" = lib.mkIf config.programs.mako.enable ''exec makoctl restore'';
 
             "XF86AudioRaiseVolume" = "exec ${lib.optionalString (!sysCfg.sound.mediaKeys.enable or false) "amixer -q set Master 2%+ unmute &&"} ${wobShowVolume}";
             "XF86AudioLowerVolume" = "exec ${lib.optionalString (!sysCfg.sound.mediaKeys.enable or false) "amixer -q set Master 2%- unmute &&"} ${wobShowVolume}";
@@ -102,7 +104,12 @@ in {
 
             "XF86ScreenSaver"    = "exec swaylock";
             "${mod}+Scroll_Lock" = "exec swaylock";
-
+          } // (if sysCfg.config.hotkeys.enableBacklightKeys then {} else {
+            "XF86MonBrightnessUp"         = "exec light -A 5 && ${wobShowBacklight}";
+            "XF86MonBrightnessDown"       = "exec light -U 5 && ${wobShowBacklight}";
+            "Shift+XF86MonBrightnessUp"   = "exec light -rA 1 && ${wobShowBacklight}";
+            "Shift+XF86MonBrightnessDown" = "exec light -rU 1 && ${wobShowBacklight}";
+          }) // {
             "${mod}+Alt+Space" = let
               toggle = pkgs.writeScript "sway-toggle-keymap" ''
                 #! ${pkgs.bash}/bin/bash
