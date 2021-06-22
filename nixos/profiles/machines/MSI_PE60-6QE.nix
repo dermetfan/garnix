@@ -54,12 +54,8 @@ in {
 
       hardware = {
         enableAllFirmware = true;
-        opengl.driSupport32Bit = true;
         bluetooth.enable = true;
-        pulseaudio = {
-          package = pkgs.pulseaudioFull;
-          support32Bit = true;
-        };
+        pulseaudio.package = pkgs.pulseaudioFull;
       };
     }
 

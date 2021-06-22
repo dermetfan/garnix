@@ -105,6 +105,8 @@
 
       logind.lidSwitch = "ignore";
 
+      pipewire.alsa.support32Bit = pkgs.stdenv.isx86_64;
+
       znapzend.enable = builtins.any (x: x == "zfs") (map (fs: fs.fsType) (builtins.attrValues config.fileSystems));
     };
 
@@ -115,7 +117,10 @@
     sound.mediaKeys.volumeStep = "2%";
 
     hardware = {
-      opengl.enable = true;
+      opengl = {
+        enable = true;
+        driSupport32Bit = pkgs.stdenv.isx86_64;
+      };
 
       bluetooth = {
         powerOnBoot = false;
@@ -124,10 +129,13 @@
         settings.General.Enable = lib.concatStringsSep "," ["Source" "Sink" "Media" "Socket"];
       };
 
-      pulseaudio.extraConfig = ''
-        load-module module-echo-cancel source_name=noecho
-        set-default-source noecho
-      '';
+      pulseaudio = {
+        support32Bit = pkgs.stdenv.isx86_64;
+        extraConfig = ''
+          load-module module-echo-cancel source_name=noecho
+          set-default-source noecho
+        '';
+      };
     };
 
     users = {
