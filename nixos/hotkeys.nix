@@ -11,7 +11,6 @@ let
 
   packages = with pkgs;
     [
-      light
       linuxPackages.cpupower
     ] ++
     (lib.optionals config.services.xserver.enable [
@@ -24,6 +23,10 @@ let
 in {
   options.config.hotkeys = with lib; {
     enable = mkEnableOption "hotkeys";
+    enableBacklightKeys = mkOption {
+      type = types.bool;
+      default = true;
+    };
 
     screenshotsDirectory = mkOption {
       type = types.path;
@@ -74,41 +77,13 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
+    programs.light.enable = true;
+
     services = {
       actkbd = {
         enable = true;
         bindings = with keyCodes // cfg.keyCodes;
           [
-            {
-              keys = XF86MonBrightnessUp;
-              events = [ "key" "rep" ];
-              command = "light -A 10";
-            }
-            {
-              keys = XF86MonBrightnessDown;
-              events = [ "key" "rep" ];
-              command = "light -U 10";
-            }
-            {
-              keys = [ Shift_L ] ++ XF86MonBrightnessUp;
-              events = [ "key" "rep" ];
-              command = "light -rA 1";
-            }
-            {
-              keys = [ Shift_R ] ++ XF86MonBrightnessUp;
-              events = [ "key" "rep" ];
-              command = "light -rA 1";
-            }
-            {
-              keys = [ Shift_L ] ++ XF86MonBrightnessDown;
-              events = [ "key" "rep" ];
-              command = "light -rU 1";
-            }
-            {
-              keys = [ Shift_R ] ++ XF86MonBrightnessDown;
-              events = [ "key" "rep" ];
-              command = "light -rU 1";
-            }
             {
               keys = XF86Suspend;
               command = "systemctl suspend";
@@ -206,6 +181,38 @@ in {
                 # synclient seems to have no effect while syndaemon is running (also doesn't disable mouse keys)
                 # "${synclient} TouchpadOff=$(${synclient} | grep -c 'TouchpadOff[[:space:]]*=[[:space:]]*0')";
                 "export DISPLAY=':0' && xinput --set-prop '${touchpad}' 'Device Enabled' $(xinput --list-props '${touchpad}' | grep -c 'Device Enabled ([[:digit:]]\\+):[[:space:]].*0')";
+            }
+          ]) ++
+          (lib.optionals cfg.enableBacklightKeys [
+            {
+              keys = XF86MonBrightnessUp;
+              events = [ "key" "rep" ];
+              command = "light -A 10";
+            }
+            {
+              keys = XF86MonBrightnessDown;
+              events = [ "key" "rep" ];
+              command = "light -U 10";
+            }
+            {
+              keys = [ Shift_L ] ++ XF86MonBrightnessUp;
+              events = [ "key" "rep" ];
+              command = "light -rA 1";
+            }
+            {
+              keys = [ Shift_R ] ++ XF86MonBrightnessUp;
+              events = [ "key" "rep" ];
+              command = "light -rA 1";
+            }
+            {
+              keys = [ Shift_L ] ++ XF86MonBrightnessDown;
+              events = [ "key" "rep" ];
+              command = "light -rU 1";
+            }
+            {
+              keys = [ Shift_R ] ++ XF86MonBrightnessDown;
+              events = [ "key" "rep" ];
+              command = "light -rU 1";
             }
           ]);
         };
