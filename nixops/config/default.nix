@@ -4,6 +4,7 @@
     ./nginx.nix
     ./ssmtp.nix
     ./nextcloud.nix
+    ./roundcube.nix
     ./minecraft-server.nix
     ./hydra.nix
     ./syncthing.nix

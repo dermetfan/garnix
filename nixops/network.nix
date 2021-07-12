@@ -74,6 +74,7 @@
         # hydra.enable = true;
         minecraft-server.enable = true;
         nextcloud.enable = true;
+        roundcube.enable = true;
         ssmtp.enable = true;
 
 
