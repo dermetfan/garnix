@@ -74,7 +74,10 @@
         # hydra.enable = true;
         minecraft-server.enable = true;
         nextcloud.enable = true;
-        roundcube.enable = true;
+        roundcube = {
+          enable = true;
+          enigma.pgpHomedir = "/data/roundcube/enigma";
+        };
         ssmtp.enable = true;
 
 

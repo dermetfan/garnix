@@ -1,13 +1,30 @@
 { config, lib, pkgs, ... }:
 
-{
-  services = {
+let
+  cfg = config.services.roundcube;
+in {
+  options.services.roundcube = with lib; {
+    enigma.pgpHomedir = mkOption {
+      type = types.path;
+      default = "/var/lib/roundcube/enigma";
+    };
+  };
+
+  config.services = lib.mkIf cfg.enable {
     roundcube = {
       package = pkgs.roundcube.withPlugins (plugins: with plugins; [
         persistent_login
+        carddav
       ]);
 
-      plugins = [ "persistent_login" ];
+      plugins = [
+        "persistent_login"
+        "carddav"
+        "enigma"
+        "attachment_reminder"
+        "vcard_attachments"
+        "zipdownload"
+      ];
 
       hostName = "roundcube." + config.passthru.domain;
 
@@ -23,11 +40,19 @@
         $config['draft_autosave'] = 60;
         $config['reply_mode'] = -1;
         $config['sig_separator'] = false;
+
+        $config['newmail_notifier_sound'] = true;
+        $config['newmail_notifier_desktop'] = true;
+        $config['newmail_notifier_desktop_timeout'] = 5;
+
+        $config['enigma_pgp_homedir'] = ${lib.escapeShellArg cfg.enigma.pgpHomedir};
+        $config['enigma_pgp_binary'] = ${lib.escapeShellArg "${pkgs.gnupg}/bin/gpg"};
+        $config['enigma_pgp_agent'] = ${lib.escapeShellArg "${pkgs.gnupg}/bin/gpg-agent"};
+        $config['enigma_pgp_gpgconf'] = ${lib.escapeShellArg "${pkgs.gnupg}/bin/gpgconf"};
+        $config['enigma_passwordless'] = true;
       '';
     };
 
-    nginx = lib.mkIf config.services.roundcube.enable {
-      virtualHosts.${config.services.roundcube.hostName} = config.passthru."nginx.virtualHosts.withSSL" {};
-    };
+    nginx.virtualHosts.${config.services.roundcube.hostName} = config.passthru."nginx.virtualHosts.withSSL" {};
   };
 }
