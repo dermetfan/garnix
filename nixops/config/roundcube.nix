@@ -50,6 +50,8 @@ in {
         $config['enigma_pgp_agent'] = ${lib.escapeShellArg "${pkgs.gnupg}/bin/gpg-agent"};
         $config['enigma_pgp_gpgconf'] = ${lib.escapeShellArg "${pkgs.gnupg}/bin/gpgconf"};
         $config['enigma_passwordless'] = true;
+
+        $config['keyservers'] = ['keys.openpgp.org', 'pgp.mit.edu', 'pgp.key-server.io'];
       '';
     };
 
