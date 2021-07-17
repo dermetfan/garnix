@@ -8,6 +8,39 @@ in {
       type = types.path;
       default = "/var/lib/roundcube/enigma";
     };
+
+    config = mkOption {
+      type = types.attrs;
+      default = {
+        default_host = {
+          "ssl://imap.gmail.com:993" = "Gmail";
+          "ssl://imap.inf.h-brs.de:993" = "H-BRS FB Informatik";
+        };
+
+        smtp_server = {
+          "imap.gmail.com" = "ssl://smtp.%z:465";
+          "imap.inf.h-brs.de" = "tls://smtp.%z:587";
+        };
+        smtp_user = "%u";
+        smtp_pass = "%p";
+
+        draft_autosave = 60;
+        reply_mode = -1;
+        sig_separator = false;
+
+        newmail_notifier_sound = true;
+        newmail_notifier_desktop = true;
+        newmail_notifier_desktop_timeout = 5;
+
+        enigma_pgp_homedir = cfg.enigma.pgpHomedir;
+        enigma_pgp_binary = pkgs.gnupg + "/bin/gpg";
+        enigma_pgp_agent = pkgs.gnupg + "/bin/gpg-agent";
+        enigma_pgp_gpgconf = pkgs.gnupg + "/bin/gpgconf";
+        enigma_passwordless = true;
+
+        keyservers = ["keys.openpgp.org" "pgp.mit.edu" "pgp.key-server.io"];
+      };
+    };
   };
 
   config.services = lib.mkIf cfg.enable {
@@ -28,31 +61,7 @@ in {
 
       hostName = "roundcube." + config.passthru.domain;
 
-      extraConfig = ''
-        $config['default_host'] = [
-          'ssl://imap.gmail.com:993' => 'Gmail',
-        ];
-
-        $config['smtp_server'] = 'ssl://smtp.%z:465';
-        $config['smtp_user'] = '%u';
-        $config['smtp_pass'] = '%p';
-
-        $config['draft_autosave'] = 60;
-        $config['reply_mode'] = -1;
-        $config['sig_separator'] = false;
-
-        $config['newmail_notifier_sound'] = true;
-        $config['newmail_notifier_desktop'] = true;
-        $config['newmail_notifier_desktop_timeout'] = 5;
-
-        $config['enigma_pgp_homedir'] = ${lib.escapeShellArg cfg.enigma.pgpHomedir};
-        $config['enigma_pgp_binary'] = ${lib.escapeShellArg "${pkgs.gnupg}/bin/gpg"};
-        $config['enigma_pgp_agent'] = ${lib.escapeShellArg "${pkgs.gnupg}/bin/gpg-agent"};
-        $config['enigma_pgp_gpgconf'] = ${lib.escapeShellArg "${pkgs.gnupg}/bin/gpgconf"};
-        $config['enigma_passwordless'] = true;
-
-        $config['keyservers'] = ['keys.openpgp.org', 'pgp.mit.edu', 'pgp.key-server.io'];
-      '';
+      extraConfig = config.passthru.lib.generators.toPHP { variable = "config"; } cfg.config;
     };
 
     nginx.virtualHosts.${config.services.roundcube.hostName} = config.passthru."nginx.virtualHosts.withSSL" {};
