@@ -42,13 +42,13 @@ in {
       gpg-agent.enable = true;
 
       blueman-applet        .enable = config.profiles.gui.enable && sysCfg.hardware.bluetooth.enable or true;
-      network-manager-applet.enable = config.profiles.gui.enable;
       rsibreak              .enable = config.profiles.gui.enable;
 
-      parcellite  .enable = config.xsession.enable;
-      flameshot   .enable = config.xsession.enable;
-      dunst       .enable = config.xsession.enable;
-      xscreensaver.enable = config.xsession.enable;
+      parcellite            .enable = config.xsession.enable;
+      flameshot             .enable = config.xsession.enable;
+      dunst                 .enable = config.xsession.enable;
+      xscreensaver          .enable = config.xsession.enable;
+      network-manager-applet.enable = config.xsession.enable;
 
       redshift = {
         enable = config.xsession.enable;
