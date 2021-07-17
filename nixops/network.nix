@@ -76,7 +76,7 @@
         nextcloud.enable = true;
         roundcube = {
           enable = true;
-          enigma.pgpHomedir = "/data/roundcube/enigma";
+          config.enigma_pgp_homedir = "/data/roundcube/enigma";
         };
         ssmtp.enable = true;
 
