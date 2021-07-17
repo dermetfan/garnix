@@ -35,6 +35,8 @@ in {
           );
         in !sysZshCfg.enable || !sysZshCfg.enableCompletion;
 
+        history.share = false;
+
         shellAliases = {
           ls = "exa --group-directories-first";
           l  = "exa -lga --group-directories-first";
@@ -49,8 +51,11 @@ in {
           pv = "pv -pea";
         };
 
+        autocd = true;
+
+        sessionVariables.WORDCHARS = "";
+
         initExtra = ''
-          setopt AUTO_CD
           setopt AUTO_PUSHD
           setopt AUTO_MENU
           setopt COMPLETE_ALIASES
@@ -84,10 +89,6 @@ in {
 
           bindkey '^[[1;5C' forward-word                          # [Ctrl-RightArrow] - move forward one word
           bindkey '^[[1;5D' backward-word                         # [Ctrl-LeftArrow] - move backward one word
-
-          if [[ "''${terminfo[kcbt]}" != "" ]]; then
-            bindkey "''${terminfo[kcbt]}" reverse-menu-complete   # [Shift-Tab] - move through the completion menu backwards
-          fi
           ##################################################################################################################
 
           typeset -U PATH path
