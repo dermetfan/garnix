@@ -22,7 +22,10 @@
     };
 
     config = {
-      networking.hostName = lib.mkOverride 899 "dmf-${config.node.name}";
+      networking = {
+        hostName = lib.mkOverride 899 "dmf-${config.node.name}";
+        useDHCP = false;
+      };
 
       services = {
         ddclient.enable = true;
