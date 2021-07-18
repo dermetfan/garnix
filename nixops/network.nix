@@ -80,8 +80,6 @@
         };
         ssmtp.enable = true;
 
-
-        nginx.virtualHosts."asb.siegstrolche.de".locations."/".proxyPass = "http://127.0.0.1:8080";
       };
     };
   };
