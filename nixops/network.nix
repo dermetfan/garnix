@@ -74,7 +74,7 @@
 
       services = {
         syncthing.enable = true;
-        # hydra.enable = true;
+        hydra.enable = true;
         minecraft-server.enable = true;
         nextcloud.enable = true;
         roundcube = {
