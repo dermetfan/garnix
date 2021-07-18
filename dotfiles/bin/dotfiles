@@ -1,0 +1,93 @@
+#! /usr/bin/env nix-shell
+#! nix-shell -i bash -p bash coreutils less diffutils
+
+set -euo pipefail
+IFS=$'\n\t'
+
+PAGER=${PAGER:-less}
+
+ask() {
+  printf "$1 [y/N] "
+  read
+  return `[ "$REPLY" = y ] || [ "$REPLY" = Y ]`
+}
+
+files=${1:-}
+if [ ! -e "$files" ]; then
+  # resolve default file list
+  if [ -L "$0" ]; then
+    files="`readlink \"$0\"`"
+  else
+    files="$0"
+  fi
+  files="`dirname \"$files\"`/../.dotfiles"
+  files="`realpath \"$files\"`"
+fi
+src="`dirname \"$files\"`"
+src="`realpath \"$src\"`"
+
+process() {
+  local cmd="`echo \"$1\" | cut -d ' ' -f 1`"
+  local file="`echo \"$1\" | cut -d ' ' -f 2`"
+
+  printf "$src/$file"
+  printf >&2 "... "
+
+  local skip=false
+  local ok=false
+  if [ ! -e "$file" ] && [ ! -L "$file" ]; then
+    local ok=true
+  else
+    if [ "$cmd" = "ln" ] && [ `realpath "$file"` = `realpath "$src/$file"` ]; then
+      local skip=true
+      local ok=true
+    else
+      echo >&2 "File exists"
+      ls >&2 -lah "$file"
+
+      printf >&2 "View/Diff? [v/d] "
+      read
+      if [ "$REPLY" = v ]; then
+        eval $PAGER >&2 "$file" || true
+      elif [ "$REPLY" = d ]; then
+        diff -r --suppress-common-lines "$file" "$src/$file" | eval $PAGER || true
+      fi
+
+      if ask >&2 "Overwrite?"; then
+        rm -rf "$file"
+      else
+        local skip=true
+      fi
+    fi
+  fi
+
+  if [ "$skip" = false ]; then
+    case "$cmd" in
+      ln)
+        local c="ln -s"
+        ;;
+      cp)
+        local c="cp -r" # -P?
+        ;;
+      *)
+        echo >&2 "Unknown directive: $cmd"
+        exit 1
+    esac
+    mkdir -p "`dirname \"$file\"`" && eval $c "$src/$file" "$file"
+  fi
+
+  if [ "$ok" = true ]; then
+    printf >&2 "OK"
+    echo
+  fi
+}
+
+if [ "${1:-}" = "--help" ] || [ "${1:-}" = "-h" ]; then
+  echo "Usage: `basename $0` [filelist]"
+  echo "The default filelist is $files."
+  exit 0
+fi
+
+cd ~ && while read -u 10 file; do
+  process "$file"
+done 10< "$files"
