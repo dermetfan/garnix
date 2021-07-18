@@ -25,6 +25,7 @@ in {
     home.packages = with pkgs;
       [ ripgrep
         ack
+        grex
         nox
         nixos-shell
         pijul
