@@ -1,6 +1,6 @@
 { config, lib, ... }:
 
-{
+lib.mkIf config.services.nginx.enable {
   services.nginx = {
     recommendedOptimisation  = true;
     recommendedProxySettings = true;
@@ -8,19 +8,18 @@
     recommendedGzipSettings  = true;
   };
 
-  networking.firewall.allowedTCPPorts = lib.optionals config.services.nginx.enable [ 80 443 ];
+  networking.firewall.allowedTCPPorts = [ 80 443 ];
 
-  deployment.keys."host.key" = lib.mkIf config.services.nginx.enable {
-    keyFile = ../../keys/host.key;
-    user  = config.users.users.nginx.name; # FIXME use "acme" user
-    group = config.users.users.nginx.group;
+  passthru."nginx.virtualHosts.withSSL" = x: x // {
+    enableACME = true;
+    sslCertificate = ../../keys/host.crt;
+    sslCertificateKey = "/run/keys/host.key";
+    # run `systemctl restart acme-fixperms.service` if permissions in /var/lib/acme cause troubles
   };
 
-  # XXX may be removed in the future
-  # see https://github.com/NixOS/nixpkgs/issues/101445
-  # see https://github.com/NixOS/nixpkgs/pull/100356
-  # see https://github.com/NixOS/nixpkgs/pull/101726
-  users.users.nginx = lib.mkIf config.services.nginx.enable {
-    extraGroups = [ "acme" ];
+  deployment.keys."host.key" = {
+    keyFile = ../../keys/host.key;
+    user = config.users.users.acme.name;
+    group = config.users.users.nginx.group;
   };
 }

@@ -17,12 +17,6 @@
   passthru = {
     domain = "dermetfan.net";
 
-    "nginx.virtualHosts.withSSL" = x: x // {
-      enableACME = true;
-      sslCertificate = ../../keys/host.crt;
-      sslCertificateKey = "/run/keys/host.key";
-    };
-
     # XXX rewrite with lib.generators.toKeyValue?
     # XXX is escapeShellArg really ok for PHP strings?
     lib.generators.toPHP = {
