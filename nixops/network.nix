@@ -82,7 +82,6 @@
           config.enigma_pgp_homedir = "/data/roundcube/enigma";
         };
         ssmtp.enable = true;
-
       };
     };
   };
