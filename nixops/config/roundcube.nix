@@ -98,7 +98,12 @@ in {
         (pkgs.roundcubePlugins.roundcubePlugin {
           pname = "multi_smtp";
           version = "0.0.0";
-          src = roundcube/multi_smtp;
+          src = pkgs.fetchgit {
+            # if Gist goes down recover source from commit d88c10634015
+            url = https://gist.github.com/kimbtech/b6b08f1778420766ee1a2d24117d4871;
+            rev = "7453877ddc3fbe6529d14d9a246285702abd9ca8";
+            sha256 = "1q3dcqagyyvrskkw2bh5dl2kx643jzw5n67c7gs7mylq18wfh4sj";
+          };
         })
       ]);
 
