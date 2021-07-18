@@ -1,2 +1,2 @@
-.config/nixpkgs/home/profiles/local.nix
-.config/nixpkgs/overlays/nixpkgs-mozilla
+dotfiles/.config/nixpkgs/home/profiles/local.nix
+dotfiles/.config/nixpkgs/overlays/nixpkgs-mozilla
