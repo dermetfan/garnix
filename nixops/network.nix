@@ -102,15 +102,5 @@
       allowedTCPPorts = lib.optionals config.services.samba.enable [ 139 445 ];
       allowedUDPPorts = lib.optionals config.services.samba.enable [ 137 138 ];
     };
-
-    services.samba = {
-      enable = true;
-      shares.roman = {
-        path = config.users.users.roman.home;
-        browseable = "yes";
-        "guest ok" = "yes";
-        comment = "Roman's Dateien";
-      };
-    };
   };
 }
