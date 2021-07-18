@@ -35,7 +35,7 @@ in {
       wakelan
       wget
       gotty
-      ytop
+      bottom
     ] ++ lib.optionals config.profiles.gui.enable [
       tigervnc
     ] ++ lib.optionals stdenv.isLinux [
