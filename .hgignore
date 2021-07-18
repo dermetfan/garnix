@@ -1,4 +1,3 @@
 keys
 
 dotfiles/.config/nixpkgs/home/profiles/local.nix
-dotfiles/.config/nixpkgs/overlays/nixpkgs-mozilla
