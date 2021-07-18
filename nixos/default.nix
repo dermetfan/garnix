@@ -10,6 +10,7 @@
     ./1.1.1.1.nix
     ./steam-controller.nix
     ./swaylock.nix
+    ./yubikey.nix
 
     profiles/gui.nix
     profiles/netbook.nix
