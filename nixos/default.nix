@@ -15,6 +15,8 @@
     profiles/netbook.nix
     profiles/notebook.nix
     profiles/machines/MSI_PE60-6QE.nix
+
+    <home-manager/nixos>
   ];
 
   config = {
@@ -30,6 +32,19 @@
         "root"
         "@${config.users.groups.wheel.name}"
       ];
+    };
+
+    nixpkgs = {
+      config = import ../dotfiles/.config/nixpkgs/config.nix;
+      overlays =
+        let overlays = ../dotfiles/.config/nixpkgs/overlays;
+        in lib.mapAttrsToList
+          (k: v: import "${overlays}/${k}")
+          (lib.filterAttrs
+            (k: v: (v == "directory" && builtins.pathExists "${overlays}/${k}/default.nix") || lib.strings.hasSuffix ".nix" k)
+            (builtins.readDir overlays)
+          )
+      ;
     };
 
     boot = {
@@ -160,6 +175,15 @@
             optional config.programs.adb                  .enable "adbusers";
         };
       };
+    };
+
+    home-manager = {
+      useUserPackages = true;
+      useGlobalPkgs = true;
+      users.dermetfan = lib.mkMerge [
+        (import ../dotfiles/.config/nixpkgs/home.nix)
+        { nixos.enable = true; }
+      ];
     };
   };
 }

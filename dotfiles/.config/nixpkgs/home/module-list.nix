@@ -1,5 +1,4 @@
 [
-  profiles/nixos.nix
   profiles/desktop.nix
   profiles/media.nix
   profiles/dev.nix
@@ -8,6 +7,7 @@
   profiles/game.nix
   profiles/gui.nix
 
+  misc/nixos.nix
   misc/gtk.nix
   misc/pulseaudio-oneshot.nix
   misc/norman.nix
