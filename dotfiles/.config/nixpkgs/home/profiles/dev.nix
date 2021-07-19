@@ -33,6 +33,7 @@ in {
         dos2unix
         tokei
         hyperfine
+        entr
       ] ++
       lib.optionals stdenv.isLinux [
         loc

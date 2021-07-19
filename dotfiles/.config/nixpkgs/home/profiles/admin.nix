@@ -16,6 +16,7 @@ in {
       file
       fzy
       du-dust
+      entr
       gptfdisk
       lrzip
       lsof
