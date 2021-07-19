@@ -746,6 +746,26 @@ in {
           };
         })
         (pkgs.kakouneUtils.buildKakounePluginFrom2Nix rec {
+          pname = "fetch";
+          version = src.rev;
+          src = pkgs.fetchFromGitHub {
+            owner = "mmlb";
+            repo = "kak-fetch";
+            rev = "3e404480caa13bfc9ef7064be45e4d1ec43232a1";
+            sha256 = "1dqpllrrx2i4g1rwvx1434zmfx2fn0cv5wq750myf1p9p61rc0bm";
+          };
+        })
+        (pkgs.kakouneUtils.buildKakounePluginFrom2Nix rec {
+          pname = "casing";
+          version = src.rev;
+          src = pkgs.fetchFromGitHub {
+            owner = "Parasrah";
+            repo = "casing.kak";
+            rev = "bd579f04bbd17c3d8612ad0505a6641a78e239df";
+            sha256 = "13k1cx94ix7z9ny092fyplr6r2bqf5d5r1vr1iqvr9zp3c6v9hda";
+          };
+        })
+        (pkgs.kakouneUtils.buildKakounePluginFrom2Nix rec {
           pname = "smart-quotes";
           version = src.rev;
           src = pkgs.fetchFromGitHub {
