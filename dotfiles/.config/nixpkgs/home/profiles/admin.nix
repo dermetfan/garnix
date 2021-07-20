@@ -51,6 +51,7 @@ in {
       psmisc
       progress
       sshfsFuse
+      tty-share
     ] ++ lib.optionals (config.profiles.gui.enable && stdenv.isLinux) [
       glxinfo
       gpa
