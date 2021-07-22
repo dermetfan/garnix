@@ -992,7 +992,6 @@ in {
 
     home.packages = with pkgs; [
       powerline-fonts
-      ripgrep # fzf
       shellcheck
       perl socat # gdb
 
@@ -1003,6 +1002,9 @@ in {
       phpPackages.psalm
     ];
 
-    programs.bat.enable = true;
+    programs = {
+      bat.enable = true;
+      ripgrep.enable = true; # fzf
+    };
   };
 }

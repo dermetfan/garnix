@@ -41,6 +41,7 @@
   programs/networkmanager-dmenu.nix
   programs/nitrogen.nix
   programs/ranger.nix
+  programs/ripgrep.nix
   programs/rofi.nix
   programs/st.nix
   programs/starship.nix

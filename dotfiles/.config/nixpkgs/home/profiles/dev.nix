@@ -16,6 +16,7 @@ in {
       mercurial.enable = true;
       git.enable = true;
       jq.enable = true;
+      ripgrep.enable = true;
 
       geany.enable = config.profiles.gui.enable;
 
@@ -23,8 +24,7 @@ in {
     };
 
     home.packages = with pkgs;
-      [ ripgrep
-        ack
+      [ ack
         grex
         nox
         nixos-shell
