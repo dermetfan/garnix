@@ -60,6 +60,7 @@ in {
     ];
 
     programs = {
+      bat.enable = true;
       jq.enable = true;
       nix-index.enable = true;
     };
