@@ -21,7 +21,8 @@ in {
       keyMode = "vi";
       terminal = "tmux-256color";
       extraConfig = ''
-        set-option -ga terminal-overrides ',xterm-256color:Tc'
+        set-option -ga terminal-features ',*alacritty*:256'
+        set-option -ga terminal-features ',*alacritty*:RGB'
         set-option -g status-keys emacs
         set-option -g focus-events on
         set-option -g display-time 4000
