@@ -11,7 +11,7 @@ in {
   };
 
   config.programs.bat = lib.mkIf cfg.enable {
-    config.theme = "Monokai Extended Origin";
+    config.theme = "gruvbox-dark";
   };
 }
 
