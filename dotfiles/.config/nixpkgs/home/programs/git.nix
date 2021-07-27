@@ -11,7 +11,10 @@ in {
   };
 
   config.programs.git = lib.mkIf cfg.enable {
-    delta.enable = true;
+    delta = {
+      enable = true;
+      options.syntax-theme = "gruvbox-dark";
+    };
 
     userName = "Robin Stumm";
     userEmail = "serverkorken@gmail.com";
@@ -27,7 +30,6 @@ in {
     extraConfig = {
       status.submoduleSummary = true;
       diff.submodule = "log";
-      delta.features = "gruvbox-dark";
     };
   };
 }
