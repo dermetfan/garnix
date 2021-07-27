@@ -23,7 +23,7 @@ in {
       sessionVariables = {
         TERMINAL = "alacritty";
         EDITOR = "kak";
-        PAGER = "less";
+        PAGER = "bat";
       };
     };
 
@@ -32,6 +32,7 @@ in {
     programs = {
       home-manager.enable = true;
 
+      bat.enable = true;
       ranger.enable = true;
       broot.enable = true;
       htop.enable = true;
