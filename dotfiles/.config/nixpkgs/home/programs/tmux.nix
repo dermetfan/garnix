@@ -17,9 +17,11 @@ in {
       sensibleOnTop = false;
       clock24 = true;
       escapeTime = 0;
+      prefix = "M-e";
+      keyMode = "vi";
+      terminal = "tmux-256color";
       extraConfig = ''
         set-option -ga terminal-overrides ',xterm-256color:Tc'
-        set-option -g default-terminal tmux-256color
         set-option -g status-keys emacs
         set-option -g focus-events on
         set-option -g display-time 4000
@@ -42,6 +44,7 @@ in {
       '';
 
       tmuxp.enable = true;
+
       plugins = with pkgs.tmuxPlugins; [
         {
           plugin = resurrect;
@@ -52,9 +55,11 @@ in {
           '';
         }
         { plugin = copycat; }
-        { plugin = sidebar; }
         { plugin = yank; }
+        { plugin = jump; }
+        { plugin = sidebar; }
         { plugin = gruvbox; }
+        { plugin = sessionist; }
       ];
     };
   };
