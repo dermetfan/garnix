@@ -558,6 +558,13 @@ in {
         ];
         hooks = [
           {
+            name = "WinCreate";
+            option = "^[^*]+$";
+            commands = ''
+              editorconfig-load
+            '';
+          }
+          {
             name = "ModuleLoaded";
             option = "nix";
             commands = ''
@@ -991,6 +998,9 @@ in {
     };
 
     home.packages = with pkgs; [
+      editorconfig-core-c
+      editorconfig-checker
+
       powerline-fonts
       shellcheck
       perl socat # gdb
