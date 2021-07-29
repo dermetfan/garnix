@@ -52,6 +52,7 @@ in {
       progress
       sshfsFuse
       tty-share
+      upterm
     ] ++ lib.optionals (config.profiles.gui.enable && stdenv.isLinux) [
       glxinfo
       gpa

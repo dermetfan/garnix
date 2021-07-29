@@ -38,6 +38,7 @@ in {
       lib.optionals stdenv.isLinux [
         loc
         tty-share
+        upterm
       ] ++
       lib.optionals config.profiles.gui.enable [
         aqemu
