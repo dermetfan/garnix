@@ -37,6 +37,7 @@ in {
       wget
       gotty
       bottom
+      ijq
     ] ++ lib.optionals config.profiles.gui.enable [
       tigervnc
     ] ++ lib.optionals stdenv.isLinux [

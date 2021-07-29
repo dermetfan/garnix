@@ -34,6 +34,7 @@ in {
         tokei
         hyperfine
         entr
+        ijq
       ] ++
       lib.optionals stdenv.isLinux [
         loc
