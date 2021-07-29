@@ -16,6 +16,7 @@ in {
     programs.tmux = {
       sensibleOnTop = false;
       clock24 = true;
+      baseIndex = 1;
       escapeTime = 0;
       prefix = "M-e";
       keyMode = "vi";
