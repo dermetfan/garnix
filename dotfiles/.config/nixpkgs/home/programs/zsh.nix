@@ -17,6 +17,7 @@ in {
 
     programs = {
       exa.enable = true;
+      zoxide.enable = true;
 
       zsh = {
         enableCompletion = let
@@ -92,6 +93,8 @@ in {
           ##################################################################################################################
 
           typeset -U PATH path
+
+          eval "$(zoxide init zsh)"
 
           function sudof {
               sudo zsh -c "`declare -f $1`; `echo $@`"
@@ -230,17 +233,6 @@ in {
               repo = "zsh-bd";
               rev = "6853a136fc13ea9aa6af09c147b5a2a66d4aa620";
               sha256 = "1avra5cx8nxcqddwfj097ld0na9kwlq3z3akzqbzs4cd86wx7bzv";
-            };
-          }
-          {
-            name = "zed-zsh";
-            file = "zed.zsh";
-            src = pkgs.fetchFromGitHub {
-              owner = "eendroroy";
-              repo = "zed-zsh";
-              rev = "17560e8d342947ec9dbed65b4befb12c9c5d5366";
-              sha256 = "14la3j4bip23lxhla4yhn9j9g98zzi9yhncqg2l3963sdci8hl0n";
-              fetchSubmodules = true;
             };
           }
         ] ++ (if altKeyAvailable then [
