@@ -22,7 +22,6 @@
   services/rsibreak.nix
 
   programs/alacritty.nix
-  programs/antigen.nix
   programs/bat.nix
   programs/cargo.nix
   programs/elvish.nix
