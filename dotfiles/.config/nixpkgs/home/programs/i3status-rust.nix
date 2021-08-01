@@ -4,7 +4,6 @@ let
   cfg = config.config.programs.i3status-rust;
   sysCfg = config.passthru.systemConfig or null;
 in {
-  options       .programs.i3status-rust.enable = lib.mkEnableOption "i3status-rust";
   options.config.programs.i3status-rust = with lib; {
     enable = mkOption {
       type = types.bool;
@@ -29,14 +28,13 @@ in {
   };
 
   config = lib.mkMerge [
-    { home.packages = lib.optional config.programs.i3status-rust.enable pkgs.i3status-rust; }
-
     (lib.mkIf cfg.enable {
       home.packages = with pkgs; [
         font-awesome_5
         lm_sensors
       ];
 
+      # TODO use home-manager's i3status-rust options instead
       xdg.configFile."i3/status.toml".text = let
         eco = builtins.trace
           ''
