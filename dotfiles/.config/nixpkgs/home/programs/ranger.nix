@@ -28,6 +28,8 @@ in {
         dragon-drop
       ];
 
+      programs.zoxide.enable = true;
+
       xdg.configFile = let
         env = name: if config.home.sessionVariables ? ${name}
           then config.home.sessionVariables.${name}
@@ -329,6 +331,13 @@ in {
           w:/data/${config.home.username}/projects/development
           d:/data/${config.home.username}
         '';
+
+        "ranger/plugins/zoxide".source = pkgs.fetchFromGitHub {
+          owner = "jchook";
+          repo = "ranger-zoxide";
+          rev = "b03a5f18939d4bde3a346b221b478410cfb87096";
+          sha256 = "0dddaqm3ipz4cw0m7ynnmkrcxfnnvdsm3c7l7711wmqnkmbjxvrr";
+        };
       };
     })
   ];
