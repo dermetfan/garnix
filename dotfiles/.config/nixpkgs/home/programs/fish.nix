@@ -37,6 +37,8 @@ in {
         '';
 
         interactiveShellInit = ''
+          set fish_greeting
+
           theme_gruvbox dark hard
         '';
 
