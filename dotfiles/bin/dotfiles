@@ -38,7 +38,7 @@ process() {
   if [ ! -e "$file" ] && [ ! -L "$file" ]; then
     local ok=true
   else
-    if [ "$cmd" = "ln" ] && [ `realpath "$file"` = `realpath "$src/$file"` ]; then
+    if [ "$cmd" = "ln" ] && [ "`realpath "$file"`" = "`realpath "$src/$file"`" ]; then
       local skip=true
       local ok=true
     else
