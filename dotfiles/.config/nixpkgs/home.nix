@@ -40,6 +40,7 @@ in {
       nano.enable = true;
       tmux.enable = true;
       zsh.enable = true;
+      fish.enable = true;
       elvish.enable = true;
 
       browserpass = {

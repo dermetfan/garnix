@@ -25,6 +25,7 @@
   programs/bat.nix
   programs/cargo.nix
   programs/elvish.nix
+  programs/fish.nix
   programs/firefox.nix
   programs/geany.nix
   programs/git.nix
