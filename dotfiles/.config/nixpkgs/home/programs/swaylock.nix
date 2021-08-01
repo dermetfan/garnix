@@ -29,8 +29,11 @@ in {
         screenshots
         clock
         indicator
+        indicator-caps-lock
+        show-keyboard-layout
         effect-blur=7x5
-        effect-grayscale
+        fade-in=0.2
+        datestr=%a, %Y-%m-%d
       '';
     };
   };
