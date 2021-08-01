@@ -49,7 +49,6 @@
   programs/timewarrior.nix
   programs/tmux.nix
   programs/volumeicon.nix
-  programs/xfe.nix
   programs/xpdf.nix
   programs/zsh.nix
 ] ++ (if builtins.pathExists profiles/local.nix then [
