@@ -23,6 +23,8 @@ in {
   config = lib.mkIf cfg.enable {
     home.packages = lib.optional config.programs.elvish.enable pkgs.elvish;
 
+    programs.zoxide.enable = true;
+
     home.file.".elvish/rc.elv".text = ''
       use readline-binding
 
@@ -30,6 +32,8 @@ in {
       edit:rprompt = (constantly (styled (whoami)@(hostname) green inverse))
 
       # edit:-matcher['''] = [p]{ edit:match-prefix &smart-case $p }
+
+      eval (zoxide init elvish | slurp)
     '';
   };
 }
