@@ -74,7 +74,7 @@ in {
 
           set -U tide_print_newline_before_prompt false
 
-          set -U tide_left_prompt_items context git status newline prompt_char
+          set -U tide_left_prompt_items context git status prompt_char
           set -U tide_left_prompt_item_separator_diff_color ''
           set -U tide_left_prompt_item_separator_same_color ''
           set -U tide_left_prompt_item_separator_same_color_color 949494
