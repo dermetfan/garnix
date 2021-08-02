@@ -92,8 +92,6 @@ in {
           set -U tide_prompt_char_vi_insert_icon '❯'
           set -U tide_prompt_char_vi_replace_icon '▶'
           set -U tide_prompt_char_vi_visual_icon V
-          set -U tide_prompt_connection_color 6C6C6C
-          set -U tide_prompt_connection_icon 
           set -U tide_pwd_bg_color normal
           set -U tide_pwd_color_anchors 00AFFF
           set -U tide_pwd_color_dirs 0087AF
