@@ -70,18 +70,18 @@ in {
         '';
 
         promptInit = ''
-          # see https://github.com/IlanCosman/tide/blob/main/functions/tide/configure/configs/classic.fish
+          # see https://github.com/IlanCosman/tide/blob/main/functions/tide/configure/configs/lean.fish
 
           set -U tide_print_newline_before_prompt false
 
           set -U tide_left_prompt_items context git status prompt_char
-          set -U tide_left_prompt_item_separator_diff_color ''
-          set -U tide_left_prompt_item_separator_same_color ''
+          set -U tide_left_prompt_item_separator_diff_color ' '
+          set -U tide_left_prompt_item_separator_same_color ' '
           set -U tide_left_prompt_item_separator_same_color_color 949494
 
           set -U tide_right_prompt_items jobs pwd
-          set -U tide_right_prompt_item_separator_diff_color ''
-          set -U tide_right_prompt_item_separator_same_color ''
+          set -U tide_right_prompt_item_separator_diff_color ' '
+          set -U tide_right_prompt_item_separator_same_color ' '
           set -U tide_right_prompt_item_separator_same_color_color 949494
 
           set -U tide_prompt_char_bg_color normal
