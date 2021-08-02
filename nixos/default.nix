@@ -158,7 +158,7 @@
 
     users = {
       mutableUsers = false;
-      defaultUserShell = pkgs.zsh;
+      defaultUserShell = pkgs.fish;
 
       users = {
         root.hashedPassword = "$6$9876543210987654$TOIH9KzZb/Tfa/0F2mobm4Hl2vwh5bFp8As6VFCaqSIu5KoqgdpESOmuMI04J8DUPGdvEjDMkWi9Lxqhu5gZ50";
