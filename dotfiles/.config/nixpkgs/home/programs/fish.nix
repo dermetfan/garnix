@@ -32,8 +32,12 @@ in {
           pv = "pv -pea";
         };
 
+        functions._tide_item_any_nix_shell = ''
+          nix-shell-info
+        '';
+
         shellInit = ''
-          any-nix-shell fish --info-right | source
+          any-nix-shell fish | source
         '';
 
         interactiveShellInit = ''
@@ -79,10 +83,12 @@ in {
           set -U tide_left_prompt_item_separator_same_color ' '
           set -U tide_left_prompt_item_separator_same_color_color 949494
 
-          set -U tide_right_prompt_items jobs pwd
+          set -U tide_right_prompt_items jobs any_nix_shell pwd
           set -U tide_right_prompt_item_separator_diff_color ' '
           set -U tide_right_prompt_item_separator_same_color ' '
           set -U tide_right_prompt_item_separator_same_color_color 949494
+
+          set -U tide_any_nix_shell_bg_color normal
 
           set -U tide_prompt_char_bg_color normal
           set -U tide_prompt_char_failure_color FF0000
