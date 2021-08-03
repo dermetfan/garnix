@@ -65,6 +65,7 @@ in {
       bat.enable = true;
       jq.enable = true;
       nix-index.enable = true;
+      ripgrep.enable = true;
     };
   };
 }
