@@ -33,7 +33,8 @@ in {
         };
 
         functions._tide_item_any_nix_shell = ''
-          nix-shell-info
+          set_color --bold green
+          echo \ (nix-shell-info)
         '';
 
         shellInit = ''
