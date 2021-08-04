@@ -24,6 +24,7 @@ in {
         TERMINAL = "alacritty";
         EDITOR = "kak";
         PAGER = "less";
+        LESS = "-RiW -#.05 -n4 -z-3";
       };
     };
 
