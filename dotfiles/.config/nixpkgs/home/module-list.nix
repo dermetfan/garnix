@@ -7,6 +7,7 @@
   profiles/game.nix
   profiles/gui.nix
 
+  misc/fonts.nix
   misc/nixos.nix
   misc/gtk.nix
   misc/pulseaudio-oneshot.nix

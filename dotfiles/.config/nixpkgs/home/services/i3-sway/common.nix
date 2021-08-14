@@ -41,11 +41,8 @@ in {
       ];
 
       bars = [ {
+        fonts = cfg.config.fonts;
         mode = "hide";
-        fonts = {
-          names = [ "monospace" ];
-          size = 11.0;
-        };
         workspaceNumbers = false;
         statusCommand = "i3status-rs ${config.config.programs.i3status-rust.configFile}";
         trayOutput = "*";
