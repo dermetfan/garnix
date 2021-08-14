@@ -19,7 +19,6 @@ in {
     programs = {
       exa.enable = true;
       zoxide.enable = true;
-      jq.enable = true; # dependency of the done plugin on sway
 
       fish = {
         shellAliases = {
@@ -43,8 +42,6 @@ in {
 
         interactiveShellInit = ''
           set fish_greeting
-
-          theme_gruvbox dark hard
 
           # ayu Dark
           set -U fish_color_normal B3B1AD
@@ -145,15 +142,6 @@ in {
 
         plugins = [
           {
-            name = "gruvbox";
-            src = pkgs.fetchFromGitHub {
-              owner = "Jomik";
-              repo = "fish-gruvbox";
-              rev = "d8c0463518fb95bed8818a1e7fe5da20cffe6fbd";
-              sha256 = "0hkps4ddz99r7m52lwyzidbalrwvi7h2afpawh9yv6a226pjmck7";
-            };
-          }
-          {
             name = "tide";
             src = pkgs.fetchFromGitHub {
               owner = "IlanCosman";
@@ -181,12 +169,14 @@ in {
             };
           }
           {
-            name = "done";
+            # Alternative: https://github.com/decors/fish-colored-man
+            # Allows configuring colors but has no command like `cless` for less uses other than man.
+            name = "colored_man_pages";
             src = pkgs.fetchFromGitHub {
-              owner = "franciscolourenco";
-              repo = "done";
-              rev = "7fda8f2c3e79835d5c1e6721fa48fe5ed4ba0858";
-              sha256 = "1snysg52fr1h6n188jhqzny4sfgzcjgpa9r9qvj9smkg7zmplmsy";
+              owner = "PatrickF1";
+              repo = "colored_man_pages.fish";
+              rev = "8c4965b9be9433d12ba50c28452cab8c71c59a50";
+              sha256 = "0pxm10wlngcxf8lzlfx2w1b2z6qh2jdpm7m224q6bznl0kvw46wf";
             };
           }
         ];
