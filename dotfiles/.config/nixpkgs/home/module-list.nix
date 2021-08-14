@@ -50,6 +50,6 @@
   programs/volumeicon.nix
   programs/xpdf.nix
   programs/zsh.nix
-] ++ (if builtins.pathExists profiles/local.nix then [
+] ++ (if !builtins.pathExists profiles/local.nix then [] else [
   profiles/local.nix
-] else [])
+])
