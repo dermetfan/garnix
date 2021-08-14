@@ -25,7 +25,6 @@ in {
           ls = "exa --group-directories-first";
           l  = "exa -lga --group-directories-first";
           ll = "exa -lg --group-directories-first";
-          less = "less -R";
           diff = "diff -r --suppress-common-lines";
           watch = "watch --color";
           pv = "pv -pea";

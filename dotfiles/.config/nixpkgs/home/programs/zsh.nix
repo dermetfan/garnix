@@ -43,7 +43,6 @@ in {
           ls = "exa --group-directories-first";
           l  = "exa -lga --group-directories-first";
           ll = "exa -lg --group-directories-first";
-          less = "less -R";
           diff = "diff -r --suppress-common-lines";
           grep = "grep --color=auto";
           d = "dirs -v | head -10";
