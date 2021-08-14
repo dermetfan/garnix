@@ -44,7 +44,7 @@ in {
         fonts = cfg.config.fonts;
         mode = "hide";
         workspaceNumbers = false;
-        statusCommand = "i3status-rs ${config.config.programs.i3status-rust.configFile}";
+        statusCommand = "i3status-rs ${config.config.programs.i3status-rust.barConfigFiles.default}";
         trayOutput = "*";
       } ];
 
