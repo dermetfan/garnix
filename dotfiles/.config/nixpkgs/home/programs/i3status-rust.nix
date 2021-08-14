@@ -32,6 +32,7 @@ in {
   config = lib.mkIf cfg.enable {
     home.packages = with pkgs; [
       powerline-fonts
+      font-awesome
       lm_sensors
     ];
 
@@ -66,7 +67,7 @@ in {
           esac
         '';
     in {
-      icons = "material-nf";
+      icons = "awesome5";
       theme = "gruvbox-dark";
 
       blocks = [
