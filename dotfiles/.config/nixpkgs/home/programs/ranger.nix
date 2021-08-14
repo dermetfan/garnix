@@ -327,11 +327,6 @@ in {
           mime application/x-executable = "$1"
         '';
 
-        "ranger/bookmarks".text = ''
-          w:/data/${config.home.username}/projects/development
-          d:/data/${config.home.username}
-        '';
-
         "ranger/plugins/zoxide".source = pkgs.fetchFromGitHub {
           owner = "jchook";
           repo = "ranger-zoxide";
