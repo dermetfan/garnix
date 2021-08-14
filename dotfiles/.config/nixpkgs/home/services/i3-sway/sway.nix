@@ -91,8 +91,8 @@ in {
             "Print" = ''exec grim -g "$(slurp)" - | swappy -f - -o "${config.xdg.userDirs.pictures}/$(date --iso-8601=ns).png"'';
             "Shift+Print" = ''exec grim - | swappy -f - -o "${config.xdg.userDirs.pictures}/$(date --iso-8601=ns).png"'';
 
-            "Ctrl+Space" = lib.mkIf config.programs.mako.enable ''exec makoctl dismiss'';
-            "Ctrl+Shift+Space" = lib.mkIf config.programs.mako.enable ''exec makoctl restore'';
+            "${mod}+Grave" = lib.mkIf config.programs.mako.enable ''exec makoctl dismiss'';
+            "${mod}+Asciitilde" = lib.mkIf config.programs.mako.enable ''exec makoctl restore'';
 
             "XF86AudioRaiseVolume" = "exec ${lib.optionalString (!sysCfg.sound.mediaKeys.enable or false) "amixer -q set Master 2%+ unmute &&"} ${wobShowVolume}";
             "XF86AudioLowerVolume" = "exec ${lib.optionalString (!sysCfg.sound.mediaKeys.enable or false) "amixer -q set Master 2%- unmute &&"} ${wobShowVolume}";
@@ -137,6 +137,7 @@ in {
 
         extraConfig = ''
           seat seat0 hide_cursor 2500
+          seat seat0 hide_cursor when-typing enable
           output * background ${config.xdg.configHome}/sway/background fill
           exec wl-paste -t text -w clipman store
           exec mkfifo $SWAYSOCK.wob && tail -f $SWAYSOCK.wob | wob
