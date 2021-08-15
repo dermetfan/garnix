@@ -46,6 +46,13 @@ in {
         workspaceNumbers = false;
         statusCommand = "i3status-rs ${config.config.programs.i3status-rust.barConfigFiles.default}";
         trayOutput = "*";
+        colors.background = "00000088";
+        extraConfig = ''
+          status_padding 0
+          colors {
+            focused_background 000000CC
+          }
+        '';
       } ];
 
       modifier = "Mod4";
