@@ -149,7 +149,7 @@ in {
     }
 
     (let
-      modeGaps = "gaps: i|r (± inner), n|o (± outer), u|l (0 inner/outer), d (default), + Shift (global)";
+      modeGaps = "gaps: i|r (± inner), n|o (± outer), u|l (0 inner/outer), d (default), + Shift (global), b|B (bar)";
     in lib.mkIf enableGaps {
       gaps = {
         inner = 15;
@@ -166,7 +166,8 @@ in {
         "r" = "gaps inner current plus 5";
         "l" = "gaps outer current set 0";
         "u" = "gaps inner current set 0";
-        "d" = "gaps outer current set 0; gaps inner current set ${toString cfg.config.gaps.inner}";
+        "d" = "gaps outer current set 0; gaps inner current set ${toString cfg.config.gaps.inner}; bar bar-0 gaps 0";
+        "b" = "bar bar-0 gaps 0 ${toString cfg.config.gaps.inner} ${toString cfg.config.gaps.inner} ${toString cfg.config.gaps.inner}";
 
         "Shift+${left}"  = "gaps outer all minus 5";
         "Shift+${up}"    = "gaps inner all plus 5";
@@ -174,7 +175,8 @@ in {
         "Shift+${right}" = "gaps outer all plus 5";
         "Shift+u" = "gaps inner all set 0";
         "Shift+l" = "gaps outer all set 0";
-        "Shift+d" = "gaps outer all set 0; gaps inner all set ${toString cfg.config.gaps.inner}";
+        "Shift+d" = "gaps outer all set 0; gaps inner all set ${toString cfg.config.gaps.inner}; bar bar-0 gaps 0";
+        "Shift+b" = "bar bar-0 gaps 0";
 
         "Return" = ''mode "default"; bar hidden_state hide'';
         "Escape" = ''mode "default"; bar hidden_state hide'';
