@@ -36,9 +36,9 @@
     };
 
     nixpkgs = {
-      config = import ../dotfiles/.config/nixpkgs/config.nix;
+      config = import ../nixpkgs/config.nix;
       overlays =
-        let overlays = ../dotfiles/.config/nixpkgs/overlays;
+        let overlays = ../nixpkgs/overlays;
         in lib.mapAttrsToList
           (k: v: import "${overlays}/${k}")
           (lib.filterAttrs
