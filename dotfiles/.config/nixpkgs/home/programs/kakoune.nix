@@ -474,7 +474,7 @@ in {
 
           {
             docstring = "enter phantom selection mode";
-            mode = "normal";
+            mode = "user";
             key = "p";
             effect = ": enter-user-mode phantom<ret>";
           }
