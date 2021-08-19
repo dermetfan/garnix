@@ -442,27 +442,64 @@ in {
           }
 
           {
-            docstring = "add selections to phantom selections";
+            docstring = "surround mode";
             mode = "user";
-            key = "<a-p>";
+            key = "w";
+            effect = ": enter-user-mode surround<ret>";
+          }
+          {
+            docstring = "surround";
+            mode = "surround";
+            key = "n";
+            effect = ": surround<ret>";
+          }
+          {
+            docstring = "change surround";
+            mode = "surround";
+            key = "m";
+            effect = ": change-surround<ret>";
+          }
+          {
+            docstring = "delete surround";
+            mode = "surround";
+            key = "d";
+            effect = ": delete-surround<ret>";
+          }
+          {
+            docstring = "select surround";
+            mode = "surround";
+            key = "s";
+            effect = ": select-surround<ret>";
+          }
+
+          {
+            docstring = "enter phantom selection mode";
+            mode = "normal";
+            key = "p";
+            effect = ": enter-user-mode phantom<ret>";
+          }
+          {
+            docstring = "add selections to phantom selections";
+            mode = "phantom";
+            key = "s";
             effect = ": phantom-selection-add-selection<ret>";
           }
           {
             docstring = "clear phantom selections";
-            mode = "user";
-            key = "<a-P>";
+            mode = "phantom";
+            key = "S";
             effect = ": phantom-selection-select-all; phantom-selection-clear<ret>";
           }
           {
             docstring = "select next phantom selection";
-            mode = "user";
-            key = "p";
+            mode = "phantom";
+            key = "n";
             effect = ": phantom-selection-iterate-next<ret>";
           }
           {
             docstring = "select previous phantom selection";
-            mode = "user";
-            key = "P";
+            mode = "phantom";
+            key = "N";
             effect = ": phantom-selection-iterate-prev<ret>";
           }
 
@@ -480,10 +517,40 @@ in {
           }
 
           {
-            docstring = "close tag";
+            docstring = "tag mode";
             mode = "user";
-            key = "T";
+            key = "t";
+            effect = ": enter-user-mode tag<ret>";
+          }
+          {
+            docstring = "close tag";
+            mode = "tag";
+            key = "c";
             effect = ": close-tag<ret>";
+          }
+          {
+            docstring = "surround with tag";
+            mode = "tag";
+            key = "n";
+            effect = ": surround-with-tag<ret>";
+          }
+          {
+            docstring = "change tag";
+            mode = "tag";
+            key = "m";
+            effect = ": change-surrounding-tag<ret>";
+          }
+          {
+            docstring = "delete tag";
+            mode = "tag";
+            key = "d";
+            effect = ": delete-surrounding-tag<ret>";
+          }
+          {
+            docstring = "select tag";
+            mode = "tag";
+            key = "s";
+            effect = ": select-surrounding-tag<ret>";
           }
 
           {
