@@ -2,7 +2,6 @@ ln bin/dotfiles
 ln .config/nixpkgs/config.nix
 ln .config/nixpkgs/overlays
 ln .config/nixpkgs/home.nix
-ln .config/nixpkgs/home
 cp .config/geany/geany.conf
 ln .config/filezilla/sitemanager.xml
 ln .timewarrior/timewarrior.cfg

@@ -1,3 +1,4 @@
-keys
+syntax: rootglob
 
-dotfiles/.config/nixpkgs/home/profiles/local.nix
+keys
+home-manager/profiles/local.nix

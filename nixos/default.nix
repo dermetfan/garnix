@@ -182,7 +182,7 @@
       useUserPackages = true;
       useGlobalPkgs = true;
       users.dermetfan = lib.mkMerge [
-        (import ../dotfiles/.config/nixpkgs/home.nix)
+        (import ../home-manager)
         { nixos.enable = true; }
       ];
     };
