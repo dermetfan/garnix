@@ -38,9 +38,7 @@ in {
       kakoune.enable = true;
       nano.enable = true;
       tmux.enable = true;
-      zsh.enable = true;
       fish.enable = true;
-      elvish.enable = true;
 
       browserpass = {
         enable = lib.mkDefault (
