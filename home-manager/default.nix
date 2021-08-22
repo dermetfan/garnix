@@ -28,8 +28,6 @@ in {
       };
     };
 
-    services.syncthing.enable = true;
-
     programs = {
       home-manager.enable = true;
 
