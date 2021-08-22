@@ -33,7 +33,6 @@
   programs/htop.nix
   programs/i3status-rust.nix
   programs/kakoune.nix
-  programs/lilyterm.nix
   programs/mercurial.nix
   programs/micro.nix
   programs/minecraft.nix
