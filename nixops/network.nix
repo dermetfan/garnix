@@ -1,7 +1,7 @@
 {
   network.description = "dermetfan.net";
 
-  defaults = { config, lib, nodes, ... }: {
+  defaults = { config, lib, pkgs, nodes, ... }: {
     imports = [
       ./config
       ../nixos
@@ -47,6 +47,11 @@
 
       users.users.root.openssh.authorizedKeys.keyFiles =
         lib.optional (config.node.name != nodes.master.config.node.name) ../keys/master_rsa.pub;
+
+      # XXX NixOps seems to have problems transferring the keys with fish.
+      # Come back here later and check if this is solved.
+      users.defaultUserShell = lib.mkForce pkgs.bashInteractive;
+      users.users.dermetfan.shell = pkgs.fish;
 
       nix = {
         gc.automatic = true;
