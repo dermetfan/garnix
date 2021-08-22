@@ -12,7 +12,13 @@ in {
       description = "Whether to configure i3status-rust.";
     };
 
-    data = mkEnableOption "user's data root.";
+    data = {
+      enable = mkEnableOption "block for disk usage on user's data root";
+
+      path = mkOption {
+        type = types.path;
+      };
+    };
 
     batteries = with lib; mkOption {
       type = with types; listOf str;
@@ -66,23 +72,24 @@ in {
                   ;;
           esac
         '';
-    in {
+    in rec {
       icons = "awesome5";
       theme = "gruvbox-dark";
 
-      blocks = [
-        {
+      blocks = let
+        disk_space = {
           block = "disk_space";
           format = "{icon} {path} {percentage} {free}";
           info_type = "used";
           warning = 75;
           alert = 90;
-        }
-      ] ++ lib.optional (cfg.data && sysCfg.config.data.enable or false) {
-        block = "disk_space";
+        };
+      in [
+        disk_space
+      ] ++ lib.optional cfg.data.enable (disk_space // {
         alias = "data";
-        path = "${sysCfg.config.data.mountPoint}${lib.optionalString sysCfg.config.data.userFileSystems "/${builtins.getEnv "USER"}"}";
-      } ++ lib.optional (builtins.any (lib.hasPrefix "nvidia") sysCfg.services.xserver.videoDrivers) {
+        inherit (cfg.data) path;
+      }) ++ lib.optional (builtins.any (lib.hasPrefix "nvidia") sysCfg.services.xserver.videoDrivers) {
         block = "nvidia_gpu";
       } ++ [
         {

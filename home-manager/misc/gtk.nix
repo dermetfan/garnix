@@ -12,10 +12,6 @@ lib.mkIf (config.profiles.gui.enable && config.gtk.enable) {
     };
   };
 
-  xdg.configFile."gtk-3.0/bookmarks".text = ''
-    file:///data/${config.home.username}
-  '';
-
   home.sessionVariables.GDK_PIXBUF_MODULE_FILE =
     let
       v2 = "${pkgs.librsvg.out}/lib/gdk-pixbuf-2.0";

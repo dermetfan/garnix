@@ -55,19 +55,6 @@ in {
 
     systemd.user.startServices = true;
 
-    xdg = {
-      enable = true;
-      userDirs = {
-        enable = true;
-        desktop = config.home.homeDirectory;
-        download = "${config.home.homeDirectory}/downloads";
-        templates = config.home.homeDirectory;
-        publicShare = config.home.homeDirectory;
-        documents = "/data/${config.home.username}/documents";
-        music = "/data/${config.home.username}/audio/music";
-        pictures = "/data/${config.home.username}/images";
-        videos = "/data/${config.home.username}/videos";
-      };
-    };
+    xdg.enable = true;
   };
 }

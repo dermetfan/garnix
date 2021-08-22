@@ -15,12 +15,7 @@ in {
       beets = {
         enable = builtins.any (x: x == pkgs.stdenv.system) pkgs.beets.meta.platforms;
         settings = rec {
-          directory = (
-            if sysCfg.config.data.enable or false
-            then sysCfg.config.data.mountPoint +
-              (lib.optionalString sysCfg.config.data.userFileSystems "/${config.home.username}")
-            else "~"
-          ) + "/audio/music/library";
+          directory = "${config.xdg.userDirs.music}/library";
           library = "${directory}/beets.db";
           plugins = [
             "fromfilename"
