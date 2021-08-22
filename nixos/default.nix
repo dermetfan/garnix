@@ -63,13 +63,9 @@
 
     networking.hostId = lib.mkDefault (builtins.substring 0 8 (builtins.hashString "md5" config.networking.hostName));
 
-    environment = {
-      systemPackages = with pkgs;
-        [ ntfs3g exfat ] ++
-        lib.optional config.programs.zsh.enable nix-zsh-completions;
-
-      noXlibs = !config.services.xserver.enable;
-    };
+    environment.systemPackages = with pkgs;
+      [ ntfs3g exfat ] ++
+      lib.optional config.programs.zsh.enable nix-zsh-completions;
 
     programs = {
       bash.enableCompletion = lib.versionAtLeast "1.11.5" lib.version; # breaks impure nix-shell, see https://github.com/NixOS/nix/issues/976
