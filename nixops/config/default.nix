@@ -12,6 +12,7 @@
     ./syncthing.nix
     ./acme.nix
     ./ddclient.nix
+    ./homepage.nix
   ];
 
   passthru = {
