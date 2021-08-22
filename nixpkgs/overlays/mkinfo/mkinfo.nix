@@ -1,5 +1,5 @@
 { stdenv, buildGoPackage, fetchFromGitHub
-, ncurses, ... }:
+, ncurses }:
 
 buildGoPackage rec {
   name = "mkinfo-unstable-${version}";

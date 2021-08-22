@@ -1,4 +1,4 @@
-{ fetchFromGitHub, ... }:
+{ fetchFromGitHub }:
 
 (import (fetchFromGitHub {
   owner = "srid";
