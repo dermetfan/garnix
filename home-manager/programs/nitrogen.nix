@@ -19,7 +19,7 @@ in {
       recurse=true
       sort=alpha
       icon_caps=false
-      dirs=/data/${config.home.username}/images/wallpapers;
+      dirs=${config.xdg.userDirs.pictures}/wallpapers;
     '';
   };
 }
