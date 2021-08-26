@@ -28,6 +28,20 @@ in {
         { key = "Right"; mods = "Control|Shift"; chars = "\\x1b[1;6C"; }
         { key = "Up";    mods = "Control|Shift"; chars = "\\x1b[1;6A"; }
         { key = "Down";  mods = "Control|Shift"; chars = "\\x1b[1;6B"; }
+        { mode = "Vi|~Search"; key = "R";        mods = "Shift";   action = "ScrollLineUp";            }
+        { mode = "Vi|~Search"; key = "I";        mods = "Shift";   action = "ScrollLineDown";          }
+        { mode = "Vi|~Search"; key = "PageUp";                     action = "ScrollPageUp";            }
+        { mode = "Vi|~Search"; key = "PageDown";                   action = "ScrollPageDown";          }
+        { mode = "Vi|~Search"; key = "PageUp";   mods = "Shift";   action = "ScrollHalfPageUp";        }
+        { mode = "Vi|~Search"; key = "PageDown"; mods = "Shift";   action = "ScrollHalfPageDown";      }
+        { mode = "Vi|~Search"; key = "Space";                      action = "ToggleNormalSelection";   }
+        { mode = "Vi|~Search"; key = "Space";    mods = "Shift";   action = "ToggleLineSelection";     }
+        { mode = "Vi|~Search"; key = "Space";    mods = "Control"; action = "ToggleBlockSelection";    }
+        { mode = "Vi|~Search"; key = "Space";    mods = "Alt";     action = "ToggleSemanticSelection"; }
+        { mode = "Vi|~Search"; key = "R";                          action = "Up";                      }
+        { mode = "Vi|~Search"; key = "I";                          action = "Down";                    }
+        { mode = "Vi|~Search"; key = "N";                          action = "Left";                    }
+        { mode = "Vi|~Search"; key = "O";                          action = "Right";                   }
       ];
 
       selection.semantic_escape_chars = ",│`|\"' ()[]{}<>‘’";
