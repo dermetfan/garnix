@@ -4,6 +4,6 @@ import (fetchFromSourcehut {
   owner = "~dermetfan";
   repo = "dermetfan-blog";
   vc = "hg";
-  rev = "1606e6466e4cad8899664ef05ea64c88bdf5b0f5";
-  hash = "sha256-B/UkZr2FITjVSmDUkexakfdjq/hUw1PkmvsvIY8e62s=";
+  rev = "eb69d58f7e44a81ab06da4fd588292731e7d63c6";
+  hash = "sha256-fV9Miwn62onq+Qo2I8AcYsXt7HOPraRK/9jfzCyZF0Q=";
 }) {}
