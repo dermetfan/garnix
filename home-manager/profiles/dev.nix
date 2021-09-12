@@ -42,9 +42,9 @@ in {
         upterm
       ] ++
       lib.optionals config.profiles.gui.enable [
-        aqemu
+        # aqemu
         meld
-        pgadmin
+        # pgadmin
         sqlitebrowser
       ] ++
       lib.optionals cfg.enableNative [
@@ -54,7 +54,7 @@ in {
       ] ++
       lib.optionals cfg.enableRust [
         rustracer
-        rustracerd
+        # rustracerd
       ] ++
       lib.optionals cfg.enableJava (
         [ openjdk
