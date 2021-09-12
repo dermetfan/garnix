@@ -1,31 +1,11 @@
-{ config, pkgs, lib, ... }:
+{ self, config, pkgs, lib, ... }:
 
 {
-  imports = [
-    ./data.nix
-    ./dev.nix
-    ./hotkeys.nix
-    ./uhk.nix
-    ./dns-watch.nix
-    ./1.1.1.1.nix
-    ./steam-controller.nix
-    ./swaylock.nix
-    ./yubikey.nix
-
-    profiles/gui.nix
-    profiles/netbook.nix
-    profiles/notebook.nix
-    profiles/machines/MSI_PE60-6QE.nix
-
-    <home-manager/nixos>
-  ];
-
   config = {
     config.hotkeys.enable = true;
 
     nix = {
       binaryCachePublicKeys = [
-        (builtins.readFile ../keys/cache.pub)
         "hydra.nixos.org-1:CNHJZBh9K4tP3EKF6FkkgeVYsS3ohTl+oS0Qa8bezVs="
       ];
 
@@ -33,19 +13,6 @@
         "root"
         "@${config.users.groups.wheel.name}"
       ];
-    };
-
-    nixpkgs = {
-      config = import ../nixpkgs/config.nix;
-      overlays =
-        let overlays = ../nixpkgs/overlays;
-        in lib.mapAttrsToList
-          (k: v: import "${overlays}/${k}")
-          (lib.filterAttrs
-            (k: v: (v == "directory" && builtins.pathExists "${overlays}/${k}/default.nix") || lib.strings.hasSuffix ".nix" k)
-            (builtins.readDir overlays)
-          )
-      ;
     };
 
     boot = {
@@ -150,37 +117,6 @@
           set-default-source noecho
         '';
       };
-    };
-
-    users = {
-      mutableUsers = false;
-      defaultUserShell = pkgs.fish;
-
-      users = {
-        root.hashedPassword = "$6$9876543210987654$TOIH9KzZb/Tfa/0F2mobm4Hl2vwh5bFp8As6VFCaqSIu5KoqgdpESOmuMI04J8DUPGdvEjDMkWi9Lxqhu5gZ50";
-
-        dermetfan = {
-          description = "dermetfan.net";
-          isNormalUser = true;
-          hashedPassword = "$6$0123456789012345$h8FEllCQBQYziYvFVOhIqGRvt/z3lPO5wU.07Uz9Y/E2AvSUtq9ITQZTivMFN0gSSpFrDJ0P32k9t5uG4c47D0";
-          extraGroups = with lib;
-            optional config.security.sudo                 .enable "wheel"          ++
-            optional config.programs.light                .enable "video"          ++
-            optional config.networking.networkmanager     .enable "networkmanager" ++
-            optional config.virtualisation.docker         .enable "docker"         ++
-            optional config.virtualisation.virtualbox.host.enable "vboxusers"      ++
-            optional config.programs.adb                  .enable "adbusers";
-        };
-      };
-    };
-
-    home-manager = {
-      useUserPackages = true;
-      useGlobalPkgs = true;
-      users.dermetfan = lib.mkMerge [
-        (import ../home-manager)
-        { nixos.enable = true; }
-      ];
     };
   };
 }

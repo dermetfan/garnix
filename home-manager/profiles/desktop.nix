@@ -1,8 +1,7 @@
-{ config, lib, pkgs, ... }:
+{ self, nixosConfig, config, lib, pkgs, ... }:
 
 let
   cfg = config.profiles.desktop;
-  sysCfg = config.passthru.systemConfig or null;
 in {
   options.profiles.desktop.enable = lib.mkEnableOption "desktop programs";
 
@@ -41,7 +40,7 @@ in {
     services = {
       gpg-agent.enable = true;
 
-      blueman-applet        .enable = config.profiles.gui.enable && sysCfg.hardware.bluetooth.enable or true;
+      blueman-applet        .enable = config.profiles.gui.enable && nixosConfig.hardware.bluetooth.enable or true;
       rsibreak              .enable = config.profiles.gui.enable;
 
       parcellite            .enable = config.xsession.enable;
@@ -57,13 +56,14 @@ in {
       wlsunset.enable = config.profiles.gui.enable && !config.xsession.enable;
     };
 
-    home.packages = with pkgs; [
+    home.packages = (with self.inputs; [
+      neuron.defaultPackage.${pkgs.system}
+    ]) ++ (with pkgs; [
       unrar
       unzip
       zip
       weechat
       buku
-      neuron-zettelkasten
     ] ++ lib.optionals config.xsession.enable [
       # autostart
       xorg.xmodmap
@@ -78,6 +78,6 @@ in {
       gucharmap
       qalculate-gtk
       xarchiver
-    ];
+    ]);
   };
 }

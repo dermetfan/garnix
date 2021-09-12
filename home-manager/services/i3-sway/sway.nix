@@ -1,10 +1,9 @@
-{ config, lib, pkgs, ... }:
+{ nixosConfig, config, lib, pkgs, ... }:
 
 let
   cfg = config.config.wayland.windowManager.sway;
-  sysCfg = config.passthru.systemConfig or {};
   common = import ./common.nix {
-    inherit config lib;
+    inherit nixosConfig config lib;
     cfg = config.wayland.windowManager.sway;
   };
 in {
@@ -94,17 +93,17 @@ in {
             "${mod}+Grave" = lib.mkIf config.programs.mako.enable ''exec makoctl dismiss'';
             "${mod}+Asciitilde" = lib.mkIf config.programs.mako.enable ''exec makoctl restore'';
 
-            "XF86AudioRaiseVolume" = "exec ${lib.optionalString (!sysCfg.sound.mediaKeys.enable or false) "amixer -q set Master 2%+ unmute &&"} ${wobShowVolume}";
-            "XF86AudioLowerVolume" = "exec ${lib.optionalString (!sysCfg.sound.mediaKeys.enable or false) "amixer -q set Master 2%- unmute &&"} ${wobShowVolume}";
+            "XF86AudioRaiseVolume" = "exec ${lib.optionalString (!nixosConfig.sound.mediaKeys.enable or false) "amixer -q set Master 2%+ unmute &&"} ${wobShowVolume}";
+            "XF86AudioLowerVolume" = "exec ${lib.optionalString (!nixosConfig.sound.mediaKeys.enable or false) "amixer -q set Master 2%- unmute &&"} ${wobShowVolume}";
             "XF86AudioMute" =
               let
                 toggle = ''(amixer sget Master | grep -m 1 -E '(Mono|Right|Left):' | grep '\[on\]' -q && amixer -q set Master mute || amixer -q set Master unmute)''; # FIXME works but seems to toggle twice
               in
-                "exec ${lib.optionalString (!sysCfg.sound.mediaKeys.enable or false) "amixer -q set Master mute &&"} ${wobShowVolume}";
+                "exec ${lib.optionalString (!nixosConfig.sound.mediaKeys.enable or false) "amixer -q set Master mute &&"} ${wobShowVolume}";
 
             "XF86ScreenSaver"    = "exec swaylock";
             "${mod}+Scroll_Lock" = "exec swaylock";
-          } // (if sysCfg.config.hotkeys.enableBacklightKeys then {} else {
+          } // (if nixosConfig.config.hotkeys.enableBacklightKeys then {} else {
             "XF86MonBrightnessUp"         = "exec light -A 5 && ${wobShowBacklight}";
             "XF86MonBrightnessDown"       = "exec light -U 5 && ${wobShowBacklight}";
             "Shift+XF86MonBrightnessUp"   = "exec light -rA 1 && ${wobShowBacklight}";

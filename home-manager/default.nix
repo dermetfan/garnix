@@ -1,8 +1,6 @@
-{ config, lib, pkgs, ... }:
+{ nixosConfig, config, lib, pkgs, ... }:
 
-let
-  sysCfg = config.passthru.systemConfig or {};
-in {
+{
   imports = import ./module-list.nix;
 
   config = {
@@ -10,8 +8,8 @@ in {
 
     home = {
       stateVersion = "20.09";
-      username = sysCfg.users.users.dermetfan.name;
-      homeDirectory = sysCfg.users.users.dermetfan.home;
+      username = nixosConfig.users.users.dermetfan.name;
+      homeDirectory = nixosConfig.users.users.dermetfan.home;
 
       keyboard = {
         layout = "us,ru";

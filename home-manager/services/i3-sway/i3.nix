@@ -1,9 +1,9 @@
-{ config, lib, ... }:
+{ nixosConfig, config, lib, ... }:
 
 let
   cfg = config.config.xsession.windowManager.i3;
   common = import ./common.nix {
-    inherit config lib;
+    inherit nixosConfig config lib;
     inherit (cfg) enableGaps;
     cfg = config.xsession.windowManager.i3;
   };

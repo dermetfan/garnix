@@ -1,8 +1,7 @@
-{ config, lib, pkgs, ... }:
+{ nixosConfig, config, lib, pkgs, ... }:
 
 let
   cfg = config.profiles.gui;
-  sysCfg = config.passthru.systemConfig or {};
 in {
   options.profiles.gui = with lib; {
     enable = mkEnableOption "xsession or wayland";
@@ -15,7 +14,7 @@ in {
 
   config = lib.mkIf cfg.enable {
     xsession = {
-      enable = sysCfg.services.xserver.enable or false;
+      enable = nixosConfig.services.xserver.enable or false;
       windowManager.i3.enable = config.xsession.enable or false;
       initExtra = ''
         xset r rate 225 27
@@ -52,7 +51,7 @@ in {
     };
 
     services = {
-      unclutter.enable = config.xsession.enable && !sysCfg.services.unclutter.enable;
+      unclutter.enable = config.xsession.enable && !nixosConfig.services.unclutter.enable;
       picom.enable = config.xsession.enable && cfg.enableEffects;
     };
 

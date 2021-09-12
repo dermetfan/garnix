@@ -7,7 +7,7 @@ in {
     enable = mkEnableOption "homepage";
     package = mkOption {
       type = types.package;
-      default = pkgs.dermetfan-homepage;
+      default = pkgs.dermetfan-blog;
     };
   };
 

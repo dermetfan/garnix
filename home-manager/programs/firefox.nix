@@ -1,7 +1,8 @@
-{ config, lib, pkgs, ... }:
+{ self, config, lib, pkgs, ... }:
 
 let
   cfg = config.config.programs.firefox;
+  inherit (pkgs.appendOverlays [ self.inputs.nur.overlay ]) nur;
 in {
   options.config.programs.firefox = with lib; {
     enable = mkOption {
@@ -58,7 +59,7 @@ in {
           }
         '';
 
-        extensions = with pkgs.nur.repos.rycee.firefox-addons; [
+        extensions = with nur.repos.rycee.firefox-addons; [
           browserpass
           ublock-origin
           decentraleyes

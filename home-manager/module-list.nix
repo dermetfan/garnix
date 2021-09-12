@@ -9,7 +9,6 @@
 
   misc/data.nix
   misc/fonts.nix
-  misc/nixos.nix
   misc/gtk.nix
   misc/pulseaudio-oneshot.nix
   misc/norman.nix

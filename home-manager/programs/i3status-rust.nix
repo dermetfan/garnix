@@ -1,8 +1,7 @@
-{ config, lib, pkgs, ... }:
+{ nixosConfig, config, lib, pkgs, ... }:
 
 let
   cfg = config.config.programs.i3status-rust;
-  sysCfg = config.passthru.systemConfig or null;
 in {
   options.config.programs.i3status-rust = with lib; {
     enable = mkOption {
@@ -89,7 +88,7 @@ in {
       ] ++ lib.optional cfg.data.enable (disk_space // {
         alias = "data";
         inherit (cfg.data) path;
-      }) ++ lib.optional (builtins.any (lib.hasPrefix "nvidia") sysCfg.services.xserver.videoDrivers) {
+      }) ++ lib.optional (builtins.any (lib.hasPrefix "nvidia") nixosConfig.services.xserver.videoDrivers) {
         block = "nvidia_gpu";
       } ++ [
         {

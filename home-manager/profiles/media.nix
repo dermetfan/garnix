@@ -2,7 +2,6 @@
 
 let
   cfg = config.profiles.media;
-  sysCfg = config.passthru.systemConfig or null;
 in {
   options.profiles.media = with lib; {
     enable = mkEnableOption "media viewers";

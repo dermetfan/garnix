@@ -1,20 +1,19 @@
-{ config, lib, ... }:
+{ nixosConfig, config, lib, ... }:
 
 let
   cfg = config.misc.data;
-  sysCfg = config.passthru.systemConfig or {};
 in {
   options.misc.data = with lib; {
     enable = mkOption {
       type = types.bool;
-      default = sysCfg.config.data.enable or false;
+      default = nixosConfig.config.data.enable or false;
       description = "Configure other modules to save on user's data partition.";
     };
 
     path = mkOption {
       type = types.path;
-      default = sysCfg.config.data.mountPoint +
-        (lib.optionalString sysCfg.config.data.userFileSystems "/${config.home.username}");
+      default = nixosConfig.config.data.mountPoint +
+        (lib.optionalString nixosConfig.config.data.userFileSystems "/${config.home.username}");
     };
   };
 

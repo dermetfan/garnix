@@ -1,19 +1,17 @@
 {
-  config, lib,
+  nixosConfig, config, lib,
   cfg,
   enableGaps ? true
 }:
 
-let
-  sysCfg = config.passthru.systemConfig or {};
-in {
+{
   config.programs = {
     i3status-rust.enable = true;
     alacritty    .enable = true;
     ranger       .enable = true;
     rofi         .enable = true;
 
-    networkmanager-dmenu.enable = sysCfg.networking.networkmanager.enable or false;
+    networkmanager-dmenu.enable = nixosConfig.networking.networkmanager.enable or false;
   };
 
   i3-sway.config = let
