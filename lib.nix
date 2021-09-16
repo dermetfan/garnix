@@ -35,7 +35,7 @@ rec {
             (lib.removePrefix ((toString modulesPath) + "/"))
             (lib.removeSuffix ".nix")
           ])
-          (fixNixosModuleSelf path)
+          (fixNixosModuleSelf (import path))
         )
         (lib.filesystem.listFilesRecursive modulesPath)
       );
