@@ -1,3 +1,3 @@
-self: super: {
-  ncid = super.callPackage ./ncid.nix {};
+final: prev: {
+  ncid = prev.callPackage ./ncid.nix {};
 }

@@ -1,3 +1,3 @@
-self: super: {
-  mkinfo = super.callPackage ./mkinfo.nix {};
+final: prev: {
+  mkinfo = prev.callPackage ./mkinfo.nix {};
 }

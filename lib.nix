@@ -12,8 +12,10 @@ rec {
         let inherit (self) outputs; in
         lib.optionalAttrs (outputs ? nixosModules)
           { nixosModule.imports = builtins.attrValues outputs.nixosModules; } //
-        lib.optionalAttrs (outputs ? overlays)
-          { overlay = lib.composeManyExtensions (builtins.attrValues outputs.overlays); }
+        lib.optionalAttrs (outputs ? overlays) {
+            overlay = final: prev: # wrap to name arguments for flake check
+              (lib.composeManyExtensions (builtins.attrValues outputs.overlays)) final prev;
+        }
       ) nixosModule overlay;
     };
 
