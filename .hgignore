@@ -1,4 +1,0 @@
-syntax: rootglob
-
-keys
-home-manager/profiles/local.nix
