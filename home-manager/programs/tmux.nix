@@ -28,6 +28,7 @@ in {
         set-option -g focus-events on
         set-option -g display-time 4000
 
+        bind-key t clock-mode
         bind-key [ run-shell ${
           pkgs.stdenv.mkDerivation {
             name = "tmux-kak-copy-mode";
