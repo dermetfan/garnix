@@ -103,7 +103,7 @@ in {
 
             "XF86ScreenSaver"    = "exec swaylock";
             "${mod}+Scroll_Lock" = "exec swaylock";
-          } // (if nixosConfig.config.hotkeys.enableBacklightKeys then {} else {
+          } // (if nixosConfig.misc.hotkeys.enableBacklightKeys then {} else {
             "XF86MonBrightnessUp"         = "exec light -A 5 && ${wobShowBacklight}";
             "XF86MonBrightnessDown"       = "exec light -U 5 && ${wobShowBacklight}";
             "Shift+XF86MonBrightnessUp"   = "exec light -rA 1 && ${wobShowBacklight}";

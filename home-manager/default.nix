@@ -7,7 +7,6 @@
     fonts.fontconfig.enable = true;
 
     home = {
-      stateVersion = "20.09";
       username = nixosConfig.users.users.dermetfan.name;
       homeDirectory = nixosConfig.users.users.dermetfan.home;
 

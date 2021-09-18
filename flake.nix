@@ -2,6 +2,10 @@
   inputs = {
     flake-utils.url = "github:numtide/flake-utils";
 
+    agenix = {
+      url = "github:yaxitech/ragenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -22,22 +26,24 @@
   };
 
   outputs = { self, nixpkgs, flake-utils, ... }: let
-    outLib = (import ./lib.nix self).outputs;
+    lib = import nixpkgs/lib self;
+    out = (lib.flake self).outputs;
   in
     flake-utils.lib.eachDefaultSystem (system: {
-      packages = outLib.packages system;
+      packages = out.packages system;
 
-      legacyPackages = outLib.legacyPackages {
+      legacyPackages = out.legacyPackages {
         inherit system;
         config = import nixpkgs/config.nix;
       };
     }) //
-    outLib.singles //
+    out.singles //
     {
-      lib = import ./lib.nix;
-      nixosModules = outLib.nixosModules ./nixos;
-      overlays = outLib.overlays nixpkgs/overlays // {
+      inherit lib;
+      overlays = out.overlays nixpkgs/overlays // {
         dermetfan-blog = self.inputs.dermetfan-blog.overlay;
       };
+      nixosModules = out.nixosModules nixos/modules;
+      nixosConfigurations = import nixos/configs self;
     };
 }
