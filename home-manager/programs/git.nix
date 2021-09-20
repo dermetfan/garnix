@@ -20,8 +20,8 @@ in {
     userEmail = "serverkorken@gmail.com";
 
     aliases = {
-      st = "status -s";
-      lg = "log --graph --branches --decorate --abbrev-commit --pretty=medium HEAD";
+      st = "status --short";
+      lg = "log --graph --decorate --abbrev-commit --pretty=medium";
       co = "checkout";
       ci = "commit";
       spull = ''!git pull "$@" && git submodule sync --recursive && git submodule update --init --recursive'';
