@@ -6,14 +6,14 @@ in {
   options.misc.data = with lib; {
     enable = mkOption {
       type = types.bool;
-      default = nixosConfig.config.data.enable or false;
+      default = nixosConfig.misc.data.enable or false;
       description = "Configure other modules to save on user's data partition.";
     };
 
     path = mkOption {
       type = types.path;
-      default = nixosConfig.config.data.mountPoint +
-        (lib.optionalString nixosConfig.config.data.userFileSystems "/${config.home.username}");
+      default = nixosConfig.misc.data.mountPoint +
+        (lib.optionalString nixosConfig.misc.data.userFileSystems "/${config.home.username}");
     };
   };
 
