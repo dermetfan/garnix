@@ -45,6 +45,29 @@
         "type": "github"
       }
     },
+    "deploy-rs": {
+      "inputs": {
+        "flake-compat": "flake-compat",
+        "naersk": "naersk_2",
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "utils": "utils"
+      },
+      "locked": {
+        "lastModified": 1630003775,
+        "narHash": "sha256-SOYIRPqomdOaWWS8oVKZgEP7JpRe3U4Aio0J/TrCqM4=",
+        "owner": "serokell",
+        "repo": "deploy-rs",
+        "rev": "188544797c50e840b46d7063ba4550a7e5231bec",
+        "type": "github"
+      },
+      "original": {
+        "owner": "serokell",
+        "repo": "deploy-rs",
+        "type": "github"
+      }
+    },
     "dermetfan-blog": {
       "inputs": {
         "flake-utils": "flake-utils_2",
@@ -54,10 +77,10 @@
         "styx": "styx"
       },
       "locked": {
-        "narHash": "sha256-L8+NNQYItU56zjtCwADhveLakTNYl8S3AHrJxxqp0FY=",
+        "narHash": "sha256-3gb7XorxngTmnDJ2VHJrKWOicR29tyazEAcuKT/hgP0=",
         "ref": "default",
-        "rev": "51d5af21c175d14624d7880ec3f0cb378d37d181",
-        "revCount": 55,
+        "rev": "05dc254b7d13163848c4a234c7fd16d6e37e62a7",
+        "revCount": 56,
         "type": "hg",
         "url": "ssh://hg@hg.sr.ht/~dermetfan/dermetfan-blog"
       },
@@ -67,6 +90,22 @@
       }
     },
     "flake-compat": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1627913399,
+        "narHash": "sha256-hY8g6H2KFL8ownSiFeMOjwPC8P0ueXpCVEbxgda3pko=",
+        "owner": "edolstra",
+        "repo": "flake-compat",
+        "rev": "12c64ca55c1014cdc1b16ed5a804aa8576601ff2",
+        "type": "github"
+      },
+      "original": {
+        "owner": "edolstra",
+        "repo": "flake-compat",
+        "type": "github"
+      }
+    },
+    "flake-compat_2": {
       "flake": false,
       "locked": {
         "lastModified": 1606424373,
@@ -184,9 +223,31 @@
         "type": "github"
       }
     },
+    "naersk_2": {
+      "inputs": {
+        "nixpkgs": [
+          "deploy-rs",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1632266297,
+        "narHash": "sha256-J1yeJk6Gud9ef2pEf6aKQemrfg1pVngYDSh+SAY94xk=",
+        "owner": "nmattia",
+        "repo": "naersk",
+        "rev": "ee7edec50b49ab6d69b06d62f1de554efccb1ccd",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nmattia",
+        "ref": "master",
+        "repo": "naersk",
+        "type": "github"
+      }
+    },
     "neuron": {
       "inputs": {
-        "flake-compat": "flake-compat",
+        "flake-compat": "flake-compat_2",
         "flake-utils": "flake-utils_4",
         "nixpkgs": [
           "nixpkgs"
@@ -238,6 +299,7 @@
     "root": {
       "inputs": {
         "agenix": "agenix",
+        "deploy-rs": "deploy-rs",
         "dermetfan-blog": "dermetfan-blog",
         "flake-utils": "flake-utils_3",
         "home-manager": "home-manager",
@@ -294,6 +356,21 @@
         "owner": "dermetfan",
         "ref": "modernize",
         "repo": "styx",
+        "type": "github"
+      }
+    },
+    "utils": {
+      "locked": {
+        "lastModified": 1631561581,
+        "narHash": "sha256-3VQMV5zvxaVLvqqUrNz3iJelLw30mIVSfZmAaauM3dA=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "7e5bf3925f6fbdfaf50a2a7ca0be2879c4261d19",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
         "type": "github"
       }
     }

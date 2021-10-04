@@ -19,7 +19,7 @@ in
 { laptop = mkNixos (import ./laptop); } //
 
 lib.mapAttrs' (k: v: lib.nameValuePair
-  ("nodes/${k}")
+  ("node-${k}")
   (mkNode (v // {
     modules = v.modules or [] ++ [ {
       networking.hostName = k;

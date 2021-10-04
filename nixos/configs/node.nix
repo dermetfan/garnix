@@ -17,12 +17,6 @@
 
     services = {
       "1.1.1.1".enable = true;
-
-      ddclient = {
-        enable = true;
-        domains = [ "dmf-${config.networking.hostName}.ddns.net" ];
-      };
-
       openssh = {
         passwordAuthentication = false;
         challengeResponseAuthentication = false;

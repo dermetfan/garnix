@@ -1,6 +1,11 @@
 { config, lib, ... }:
 
 {
+  services.afraid-freedns = {
+    enable = true;
+    ip4Tokens = [];
+  };
+
   services.openssh = {
     passwordAuthentication = lib.mkForce true;
     challengeResponseAuthentication = lib.mkForce true;

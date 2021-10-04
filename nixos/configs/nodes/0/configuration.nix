@@ -4,6 +4,11 @@
   misc.data.enable = true; # XXX should this belong to hardware config?
 
   services = {
+    afraid-freedns = {
+      enable = true;
+      ip4Tokens = [];
+    };
+
     syncthing.enable = true;
     hydra.enable = true;
     minecraft-server.enable = true;
