@@ -29,6 +29,7 @@
       experimental-features = nix-command flakes ca-references recursive-nix
     '';
     binaryCachePublicKeys = [
+      (builtins.readFile ../../../secrets/services/cache.pub)
     ];
     systemFeatures = lib.mkDefault [ "recursive-nix" ];
   };
