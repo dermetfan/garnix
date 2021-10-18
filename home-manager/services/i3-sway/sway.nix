@@ -93,8 +93,8 @@ in {
             "${mod}+Grave" = lib.mkIf config.programs.mako.enable ''exec makoctl dismiss'';
             "${mod}+Asciitilde" = lib.mkIf config.programs.mako.enable ''exec makoctl restore'';
 
-            "XF86AudioRaiseVolume" = "exec ${lib.optionalString (!nixosConfig.sound.mediaKeys.enable or false) "amixer -q set Master 2%+ unmute &&"} ${wobShowVolume}";
-            "XF86AudioLowerVolume" = "exec ${lib.optionalString (!nixosConfig.sound.mediaKeys.enable or false) "amixer -q set Master 2%- unmute &&"} ${wobShowVolume}";
+            "XF86AudioRaiseVolume" = "exec ${lib.optionalString (!(nixosConfig.sound.enable or false && nixosConfig.sound.mediaKeys.enable or false)) "amixer -q set Master 2%+ unmute &&"} ${wobShowVolume}";
+            "XF86AudioLowerVolume" = "exec ${lib.optionalString (!(nixosConfig.sound.enable or false && nixosConfig.sound.mediaKeys.enable or false)) "amixer -q set Master 2%- unmute &&"} ${wobShowVolume}";
             "XF86AudioMute" =
               let
                 toggle = ''(amixer sget Master | grep -m 1 -E '(Mono|Right|Left):' | grep '\[on\]' -q && amixer -q set Master mute || amixer -q set Master unmute)''; # FIXME works but seems to toggle twice
