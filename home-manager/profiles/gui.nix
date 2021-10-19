@@ -58,5 +58,16 @@ in {
     wayland.windowManager.sway.enable = !config.xsession.enable;
     
     programs.swaylock.package = lib.mkIf cfg.enableEffects pkgs.swaylock-effects;
+
+    xdg.configFile."xdg-desktop-portal-wlr/config".text = lib.mkIf (
+      nixosConfig.xdg.portal.enable or false &&
+      builtins.elem pkgs.xdg-desktop-portal-wlr nixosConfig.xdg.portal.extraPortals
+    ) (lib.generators.toINI {} {
+      screencast = {
+        max_fps = 30;
+        chooser_type = "simple";
+        chooser_cmd = "${pkgs.slurp}/bin/slurp -orf %o";
+      };
+    });
   };
 }
