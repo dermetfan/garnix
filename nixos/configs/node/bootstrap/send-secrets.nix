@@ -19,7 +19,9 @@ let
     lib.mapAttrsToList (k: v: with v; ''
       ${pkgs.rsync}/bin/rsync --mkpath --info name2,progress2 \
         -e "${pkgs.openssh}/bin/ssh -l ${sshUser} -i ''${SSH_ID:-secrets/deployer_ssh_ed25519_key}" \
-        --perms --chmod ${mode} --chown ${owner}:${group} \
+        --perms --chmod ${mode} \
+        ${""/* cannot use `--chown ${owner}:${group}` if receiver is on non-posix shell like fish */} \
+        --usermap $(stat -c %u ${local}):${owner} --groupmap $(stat -c %g ${local}):${owner} \
         ${local} ${hostname}:${remote} || \
         if [[ -z "$SSH_ID" ]]; then
           >&2 echo 'You can set the environment variable SSH_ID to use another identity.'
