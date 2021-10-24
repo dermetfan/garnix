@@ -33,6 +33,9 @@ mount -t zfs root/root /mnt
 mkdir /mnt/nix; mount -t zfs root/nix /mnt/nix
 mkdir /mnt/home; mount -t zfs root/home /mnt/home
 mkdir /mnt/state; mount -t zfs root/state /mnt/state
+
+# space reservation to protect against completely filling up the pool
+zfs create -o refreserv=1G -o mountpoint=none -o canmount=off root/reserved
 ```
 
 Adapted from Graham Christensen's blog post ["Erase your darlings"](https://grahamc.com/blog/erase-your-darlings).
