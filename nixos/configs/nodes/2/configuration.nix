@@ -58,13 +58,6 @@
   # XXX Hack: We just want to decrypt it so we can use it below.
   bootstrap.secrets.initrd_ssh_host_ed25519_key.path = "/dev/null";
 
-  assertions = [ {
-    assertion = lib.any (key:
-      lib.fileContents key != ""
-    ) config.boot.initrd.network.ssh.hostKeys;
-    message = "At least one SSH host key for the initial ramdisk is empty!";
-  } ];
-
   boot = {
     kernelParams = [
       # https://nixos.wiki/wiki/NixOS_on_ZFS#Known_issues
@@ -72,21 +65,15 @@
       "nohibernate"
     ];
 
-    initrd = {
-      network = {
-        enable = true;
-        ssh = {
-          enable = true;
-          port = 2222;
-          hostKeys = map (p: pkgs.writeText "ssh_host_key" (builtins.readFile p)) [
-            ../../../../secrets/hosts/nodes/2/initrd_ssh_host_ed25519_key
-          ];
-        };
+    zfs.unlockEncryptedPoolsViaSSH = {
+      enable = true;
+      hostKeys = [
+        ../../../../secrets/hosts/nodes/2/initrd_ssh_host_ed25519_key
+      ];
+    };
 
-        postCommands = ''
-          echo 'zfs load-key -a; killall zfs' >> /root/.profile
-        '';
-      };
+    initrd = {
+      network.ssh.port = 2222;
 
       postDeviceCommands = lib.mkAfter ''
         zfs rollback -r root/root@blank
@@ -94,7 +81,4 @@
       '';
     };
   };
-
-  # https://github.com/NixOS/nixpkgs/issues/98100
-  system.extraDependencies = config.boot.initrd.network.ssh.hostKeys;
 }
