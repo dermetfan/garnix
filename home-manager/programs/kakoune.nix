@@ -632,26 +632,26 @@ in {
             '';
           }
           {
-            name = "ModuleLoaded";
-            option = "nix";
+            name = "WinSetOption";
+            option = "filetype=nix";
             commands = ''
-              set-option buffer indentwidth 2
-              set-option buffer tabstop 2
+              set-option window indentwidth 2
+              set-option window tabstop 2
 
               # smarttab plugin
               expandtab
-              set-option buffer softtabstop 2
+              set-option window softtabstop 2
             '';
           }
           {
-            name = "ModuleLoaded";
-            option = "zig";
+            name = "WinSetOption";
+            option = "filetype=zig";
             commands = ''
-              set-option buffer indentwidth 4
+              set-option window indentwidth 4
 
               # smarttab plugin
               expandtab
-              set-option buffer softtabstop 4
+              set-option window softtabstop 4
             '';
           }
           {
@@ -663,7 +663,7 @@ in {
           }
           {
             name = "ModuleLoaded";
-            option = "fzf";
+            option = "fzf-file";
             commands = ''
               set-option global fzf_file_command 'rg'
               set-option global fzf_highlight_command 'bat'
@@ -703,9 +703,21 @@ in {
           }
           {
             name = "WinSetOption";
-            option = "filetype=zig";
+            option = "filetype=(zig|go)";
             commands = ''
               lsp-enable-window
+              lsp-auto-signature-help-enable
+              lsp-diagnostic-lines-enable window
+              lsp-inline-diagnostics-enable window
+              lsp-inlay-diagnostics-enable window ${""/*FIXME doesn't work automatically*/}
+              set-option window lsp_hover_anchor true
+              set-option window lsp_auto_highlight_references true
+              hook window -group semantic-tokens BufReload .* lsp-semantic-tokens
+              hook window -group semantic-tokens NormalIdle .* lsp-semantic-tokens
+              hook window -group semantic-tokens InsertIdle .* lsp-semantic-tokens
+              hook -once -always window WinSetOption filetype=.* %{
+                  remove-hooks window semantic-tokens
+              }
             '';
           }
           {
@@ -713,16 +725,9 @@ in {
             option = "filetype=zig";
             commands = ''
               set-option buffer formatcmd 'zig fmt'
-              set-option window lsp_auto_highlight_references true
               set-option global lsp_server_configuration zls.zig_lib_path="%sh{zig env | jq -r .lib_dir}/lib/zig"
               set-option -add global lsp_server_configuration zls.warn_style=true
               set-option -add global lsp_server_configuration zls.enable_semantic_tokens=true
-              hook window -group semantic-tokens BufReload .* lsp-semantic-tokens
-              hook window -group semantic-tokens NormalIdle .* lsp-semantic-tokens
-              hook window -group semantic-tokens InsertIdle .* lsp-semantic-tokens
-              hook -once -always window WinSetOption filetype=.* %{
-                  remove-hooks window semantic-tokens
-              }
             '';
           }
         ];
@@ -1037,28 +1042,35 @@ in {
 
       language = {
         nix = {
-          filetypes = ["nix"];
-          roots = ["flake.nix" "shell.nix" "release.nix" ".git" ".hg" "default.nix"];
+          filetypes = [ "nix" ];
+          roots = [ "flake.nix" "shell.nix" "release.nix" ".git" ".hg" "default.nix" ];
           command = "rnix-lsp";
         };
 
         php = {
-          filetypes = ["php"];
-          roots = ["psalm.xml" "composer.json" ".git" ".hg"];
+          filetypes = [ "php" ];
+          roots = [ "psalm.xml" "composer.json" ".git" ".hg" ];
           command = "psalm";
-          args = ["--language-server"];
+          args = [ "--language-server" ];
         };
 
         yaml = {
-          filetypes = ["yaml" "yml"];
-          roots = [".git" ".hg"];
+          filetypes = [ "yaml" "yml" ];
+          roots = [ ".git" ".hg" ];
           command = "yaml-language-server";
-          args = ["--stdio"];
+          args = [ "--stdio" ];
+        };
+
+        go = {
+          filetypes = [ "go" ];
+          roots = [ "Gopkg.toml" "go.mod" ".git" ".hg" ];
+          command = "gopls";
+          offset_encoding = "utf-8";
         };
 
         zig = {
-          filetypes = ["zig"];
-          roots = ["build.zig"];
+          filetypes = [ "zig" ];
+          roots = [ "build.zig" ];
           command = "zls";
         };
       };
@@ -1074,6 +1086,7 @@ in {
 
       # kak-lsp
       rnix-lsp
+      gopls go
       zls jq
       yaml-language-server
       phpPackages.psalm
