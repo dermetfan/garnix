@@ -25,27 +25,31 @@
       ip4Tokens = [];
     };
 
-    znapzend = rec {
+    zfs.autoScrub.enable = true;
+
+    znapzend = {
       pure = true;
       zetup = let
         timestampFormat = "%Y-%m-%dT%H:%M:%SZ";
         recursive = true;
+        planFew = "1week=>1day,1month=>1week";
+        planMany = "1week=>1day,1hour=>15minutes,15minutes=>5minutes,1day=>1hour,1year=>1month,1month=>1week";
       in {
         "root/root" = {
           inherit timestampFormat recursive;
-          plan = "1week=>1day,1month=>1week";
+          plan = planFew;
         };
         "root/nix" = {
           inherit timestampFormat recursive;
-          inherit (zetup."root/root") plan;
+          plan = planFew;
         };
         "root/state" = {
           inherit timestampFormat recursive;
-          plan = "1week=>1day,1hour=>15minutes,15minutes=>5minutes,1day=>1hour,1year=>1month,1month=>1week";
+          plan = planMany;
         };
         "root/home" = {
           inherit timestampFormat recursive;
-          inherit (zetup."root/state") plan;
+          plan = planMany;
         };
       };
     };
