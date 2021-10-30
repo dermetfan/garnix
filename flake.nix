@@ -60,10 +60,7 @@
           profiles.system.path = deploy-rs.lib.${v.config.nixpkgs.pkgs.system}.activate.nixos v;
           sshUser = "root";
           user = "root";
-          hostname =
-            if nixpkgs.lib.hasPrefix "node-" k
-            then "${nixpkgs.lib.removePrefix "node-" k}.nodes.${v.config.networking.domain}"
-            else ""; # use --hostname
+          hostname = "${k}.hosts.${v.config.networking.domain}";
         }) self.outputs.nixosConfigurations;
 
         sshOpts = [

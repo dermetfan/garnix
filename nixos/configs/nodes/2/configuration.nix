@@ -2,7 +2,6 @@
 
 {
   imports = [
-    ../../../imports/age.nix
     self.inputs.impermanence.nixosModules.impermanence
   ];
 
@@ -75,7 +74,7 @@
     zfs.unlockEncryptedPoolsViaSSH = {
       enable = true;
       hostKeys = [
-        ../../../../secrets/hosts/nodes/2/initrd_ssh_host_ed25519_key
+        ../../../../secrets/hosts/node-2/initrd_ssh_host_ed25519_key
       ];
     };
 
