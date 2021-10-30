@@ -1,5 +1,6 @@
 {
   inputs = {
+    nixpkgs-unstable.url = "nixpkgs";
     flake-utils.url = "github:numtide/flake-utils";
     deploy-rs = {
       url = "github:serokell/deploy-rs";
@@ -13,6 +14,7 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    impermanence.url = "github:nix-community/impermanence";
     nur = {
       url = "github:nix-community/NUR";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -39,8 +41,10 @@
         config = import nixpkgs/config.nix;
       };
 
-      apps.deploy-rs = deploy-rs.defaultApp.${system};
       defaultApp = self.outputs.apps.${system}.deploy-rs;
+      apps = nixpkgs.lib.genAttrs [ "deploy-rs" "agenix" ] (flake:
+        self.inputs.${flake}.defaultApp.${system}
+      );
     }) //
     out.singles //
     {
@@ -54,6 +58,7 @@
       deploy = {
         nodes = builtins.mapAttrs (k: v: {
           profiles.system.path = deploy-rs.lib.${v.config.nixpkgs.pkgs.system}.activate.nixos v;
+          sshUser = "root";
           user = "root";
           hostname =
             if nixpkgs.lib.hasPrefix "node-" k
@@ -61,9 +66,13 @@
             else ""; # use --hostname
         }) self.outputs.nixosConfigurations;
 
-        # May be needed for password authentication to work.
-        # see https://github.com/serokell/deploy-rs/issues/78#issuecomment-802402464
-        sshOpts = [ "-t" ];
+        sshOpts = [
+          "-i" "secrets/deployer_ssh_ed25519_key"
+
+          # May be needed for password authentication to work.
+          # see https://github.com/serokell/deploy-rs/issues/78#issuecomment-802402464
+          # "-t"
+        ];
       };
 
       checks = builtins.mapAttrs (system: deployLib:

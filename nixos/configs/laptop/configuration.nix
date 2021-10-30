@@ -2,10 +2,15 @@
 
 {
   profiles = {
+    default.enable = true;
+    handson.enable = true;
     notebook.enable = true;
     gui.enable = true;
     dev.enable = true;
-    users.enable = true;
+    users = {
+      enable = true;
+      users.dermetfan.enable = true;
+    };
   };
 
   misc = {

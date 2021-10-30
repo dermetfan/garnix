@@ -1,14 +1,17 @@
 { self, config, lib, ... }:
 
 let
-  cfg = config.services.ssmtp;
+  cfg = config.profiles.ssmtp;
 in {
   imports = [ ../../imports/age.nix ];
 
+  options.profiles.ssmtp.enable = lib.mkEnableOption "ssmtp";
+
   config = lib.mkIf cfg.enable {
-    age.secrets.ssmtp.file = ../../../secrets/ssmtp.age;
+    age.secrets.ssmtp.file = ../../../secrets/services/ssmtp.age;
 
     services.ssmtp = {
+      enable = true;
       hostName = "smtp.gmail.com:587";
       root = "serverkorken@gmail.com";
       inherit (config.networking) domain;

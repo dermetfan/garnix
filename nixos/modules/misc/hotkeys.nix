@@ -22,9 +22,7 @@ let
     ]);
 in {
   options.misc.hotkeys = with lib; {
-    enable = mkEnableOption "hotkeys" // {
-      default = true;
-    };
+    enable = mkEnableOption "hotkeys";
 
     enableBacklightKeys = mkEnableOption "backlight keys" // {
       default = true;

@@ -15,8 +15,9 @@ in {
     };
   };
 
-  config.services.nginx.virtualHosts = lib.mkIf cfg.enable {
-    ${cfg.domain} = {
+  config.services.nginx = lib.mkIf cfg.enable {
+    enable = true;
+    virtualHosts.${cfg.domain} = {
       enableACME = true;
       addSSL = true;
       serverAliases = [ "www.${cfg.domain}" ];

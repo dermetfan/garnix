@@ -3,7 +3,7 @@
 let
   cfg = config.services."dns.watch";
 in {
-  options.services."dns.watch".enable = lib.mkEnableOption "use dns.watch nameservers";
+  options.services."dns.watch".enable = lib.mkEnableOption "dns.watch nameservers";
 
   config = lib.mkIf cfg.enable {
     networking.nameservers = [
