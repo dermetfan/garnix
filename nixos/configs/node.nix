@@ -1,7 +1,13 @@
 { config, lib, pkgs, ... }:
 
-{
-  imports = [ node/bootstrap.nix ];
+let
+  yggdrasil = file:
+    ../../secrets/hosts/nodes/${lib.removePrefix "node-" config.networking.hostName}/yggdrasil/${file};
+in {
+  imports = [
+    node/bootstrap.nix
+    ../imports/age.nix
+  ];
 
   options.nix.buildMachine = with lib; mkOption {
     type = types.attrs;
@@ -12,9 +18,12 @@
   };
 
   config = {
+    age.secrets."yggdrasil.conf".file = yggdrasil "keys.conf.age";
+
     networking = {
       domain = "dermetfan.net";
       useDHCP = false;
+      hosts.${lib.fileContents (yggdrasil "ip")} = lib.mkDefault [ config.networking.hostName config.networking.fqdn ];
     };
 
     services = {
@@ -25,6 +34,11 @@
         hostKeys = [
           rec { type = "ed25519"; path = "/etc/ssh/ssh_host_${type}_key"; }
         ];
+      };
+
+      yggdrasil = {
+        enable = true;
+        configFile = config.age.secrets."yggdrasil.conf".path;
       };
     };
 

@@ -24,4 +24,8 @@ encryptFor (hosts [ "nodes/0" ]) (services [
   "cache.sec"
   "nextcloud"
   "ssmtp"
+]) //
+
+encryptFor (hosts [ "nodes/2" ]) ([
+  "hosts/nodes/2/yggdrasil/keys.conf"
 ])
