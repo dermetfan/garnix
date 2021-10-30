@@ -9,7 +9,7 @@
   options.bootstrap.secrets = with lib; mkOption {
     type = types.attrsOf (types.submodule (sub: {
       options = let
-        secretsDir = "secrets/hosts/nodes/${config.networking.hostName}/";
+        secretsDir = "secrets/hosts/nodes/${lib.removePrefix "node-" config.networking.hostName}/";
       in {
         file = mkOption {
           type = types.str;

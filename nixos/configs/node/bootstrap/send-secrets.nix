@@ -3,7 +3,7 @@
 let
   secrets = config.bootstrap.secrets;
 
-  node = self.outputs.deploy.nodes."node-${config.networking.hostName}";
+  node = self.outputs.deploy.nodes.${config.networking.hostName};
 
   send = lib.mapAttrs (k: v: {
     local = v.file;
