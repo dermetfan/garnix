@@ -4,10 +4,7 @@ let
   yggdrasil = file:
     ../../secrets/hosts/nodes/${lib.removePrefix "node-" config.networking.hostName}/yggdrasil/${file};
 in {
-  imports = [
-    node/bootstrap.nix
-    ../imports/age.nix
-  ];
+  imports = [ ../imports/age.nix ];
 
   options.nix.buildMachine = with lib; mkOption {
     type = types.attrs;
