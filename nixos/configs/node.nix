@@ -25,6 +25,7 @@ in {
 
     services = {
       "1.1.1.1".enable = true;
+
       openssh = {
         passwordAuthentication = false;
         challengeResponseAuthentication = false;
@@ -41,17 +42,19 @@ in {
 
     nix = {
       package = pkgs.nixUnstable;
-      extraOptions = ''
-        experimental-features = nix-command flakes ca-references recursive-nix
-      '';
+
+      gc.automatic = true;
+      optimise.automatic = true;
+
       binaryCachePublicKeys = [
         (builtins.readFile ../../secrets/services/cache.pub)
       ];
 
       systemFeatures = lib.mkDefault [ "recursive-nix" ];
 
-      gc.automatic = true;
-      optimise.automatic = true;
+      extraOptions = ''
+        experimental-features = nix-command flakes ca-references recursive-nix
+      '';
     };
 
     users.users.root.openssh.authorizedKeys.keyFiles = [
