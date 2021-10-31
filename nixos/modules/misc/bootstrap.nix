@@ -6,15 +6,20 @@ in {
   options.bootstrap.secrets = with lib; mkOption {
     type = types.attrsOf (types.submodule (sub: {
       options = let
-        secretsDir = "secrets/hosts/${config.networking.hostName}/";
+        hostSecretsDir = "secrets/hosts/${config.networking.hostName}/";
       in {
         file = mkOption {
           type = types.str;
-          default = secretsDir + (
+          default = hostSecretsDir + (
             lib.removePrefix
               (toString ../../..)
               sub.config._module.args.name
           );
+        };
+        cleartext = mkOption {
+          readOnly = true;
+          type = types.path;
+          default = "${toString ../../..}/${lib.removeSuffix ".age" sub.config.file}";
         };
         path = mkOption {
           type = with types; nullOr path;
@@ -24,7 +29,7 @@ in {
           '';
           default = "/run/secrets/" + (
             lib.removePrefix
-              secretsDir
+              hostSecretsDir
               sub.config.file
           );
         };

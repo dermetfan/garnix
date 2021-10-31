@@ -7,7 +7,9 @@ in {
     enable = mkEnableOption "homepage";
     package = mkOption {
       type = types.package;
-      default = pkgs.dermetfan-blog;
+      default = pkgs.dermetfan-blog.overrideArgs (old: {
+        extraConf.data.secrets.github.personalAccessToken = builtins.readFile config.bootstrap.secrets.github-token.cleartext;
+      });
     };
     domain = mkOption {
       type = types.str;
@@ -15,13 +17,20 @@ in {
     };
   };
 
-  config.services.nginx = lib.mkIf cfg.enable {
-    enable = true;
-    virtualHosts.${cfg.domain} = {
-      enableACME = true;
-      addSSL = true;
-      serverAliases = [ "www.${cfg.domain}" ];
-      root = cfg.package;
+  config = lib.mkIf cfg.enable {
+    bootstrap.secrets.github-token = {
+      file = "secrets/services/github";
+      path = null;
+    };
+
+    services.nginx = {
+      enable = true;
+      virtualHosts.${cfg.domain} = {
+        enableACME = true;
+        addSSL = true;
+        serverAliases = [ "www.${cfg.domain}" ];
+        root = cfg.package;
+      };
     };
   };
 }

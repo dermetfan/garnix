@@ -67,7 +67,7 @@
     zfs.unlockEncryptedPoolsViaSSH = {
       enable = true;
       hostKeys = [
-        ../../../../secrets/hosts/node-2/initrd_ssh_host_ed25519_key
+        config.bootstrap.secrets.initrd_ssh_host_ed25519_key.cleartext
       ];
     };
 

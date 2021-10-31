@@ -25,7 +25,10 @@ let
     );
 in
 
-encryptFor [] (import hosts/ssh-keys.nix) //
+encryptFor [] (
+  (import hosts/ssh-keys.nix) ++
+  [ "services/github" ]
+) //
 
 encryptHostSecrets "node-0" [ "freedns" ] //
 
