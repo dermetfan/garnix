@@ -7,8 +7,6 @@
 
   system.stateVersion = "21.11";
 
-  profiles.default.enable = true;
-
   environment.persistence."/state" = {
     files = map (key: key.path) config.services.openssh.hostKeys;
     directories = [
@@ -18,11 +16,6 @@
 
   services = {
     homepage.enable = true;
-
-    afraid-freedns = {
-      enable = true;
-      ip4Tokens = [];
-    };
 
     zfs.autoScrub.enable = true;
 

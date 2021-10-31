@@ -16,16 +16,26 @@ let
       name = "${secret}.age";
       value.publicKeys = publicKeys ++ deployers;
     }) secrets);
+
+  encryptHostSecrets = host: secrets:
+    encryptFor (hosts [ host ]) (
+      map (secret:
+        "hosts/${host}/${secret}"
+      ) secrets
+    );
 in
 
 encryptFor [] (import hosts/ssh-keys.nix) //
+
+encryptHostSecrets "node-0" [ "freedns" ] //
+
+encryptHostSecrets "node-2" [
+  "freedns"
+  "yggdrasil/keys.conf"
+] //
 
 encryptFor (hosts [ "node-0" ]) (services [
   "cache.sec"
   "nextcloud"
   "ssmtp"
-]) //
-
-encryptFor (hosts [ "node-2" ]) ([
-  "hosts/node-2/yggdrasil/keys.conf"
 ])

@@ -12,42 +12,52 @@ in {
       default = "*-*-* *:00/10:00";
     };
 
-    ip4Tokens = mkOption {
-      type = with types; listOf str;
-      default = [];
+    ip4TokensFile = mkOption {
+      type = with types; nullOr path;
+      default = null;
     };
 
-    ip6Tokens = mkOption {
-      type = with types; listOf str;
-      default = [];
+    ip6TokensFile = mkOption {
+      type = with types; nullOr path;
+      default = null;
     };
   };
 
-  config.systemd = lib.mkIf cfg.enable {
-    services.afraid-freedns = {
-      inherit description;
-      serviceConfig = {
-        Type = "oneshot";
-        DynamicUser = true;
-      };
-      path = with pkgs; [ curl ];
-      script =
-        let curlCmd = "curl -sS"; in
-        lib.concatMapStringsSep "\n" (token:
-          "${curlCmd} 'https://sync.afraid.org/u/${token}/'"
-        ) cfg.ip4Tokens +
-        lib.concatMapStringsSep "\n" (token:
-          "${curlCmd} 'https://v6.sync.afraid.org/u/${token}/'"
-        ) cfg.ip6Tokens;
-    };
+  config = lib.mkIf cfg.enable {
+    assertions = [ {
+      assertion = cfg.ip4TokensFile != null || cfg.ip6TokensFile != null;
+      message = "Neither a token for IPv4 nor IPv6 is given.";
+    } ];
 
-    timers.afraid-freedns = {
-      inherit description;
-      timerConfig = {
-        OnStartupSec = "1m";
-        OnCalendar = cfg.interval;
+    systemd = {
+      services.afraid-freedns = {
+        inherit description;
+        serviceConfig = {
+          Type = "oneshot";
+          DynamicUser = true;
+        };
+        path = with pkgs; [ curl ];
+        script = let
+          curlCmd = "curl -sS";
+        in lib.optionalString (cfg.ip4TokensFile != null) ''
+          while read token; do
+            ${curlCmd} "https://sync.afraid.org/u/$token/"
+          done < ${toString cfg.ip4TokensFile}
+        '' + lib.optionalString (cfg.ip6TokensFile != null) ''
+          while read token; do
+            ${curlCmd} "https://v6.sync.afraid.org/u/$token/"
+          done < ${toString cfg.ip6TokensFile}
+        '';
       };
-      wantedBy = [ "timers.target" ];
+
+      timers.afraid-freedns = {
+        inherit description;
+        timerConfig = {
+          OnStartupSec = "1m";
+          OnCalendar = cfg.interval;
+        };
+        wantedBy = [ "timers.target" ];
+      };
     };
   };
 }

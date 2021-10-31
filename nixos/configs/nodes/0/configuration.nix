@@ -6,7 +6,6 @@
   system.stateVersion = "21.05";
 
   profiles = {
-    default.enable = true;
     roundcube.enable = true;
     minecraft-server.enable = true;
     ssmtp.enable = true;
@@ -15,11 +14,6 @@
   };
 
   services = {
-    afraid-freedns = {
-      enable = true;
-      ip4Tokens = [];
-    };
-
     syncthing.enable = true;
     roundcube.config.enigma_pgp_homedir = "/data/roundcube/enigma";
     homepage.enable = true;
