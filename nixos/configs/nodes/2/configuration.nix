@@ -17,8 +17,6 @@
   services = {
     homepage.enable = true;
 
-    zfs.autoScrub.enable = true;
-
     znapzend = {
       pure = true;
       zetup = let

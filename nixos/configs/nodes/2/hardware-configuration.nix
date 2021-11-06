@@ -6,8 +6,10 @@
     ./network.nix
   ];
 
-  # recommended interval for enterprise HDDs
-  services.zfs.autoScrub.interval = "monthly";
+  services.zfs.autoScrub = {
+    enable = true;
+    interval = "monthly"; # recommended interval for enterprise HDDs
+  };
 
   boot = {
     initrd.availableKernelModules = [
