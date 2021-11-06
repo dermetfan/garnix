@@ -1,6 +1,8 @@
 { config, lib, pkgs, ... }:
 
 {
+  system.stateVersion = "21.05";
+
   profiles = {
     default.enable = true;
     handson.enable = true;
