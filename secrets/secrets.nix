@@ -41,4 +41,8 @@ encryptFor (hosts [ "node-0" ]) (services [
   "cache.sec"
   "nextcloud"
   "ssmtp"
+]) //
+
+encryptFor (hosts [ "node-2" ]) (services [
+  "ceph.client.admin.keyring"
 ])

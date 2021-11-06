@@ -2,6 +2,7 @@
 
 {
   imports = [
+    ../../../imports/age.nix
     self.inputs.impermanence.nixosModules.impermanence
   ];
 
@@ -11,7 +12,22 @@
     files = map (key: key.path) config.services.openssh.hostKeys;
     directories = [
       "/var/lib/acme"
+      "/var/lib/ceph"
     ];
+  };
+
+  environment.systemPackages = with pkgs; [ ceph ];
+
+  age = {
+    # https://github.com/ryantm/agenix/issues/45
+    sshKeyPaths = map (key: "/state${toString key.path}") config.services.openssh.hostKeys;
+
+    secrets."ceph.client.admin.keyring" = {
+      file = ../../../../secrets/services/ceph.client.admin.keyring.age;
+      path = "/etc/ceph/ceph.client.admin.keyring";
+      owner = config.users.users.ceph.name;
+      group = config.users.users.ceph.group;
+    };
   };
 
   services = {
@@ -51,6 +67,26 @@
       "tcp://ygg.mkg20001.io:80"
       "tcp://yugudorashiru.de:80"
     ];
+
+    ceph = {
+      enable = true;
+      mon = {
+        enable = true;
+        daemons = [ "a" ];
+      };
+      mgr = {
+        enable = true;
+        daemons = [ "a" ];
+      };
+      mds = {
+        enable = true;
+        daemons = [ "a" ];
+      };
+      osd = {
+        enable = true;
+        daemons = [ "1" "2" ];
+      };
+    };
   };
 
   bootstrap.secrets.initrd_ssh_host_ed25519_key.path = null;
