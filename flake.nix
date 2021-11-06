@@ -49,9 +49,7 @@
     out.singles //
     {
       inherit lib;
-      overlays = out.overlays nixpkgs/overlays // {
-        dermetfan-blog = self.inputs.dermetfan-blog.overlay;
-      };
+      overlays = out.overlays nixpkgs/overlays;
       nixosModules = out.nixosModules nixos/modules;
       nixosConfigurations = import nixos/configs self;
 

@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ self, config, lib, pkgs, ... }:
 
 let
   cfg = config.services.homepage;
@@ -7,7 +7,7 @@ in {
     enable = mkEnableOption "homepage";
     package = mkOption {
       type = types.package;
-      default = pkgs.dermetfan-blog.overrideArgs (old: {
+      default = self.inputs.dermetfan-blog.defaultPackage.${pkgs.system}.overrideArgs (old: {
         extraConf.data.secrets.github.personalAccessToken = builtins.readFile config.bootstrap.secrets.github-token.cleartext;
       });
     };
