@@ -8,7 +8,14 @@ let
 in {
   imports = [ ../../imports/age.nix ];
 
-  options.profiles.yggdrasil.enable = lib.mkEnableOption "yggdrasil node";
+  options.profiles.yggdrasil = {
+    enable = lib.mkEnableOption "yggdrasil node";
+    ip = with lib; mkOption {
+      readOnly = true;
+      type = types.str;
+      default = fileContents (secret "ip");
+    };
+  };
 
   config = lib.mkIf cfg.enable {
     age.secrets."yggdrasil.conf".file = secret "keys.conf.age";
@@ -18,7 +25,7 @@ in {
       configFile = config.age.secrets."yggdrasil.conf".path;
     };
 
-    networking.hosts.${lib.fileContents (secret "ip")} = lib.mkDefault [
+    networking.hosts.${cfg.ip} = lib.mkDefault [
       config.networking.fqdn
       config.networking.hostName
     ];
