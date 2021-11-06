@@ -27,7 +27,8 @@ in {
           any = cond: lib.any cond (
             builtins.attrValues config.services.nginx.virtualHosts
           );
-          # conditions copied from the nginx module
+          # Conditions copied from the nginx module.
+          # Unfortunately it does not expose its resolved listen addresses.
           onlySSL = h: h.onlySSL || h.enableSSL;
           hasSSL = h: onlySSL h || h.addSSL || h.forceSSL;
           # Run `systemctl restart acme-fixperms.service` if permissions in /var/lib/acme cause troubles.
