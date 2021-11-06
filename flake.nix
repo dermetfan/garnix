@@ -45,6 +45,11 @@
       apps = nixpkgs.lib.genAttrs [ "deploy-rs" "agenix" ] (flake:
         self.inputs.${flake}.defaultApp.${system}
       );
+
+      devShell = nixpkgs.legacyPackages.${system}.mkShell {
+        SSH_ASKPASS_REQUIRE = "prefer";
+        SSH_ASKPASS = "secrets/askpass";
+      };
     }) //
     out.singles //
     {
