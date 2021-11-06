@@ -48,37 +48,35 @@
     };
   };
 
-  home-manager.users.dermetfan = {
-    config = {
-      profiles = {
-        admin.enable = true;
-        dev = {
-          enable = true;
-          enableRust = true;
-          enableWeb = true;
-        };
-        media.enableEditors = true;
-        office.enable = true;
-        gui.enable = true;
-        desktop.enable = true;
-        game.enable = true;
+  home-manager.users.dermetfan.config = {
+    profiles = {
+      admin.enable = true;
+      dev = {
+        enable = true;
+        enableRust = true;
+        enableWeb = true;
       };
+      media.enableEditors = true;
+      office.enable = true;
+      gui.enable = true;
+      desktop.enable = true;
+      game.enable = true;
+    };
 
-      home.packages = with pkgs; [
+    home = {
+      stateVersion = "20.09";
+
+      packages = with pkgs; [
         asciinema
       ];
-
-      xsession.initExtra = ''
-        telegram-desktop &
-      '';
-
-      services.syncthing.enable = true;
-
-      config = {
-        programs = {
-          firefox.hideTabs = true;
-        };
-      };
     };
+
+    xsession.initExtra = ''
+      telegram-desktop &
+    '';
+
+    services.syncthing.enable = true;
+
+    config.programs.firefox.hideTabs = true;
   };
 }
