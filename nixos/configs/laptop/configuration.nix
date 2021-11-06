@@ -23,17 +23,6 @@
 
   hardware.yubikey.enable = true;
 
-  nix = {
-    package = pkgs.nixUnstable;
-    extraOptions = ''
-      experimental-features = nix-command flakes ca-references recursive-nix
-    '';
-    binaryCachePublicKeys = [
-      (builtins.readFile ../../../secrets/services/cache.pub)
-    ];
-    systemFeatures = lib.mkDefault [ "recursive-nix" ];
-  };
-
   networking = {
     hostName = "dermetfan";
   };
