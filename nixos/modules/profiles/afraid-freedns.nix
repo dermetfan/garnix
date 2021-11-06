@@ -2,8 +2,6 @@
 
 let
   cfg = config.profiles.afraid-freedns;
-
-  token = ../../../secrets/hosts/${config.networking.hostName}/freedns.age;
 in {
   imports = [ ../../imports/age.nix ];
 
@@ -14,7 +12,7 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    age.secrets."afraid-freedns-token".file = token;
+    age.secrets."afraid-freedns-token".file = ../../../secrets/hosts/${config.networking.hostName}/freedns.age;
 
     services.afraid-freedns = {
       enable = true;
