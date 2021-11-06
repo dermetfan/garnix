@@ -6,11 +6,6 @@
     ./network.nix
   ];
 
-  services.zfs.autoScrub = {
-    enable = true;
-    interval = "monthly"; # recommended interval for enterprise HDDs
-  };
-
   boot = {
     initrd.availableKernelModules = [
       "xhci_pci" "ehci_pci" "ahci" "sd_mod"
