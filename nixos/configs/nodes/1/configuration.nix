@@ -1,6 +1,8 @@
 { config, lib, ... }:
 
 {
+  profiles.afraid-freedns.enable = true;
+
   services.openssh = {
     passwordAuthentication = lib.mkForce true;
     challengeResponseAuthentication = lib.mkForce true;

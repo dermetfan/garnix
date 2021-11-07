@@ -12,7 +12,6 @@
   config = {
     profiles = {
       default.enable = true;
-      afraid-freedns.enable = true;
       yggdrasil.enable = true;
     };
 

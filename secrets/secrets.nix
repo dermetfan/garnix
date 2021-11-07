@@ -33,7 +33,6 @@ encryptFor [] (
 encryptHostSecrets "node-0" [ "freedns" ] //
 
 encryptHostSecrets "node-2" [
-  "freedns"
   "yggdrasil/keys.conf"
 ] //
 

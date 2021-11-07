@@ -6,6 +6,7 @@
   system.stateVersion = "21.05";
 
   profiles = {
+    afraid-freedns.enable = true;
     roundcube.enable = true;
     minecraft-server.enable = true;
     ssmtp.enable = true;
