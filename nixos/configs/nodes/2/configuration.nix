@@ -84,7 +84,11 @@
       };
       osd = {
         enable = true;
-        daemons = [ "1" "2" ];
+        daemons = [ "0" "1" ];
+        activate = {
+          "0" = "f3219584-f489-44ba-b923-6a3dbec9577a";
+          "1" = "062c7642-3f10-4a4f-b86b-4d69805ae484";
+        };
       };
     };
   };

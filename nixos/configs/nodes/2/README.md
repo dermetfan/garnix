@@ -40,7 +40,7 @@ zfs create -o refreserv=1G -o mountpoint=none -o canmount=off root/reserved
 
 Adapted from Graham Christensen's blog post ["Erase your darlings"](https://grahamc.com/blog/erase-your-darlings).
 
-## Imperative Steps
+## Bootstrap Secrets
 
 Run the bootstrap script to copy the SSH host keys to the target machine.
 
@@ -53,3 +53,32 @@ This is necessary because agenix uses them to decrypt its secrets.
 This setup largely follows the instructions on the [NixOS wiki](https://nixos.wiki/wiki/NixOS_on_ZFS#Unlock_encrypted_zfs_via_ssh_on_boot) for unlocking the root ZFS pool during the initial ramdisk.
 
 Due to a NixOS [bug](https://github.com/NixOS/nixpkgs/issues/98100) the SSH host keys for the initial ramdisk have to be copied to the target machine prior to `nixos-rebuild`. I could have had the bootstrap script do this but then another NixOS [bug](https://github.com/NixOS/nixpkgs/issues/114594) would strike. As a workaround they are added to `system.extraDependencies` so they are in the system closure. This of course means we lose all advantages of `boot.initrd.secrets`, which works by appending to the initrd during `nixos-rebuild` and is therefore incompatible with remote deployments, and the keys end up world-readable in the Nix store. Unfortunately this is the only way that I am currently aware of to make deployments work reliably.
+
+## Ceph Setup
+
+Create MON and MGR by following steps from one of the Ceph NixOS tests.
+I did this on nixpkgs rev `65be52ba2ae75cd930227be00861a24dd344bec6`.
+
+You could create OSDs the same way but we want to encrypt them which is not done in the NixOS tests.
+Follow these steps instead which I adapted from the [Ceph manual](https://docs.ceph.com/en/latest/install/manual-deployment/#bluestore):
+
+```
+# prepare temporary environment
+sudo -u ceph mkdir /var/lib/ceph/bootstrap-osd
+ceph auth get client.bootstrap-osd > /var/lib/ceph/bootstrap-osd/ceph.keyring
+sudo -u ceph ln -s /var/lib/ceph/bootstrap-osd/ceph.keyring /etc/ceph/ceph.client.bootstrap-osd.keyring
+nix profile install nixpkgs#cryptsetup
+
+ceph-volume lvm create --bluestore --data /dev/disk/by-id/… --dmcrypt --no-systemd
+
+# remove temporary environment
+rm /var/lib/ceph/bootstrap-osd /etc/ceph/ceph.client.bootstrap-osd.keyring
+nix profile remove …
+```
+
+The NixOS tests do not set up an MDS but it is simple.
+For example, for an MDS called `a` on the default cluster named `ceph`:
+
+```
+ceph auth get-or-create mds.a osd "allow rwx" mds "allow *" mon "allow profile mds" > /var/lib/ceph/mds/ceph-a/keyring
+```
