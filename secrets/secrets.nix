@@ -44,4 +44,5 @@ encryptFor (hosts [ "node-0" ]) (services [
 
 encryptFor (hosts [ "node-2" ]) (services [
   "ceph.client.admin.keyring"
+  "ceph.client.node.keyring"
 ])

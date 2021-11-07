@@ -16,17 +16,23 @@
     ];
   };
 
-  environment.systemPackages = with pkgs; [ ceph ];
-
   age = {
     # https://github.com/ryantm/agenix/issues/45
     sshKeyPaths = map (key: "/state${toString key.path}") config.services.openssh.hostKeys;
 
-    secrets."ceph.client.admin.keyring" = {
-      file = ../../../../secrets/services/ceph.client.admin.keyring.age;
-      path = "/etc/ceph/ceph.client.admin.keyring";
-      owner = config.users.users.ceph.name;
-      group = config.users.users.ceph.group;
+    secrets = {
+      "ceph.client.admin.keyring" = {
+        file = ../../../../secrets/services/ceph.client.admin.keyring.age;
+        path = "/etc/ceph/ceph.client.admin.keyring";
+        owner = config.users.users.ceph.name;
+        group = config.users.users.ceph.group;
+      };
+      "ceph.client.node.keyring" = {
+        file = ../../../../secrets/services/ceph.client.node.keyring.age;
+        path = "/etc/ceph/ceph.client.node.keyring";
+        owner = config.users.users.ceph.name;
+        group = config.users.users.ceph.group;
+      };
     };
   };
 
@@ -90,8 +96,32 @@
           "1" = "062c7642-3f10-4a4f-b86b-4d69805ae484";
         };
       };
+      client.enable = true;
     };
   };
+
+  environment.systemPackages = with pkgs; [
+    # TODO fix original wrapper in nixpkgs
+    # see https://github.com/NixOS/nixpkgs/issues/21748#issuecomment-271147560
+    (pkgs.writers.writeBashBin "mount.fuse.ceph-fixed" ''
+      export PATH=${pkgs.util-linux}/bin:"$PATH"
+      exec -a "$0" ${ceph}/bin/mount.fuse.ceph "$@"
+    '')
+  ];
+
+  systemd.mounts = [ rec {
+    wantedBy = [ "ceph.target" ];
+    partOf = wantedBy;
+    after =
+      map (id: "ceph-mon-${id}.service") config.services.ceph.mon.daemons ++
+      map (id: "ceph-mds-${id}.service") config.services.ceph.mds.daemons ++
+      map (id: "ceph-mgr-${id}.service") config.services.ceph.mgr.daemons;
+    conflicts = [ "umount.target" ];
+    type = "fuse.ceph-fixed";
+    what = "none";
+    where = "/cephfs";
+    options = "ceph.id=node";
+  } ];
 
   bootstrap.secrets.initrd_ssh_host_ed25519_key.path = null;
 
