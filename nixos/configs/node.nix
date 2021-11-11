@@ -26,20 +26,23 @@
         challengeResponseAuthentication = false;
       };
 
-      ceph.global = {
-        fsid = "efec54b4-7ee8-479d-ba1c-34c5eb766dfa";
-      } // lib.optionalAttrs config.services.ceph.mon.enable (let
-        monInitialHosts = with self.nixosConfigurations; [ node-2 ];
-      in {
-        monInitialMembers = builtins.concatStringsSep "," (
-          builtins.concatMap
-            (h: h.config.services.ceph.mon.daemons)
-            monInitialHosts
-        );
-        monHost = lib.concatMapStringsSep ","
-          (host: "[${host.config.profiles.yggdrasil.ip}]")
-          monInitialHosts;
-      });
+      ceph = {
+        global = {
+          fsid = "efec54b4-7ee8-479d-ba1c-34c5eb766dfa";
+        } // lib.optionalAttrs config.services.ceph.mon.enable (let
+          monInitialHosts = with self.nixosConfigurations; [ node-2 ];
+        in {
+          monInitialMembers = builtins.concatStringsSep "," (
+            builtins.concatMap
+              (h: h.config.services.ceph.mon.daemons)
+              monInitialHosts
+          );
+          monHost = lib.concatMapStringsSep ","
+            (host: "[${host.config.profiles.yggdrasil.ip}]")
+            monInitialHosts;
+        });
+        extraConfig."ms bind ipv6" = builtins.toJSON true;
+      };
     };
 
     nix = {

@@ -62,8 +62,6 @@ in {
         recommendedTlsSettings   = true;
         recommendedGzipSettings  = true;
       };
-
-      ceph.extraConfig."ms bind ipv6" = builtins.toJSON config.networking.enableIPv6;
     };
 
     programs = {
