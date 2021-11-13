@@ -83,6 +83,7 @@
       mgr = {
         enable = true;
         daemons = [ "a" ];
+        dashboard.enable = true;
       };
       mds = {
         enable = true;
