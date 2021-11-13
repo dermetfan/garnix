@@ -101,27 +101,14 @@
   };
 
   environment.systemPackages = with pkgs; [
-    # TODO fix original wrapper in nixpkgs
-    # see https://github.com/NixOS/nixpkgs/issues/21748#issuecomment-271147560
-    (pkgs.writers.writeBashBin "mount.fuse.ceph-fixed" ''
-      export PATH=${pkgs.util-linux}/bin:"$PATH"
-      exec -a "$0" ${ceph}/bin/mount.fuse.ceph "$@"
-    '')
+    ceph # ceph from ceph-client fails with "No module named 'rados'"
   ];
 
-  systemd.mounts = [ rec {
-    wantedBy = [ "ceph.target" ];
-    partOf = wantedBy;
-    after =
-      map (id: "ceph-mon-${id}.service") config.services.ceph.mon.daemons ++
-      map (id: "ceph-mds-${id}.service") config.services.ceph.mds.daemons ++
-      map (id: "ceph-mgr-${id}.service") config.services.ceph.mgr.daemons;
-    conflicts = [ "umount.target" ];
-    type = "fuse.ceph-fixed";
-    what = "none";
-    where = "/cephfs";
-    options = "ceph.id=node";
-  } ];
+  fileSystems."/cephfs" = {
+    fsType = "fuse.ceph-fixed";
+    device = "none";
+    options = [ "nofail" ];
+  };
 
   bootstrap.secrets.initrd_ssh_host_ed25519_key.path = null;
 
