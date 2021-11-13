@@ -13,6 +13,7 @@
     directories = [
       "/var/lib/acme"
       "/var/lib/ceph"
+      config.services.postgresql.dataDir
     ];
   };
 
@@ -35,6 +36,8 @@
       };
     };
   };
+
+  profiles.roundcube.enable = true;
 
   services = {
     homepage.enable = true;
@@ -105,10 +108,21 @@
     ceph # ceph from ceph-client fails with "No module named 'rados'"
   ];
 
-  fileSystems."/cephfs" = {
-    fsType = "fuse.ceph-fixed";
-    device = "none";
-    options = [ "nofail" ];
+  fileSystems = {
+    "/cephfs" = {
+      fsType = "fuse.ceph-fixed";
+      device = "none";
+      options = [ "nofail" ];
+    };
+
+    ${config.services.roundcube.config.enigma_pgp_homedir} = {
+      fsType = "fuse.ceph-fixed";
+      device = "none";
+      options = [
+        "nofail"
+        "ceph.client_mountpoint=/services/roundcube/enigma"
+      ];
+    };
   };
 
   bootstrap.secrets.initrd_ssh_host_ed25519_key.path = null;
