@@ -49,6 +49,40 @@
       devShell = nixpkgs.legacyPackages.${system}.mkShell {
         SSH_ASKPASS_REQUIRE = "prefer";
         SSH_ASKPASS = "secrets/askpass";
+        shellHook = let
+          git-hooks.pre-commit = nixpkgs.legacyPackages.${system}.writers.writeDash "pre-commit" (
+            nixpkgs.lib.pipe self.nixosConfigurations [
+              builtins.attrValues
+              (map (nixos: nixos.config.bootstrap.secrets))
+              (map builtins.attrValues)
+              nixpkgs.lib.flatten
+              (builtins.filter ({ path, ... }: path == null))
+              (map ({ file, ... }: file))
+              nixpkgs.lib.unique
+              nixpkgs.lib.escapeShellArgs
+              (files: ''
+                for file in ${files}; do
+                    if test -n "$(git diff --cached --name-only -- "$file")"; then
+                        >&2 printf '%s '  'You have a bootstrap secret'\'''s cleartext in the index!'
+                        >&2 printf '%s\n' 'Run this command to unstage it:'
+                        >&2 printf '\t%s\n' 'git reset -- '"$file"
+                        exit 1
+                    fi
+                done
+              '')
+            ]
+          );
+        in ''
+          if [[ ! -x "$SSH_ASKPASS" ]]; then
+              >&2 echo    "$SSH_ASKPASS"' is missing or not executable.'
+              >&2 echo    'Please place a script there that prints the key for'
+              >&2 echo -e '\tsecrets/deployer_ssh_ed25519_key'
+          fi
+
+          for hook in ${nixpkgs.lib.concatStrings (builtins.attrValues git-hooks)}; do
+              ln -sf $hook .git/hooks/$(stripHash $hook)
+          done
+        '';
       };
     }) //
     out.singles //
