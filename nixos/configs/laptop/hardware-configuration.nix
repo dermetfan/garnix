@@ -3,6 +3,14 @@
 {
   imports = [ self.inputs.nixpkgs.nixosModules.notDetected ];
 
+  home-manager.users.dermetfan.config.config = {
+    programs.i3status-rust.batteries = [ "BAT1" ];
+    wayland.windowManager.sway = {
+      keyboardIdentifier = "1:1:AT_Translated_Set_2_keyboard";
+      clamshellOutput = "eDP-1";
+    };
+  };
+
   hardware."MSI PE60-6QE" = {
     enable = true;
     enableGPU = false;

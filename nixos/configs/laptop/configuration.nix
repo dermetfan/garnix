@@ -40,14 +40,10 @@
     }
   ];
 
-  services = {
-    "1.1.1.1".enable = true;
-
-    pipewire = {
-      enable = true;
-      alsa.enable = true;
-      pulse.enable = true;
-    };
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    pulse.enable = true;
   };
 
   home-manager.users.dermetfan.config = {
@@ -79,6 +75,9 @@
 
     services.syncthing.enable = true;
 
-    config.programs.firefox.hideTabs = true;
+    config.programs = {
+      firefox.hideTabs = true;
+      i3status-rust.data.enable = lib.mkForce false;
+    };
   };
 }
