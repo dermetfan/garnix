@@ -1,6 +1,10 @@
 { config, lib, pkgs, ... }:
 
-{
+let
+  secrets = import config.bootstrap.secrets."secrets.nix".cleartext;
+in {
+  bootstrap.secrets."secrets.nix".path = null;
+
   system.stateVersion = "21.05";
 
   profiles = {
@@ -55,6 +59,7 @@
       gui.enable = true;
       desktop.enable = true;
       game.enable = true;
+      iog.enable = true;
     };
 
     home = {
@@ -69,7 +74,11 @@
       telegram-desktop &
     '';
 
-    services.syncthing.enable = true;
+    services = {
+      syncthing.enable = true;
+      redshift = secrets.coords;
+      wlsunset = secrets.coords;
+    };
 
     config.programs = {
       firefox.hideTabs = true;

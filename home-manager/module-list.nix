@@ -6,6 +6,7 @@
   profiles/office.nix
   profiles/game.nix
   profiles/gui.nix
+  profiles/iog.nix
 
   misc/data.nix
   misc/fonts.nix

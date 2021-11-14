@@ -30,6 +30,8 @@ encryptFor [] (
   [ "services/github" ]
 ) //
 
+encryptHostSecrets "laptop" [ "secrets.nix" ] //
+
 encryptHostSecrets "node-0" [ "freedns" ] //
 
 encryptHostSecrets "node-2" [
