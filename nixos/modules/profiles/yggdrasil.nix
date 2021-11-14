@@ -23,6 +23,7 @@ in {
     services.yggdrasil = {
       enable = true;
       configFile = config.age.secrets."yggdrasil.conf".path;
+      config.Listen = [ "tls://[::]:0" ];
     };
 
     networking.hosts.${cfg.ip} = lib.mkDefault [
