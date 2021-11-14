@@ -25,10 +25,6 @@
 
   hardware.yubikey.enable = true;
 
-  networking = {
-    hostName = "dermetfan";
-  };
-
   # for i3status-rust eco block
   security.sudo.extraRules = lib.mkAfter [
     {

@@ -16,15 +16,10 @@ let
   });
 in
 
-{ laptop = mkNixos (import ./laptop); } //
-
-lib.mapAttrs' (k: v:
-  let name = "node-${k}"; in
-  lib.nameValuePair
-    name
-    (mkNode (v // {
-      modules = v.modules or [] ++ [ {
-        networking.hostName = name;
-      } ];
-    }))
+lib.mapAttrs (k: v:
+  mkNode (v // {
+    modules = v.modules or [] ++ [ {
+      networking.hostName = k;
+    } ];
+  })
 ) (self.outputs.lib.filesystem.importDirToAttrs ./nodes)

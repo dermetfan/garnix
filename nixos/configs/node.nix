@@ -1,4 +1,4 @@
-{ self, config, lib, pkgs, ... }:
+{ self, lib, ... }:
 
 {
   options.nix.buildMachine = with lib; mkOption {
@@ -10,14 +10,16 @@
   };
 
   config = {
+    networking.domain = "dermetfan.net";
+
     profiles = {
       default.enable = true;
       yggdrasil.enable = true;
     };
 
-    networking = {
-      domain = "dermetfan.net";
-      useDHCP = false;
+    nix = {
+      gc.automatic = true;
+      optimise.automatic = true;
     };
 
     services = {
@@ -27,27 +29,24 @@
       };
 
       ceph = {
-        global = {
-          fsid = "efec54b4-7ee8-479d-ba1c-34c5eb766dfa";
-        } // lib.optionalAttrs config.services.ceph.mon.enable (let
+        global = let
           monInitialHosts = with self.nixosConfigurations; [ node-2 ];
         in {
+          fsid = "efec54b4-7ee8-479d-ba1c-34c5eb766dfa";
+
           monInitialMembers = builtins.concatStringsSep "," (
             builtins.concatMap
               (h: h.config.services.ceph.mon.daemons)
               monInitialHosts
           );
+
           monHost = lib.concatMapStringsSep ","
             (host: "[${host.config.profiles.yggdrasil.ip}]")
             monInitialHosts;
-        });
+        };
+
         extraConfig."ms bind ipv6" = builtins.toJSON true;
       };
-    };
-
-    nix = {
-      gc.automatic = true;
-      optimise.automatic = true;
     };
 
     users.users.root.openssh.authorizedKeys.keyFiles = [
