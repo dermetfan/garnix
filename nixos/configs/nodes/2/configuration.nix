@@ -82,15 +82,18 @@
       mon = {
         enable = true;
         daemons = [ "a" ];
+        openFirewall = true;
       };
       mgr = {
         enable = true;
         daemons = [ "a" ];
         dashboard.enable = true;
+        openFirewall = true;
       };
       mds = {
         enable = true;
         daemons = [ "a" ];
+        openFirewall = true;
       };
       osd = {
         enable = true;
@@ -99,6 +102,7 @@
           "0" = "f3219584-f489-44ba-b923-6a3dbec9577a";
           "1" = "062c7642-3f10-4a4f-b86b-4d69805ae484";
         };
+        openFirewall = true;
       };
       client.enable = true;
     };
