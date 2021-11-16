@@ -8,9 +8,16 @@ let
 in {
   imports = [ ../../imports/age.nix ];
 
-  options.profiles.yggdrasil = {
-    enable = lib.mkEnableOption "yggdrasil node";
-    ip = with lib; mkOption {
+  options.profiles.yggdrasil = with lib; {
+    enable = mkEnableOption "yggdrasil node";
+
+    port = mkOption {
+      type = types.port;
+      default = 16384;
+      description = "Arbitrary port to open in the firewall for peers.";
+    };
+
+    ip = mkOption {
       readOnly = true;
       type = types.str;
       default = fileContents (secret "ip");
@@ -23,12 +30,16 @@ in {
     services.yggdrasil = {
       enable = true;
       configFile = config.age.secrets."yggdrasil.conf".path;
-      config.Listen = [ "tls://[::]:0" ];
+      config.Listen = [ "tcp://[::]:${toString cfg.port}" ];
     };
 
-    networking.hosts.${cfg.ip} = lib.mkDefault [
-      config.networking.fqdn
-      config.networking.hostName
-    ];
+    networking = {
+      hosts.${cfg.ip} = lib.mkDefault [
+        config.networking.fqdn
+        config.networking.hostName
+      ];
+
+      firewall.allowedTCPPorts = [ cfg.port ];
+    };
   };
 }
