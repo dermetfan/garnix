@@ -1006,6 +1006,26 @@ in {
           };
         })
         (pkgs.kakouneUtils.buildKakounePluginFrom2Nix rec {
+          pname = "marks";
+          version = src.rev;
+          src = pkgs.fetchFromGitHub {
+            owner = "Delapouite";
+            repo = "kakoune-marks";
+            rev = "4aee81c4007f04e3d11813cdcc4c25730fe89bbd";
+            sha256 = "0c4b3gng8grknsjlvicinvn8yvrjwsqs0pc5yx8sqqzxcmngz5wm";
+          };
+        })
+        (pkgs.kakouneUtils.buildKakounePluginFrom2Nix rec {
+          pname = "mark";
+          version = src.rev;
+          src = pkgs.fetchFromGitLab {
+            owner = "fsub";
+            repo = "kakoune-mark";
+            rev = "7dca6d72ba3c01824bdc2ca3b6a01be9bce2603a";
+            sha256 = "12543v4fcfnd8z2m2d1xkal7a2rckz583vsk7ms7g5k798v5hxlq";
+          };
+        })
+        (pkgs.kakouneUtils.buildKakounePluginFrom2Nix rec {
           pname = "word-select";
           version = src.rev;
           src = pkgs.fetchFromSourcehut {
@@ -1013,6 +1033,26 @@ in {
             repo = "${pname}.kak";
             rev = "adcccb280de928636b32130857310c641813442f";
             hash = "sha256-jO4ET4u7SkvlnS6LuAZGH6CCa9/mwDVXiyx9BSuEGnA=";
+          };
+        })
+        (pkgs.kakouneUtils.buildKakounePluginFrom2Nix rec {
+          pname = "interactively";
+          version = src.rev;
+          src = pkgs.fetchFromGitHub {
+            owner = "chambln";
+            repo = "kakoune-interactively";
+            rev = "948baa8b5a82d9ff0b4e13e3ce175b50f4222426";
+            sha256 = "0pi90yrv5b3nxxzps863nhqrdfdkbkv3jylvaj20hc1vp3fxc1ka";
+          };
+        })
+        (pkgs.kakouneUtils.buildKakounePluginFrom2Nix rec {
+          pname = "palette";
+          version = src.rev;
+          src = pkgs.fetchFromGitHub {
+            owner = "Delapouite";
+            repo = "kakoune-palette";
+            rev = "052cab5f48578679d94717ed5f62429be9865d5d";
+            sha256 = "1p9mpzx6i816pcw9sala2kvy0ky39kwccxgsf3y3bpw6m8pi6kby";
           };
         })
       ];
