@@ -743,8 +743,7 @@ in {
         ];
       };
       extraConfig = ''
-        set-option global auto_pairs_enabled true
-        set-option global auto_pairs_surround_enabled true
+        enable-auto-pairs
         require-module move-line
         powerline-start
         require-module word-select; word-select-add-mappings
@@ -765,15 +764,27 @@ in {
 
       plugins = with pkgs.kakounePlugins; [
         kakoune-buffers
-        powerline-kak
-        fzf-kak
-        kak-ansi
+        kakoune-rainbow
+        kakoune-buffer-switcher
+        kakoune-extra-filetypes
         kakoune-state-save
         kakoune-easymotion
-        active-window-kak
-        kakoune-rainbow
-        kakboard
         kak-lsp
+        kak-fzf
+        kak-ansi
+        kakboard
+        powerline-kak
+        active-window-kak
+        (pkgs.kakouneUtils.buildKakounePluginFrom2Nix rec {
+          pname = "auto-pairs";
+          version = src.rev;
+          src = pkgs.fetchFromGitHub {
+            owner = "alexherbo2";
+            repo = "${pname}.kak";
+            rev = "596872fb1bd6cf804ee984e005ec2e05ec6872c7";
+            hash = "sha256-5M0Omi+rSnXhm3WtU9tkBhhIcRCWaGTMOdbne7Z9Yvs=";
+          };
+        })
         (pkgs.kakouneUtils.buildKakounePluginFrom2Nix rec {
           pname = "sudo-write";
           version = src.rev;
@@ -972,16 +983,6 @@ in {
             repo = "neuron-kak";
             rev = "bcf824ac837de95045e54d6d5a9fba48c06013e8";
             sha256 = "1fzadn5bmd0nazm0lh2nh5r1ayggafi5qrg95c06z5z7ppkmdplb";
-          };
-        })
-        (pkgs.kakouneUtils.buildKakounePluginFrom2Nix rec {
-          pname = "buffer-switcher";
-          version = src.rev;
-          src = pkgs.fetchFromGitHub {
-            owner = "occivink";
-            repo = "kakoune-buffer-switcher";
-            rev = "6a27c45db87a23070c34fab36d2f8d812cd002a6";
-            sha256 = "1rmwy317908v8p54806m721bpzm8sgygb9abri34537ka6r05y5j";
           };
         })
         # dependency of tmux-kak-copy-mode
