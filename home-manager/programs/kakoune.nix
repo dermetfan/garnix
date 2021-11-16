@@ -672,20 +672,30 @@ in {
           {
             name = "KakEnd";
             option = ".*";
-            commands = ''
-              state-save-reg-save colon
-              state-save-reg-save pipe
-              state-save-reg-save slash
-            '';
+            commands = lib.concatMapStrings (register: ''
+              state-save-reg-save ${register}
+            '') [
+              "colon"
+              "pipe"
+              "slash"
+              "dquote"
+              "arobase"
+              "caret"
+            ];
           }
           {
             name = "KakBegin";
             option = ".*";
-            commands = ''
-              state-save-reg-load colon
-              state-save-reg-load pipe
-              state-save-reg-load slash
-            '';
+            commands = lib.concatMapStrings (register: ''
+              state-save-reg-load ${register}
+            '') [
+              "colon"
+              "pipe"
+              "slash"
+              "dquote"
+              "arobase"
+              "caret"
+            ];
           }
           {
             name = "FocusOut";
