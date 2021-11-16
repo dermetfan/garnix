@@ -870,8 +870,8 @@ in {
           src = pkgs.fetchFromGitHub {
             owner = "occivink";
             repo = "kakoune-phantom-selection";
-            rev = "034d7a79f7f07e659e632468ef64c48ae82730f2";
-            sha256 = "0bwa6r7nqysjchsfjpj6jbxwvqb3dflh1ygij3pnyn29jplc8068";
+            rev = "c522ecde928f0bf8cb9cb94efdf7208fa3bdf2e1";
+            hash = "sha256-yADE6JVJWG/vkPH5AKlrY+HN+5JGXuk0ZFJ7bE82ii8=";
           };
         })
         (pkgs.kakouneUtils.buildKakounePluginFrom2Nix rec {
