@@ -777,11 +777,11 @@ in {
         (pkgs.kakouneUtils.buildKakounePluginFrom2Nix rec {
           pname = "move-line";
           version = src.rev;
-          src = pkgs.fetchFromGitHub {
-            owner = "alexherbo2";
-            repo = "move-line.kak";
-            rev = "bc1d08b8668a77297ecc69b05bf6b23ea09b314e";
-            sha256 = "0fj502vq99l3xfrsnsd7fszsl538iff7k36jlpqq2jv6yh6mvrnq";
+          src = pkgs.fetchFromSourcehut {
+            owner = "~dermetfan";
+            repo = "${pname}.kak";
+            rev = "47a6b216de6352ec8244b4375d7ee2805e084925";
+            hash = "sha256-2OZdDfRmS4HxpdKMeZyLaBSqv3anaauz64OmhLcARTo=";
           };
         })
         (pkgs.kakouneUtils.buildKakounePluginFrom2Nix rec {
@@ -887,11 +887,11 @@ in {
         (pkgs.kakouneUtils.buildKakounePluginFrom2Nix rec {
           pname = "change-directory";
           version = src.rev;
-          src = pkgs.fetchFromGitHub {
-            owner = "alexherbo2";
-            repo = "change-directory.kak";
-            rev = "a1e75c10abb65276d2481e5d7a349ab7911d3fd3";
-            sha256 = "1h57xi5r3a7lf4jh6cl46svampb73j9cn2rncad7ag55jq0d6zpc";
+          src = pkgs.fetchFromSourcehut {
+            owner = "~dermetfan";
+            repo = "${pname}.kak";
+            rev = "1f81e56c16cc4c3560ab0b5e61a199aaec7f2f68";
+            hash = "sha256-7H7TAJalPHWaYjYLy5IcZ92qtjaEMgMlcfSokUvsp8A=";
           };
         })
         (pkgs.kakouneUtils.buildKakounePluginFrom2Nix rec {
@@ -1008,11 +1008,11 @@ in {
         (pkgs.kakouneUtils.buildKakounePluginFrom2Nix rec {
           pname = "word-select";
           version = src.rev;
-          src = pkgs.fetchFromGitHub {
-            owner = "alexherbo2";
-            repo = "word-select.kak";
-            rev = "48d9d4c59b5ab9669314c2cd40d37601d36b62da";
-            sha256 = "0w0shhmhaz9cidbkbh76vxmq580z8q3bi2rfkpjlnjmvid7h9vlc";
+          src = pkgs.fetchFromSourcehut {
+            owner = "~dermetfan";
+            repo = "${pname}.kak";
+            rev = "adcccb280de928636b32130857310c641813442f";
+            hash = "sha256-jO4ET4u7SkvlnS6LuAZGH6CCa9/mwDVXiyx9BSuEGnA=";
           };
         })
       ];
