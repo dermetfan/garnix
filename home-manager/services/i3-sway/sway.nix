@@ -156,6 +156,12 @@ in {
           export FONTCONFIG_FILE=~/.config/fontconfig/conf.d/10-hm-fonts.conf
         '';
       };
+
+      # XXX upstream to home-manager?
+      systemd.user.targets.tray.Unit = {
+        Description = "Home Manager System Tray";
+        BindsTo = [ "sway-session.target" ];
+      };
     }
   ]);
 }
