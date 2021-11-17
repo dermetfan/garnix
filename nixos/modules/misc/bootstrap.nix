@@ -61,11 +61,14 @@ in {
 
     passthru = let
       setup = ''
+        set -e
+        if git rev-parse &> /dev/null; then
+            cd $(git rev-parse --show-toplevel)
+        fi
         if [[ ! -f flake.nix ]]; then
             >&2 echo 'This script must be run from the repo root.'
             exit 1
         fi
-        set -e
       '';
     in {
       bootstrap = pkgs.writeShellScriptBin "bootstrap" ''

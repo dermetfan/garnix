@@ -61,10 +61,11 @@
               nixpkgs.lib.unique
               nixpkgs.lib.escapeShellArgs
               (files: ''
+                cd $(git rev-parse --show-toplevel)
                 for file in ${files}; do
                     if test -n "$(git diff --cached --name-only -- "$file")"; then
                         >&2 printf '%s '  'You have a bootstrap secret'\'''s cleartext in the index!'
-                        >&2 printf '%s\n' 'Run this command to unstage it:'
+                        >&2 printf '%s\n' 'Run this command from the repo root to unstage it:'
                         >&2 printf '\t%s\n' 'git reset -- '"$file"
                         exit 1
                     fi
@@ -73,6 +74,8 @@
             ]
           );
         in ''
+          cd $(git rev-parse --show-toplevel)
+
           if [[ ! -x "$SSH_ASKPASS" ]]; then
               >&2 echo    "$SSH_ASKPASS"' is missing or not executable.'
               >&2 echo    'Please place a script there that prints the key for'
