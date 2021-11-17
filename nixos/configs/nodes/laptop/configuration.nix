@@ -40,10 +40,20 @@ in {
     }
   ];
 
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    pulse.enable = true;
+  services = {
+    yggdrasil.config.Peers = [
+      "tcp://94.130.203.208:5999"
+      "tcp://bunkertreff.ddns.net:5454"
+      "tcp://phrl42.ydns.eu:8842"
+      "tcp://ygg.mkg20001.io:80"
+      "tcp://yugudorashiru.de:80"
+    ];
+
+    pipewire = {
+      enable = true;
+      alsa.enable = true;
+      pulse.enable = true;
+    };
   };
 
   home-manager.users.dermetfan.config = {
