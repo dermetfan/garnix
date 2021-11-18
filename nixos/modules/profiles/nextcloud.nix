@@ -16,6 +16,7 @@ in {
 
     services = {
       nextcloud = {
+        enable = true;
         hostName = "nextcloud.${config.networking.domain}";
         autoUpdateApps.enable = true;
         config.adminpassFile = config.age.secrets.nextcloud.path;
