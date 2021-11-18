@@ -35,18 +35,25 @@ in {
         serviceConfig = {
           Type = "oneshot";
           DynamicUser = true;
+          LoadCredential = with cfg;
+            (lib.optional (ip4TokensFile != null) "ip4-tokens:${ip4TokensFile}") ++
+            (lib.optional (ip6TokensFile != null) "ip6-tokens:${ip6TokensFile}");
         };
         path = with pkgs; [ curl ];
         script = let
           curlCmd = "curl -sS";
-        in lib.optionalString (cfg.ip4TokensFile != null) ''
-          while read token; do
-            ${curlCmd} "https://sync.afraid.org/u/$token/"
-          done < ${toString cfg.ip4TokensFile}
-        '' + lib.optionalString (cfg.ip6TokensFile != null) ''
-          while read token; do
-            ${curlCmd} "https://v6.sync.afraid.org/u/$token/"
-          done < ${toString cfg.ip6TokensFile}
+        in ''
+          if [[ -f $CREDENTIALS_DIRECTORY/ip4-tokens ]]; then
+            while read token; do
+              ${curlCmd} "https://sync.afraid.org/u/$token/"
+            done < $CREDENTIALS_DIRECTORY/ip4-tokens
+          fi
+
+          if [[ -f $CREDENTIALS_DIRECTORY/ip6-tokens ]]; then
+            while read token; do
+              ${curlCmd} "https://v6.sync.afraid.org/u/$token/"
+            done < $CREDENTIALS_DIRECTORY/ip6-tokens
+          fi
         '';
       };
 
