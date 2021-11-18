@@ -1,10 +1,12 @@
-{ config, lib, pkgs, ... }:
+{ nixosConfig, config, lib, pkgs, ... }:
 
 let
   cfg = config.profiles.iog;
 in {
   options.profiles.iog = with lib; {
-    enable = mkEnableOption "IOG";
+    enable = mkEnableOption "IOG" // {
+      default = nixosConfig.profiles.iog.enable or false;
+    };
     reposDir = mkOption {
       type = types.path;
       default = "${config.misc.data.path}/projects/development/IOHK";

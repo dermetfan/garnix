@@ -13,6 +13,7 @@ in {
     notebook.enable = true;
     gui.enable = true;
     dev.enable = true;
+    iog.enable = true;
     users = {
       enable = true;
       users.dermetfan.enable = true;
@@ -69,7 +70,6 @@ in {
       gui.enable = true;
       desktop.enable = true;
       game.enable = true;
-      iog.enable = true;
     };
 
     home = {
