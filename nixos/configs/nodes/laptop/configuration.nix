@@ -42,13 +42,7 @@ in {
   ];
 
   services = {
-    yggdrasil.config.Peers = [
-      "tcp://94.130.203.208:5999"
-      "tcp://bunkertreff.ddns.net:5454"
-      "tcp://phrl42.ydns.eu:8842"
-      "tcp://ygg.mkg20001.io:80"
-      "tcp://yugudorashiru.de:80"
-    ];
+    yggdrasil.publicPeers.germany.enable = true;
 
     pipewire = {
       enable = true;
