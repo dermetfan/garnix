@@ -8,7 +8,6 @@ in {
   system.stateVersion = "21.05";
 
   profiles = {
-    default.enable = true;
     handson.enable = true;
     notebook.enable = true;
     gui.enable = true;

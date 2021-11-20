@@ -13,7 +13,7 @@
     networking.domain = "dermetfan.net";
 
     profiles = {
-      default.enable = true;
+      common.enable = true;
       yggdrasil.enable = true;
     };
 

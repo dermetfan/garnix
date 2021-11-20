@@ -1,9 +1,9 @@
 { config, lib, pkgs, ... }:
 
 let
-  cfg = config.profiles.default;
+  cfg = config.profiles.common;
 in {
-  options.profiles.default.enable = lib.mkEnableOption "default settings";
+  options.profiles.common.enable = lib.mkEnableOption "common settings";
 
   config = lib.mkIf cfg.enable {
     defaults.enable = true;

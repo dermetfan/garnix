@@ -31,18 +31,10 @@ rec {
           outputs.singles.overlay;
       } // args);
 
-    nixosModules = modulesPath:
-      lib.listToAttrs (map
-        (path: lib.nameValuePair
-          (lib.pipe path [
-            toString
-            (lib.removePrefix ((toString modulesPath) + "/"))
-            (lib.removeSuffix ".nix")
-          ])
-          (fixNixosModuleSelf (import path))
-        )
-        (lib.filesystem.listFilesRecursive modulesPath)
-      );
+    nixosModules = lib.flip lib.pipe [
+      self.outputs.lib.filesystem.importDirToAttrsRecursive
+      (lib.mapAttrs (k: fixNixosModuleSelf))
+    ];
 
     overlays = self.outputs.lib.filesystem.importDirToAttrs;
   };
