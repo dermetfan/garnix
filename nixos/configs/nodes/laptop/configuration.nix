@@ -1,10 +1,6 @@
 { config, lib, pkgs, ... }:
 
-let
-  secrets = import config.bootstrap.secrets."secrets.nix".cleartext;
-in {
-  bootstrap.secrets."secrets.nix".path = null;
-
+{
   system.stateVersion = "21.05";
 
   profiles = {
@@ -79,8 +75,8 @@ in {
 
     services = {
       syncthing.enable = true;
-      redshift = secrets.coords;
-      wlsunset = secrets.coords;
+      redshift = config.passthru.coords or {};
+      wlsunset = config.passthru.coords or {};
     };
 
     config.programs = {
