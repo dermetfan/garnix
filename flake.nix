@@ -27,6 +27,10 @@
       url = "hg+ssh://hg@hg.sr.ht/~dermetfan/dermetfan-blog";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    hosts = {
+      url = "github:StevenBlack/hosts";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = { self, nixpkgs, flake-utils, deploy-rs, ... }: let

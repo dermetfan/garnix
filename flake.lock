@@ -168,6 +168,21 @@
     },
     "flake-utils_4": {
       "locked": {
+        "lastModified": 1631561581,
+        "narHash": "sha256-3VQMV5zvxaVLvqqUrNz3iJelLw30mIVSfZmAaauM3dA=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "7e5bf3925f6fbdfaf50a2a7ca0be2879c4261d19",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
+    "flake-utils_5": {
+      "locked": {
         "lastModified": 1617631617,
         "narHash": "sha256-PARRCz55qN3gy07VJZIlFeOX420d0nGF0RzGI/9hVlw=",
         "owner": "numtide",
@@ -198,6 +213,27 @@
       "original": {
         "owner": "nix-community",
         "repo": "home-manager",
+        "type": "github"
+      }
+    },
+    "hosts": {
+      "inputs": {
+        "flake-utils": "flake-utils_4",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1637207495,
+        "narHash": "sha256-bJqOwdL0ZU5tsajSbBeHU04016aLeSnHvjcGeh6eKCs=",
+        "owner": "StevenBlack",
+        "repo": "hosts",
+        "rev": "bd2d8d623618b472dcaf81db9180a25cee1743fb",
+        "type": "github"
+      },
+      "original": {
+        "owner": "StevenBlack",
+        "repo": "hosts",
         "type": "github"
       }
     },
@@ -263,7 +299,7 @@
     "neuron": {
       "inputs": {
         "flake-compat": "flake-compat_2",
-        "flake-utils": "flake-utils_4",
+        "flake-utils": "flake-utils_5",
         "nixpkgs": [
           "nixpkgs"
         ]
@@ -332,6 +368,7 @@
         "dermetfan-blog": "dermetfan-blog",
         "flake-utils": "flake-utils_3",
         "home-manager": "home-manager",
+        "hosts": "hosts",
         "impermanence": "impermanence",
         "neuron": "neuron",
         "nixpkgs": "nixpkgs",

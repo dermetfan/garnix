@@ -1,8 +1,10 @@
-{ config, lib, pkgs, ... }:
+{ self, config, lib, pkgs, ... }:
 
 let
   cfg = config.profiles.common;
 in {
+  imports = [ self.inputs.hosts.nixosModule ];
+
   options.profiles.common.enable = lib.mkEnableOption "common settings";
 
   config = lib.mkIf cfg.enable {
@@ -25,6 +27,8 @@ in {
     };
 
     time.timeZone = "Europe/Berlin";
+
+    networking.stevenBlackHosts.enable = true;
 
     security.acme.email = "serverkorken@gmail.com";
 
