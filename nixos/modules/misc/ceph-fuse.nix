@@ -1,8 +1,6 @@
 { config, lib, pkgs, ... }:
 
-let
-  cfg = config.services.ceph.osd.activate;
-in {
+{
   config = lib.mkIf (lib.any (fs: fs == "fuse.ceph-fixed") config.boot.supportedFilesystems) {
     system.fsPackages = [
       # TODO fix original wrapper in nixpkgs
