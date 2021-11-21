@@ -48,6 +48,10 @@ encryptHostSecrets "node-2" [
   "yggdrasil/keys.conf"
 ] //
 
+encryptFor (hosts [ "laptop" ]) (services [
+  "ceph.client.dermetfan.keyring"
+]) //
+
 encryptFor (hosts [ "thinkpad" ]) (services [
   "ceph.client.diemetfan.keyring"
 ]) //

@@ -1,7 +1,14 @@
 { config, lib, pkgs, ... }:
 
 {
+  imports = [ ../../../imports/age.nix ];
+
   system.stateVersion = "21.05";
+
+  age.secrets."ceph.client.dermetfan.keyring" = {
+    file = ../../../../secrets/services/ceph.client.dermetfan.keyring.age;
+    path = "/etc/ceph/ceph.client.dermetfan.keyring";
+  };
 
   profiles = {
     handson.enable = true;
@@ -38,6 +45,11 @@
 
   services = {
     yggdrasil.publicPeers.germany.enable = true;
+
+    ceph = {
+      enable = true;
+      client.enable = true;
+    };
 
     pipewire = {
       enable = true;
@@ -83,5 +95,15 @@
       firefox.hideTabs = true;
       i3status-rust.data.enable = lib.mkForce false;
     };
+  };
+
+  fileSystems."/home/dermetfan/cephfs" = {
+    device = "none";
+    fsType = "fuse.ceph-fixed";
+    options = [
+      "nofail"
+      "ceph.id=dermetfan"
+      "ceph.client_mountpoint=/home/dermetfan"
+    ];
   };
 }
