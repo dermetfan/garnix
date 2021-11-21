@@ -14,10 +14,4 @@
     syncthing.enable = true;
     yggdrasil.publicPeers.germany.enable = true;
   };
-
-  environment.systemPackages = with pkgs; [
-    kakoune
-    ranger
-    htop
-  ];
 }
