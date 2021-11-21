@@ -22,6 +22,14 @@
       optimise.automatic = true;
     };
 
+    # XXX fix upstream?
+    # Cannot use `services.ceph.mon.extraConfig` due to its type.
+    environment.etc."ceph/ceph.conf".text = lib.generators.toINI {} (
+      lib.genAttrs
+        (map (daemon: "mon.${daemon}") config.services.ceph.mon.daemons)
+        (daemon: { "public addr" = "[${config.profiles.yggdrasil.ip}]"; })
+    );
+
     services = {
       openssh = {
         passwordAuthentication = false;
