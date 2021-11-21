@@ -50,7 +50,7 @@
 
       ceph = {
         global = let
-          monInitialHosts = with self.nixosConfigurations; [ node-2 ];
+          monInitialHosts = with self.nixosConfigurations; [ node-2 node-0 ];
         in {
           fsid = "efec54b4-7ee8-479d-ba1c-34c5eb766dfa";
 

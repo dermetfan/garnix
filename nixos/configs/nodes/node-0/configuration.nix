@@ -12,6 +12,26 @@
 
   services = {
     syncthing.enable = true;
+
     yggdrasil.publicPeers.germany.enable = true;
+
+    ceph = {
+      enable = true;
+      mon = {
+        enable = true;
+        daemons = [ "b" ];
+        openFirewall = true;
+      };
+      mgr = {
+        enable = true;
+        daemons = [ "b" ];
+        openFirewall = true;
+      };
+      mds = {
+        enable = true;
+        daemons = [ "b" ];
+        openFirewall = true;
+      };
+    };
   };
 }
