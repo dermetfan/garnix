@@ -1,7 +1,14 @@
 { config, pkgs, lib, ... }:
 
 {
+  imports = [ ../../../imports/age.nix ];
+
   system.stateVersion = "20.03";
+
+  age.secrets."ceph.client.diemetfan.keyring" = {
+    file = ../../../../secrets/services/ceph.client.diemetfan.keyring.age;
+    path = "/etc/ceph/ceph.client.diemetfan.keyring";
+  };
 
   profiles = {
     handson.enable = true;
@@ -25,6 +32,11 @@
       # due to infinite recursion
       user = "marlene";
       group = "users";
+    };
+
+    ceph = {
+      enable = true;
+      client.enable = true;
     };
 
     pipewire = {
@@ -89,33 +101,31 @@
 
   home-manager.users.marlene = lib.mkMerge [
     (import ../../../../home-manager)
-    {
-      config = {
-        users.diemetfan = true;
+    ({ nixosConfig, config, ... }: {
+      users.diemetfan = true;
 
-        home = {
-          stateVersion = "21.05";
+      home = {
+        stateVersion = "21.05";
 
-          username = config.users.users.marlene.name;
-          homeDirectory = config.users.users.marlene.home;
-        };
-
-        profiles = {
-          media.enable = true;
-          office.enable = true;
-        };
-
-        services = {
-          redshift = config.passthru.coords or {};
-          wlsunset = config.passthru.coords or {};
-        };
-
-        programs = {
-          firefox.enable = true;
-          browserpass.enable = lib.mkForce false;
-        };
+        username = nixosConfig.users.users.marlene.name;
+        homeDirectory = nixosConfig.users.users.marlene.home;
       };
-    }
+
+      profiles = {
+        media.enable = true;
+        office.enable = true;
+      };
+
+      services = {
+        redshift = nixosConfig.passthru.coords or {};
+        wlsunset = nixosConfig.passthru.coords or {};
+      };
+
+      programs = {
+        firefox.enable = true;
+        browserpass.enable = lib.mkForce false;
+      };
+    })
   ];
 
   users.users.marlene = {
@@ -127,12 +137,25 @@
       "wheel"
       "networkmanager"
       "video" # backlight
+      "ceph"
     ];
   };
 
-  fileSystems."/home/marlene" = {
-    device = "root/home/${config.users.users.marlene.name}";
-    fsType = "zfs";
+  fileSystems = {
+    "/home/marlene" = {
+      device = "root/home/marlene";
+      fsType = "zfs";
+    };
+
+    "/home/marlene/cephfs" = {
+      device = "none";
+      fsType = "fuse.ceph-fixed";
+      options = [
+        "nofail"
+        "ceph.id=diemetfan"
+        "ceph.client_mountpoint=/home/diemetfan"
+      ];
+    };
   };
 
   networking.hostId = "8425e349";

@@ -48,6 +48,10 @@ encryptHostSecrets "node-2" [
   "yggdrasil/keys.conf"
 ] //
 
+encryptFor (hosts [ "thinkpad" ]) (services [
+  "ceph.client.diemetfan.keyring"
+]) //
+
 encryptFor (hosts [ "node-0" ]) (services [
   "cache.sec"
   "nextcloud"
