@@ -35,6 +35,10 @@ encryptHostSecrets "laptop" [
   "secrets.nix"
 ] //
 
+encryptHostSecrets "thinkpad" [
+  "yggdrasil/keys.conf"
+] //
+
 encryptHostSecrets "node-0" [
   "yggdrasil/keys.conf"
   "freedns"

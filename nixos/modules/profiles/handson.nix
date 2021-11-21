@@ -27,9 +27,9 @@ in {
 
       kmscon = {
         extraConfig = ''
-          xkb-layout=us
-          xkb-variant=norman
-          xkb-options=compose:lwin,compose:rwin,eurosign:e
+          xkb-layout=${config.services.xserver.layout}
+          xkb-variant=${config.services.xserver.xkbVariant}
+          xkb-options=${config.services.xserver.xkbOptions}
         '';
         hwRender = true;
       };

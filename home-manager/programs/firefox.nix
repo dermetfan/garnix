@@ -1,4 +1,4 @@
-{ self, config, lib, pkgs, ... }:
+{ self, nixosConfig, config, lib, pkgs, ... }:
 
 let
   cfg = config.config.programs.firefox;
@@ -23,7 +23,7 @@ in {
   config = lib.mkIf cfg.enable {
     programs = {
       firefox = {
-        package = lib.mkIf (!config.xsession.enable) pkgs.firefox-wayland;
+        package = lib.mkIf (!config.xsession.enable && !nixosConfig.services.xserver.enable) pkgs.firefox-wayland;
 
         profiles.${config.home.username}.userChrome = ''
           /**

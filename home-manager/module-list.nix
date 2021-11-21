@@ -1,4 +1,7 @@
 [
+  users/dermetfan.nix
+  users/diemetfan.nix
+
   profiles/desktop.nix
   profiles/media.nix
   profiles/dev.nix
