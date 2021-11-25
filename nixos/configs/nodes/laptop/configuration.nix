@@ -48,6 +48,11 @@
 
     ceph = {
       enable = true;
+      mon = {
+        enable = true;
+        daemons = [ "c" ];
+        openFirewall = true;
+      };
       client.enable = true;
     };
 
