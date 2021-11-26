@@ -3,7 +3,9 @@
 let
   cfg = config.services.ceph.mon.mkfs;
 in {
-  options.services.ceph.mon.mkfs = lib.mkEnableOption "preparation of each Ceph MON's state directory";
+  options.services.ceph.mon.mkfs = lib.mkEnableOption "preparation of each Ceph MON's state directory" // {
+    default = true;
+  };
 
   config.systemd.services = lib.mkIf cfg (
     builtins.listToAttrs (map (id: let
