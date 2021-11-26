@@ -49,6 +49,7 @@ encryptHostSecrets "node-2" [
 ] //
 
 encryptFor (hosts [ "laptop" ]) (services [
+  "ceph.mon..keyring"
   "ceph.client.dermetfan.keyring"
 ]) //
 
@@ -57,12 +58,14 @@ encryptFor (hosts [ "thinkpad" ]) (services [
 ]) //
 
 encryptFor (hosts [ "node-0" ]) (services [
+  "ceph.mon..keyring"
   "cache.sec"
   "nextcloud"
   "ssmtp"
 ]) //
 
 encryptFor (hosts [ "node-2" ]) (services [
+  "ceph.mon..keyring"
   "ceph.client.admin.keyring"
   "ceph.client.node.keyring"
 ])

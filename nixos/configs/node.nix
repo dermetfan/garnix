@@ -17,6 +17,17 @@
       yggdrasil.enable = true;
     };
 
+    age.secrets = builtins.listToAttrs (map
+      (id: let
+        inherit (config.systemd.services."ceph-mon-${id}") serviceConfig;
+      in lib.nameValuePair "ceph.mon.${id}.keyring" {
+        file = ../../secrets/services/ceph.mon..keyring.age;
+        path = "/var/lib/${serviceConfig.StateDirectory}/keyring";
+        owner = serviceConfig.User;
+      })
+      config.services.ceph.mon.daemons
+    );
+
     nix = {
       gc.automatic = true;
       optimise.automatic = true;
@@ -66,6 +77,8 @@
         };
 
         extraConfig."ms bind ipv6" = builtins.toJSON true;
+
+        mon.mkfs = true;
       };
     };
 
