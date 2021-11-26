@@ -14,7 +14,7 @@ in {
     in lib.nameValuePair serviceName {
       path = with pkgs; [ ceph ];
       preStart = ''
-        set -euxo pipefail
+        set -euo pipefail
 
         # Probe for some file other than the keyring that indicates
         # whether the directory has already been initialized.
