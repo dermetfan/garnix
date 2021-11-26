@@ -19,6 +19,27 @@ in {
       };
     };
 
+    enableEco = mkOption {
+      type = types.bool;
+      default = true;
+      description = ''
+        The i3status-rust "eco" block requires cpupower to be usable without password through sudo.
+        Please put this in your NixOS config if necessary:
+
+        <code>
+        security.sudo.extraRules = lib.mkAfter [
+          {
+            commands = [ {
+              command = "''${pkgs.linuxPackages.cpupower}/bin/cpupower";
+              options = [ "NOPASSWD" ];
+            } ];
+            groups = [ config.users.groups.wheel.gid ];
+          }
+        ];
+        </code>
+      '';
+    };
+
     batteries = with lib; mkOption {
       type = with types; listOf str;
       default = if !pkgs.stdenv.isLinux then [] else
@@ -41,37 +62,7 @@ in {
       lm_sensors
     ];
 
-    programs.i3status-rust.bars.default = let
-      eco = builtins.trace
-        ''
-          The i3status-rust "eco" block requires cpupower to be usable without password through sudo.
-          Please put this in your NixOS config if necessary:
-
-          security.sudo.extraRules = lib.mkAfter [
-            {
-              commands = [ {
-                command = "''${pkgs.linuxPackages.cpupower}/bin/cpupower";
-                options = [ "NOPASSWD" ];
-              } ];
-              groups = [ config.users.groups.wheel.gid ];
-            }
-          ];
-        ''
-        pkgs.writeScript "eco.sh" ''
-          #! ${pkgs.bash}/bin/bash
-          # XXX should this be a script provided by the system config with sudo rights?
-          case "$1" in
-              on)
-                  ${lib.optionalString config.xsession.enable "systemctl --user stop picom"}
-                  sudo cpupower frequency-set -g powersave
-                  ;;
-              off)
-                  ${lib.optionalString config.xsession.enable "systemctl --user start picom"}
-                  sudo cpupower frequency-set -g performance
-                  ;;
-          esac
-        '';
-    in rec {
+    programs.i3status-rust.bars.default = rec {
       icons = "awesome5";
       theme = "gruvbox-dark";
 
@@ -107,14 +98,28 @@ in {
           device = battery;
           format = "{percentage} {time} {power}";
         }) cfg.batteries
-      ) ++ [
-        {
-          block = "toggle";
-          text = "eco";
-          command_on = "${eco} on";
-          command_off = "${eco} off";
-          command_state = "${eco}";
-        }
+      ) ++ lib.optional cfg.enableEco (let
+        eco = pkgs.writeScript "eco.sh" ''
+          #! ${pkgs.bash}/bin/bash
+          # XXX should this be a script provided by the system config with sudo rights?
+          case "$1" in
+              on)
+                  ${lib.optionalString config.xsession.enable "systemctl --user stop picom"}
+                  sudo cpupower frequency-set -g powersave
+                  ;;
+              off)
+                  ${lib.optionalString config.xsession.enable "systemctl --user start picom"}
+                  sudo cpupower frequency-set -g performance
+                  ;;
+          esac
+        '';
+      in {
+        block = "toggle";
+        text = "eco";
+        command_on = "${eco} on";
+        command_off = "${eco} off";
+        command_state = "${eco}";
+      }) ++ [
         {
           block = "time";
           interval = 1;
