@@ -31,6 +31,7 @@
   programs/broot.nix
   programs/cargo.nix
   programs/elvish.nix
+  programs/exa.nix
   programs/fish.nix
   programs/firefox.nix
   programs/geany.nix
@@ -47,6 +48,7 @@
   programs/ranger.nix
   programs/ripgrep.nix
   programs/rofi.nix
+  programs/shells.nix
   programs/starship.nix
   programs/swappy.nix
   programs/swaylock.nix

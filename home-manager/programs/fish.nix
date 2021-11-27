@@ -22,9 +22,6 @@ in {
 
       fish = {
         shellAliases = {
-          ls = "exa --group-directories-first";
-          l  = "exa -lga --group-directories-first";
-          ll = "exa -lg --group-directories-first";
           diff = "diff -r --suppress-common-lines";
           watch = "watch --color";
           pv = "pv -pea";

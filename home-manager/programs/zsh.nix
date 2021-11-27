@@ -40,9 +40,6 @@ in {
         history.share = false;
 
         shellAliases = {
-          ls = "exa --group-directories-first";
-          l  = "exa -lga --group-directories-first";
-          ll = "exa -lg --group-directories-first";
           diff = "diff -r --suppress-common-lines";
           grep = "grep --color=auto";
           d = "dirs -v | head -10";
