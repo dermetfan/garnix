@@ -28,6 +28,7 @@
 
   programs/alacritty.nix
   programs/bat.nix
+  programs/broot.nix
   programs/cargo.nix
   programs/elvish.nix
   programs/fish.nix

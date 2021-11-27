@@ -96,6 +96,8 @@
       wlsunset = config.passthru.coords or {};
     };
 
+    programs.broot.config.special_paths."/home/dermetfan/cephfs" = "no-enter";
+
     config.programs = {
       firefox.hideTabs = true;
       i3status-rust.data.enable = lib.mkForce false;
