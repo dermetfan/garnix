@@ -760,7 +760,22 @@ in {
         set-option global kakboard_paste_keys p P K <a-p> <a-P> <a-R>
 
         eval %sh{kak-lsp --kakoune -s $kak_session}
-      '';
+      '' + (
+        # TODO fix upstream (renamed options from `ncurses` → `terminal`)
+        with config.programs.kakoune.config.ui;
+        lib.concatStringsSep " " [
+          "set-option global ui_options"
+          "terminal_set_title=${builtins.toJSON setTitle}"
+          "terminal_status_on_top=${builtins.toJSON (statusLine == "top")}"
+          "terminal_assistant=${assistant}"
+          "terminal_enable_mouse=${builtins.toJSON enableMouse}"
+          "terminal_change_colors=${builtins.toJSON changeColors}"
+          "${lib.optionalString (wheelDownButton != null) "terminal_wheel_down_button=${wheelDownButton}"}"
+          "${lib.optionalString (wheelUpButton != null) "terminal_wheel_up_button=${wheelUpButton}"}"
+          "${lib.optionalString (shiftFunctionKeys != null) "terminal_shift_function_key=${toString shiftFunctionKeys}"}"
+          "terminal_builtin_key_parser=${builtins.toJSON useBuiltinKeyParser}"
+        ]
+      );
 
       plugins = with pkgs.kakounePlugins; [
         kakoune-buffers
