@@ -20,5 +20,5 @@ let
 in
 
 if pkgs.lib.inNixShell
-then builtins.trace "This flake does not provide shell support." compat.shellNix
+then compat.shellNix
 else compat.defaultNix
