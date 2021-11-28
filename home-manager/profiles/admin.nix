@@ -24,7 +24,6 @@ in {
       ncid
       neofetch
       nix-prefetch-scripts
-      nixops
       peco
       procs
       pv
