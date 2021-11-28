@@ -64,11 +64,9 @@
         "${mod}+x" = "exec alacritty -e ranger";
         "${mod}+Shift+x" = "exec alacritty -e sudo ranger";
 
-        "${mod}+e"            = "exec rofi -show drun";
-        "${mod}+Ctrl+e"       = "exec rofi -show run";
-        "${mod}+Shift+e"      = "exec rofi -show ssh";
-        "${mod}+Ctrl+Shift+e" = "exec rofi -show combi";
-        "${mod}+Tab"          = "exec rofi -show window";
+        "${mod}+e"       = "exec rofi -show drun";
+        "${mod}+Shift+e" = "exec rofi -show combi";
+        "${mod}+Tab"     = "exec rofi -show window";
 
         "${mod}+m" = lib.mkIf config.programs.networkmanager-dmenu.enable "exec networkmanager_dmenu";
 
