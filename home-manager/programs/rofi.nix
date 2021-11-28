@@ -15,14 +15,31 @@ in {
       alacritty.enable = true;
 
       rofi = {
+        plugins = with pkgs; [
+          rofi-calc
+        ];
+
         terminal = "alacritty";
-        theme = "gruvbox-dark-soft";
+
+        theme = let
+          inherit (config.lib.formats.rasi) mkLiteral;
+        in {
+          "@import" = "gruvbox-dark-soft";
+          window.width = mkLiteral "40%";
+          mainbox.children = map mkLiteral [ "inputbar" "message" "listview" "mode-switcher" ];
+          element-icon.margin = mkLiteral "0 6px 0 0";
+        };
+
         extraConfig = {
-          borderWidth = 0;
-          width = 25;
-          separator = "none";
-          scrollbar-width = 5;
-          opacity = 25;
+          modi = lib.concatStringsSep "," (with pkgs; [
+            "power:${rofi-power-menu}/bin/rofi-power-menu"
+            "calc"
+            "emoji:${rofimoji}/bin/rofimoji"
+            "drun"
+            "run"
+            "ssh"
+          ]);
+          show-icons = true;
         };
       };
     };
