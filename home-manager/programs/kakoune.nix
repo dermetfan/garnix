@@ -26,7 +26,7 @@ in {
   config = lib.mkIf cfg.enable {
     programs.kakoune = {
       config = {
-        colorScheme = "gruvbox";
+        colorScheme = "cosy-gruvbox";
         indentWidth = 0;
         numberLines = {
           enable = true;
@@ -658,7 +658,7 @@ in {
             name = "ModuleLoaded";
             option = "powerline";
             commands = ''
-              powerline-theme ${config.programs.kakoune.config.colorScheme}
+              powerline-theme base16-gruvbox
             '';
           }
           {
