@@ -1,18 +1,12 @@
-{ self, config, lib, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
 let
   cfg = config.boot.kernelNetwork;
 
-  netmask = builtins.readFile (let
-    pkgs-unstable = lib.traceIf (lib.versionAtLeast pkgs.ipcalc.version "1.0.1") ''
-      Your nixpkgs has a recent enough ipcalc.
-      You can remove the separate dependency on nixpkgs unstable
-      in kernel-network.nix.
-    '' self.inputs.nixpkgs-unstable.legacyPackages.${pkgs.system};
-  in
+  netmask = builtins.readFile (
     with cfg.ipv4;
     pkgs.runCommandNoCCLocal "netmask" {} ''
-      ${pkgs-unstable.ipcalc}/bin/ipcalc -m ${address}/${toString prefixLength} \
+      ${pkgs.ipcalc}/bin/ipcalc -m ${address}/${toString prefixLength} \
       | cut -d = -f 2 \
       | tr -d \\n \
       > $out

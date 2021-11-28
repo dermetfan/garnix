@@ -1136,7 +1136,10 @@ in {
       perl socat # gdb
 
       # kak-lsp
-      rnix-lsp
+      ( # currently broken in nixpkgs
+        (builtins.getFlake "github:nix-community/rnix-lsp/9462b0d20325a06f7e43b5a0469ec2c92e60f5fe")
+          .outputs.defaultPackage.${pkgs.system}
+      )
       gopls go
       zls jq
       yaml-language-server

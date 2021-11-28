@@ -65,9 +65,7 @@ in {
           set -U fish_pager_color_progress brwhite --background=cyan
           set -U fish_color_comment 626A73
           set -U fish_color_match F07178
-        '';
 
-        promptInit = ''
           # see https://github.com/IlanCosman/tide/blob/main/functions/tide/configure/configs/lean.fish
 
           set -U tide_print_newline_before_prompt false

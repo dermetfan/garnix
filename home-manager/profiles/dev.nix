@@ -53,7 +53,8 @@ in {
         qcachegrind
       ] ++
       lib.optionals cfg.enableRust [
-        rustracer
+        # XXX re-enable once no longer marked as broken
+        # rustracer
         # rustracerd
       ] ++
       lib.optionals cfg.enableJava (

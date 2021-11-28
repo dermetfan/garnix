@@ -15,14 +15,14 @@ in {
       alacritty.enable = true;
 
       rofi = {
-        borderWidth = 0;
-        separator = "none";
-        width = 25;
         terminal = "alacritty";
+        theme = "gruvbox-dark-soft";
         extraConfig = {
+          borderWidth = 0;
+          width = 25;
+          separator = "none";
           scrollbar-width = 5;
           opacity = 25;
-          theme = "${pkgs.rofi}/share/rofi/themes/Monokai";
         };
       };
     };
