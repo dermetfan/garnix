@@ -1089,21 +1089,55 @@ in {
       snippet_support = true;
       verbosity = 2;
 
-      semantic_tokens = {
-        type = "type";
-        variable = "variable";
-        namespace = "module";
-        function = "function";
-        string = "string";
-        keyword = "keyword";
-        operator = "operator";
-        comment = "comment";
-      };
-
-      semantic_token_modifiers = {
-        documentation = "documentation";
-        readonly = "default+d";
-      };
+      semantic_tokens = [
+        {
+          token = "comment";
+          face = "documentation";
+          modifiers = ["documentation"];
+        }
+        {
+          token = "comment";
+          face = "comment";
+        }
+        {
+          token = "function";
+          face = "function";
+        }
+        {
+          token = "keyword";
+          face = "keyword";
+        }
+        {
+          token = "namespace";
+          face = "module";
+        }
+        {
+          token = "operator";
+          face = "operator";
+        }
+        {
+          token = "string";
+          face = "string";
+        }
+        {
+          token = "type";
+          face = "type";
+        }
+        {
+          token = "variable";
+          face = "default+d";
+          modifiers = ["readonly"];
+        }
+        {
+          token = "variable";
+          face = "default+d";
+          modifiers = ["constant"];
+        }
+        {
+          token = "variable";
+          face = "variable";
+        }
+      ];
 
       server.timeout = 1800;
 
