@@ -79,8 +79,8 @@ in {
 
           keybindings = let
             mod = config.wayland.windowManager.sway.config.modifier;
-            wobShowVolume = ''printf "%d #D9000000 #F2FF4040 #F2FFFFFF\n" $(amixer sget Master | grep -m 1 '\[on\]' | grep -E '\[[[:digit:]]{1,3}%\]' -o | grep -E '[[:digit:]]{1,3}' -o || echo 0) > $SWAYSOCK.wob'';
-            wobShowBacklight = ''printf '%.0f #D9000000 #F2FFFFFF #F2FFFFFF\n' $(light -G) > $SWAYSOCK.wob'';
+            wobShowVolume = ''printf "%d #282828D9 #FB3934FF #DBDBB2FF\n" $(amixer sget Master | grep -m 1 '\[on\]' | grep -E '\[[[:digit:]]{1,3}%\]' -o | grep -E '[[:digit:]]{1,3}' -o || echo 0) > $SWAYSOCK.wob'';
+            wobShowBacklight = ''printf '%.0f #282828D9 #DBDBB2FF #DBDBB2FF\n' $(light -G) > $SWAYSOCK.wob'';
           in {
             "${mod}+c" = "exec clipman pick -t rofi";
 
