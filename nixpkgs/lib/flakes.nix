@@ -14,11 +14,13 @@ rec {
         let inherit (flake) outputs; in
         lib.optionalAttrs (outputs ? nixosModules)
           { nixosModule.imports = builtins.attrValues outputs.nixosModules; } //
+        lib.optionalAttrs (outputs ? homeManagerModules)
+          { homeManagerModule.imports = builtins.attrValues outputs.homeManagerModules; } //
         lib.optionalAttrs (outputs ? overlays) {
             overlay = final: prev: # wrap to name arguments for flake check
               (lib.composeManyExtensions (builtins.attrValues outputs.overlays)) final prev;
         }
-      ) nixosModule overlay;
+      ) nixosModule homeManagerModule overlay;
     };
 
     packages = system: outputs.singles.overlay {}

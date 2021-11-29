@@ -1,8 +1,6 @@
 { pkgs, ... }:
 
 {
-  imports = import ./module-list.nix;
-
   fonts.fontconfig.enable = true;
 
   home.packages = with pkgs; [ less ];

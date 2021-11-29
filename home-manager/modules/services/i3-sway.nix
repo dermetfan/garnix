@@ -1,24 +1,17 @@
-{
-  nixosConfig, config, lib,
-  cfg,
-  enableGaps ? true
-}:
+{ nixosConfig, config, lib, ... }:
 
-{
-  config.programs = {
-    i3status-rust.enable = true;
-    alacritty    .enable = true;
-    ranger       .enable = true;
-    rofi         .enable = true;
-
-    networkmanager-dmenu.enable = nixosConfig.networking.networkmanager.enable or false;
+let
+  commonOptions.enableGaps = lib.mkEnableOption "gaps config" // {
+    default = true;
   };
 
-  i3-sway.config = let
+  commonConfig = getCfg: let
     up    = "r";
     down  = "i";
     left  = "n";
     right = "o";
+    cfg = getCfg config;
+    configCfg = getCfg config.config;
   in lib.mkMerge [
     {
       focus.followMouse = false;
@@ -153,7 +146,7 @@
 
     (let
       modeGaps = "gaps: i|r (± inner), n|o (± outer), u|l (0 inner/outer), d (default), + Shift (global), b|B (bar)";
-    in lib.mkIf enableGaps {
+    in lib.mkIf configCfg.enableGaps {
       gaps = {
         inner = 15;
         smartGaps = true;
@@ -186,4 +179,28 @@
       };
     })
   ];
+in
+
+{
+  options.config = {
+    xsession.windowManager.i3 = commonOptions;
+    wayland.windowManager.sway = commonOptions;
+  };
+
+  config = lib.mkIf (
+    config.config.xsession.windowManager.i3.enable ||
+    config.config.wayland.windowManager.sway.enable
+  ) {
+    programs = {
+      i3status-rust.enable = true;
+      alacritty    .enable = true;
+      ranger       .enable = true;
+      rofi         .enable = true;
+
+      networkmanager-dmenu.enable = nixosConfig.networking.networkmanager.enable or false;
+    };
+
+    xsession.windowManager.i3.config = commonConfig (x: x.xsession.windowManager.i3);
+    wayland.windowManager.sway.config = commonConfig (x: x.wayland.windowManager.sway);
+  };
 }

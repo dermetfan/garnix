@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ self, config, pkgs, lib, ... }:
 
 {
   imports = [ ../../../imports/age.nix ];
@@ -100,10 +100,8 @@
   };
 
   home-manager.users.marlene = lib.mkMerge [
-    (import ../../../../home-manager)
+    self.outputs.homeManagerConfigurations.diemetfan
     ({ nixosConfig, config, ... }: {
-      users.diemetfan = true;
-
       home = {
         stateVersion = "21.05";
 

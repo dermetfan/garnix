@@ -97,6 +97,8 @@
       overlays = out.overlays nixpkgs/overlays;
       nixosModules = out.nixosModules nixos/modules;
       nixosConfigurations = import nixos/configs self;
+      homeManagerModules = out.nixosModules home-manager/modules;
+      homeManagerConfigurations = out.nixosModules home-manager/configs;
 
       deploy = {
         nodes = builtins.mapAttrs (k: v: {

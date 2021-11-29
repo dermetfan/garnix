@@ -2,10 +2,6 @@
 
 let
   cfg = config.config.wayland.windowManager.sway;
-  common = import ./common.nix {
-    inherit nixosConfig config lib;
-    cfg = config.wayland.windowManager.sway;
-  };
 in {
   options.config.wayland.windowManager.sway = with lib; {
     enable = mkOption {
@@ -33,8 +29,6 @@ in {
   };
 
   config = lib.mkIf cfg.enable (lib.mkMerge [
-    common.config
-    { wayland.windowManager.sway = common.i3-sway; }
     {
       wayland.windowManager.sway.config.input.${cfg.keyboardIdentifier} = with config.home.keyboard; {
         xkb_layout = layout;
