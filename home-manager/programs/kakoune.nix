@@ -1085,95 +1085,106 @@ in {
       ];
     };
 
-    xdg.configFile."kak-lsp/kak-lsp.toml".source = (pkgs.formats.toml {}).generate "kak-lsp.toml" {
-      snippet_support = true;
-      verbosity = 2;
+    xdg = {
+      configFile."kak-lsp/kak-lsp.toml".source = (pkgs.formats.toml {}).generate "kak-lsp.toml" {
+        snippet_support = true;
+        verbosity = 2;
 
-      semantic_tokens = [
-        {
-          token = "comment";
-          face = "documentation";
-          modifiers = ["documentation"];
-        }
-        {
-          token = "comment";
-          face = "comment";
-        }
-        {
-          token = "function";
-          face = "function";
-        }
-        {
-          token = "keyword";
-          face = "keyword";
-        }
-        {
-          token = "namespace";
-          face = "module";
-        }
-        {
-          token = "operator";
-          face = "operator";
-        }
-        {
-          token = "string";
-          face = "string";
-        }
-        {
-          token = "type";
-          face = "type";
-        }
-        {
-          token = "variable";
-          face = "default+d";
-          modifiers = ["readonly"];
-        }
-        {
-          token = "variable";
-          face = "default+d";
-          modifiers = ["constant"];
-        }
-        {
-          token = "variable";
-          face = "variable";
-        }
-      ];
+        semantic_tokens = [
+          {
+            token = "comment";
+            face = "documentation";
+            modifiers = ["documentation"];
+          }
+          {
+            token = "comment";
+            face = "comment";
+          }
+          {
+            token = "function";
+            face = "function";
+          }
+          {
+            token = "keyword";
+            face = "keyword";
+          }
+          {
+            token = "namespace";
+            face = "module";
+          }
+          {
+            token = "operator";
+            face = "operator";
+          }
+          {
+            token = "string";
+            face = "string";
+          }
+          {
+            token = "type";
+            face = "type";
+          }
+          {
+            token = "variable";
+            face = "default+d";
+            modifiers = ["readonly"];
+          }
+          {
+            token = "variable";
+            face = "default+d";
+            modifiers = ["constant"];
+          }
+          {
+            token = "variable";
+            face = "variable";
+          }
+        ];
 
-      server.timeout = 1800;
+        server.timeout = 1800;
 
-      language = {
-        nix = {
-          filetypes = [ "nix" ];
-          roots = [ "flake.nix" "shell.nix" "release.nix" ".git" ".hg" "default.nix" ];
-          command = "rnix-lsp";
+        language = {
+          nix = {
+            filetypes = [ "nix" ];
+            roots = [ "flake.nix" "shell.nix" "release.nix" ".git" ".hg" "default.nix" ];
+            command = "rnix-lsp";
+          };
+
+          php = {
+            filetypes = [ "php" ];
+            roots = [ "psalm.xml" "composer.json" ".git" ".hg" ];
+            command = "psalm";
+            args = [ "--language-server" ];
+          };
+
+          yaml = {
+            filetypes = [ "yaml" "yml" ];
+            roots = [ ".git" ".hg" ];
+            command = "yaml-language-server";
+            args = [ "--stdio" ];
+          };
+
+          go = {
+            filetypes = [ "go" ];
+            roots = [ "Gopkg.toml" "go.mod" ".git" ".hg" ];
+            command = "gopls";
+            offset_encoding = "utf-8";
+          };
+
+          zig = {
+            filetypes = [ "zig" ];
+            roots = [ "build.zig" ];
+            command = "zls";
+          };
         };
+      };
 
-        php = {
-          filetypes = [ "php" ];
-          roots = [ "psalm.xml" "composer.json" ".git" ".hg" ];
-          command = "psalm";
-          args = [ "--language-server" ];
-        };
-
-        yaml = {
-          filetypes = [ "yaml" "yml" ];
-          roots = [ ".git" ".hg" ];
-          command = "yaml-language-server";
-          args = [ "--stdio" ];
-        };
-
-        go = {
-          filetypes = [ "go" ];
-          roots = [ "Gopkg.toml" "go.mod" ".git" ".hg" ];
-          command = "gopls";
-          offset_encoding = "utf-8";
-        };
-
-        zig = {
-          filetypes = [ "zig" ];
-          roots = [ "build.zig" ];
-          command = "zls";
-        };
+      desktopEntries.kakoune = {
+        name = "Kakoune";
+        genericName = "Text Editor";
+        exec = "kak %F";
+        terminal = true;
+        categories = [ "TextEditor" "ConsoleOnly" "Development" ];
+        mimeType = [ "text/plain" "application/json" "text/html" ];
       };
     };
 
