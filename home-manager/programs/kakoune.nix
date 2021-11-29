@@ -659,7 +659,7 @@ in {
             option = "powerline";
             commands = ''
               powerline-theme base16-gruvbox
-              powerline-separator triangle-inverted
+              powerline-separator global triangle-inverted
             '';
           }
           {
