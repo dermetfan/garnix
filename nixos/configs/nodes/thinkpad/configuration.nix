@@ -147,7 +147,7 @@
       fsType = "zfs";
     };
 
-    "/home/marlene/cephfs" = {
+    "/mnt/cephfs/home/diemetfan" = {
       device = "none";
       fsType = "fuse.ceph-fixed";
       options = [

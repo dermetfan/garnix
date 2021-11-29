@@ -96,7 +96,7 @@
       wlsunset = config.passthru.coords or {};
     };
 
-    programs.broot.config.special_paths."/home/dermetfan/cephfs" = "no-enter";
+    programs.broot.config.special_paths."/mnt/cephfs/home/dermetfan" = "no-enter";
 
     config.programs = {
       firefox.hideTabs = true;
@@ -104,7 +104,7 @@
     };
   };
 
-  fileSystems."/home/dermetfan/cephfs" = {
+  fileSystems."/mnt/cephfs/home/dermetfan" = {
     device = "none";
     fsType = "fuse.ceph-fixed";
     options = [
