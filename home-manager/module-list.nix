@@ -41,6 +41,7 @@
   programs/kakoune.nix
   programs/mercurial.nix
   programs/micro.nix
+  programs/mimeo.nix
   programs/minecraft.nix
   programs/nano.nix
   programs/networkmanager-dmenu.nix
