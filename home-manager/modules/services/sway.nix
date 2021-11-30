@@ -76,7 +76,7 @@ in {
             wobShowVolume = ''printf "%d #282828D9 #FB3934FF #DBDBB2FF\n" $(amixer sget Master | grep -m 1 '\[on\]' | grep -E '\[[[:digit:]]{1,3}%\]' -o | grep -E '[[:digit:]]{1,3}' -o || echo 0) > $SWAYSOCK.wob'';
             wobShowBacklight = ''printf '%.0f #282828D9 #DBDBB2FF #DBDBB2FF\n' $(light -G) > $SWAYSOCK.wob'';
           in {
-            "${mod}+c" = "exec clipman pick -t rofi";
+            "${mod}+c" = "exec clipman pick --tool rofi --max-items=50";
 
             "${mod}+k" = ''exec "swaymsg reload && timeout 1.75 swaynag -t warning -e bottom -m 'reloaded sway configuration'"'';
             "${mod}+Ctrl+k" = ''exec "swaynag -t warning -e bottom -m 'Exit sway?' -b 'Yes, exit sway' 'swaymsg exit'"'';
@@ -132,7 +132,7 @@ in {
           seat seat0 hide_cursor 2500
           seat seat0 hide_cursor when-typing enable
           output * background ${config.xdg.configHome}/sway/background fill
-          exec wl-paste -t text -w clipman store
+          exec wl-paste --type text --watch clipman store --max-items=50
           exec mkfifo $SWAYSOCK.wob && tail -f $SWAYSOCK.wob | wob
         '' + (lib.optionalString (cfg.clamshellOutput != "") ''
           bindswitch --reload --locked lid:on output ${cfg.clamshellOutput} disable
