@@ -3,69 +3,66 @@ let
     ./deployer_ssh_ed25519_key.pub
   ];
 
-  hosts = names:
-    map (name:
-      builtins.readFile hosts/${name}/ssh_host_ed25519_key.pub
-    ) names;
+  host = name: builtins.readFile hosts/${name}/ssh_host_ed25519_key.pub;
 
-  services = names:
-    map (name: "services/${name}") names;
+  service = name: "services/${name}.age";
 
-  encryptFor = publicKeys: secrets:
-    builtins.listToAttrs (map (secret: {
-      name = "${secret}.age";
-      value.publicKeys = publicKeys ++ deployers;
-    }) secrets);
+  privateForHost = hostName: secrets:
+    builtins.listToAttrs (
+      map (secret: {
+        name = "hosts/${hostName}/${secret}.age";
+        value.publicKeys = [ (host hostName) ];
+      }) secrets
+    );
 
-  encryptHostSecrets = host: secrets:
-    encryptFor (hosts [ host ]) (
-      map (secret:
-        "hosts/${host}/${secret}"
-      ) secrets
+  servicesForHosts = kv:
+    builtins.listToAttrs (
+      map (k: {
+        name = service k;
+        value.publicKeys = map host kv.${k};
+      }) (builtins.attrNames kv)
     );
 in
 
-encryptFor [] (
-  (import hosts/ssh-keys.nix) ++
-  [ "services/github" ]
+builtins.listToAttrs (
+  map (k: {
+    name = "${k}.age";
+    value.publicKeys = deployers;
+  }) (import hosts/ssh-keys.nix)
 ) //
 
-encryptHostSecrets "laptop" [
+{
+  ${service "github"}.publicKeys = deployers;
+} //
+
+servicesForHosts {
+  "ceph.mon..keyring" = [ "node-2" "node-0" "laptop" ];
+  "ceph.client.admin.keyring" = [ "node-2" ];
+  "ceph.client.node.keyring" = [ "node-2" ];
+  "ceph.client.dermetfan.keyring" = [ "laptop" ];
+  "ceph.client.diemetfan.keyring" = [ "thinkpad" ];
+
+  "cache.sec" = [ "node-0" ];
+
+  "nextcloud" = [ "node-0" ];
+
+  "ssmtp" = [ "node-0" ];
+} //
+
+privateForHost "laptop" [
   "yggdrasil/keys.conf"
   "secrets.nix"
 ] //
 
-encryptHostSecrets "thinkpad" [
+privateForHost "thinkpad" [
   "yggdrasil/keys.conf"
 ] //
 
-encryptHostSecrets "node-0" [
+privateForHost "node-0" [
   "yggdrasil/keys.conf"
   "freedns"
 ] //
 
-encryptHostSecrets "node-2" [
+privateForHost "node-2" [
   "yggdrasil/keys.conf"
-] //
-
-encryptFor (hosts [ "laptop" ]) (services [
-  "ceph.mon..keyring"
-  "ceph.client.dermetfan.keyring"
-]) //
-
-encryptFor (hosts [ "thinkpad" ]) (services [
-  "ceph.client.diemetfan.keyring"
-]) //
-
-encryptFor (hosts [ "node-0" ]) (services [
-  "ceph.mon..keyring"
-  "cache.sec"
-  "nextcloud"
-  "ssmtp"
-]) //
-
-encryptFor (hosts [ "node-2" ]) (services [
-  "ceph.mon..keyring"
-  "ceph.client.admin.keyring"
-  "ceph.client.node.keyring"
-])
+]
