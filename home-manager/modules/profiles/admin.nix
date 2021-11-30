@@ -23,7 +23,11 @@ in {
       ncdu
       ncid
       neofetch
+      nix-diff
+      nix-du
+      nix-output-monitor
       nix-prefetch-scripts
+      nix-universal-prefetch
       peco
       procs
       pv
@@ -39,6 +43,7 @@ in {
       ijq
     ] ++ lib.optionals config.profiles.gui.enable [
       tigervnc
+      nix-query-tree-viewer
     ] ++ lib.optionals stdenv.isLinux [
       diffoscope
       ftop
