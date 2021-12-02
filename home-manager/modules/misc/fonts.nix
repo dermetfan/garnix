@@ -68,8 +68,8 @@ in {
     };
 
     programs = {
-      alacritty.settings.font.normal = {
-        family = mkDefault cfg.mono.family;
+      alacritty.settings.font = {
+        normal.family = mkDefault cfg.mono.family;
         size = mkDefault cfg.mono.size;
       };
 
