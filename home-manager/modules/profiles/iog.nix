@@ -9,7 +9,7 @@ in {
     };
     reposDir = mkOption {
       type = types.path;
-      default = "${config.misc.data.path}/projects/development/IOHK";
+      default = "${config.home.homeDirectory}/projects/development/IOHK";
     };
   };
 

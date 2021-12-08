@@ -22,13 +22,7 @@
     };
   };
 
-  misc = {
-    data = {
-      enable = true;
-      userFileSystems = true;
-    };
-    hotkeys.enableBacklightKeys = false; # handled by sway config
-  };
+  misc.hotkeys.enableBacklightKeys = false; # handled by sway config
 
   hardware.yubikey.enable = true;
 
@@ -119,10 +113,7 @@
 
     programs.broot.config.special_paths."/mnt/cephfs/home/dermetfan" = "no-enter";
 
-    config.programs = {
-      firefox.hideTabs = true;
-      i3status-rust.data.enable = lib.mkForce false;
-    };
+    config.programs.firefox.hideTabs = true;
   };
 
   fileSystems."/mnt/cephfs/home/dermetfan" = {

@@ -35,16 +35,6 @@
       ];
     };
 
-    "${config.misc.data.mountPoint}" = {
-      device = "root/data";
-      fsType = "zfs";
-
-      options = [
-        "noatime"
-        "nodiratime"
-      ];
-    };
-
     "${config.boot.loader.efi.efiSysMountPoint}" = {
       device = "/dev/disk/by-uuid/D3B9-5EEA";
       fsType = "vfat";

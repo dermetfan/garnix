@@ -46,12 +46,22 @@
     };
   };
 
-  xdg.mimeApps = {
-    enable = true;
-    defaultApplications = {
-      "text/plain" = [ "kakoune.desktop" ];
-      "x-scheme-handler/http" = [ "firefox.desktop" ];
-      "x-scheme-handler/https" = [ "firefox.desktop" ];
+  xdg = {
+    mimeApps = {
+      enable = true;
+      defaultApplications = {
+        "text/plain" = [ "kakoune.desktop" ];
+        "x-scheme-handler/http" = [ "firefox.desktop" ];
+        "x-scheme-handler/https" = [ "firefox.desktop" ];
+      };
+    };
+
+    userDirs = {
+      download  = "$HOME/downloads";
+      documents = "$HOME/documents";
+      music     = "$HOME/audio/music";
+      pictures  = "$HOME/images";
+      videos    = "$HOME/videos";
     };
   };
 }

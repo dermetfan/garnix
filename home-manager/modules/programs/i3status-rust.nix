@@ -11,14 +11,6 @@ in {
       description = "Whether to configure i3status-rust.";
     };
 
-    data = {
-      enable = mkEnableOption "block for disk usage on user's data root";
-
-      path = mkOption {
-        type = types.path;
-      };
-    };
-
     enableEco = mkOption {
       type = types.bool;
       default = true;
@@ -76,10 +68,7 @@ in {
         };
       in [
         disk_space
-      ] ++ lib.optional cfg.data.enable (disk_space // {
-        alias = "data";
-        inherit (cfg.data) path;
-      }) ++ lib.optional (builtins.any (lib.hasPrefix "nvidia") nixosConfig.services.xserver.videoDrivers) {
+      ] ++ lib.optional (builtins.any (lib.hasPrefix "nvidia") nixosConfig.services.xserver.videoDrivers) {
         block = "nvidia_gpu";
       } ++ [
         {
