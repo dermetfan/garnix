@@ -81,8 +81,8 @@ in {
             "${mod}+k" = ''exec "swaymsg reload && timeout 1.75 swaynag -t warning -e bottom -m 'reloaded sway configuration'"'';
             "${mod}+Ctrl+k" = ''exec "swaynag -t warning -e bottom -m 'Exit sway?' -b 'Yes, exit sway' 'swaymsg exit'"'';
 
-            "Print" = ''exec grim -g "$(slurp)" - | swappy -f - -o "${config.xdg.userDirs.pictures}/$(date --iso-8601=ns).png"'';
-            "Shift+Print" = ''exec grim - | swappy -f - -o "${config.xdg.userDirs.pictures}/$(date --iso-8601=ns).png"'';
+            "Print" = ''exec grim -g "$(slurp)" - | swappy -f - -o "${config.xdg.userDirs.pictures}/screenshots/$(date --iso-8601=ns).png"'';
+            "Shift+Print" = ''exec grim - | swappy -f - -o "${config.xdg.userDirs.pictures}/screenshots/$(date --iso-8601=ns).png"'';
 
             "${mod}+Grave" = lib.mkIf config.programs.mako.enable ''exec makoctl dismiss'';
             "${mod}+Asciitilde" = lib.mkIf config.programs.mako.enable ''exec makoctl restore'';

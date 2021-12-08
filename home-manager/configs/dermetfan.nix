@@ -59,9 +59,9 @@
     userDirs = {
       download  = "$HOME/downloads";
       documents = "$HOME/documents";
-      music     = "$HOME/audio/music";
-      pictures  = "$HOME/images";
-      videos    = "$HOME/videos";
+      music     = "$HOME/media/audio/music";
+      pictures  = "$HOME/media/images";
+      videos    = "$HOME/media/videos";
     };
   };
 }
