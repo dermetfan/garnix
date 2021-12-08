@@ -1,5 +1,11 @@
-{
-  home.file."bin/pulseaudio-oneshot" = {
+{ config, lib, ... }:
+
+let
+  cfg = config.misc.pulseaudio-oneshot;
+in {
+  options.misc.pulseaudio-oneshot.enable = lib.mkEnableOption "pulseaudio-oneshot";
+
+  config.home.file."bin/pulseaudio-oneshot" = lib.mkIf cfg.enable {
     executable = true;
     text = ''
       #! /usr/bin/env nix-shell
