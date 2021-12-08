@@ -24,16 +24,6 @@
   time.timeZone = "Europe/Berlin";
 
   services = {
-    syncthing = {
-      enable = true;
-      openDefaultPorts = true;
-      dataDir = config.users.users.marlene.home + "/Sync";
-      # cannot take from config.users.{users|groups}.{marlene|wheel}.name
-      # due to infinite recursion
-      user = "marlene";
-      group = "users";
-    };
-
     ceph = {
       enable = true;
       client.enable = true;
@@ -117,6 +107,27 @@
       services = {
         redshift = nixosConfig.passthru.coords or {};
         wlsunset = nixosConfig.passthru.coords or {};
+
+        unison = {
+          enable = true;
+          pairs.cephfs = {
+            roots = [
+              config.home.homeDirectory
+              "/mnt/cephfs/home/diemetfan"
+            ];
+            commandOptions = {
+              include = "cephfs";
+              mountpoint = "Desktop";
+              repeat = toString (60 * 15);
+              owner = builtins.toJSON true;
+              group = builtins.toJSON true;
+              times = builtins.toJSON true;
+              sortnewfirst = builtins.toJSON true;
+              sortbysize = builtins.toJSON true;
+              watch = builtins.toJSON false;
+            };
+          };
+        };
       };
 
       programs = {
