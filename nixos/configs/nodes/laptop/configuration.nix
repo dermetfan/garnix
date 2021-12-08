@@ -85,7 +85,6 @@
     '';
 
     services = {
-      syncthing.enable = true;
       redshift = config.passthru.coords or {};
       wlsunset = config.passthru.coords or {};
 
