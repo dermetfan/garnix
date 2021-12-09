@@ -36,6 +36,7 @@ in {
         hyperfine
         entr
         ijq
+        yq
       ] ++
       lib.optionals stdenv.isLinux [
         loc
