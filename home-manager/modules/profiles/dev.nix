@@ -17,6 +17,7 @@ in {
       git.enable = true;
       jq.enable = true;
       ripgrep.enable = true;
+      skim.enable = true;
 
       geany.enable = config.profiles.gui.enable;
 
