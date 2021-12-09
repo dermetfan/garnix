@@ -666,7 +666,7 @@ in {
             name = "ModuleLoaded";
             option = "fzf-file";
             commands = ''
-              set-option global fzf_file_command 'rg'
+              set-option global fzf_file_command 'fd'
               set-option global fzf_highlight_command 'bat'
             '';
           }
@@ -1196,6 +1196,8 @@ in {
       shellcheck
       perl socat # gdb
 
+      fd # fzf.kak
+
       # kak-lsp
       ( # currently broken in nixpkgs
         (builtins.getFlake "github:nix-community/rnix-lsp/9462b0d20325a06f7e43b5a0469ec2c92e60f5fe")
@@ -1207,9 +1209,6 @@ in {
       phpPackages.psalm
     ];
 
-    programs = {
-      bat.enable = true;
-      ripgrep.enable = true; # fzf
-    };
+    programs.bat.enable = true; # fzf.kak
   };
 }
