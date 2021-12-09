@@ -664,10 +664,17 @@ in {
           }
           {
             name = "ModuleLoaded";
+            option = "fzf";
+            commands = ''
+              set-option global fzf_implementation 'sk'
+              set-option global fzf_highlight_command 'bat'
+            '';
+          }
+          {
+            name = "ModuleLoaded";
             option = "fzf-file";
             commands = ''
               set-option global fzf_file_command 'fd'
-              set-option global fzf_highlight_command 'bat'
             '';
           }
           {
@@ -1208,6 +1215,9 @@ in {
       phpPackages.psalm
     ];
 
-    programs.bat.enable = true; # fzf.kak
+    programs = {
+      bat.enable = true; # fzf.kak
+      skim.enable = true; # fzf.kak
+    };
   };
 }
