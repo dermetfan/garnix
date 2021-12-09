@@ -28,6 +28,11 @@
     tmux.enable = true;
     fish.enable = true;
 
+    vivid = {
+      enable = true;
+      theme = "gruvbox";
+    };
+
     browserpass = {
       enable = lib.mkDefault (
         config.programs.firefox.enable ||
