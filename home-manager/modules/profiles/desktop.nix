@@ -11,6 +11,7 @@ in {
     programs = {
       taskwarrior.enable = true;
       timewarrior.enable = true;
+      wyrd.enable = true;
       gpg.enable = true;
 
       volumeicon.enable = config.xsession.enable;
