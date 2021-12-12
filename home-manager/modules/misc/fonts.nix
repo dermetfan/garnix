@@ -2,6 +2,8 @@
 
 let
   cfg = config.fonts.defaultFonts;
+
+  floor = float: lib.toInt (builtins.elemAt (builtins.match ''^([[:digit:]]+)\.?.*$'' (toString float)) 0);
 in {
   options.fonts.defaultFonts = with lib; mkOption {
     type = types.submodule (let
@@ -74,6 +76,11 @@ in {
       };
 
       mako.font = with cfg.normal; mkDefault "${familyPango} ${toString size}";
+
+      tkremind.font = mkDefault {
+        inherit (cfg.normal) family;
+        size = floor cfg.normal.size;
+      };
     };
 
     xsession.windowManager.i3 = i3-sway;
@@ -82,9 +89,7 @@ in {
     config.programs.swappy.config = mkOptionDefault {
       Default = mkOptionDefault {
         text_font = mkDefault cfg.normal.family;
-        text_size = let
-          floor = float: lib.toInt (builtins.elemAt (builtins.match ''^([[:digit:]]+)\.?.*$'' (toString float)) 0);
-        in mkDefault (floor (cfg.normal.size * 1.5));
+        text_size = mkDefault (floor (cfg.normal.size * 1.5));
       };
     };
   };
