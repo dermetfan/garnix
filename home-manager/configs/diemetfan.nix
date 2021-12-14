@@ -19,5 +19,6 @@
     kakoune.enable = true;
     tmux.enable = true;
     fish.enable = true;
+    tkremind.enable = true;
   };
 }
