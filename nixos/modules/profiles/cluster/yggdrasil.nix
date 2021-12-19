@@ -10,7 +10,7 @@ in
   services.yggdrasil.mergeableConfig = {
     Peers = map (
       { networking, profiles, ... }:
-      "tcp://${networking.hostName}.hosts.${networking.domain}:${toString profiles.yggdrasil.port}"
+      "tls://${networking.hostName}.hosts.${networking.domain}:${toString profiles.yggdrasil.port}"
     ) peersWithYggdrasil;
 
     AllowedPublicKeys = map (

@@ -31,7 +31,7 @@ in {
       enable = true;
       configFile = config.age.secrets."yggdrasil.conf".path;
       config = {
-        Listen = [ "tcp://[::]:${toString cfg.port}" ];
+        Listen = [ "tls://[::]:${toString cfg.port}" ];
         PublicKey = lib.fileContents (secret "key.pub");
       };
     };
