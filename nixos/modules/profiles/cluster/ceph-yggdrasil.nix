@@ -6,7 +6,7 @@ in {
   options.profiles.cluster.ceph.yggdrasil = lib.mkEnableOption "communication via Yggdrasil";
 
   config = lib.mkIf cfg.yggdrasil {
-    profiles.yggdrasil.enable = true;
+    profiles.yggdrasil.enable = lib.mkIf config.services.ceph.enable true;
 
     # XXX Cannot use `services.ceph.mon.extraConfig` due to its type. Fix upstream?
     environment.etc."ceph/ceph.conf".text = lib.generators.toINI {} (
