@@ -15,6 +15,7 @@
     notebook.enable = true;
     gui.enable = true;
     users.enable = true;
+    afraid-freedns.enable = true;
   };
 
   i18n.defaultLocale = "de_DE.UTF-8";

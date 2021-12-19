@@ -54,11 +54,13 @@ servicesForHosts {
 
 privateForHost "laptop" [
   "yggdrasil/key.conf"
+  "freedns"
   "secrets.nix"
 ] //
 
 privateForHost "thinkpad" [
   "yggdrasil/key.conf"
+  "freedns"
 ] //
 
 privateForHost "node-0" [

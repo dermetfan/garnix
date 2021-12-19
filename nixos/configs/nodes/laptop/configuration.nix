@@ -20,6 +20,7 @@
       enable = true;
       users.dermetfan.enable = true;
     };
+    afraid-freedns.enable = true;
   };
 
   misc.hotkeys.enableBacklightKeys = false; # handled by sway config
