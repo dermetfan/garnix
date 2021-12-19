@@ -1,9 +1,12 @@
 let
-  deployers = map builtins.readFile [
+  removeNewlines = builtins.replaceStrings [ "\n" ] [ "" ];
+  readKey = file: removeNewlines (builtins.readFile file);
+
+  deployers = map readKey [
     ./deployer_ssh_ed25519_key.pub
   ];
 
-  host = name: builtins.readFile hosts/${name}/ssh_host_ed25519_key.pub;
+  host = name: readKey hosts/${name}/ssh_host_ed25519_key.pub;
 
   service = name: "services/${name}.age";
 
