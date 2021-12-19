@@ -25,12 +25,15 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    age.secrets."yggdrasil.conf".file = secret "keys.conf.age";
+    age.secrets."yggdrasil.conf".file = secret "key.conf.age";
 
     services.yggdrasil = {
       enable = true;
       configFile = config.age.secrets."yggdrasil.conf".path;
-      config.Listen = [ "tcp://[::]:${toString cfg.port}" ];
+      config = {
+        Listen = [ "tcp://[::]:${toString cfg.port}" ];
+        PublicKey = lib.fileContents (secret "key.pub");
+      };
     };
 
     networking = {
