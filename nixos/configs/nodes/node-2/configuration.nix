@@ -28,9 +28,9 @@
         owner = config.users.users.ceph.name;
         group = config.users.users.ceph.group;
       };
-      "ceph.client.node.keyring" = {
-        file = ../../../../secrets/services/ceph.client.node.keyring.age;
-        path = "/etc/ceph/ceph.client.node.keyring";
+      "ceph.client.roundcube.keyring" = {
+        file = ../../../../secrets/services/ceph.client.roundcube.keyring.age;
+        path = "/etc/ceph/ceph.client.roundcube.keyring";
         owner = config.users.users.ceph.name;
         group = config.users.users.ceph.group;
       };
@@ -111,7 +111,7 @@
     device = "none";
     options = [
       "nofail"
-      "ceph.id=node,ceph.client_mountpoint=/services/roundcube/enigma"
+      "ceph.id=roundcube,ceph.client_mountpoint=/services/roundcube/enigma"
     ];
   };
 
