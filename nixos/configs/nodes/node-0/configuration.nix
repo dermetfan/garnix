@@ -5,10 +5,7 @@
 
   system.stateVersion = "21.05";
 
-  profiles = {
-    afraid-freedns.enable = true;
-    nextcloud.enable = true;
-  };
+  profiles.afraid-freedns.enable = true;
 
   services = {
     syncthing.enable = true;
