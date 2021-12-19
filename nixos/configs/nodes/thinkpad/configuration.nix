@@ -24,6 +24,8 @@
   time.timeZone = "Europe/Berlin";
 
   services = {
+    yggdrasil.publicPeers.germany.enable = true;
+
     ceph = {
       enable = true;
       client.enable = true;
