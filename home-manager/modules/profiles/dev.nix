@@ -42,6 +42,7 @@ in {
         loc
         tty-share
         upterm
+        mdcat
       ] ++
       lib.optionals config.profiles.gui.enable [
         # aqemu

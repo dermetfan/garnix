@@ -49,6 +49,7 @@ in {
       ftop
       hdparm
       libsysfs
+      mdcat
       nethogs
       ngrep
       parted
