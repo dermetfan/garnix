@@ -15,8 +15,6 @@
   profiles.afraid-freedns.enable = true;
 
   services = {
-    syncthing.enable = true;
-
     yggdrasil.publicPeers.germany.enable = true;
 
     ceph = {
