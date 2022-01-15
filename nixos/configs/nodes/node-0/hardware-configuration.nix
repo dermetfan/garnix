@@ -3,49 +3,61 @@
 {
   imports = [ self.inputs.nixpkgs.nixosModules.notDetected ];
 
-  networking = {
-    hostId = "e064db73";
-
-    interfaces.enp30s0 = {
-      macAddress = "d8:d3:85:d7:ea:69";
-      useDHCP = true;
-    };
-  };
-
-  nix = {
-    maxJobs = 4;
-    buildMachine.speedFactor = 2;
-  };
-
   boot = {
-    initrd.availableKernelModules = [ "ehci_pci" "ata_piix" "usbhid" "usb_storage" "sd_mod" ];
+    initrd.availableKernelModules = [
+      "ehci_pci" "ata_piix" "usbhid" "sd_mod"
+      "tg3" # the network interface driver for networking in the initial ramdisk
+    ];
     kernelModules = [ "kvm-intel" ];
 
     loader.grub = {
       enable = true;
       device = "/dev/disk/by-id/ata-SAMSUNG_SP2504C_S09QJ1GLB66805";
-      zfsSupport = true;
     };
 
     tmpOnTmpfs = true;
+  };
 
-    zfs.extraPools = [ "tank" ];
+  networking.interfaces.enp30s0 = {
+    macAddress = "d8:d3:85:d7:ea:69";
+    useDHCP = true;
   };
 
   fileSystems = {
+    "/boot" = {
+      device = "/dev/disk/by-uuid/FACE-4EBA";
+      fsType = "vfat";
+    };
+
     "/" = {
-      device = "root";
+      device = "root/root";
       fsType = "zfs";
     };
 
-    "${config.misc.data.mountPoint}" = {
-      device = "root/data";
+    "/nix" = {
+      device = "root/nix";
       fsType = "zfs";
+
+      options = [
+        "noatime"
+        "nodiratime"
+      ];
+    };
+
+    "/home" = {
+      device = "root/home";
+      fsType = "zfs";
+    };
+
+    "/state" = {
+      device = "root/state";
+      fsType = "zfs";
+      neededForBoot = true; # for impermanence
     };
   };
 
   swapDevices = [
-    { device = "/dev/disk/by-uuid/61081a38-841b-40d7-9ce2-4b97f39472fc"; }
+    { device = "/dev/disk/by-uuid/6640895e-8392-4d3f-b3c2-5f3ee1097d83"; }
   ];
 
   powerManagement.cpuFreqGovernor = "ondemand";
