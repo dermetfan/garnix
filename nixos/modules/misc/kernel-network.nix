@@ -3,10 +3,15 @@
 let
   cfg = config.boot.kernelNetwork;
 
-  netmask = builtins.readFile (
+  netmask = builtins.readFile (let
+    pkgs2111 = lib.traceIf (lib.versionAtLeast pkgs.ipcalc.version "1.0.1") ''
+      Your nixpkgs has a recent enough ipcalc.
+      You can remove the separate dependency on nixpkgs 21.11 in kernel-network.nix.
+    '' (builtins.getFlake "github:NixOS/nixpkgs/69f169c5f08e7a5827aaafad342a5eddfc805e16").legacyPackages.${pkgs.system};
+  in
     with cfg.ipv4;
     pkgs.runCommandNoCCLocal "netmask" {} ''
-      ${pkgs.ipcalc}/bin/ipcalc -m ${address}/${toString prefixLength} \
+      ${pkgs2111.ipcalc}/bin/ipcalc -m ${address}/${toString prefixLength} \
       | cut -d = -f 2 \
       | tr -d \\n \
       > $out
