@@ -1,4 +1,3 @@
 /secrets/askpass
 /secrets/deployer_ssh_*_key
 /secrets/hosts/**/ssh_host_*_key
-/secrets/hosts/**/initrd_ssh_host_*_key
