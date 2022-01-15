@@ -65,7 +65,7 @@ Follow these steps instead which I adapted from the [Ceph manual](https://docs.c
 ```
 # prepare temporary environment
 sudo -u ceph mkdir /var/lib/ceph/bootstrap-osd
-ceph auth get client.bootstrap-osd > /var/lib/ceph/bootstrap-osd/ceph.keyring
+ceph auth get client.bootstrap-osd -o /var/lib/ceph/bootstrap-osd/ceph.keyring
 sudo -u ceph ln -s /var/lib/ceph/bootstrap-osd/ceph.keyring /etc/ceph/ceph.client.bootstrap-osd.keyring
 nix profile install nixpkgs#cryptsetup
 

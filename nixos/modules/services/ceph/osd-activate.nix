@@ -9,7 +9,7 @@ in {
     description = ''
       Map from ID to UUID of OSDs to activate before start.
       If you don't know your OSDs' UUIDs (AKA OSD FSIDs),
-      look in <filename>/var/lib/ceph/$cluster-$id/fsid</filename>.
+      look in <filename>/var/lib/ceph/osd/$cluster-$id/fsid</filename>.
     '';
   };
 
