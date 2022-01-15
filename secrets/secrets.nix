@@ -39,7 +39,6 @@ builtins.listToAttrs (
 } //
 
 servicesForHosts {
-  "ceph.mon..keyring" = [ "node-2" "node-0" "laptop" ];
   "ceph.mgr.a.keyring" = [ "node-2" ];
   "ceph.mds.a.keyring" = [ "node-2" ];
   "ceph.mgr.b.keyring" = [ "node-0" ];

@@ -7,37 +7,47 @@ in {
     default = true;
   };
 
+  config.bootstrap.secrets = lib.mkIf cfg (
+    builtins.listToAttrs (
+      map (id: lib.nameValuePair "ceph-mon-${id}/bootstrap.keyring" {
+        file = "secrets/services/ceph.client.admin.keyring";
+        path = "/var/lib/${config.systemd.services."ceph-mon-${id}".serviceConfig.StateDirectory}/keyring";
+        mode = "0400";
+        owner = config.users.users.ceph.uid;
+        group = config.users.groups.ceph.gid;
+      }) config.services.ceph.mon.daemons
+    )
+  );
+
   config.systemd.services = lib.mkIf cfg (
-    builtins.listToAttrs (map (id: let
-      serviceName = "ceph-mon-${id}";
-      stateDirectory = lib.escapeShellArg "/var/lib/ceph/mon/ceph-${id}";
-    in lib.nameValuePair serviceName {
-      path = with pkgs; [ ceph ];
-      preStart = ''
-        set -euo pipefail
+    builtins.listToAttrs (
+      map (id: lib.nameValuePair "ceph-mon-${id}" {
+        path = with pkgs; [ ceph ];
+        preStart = ''
+          set -euxo pipefail
 
-        # Probe for some file other than the keyring that indicates
-        # whether the directory has already been initialized.
-        if [[ -f ${stateDirectory}/kv_backend ]]; then
-            exit
-        fi
+          function cleanup {
+              rm -f /tmp/{monmap,keyring}
+          }
+          trap cleanup EXIT
 
-        mkdir -p ${stateDirectory}
+          # Probe for some file other than the keyring that indicates
+          # whether the directory has already been initialized.
+          if [[ -f "$STATE_DIRECTORY"/kv_backend ]]; then
+              exit
+          fi
 
-        function cleanup {
-            rm -f /tmp/{monmap,keyring}
-        }
-        trap cleanup EXIT
+          # Move the bootstrap keyring out of the way.
+          mv "$STATE_DIRECTORY"/keyring /tmp/keyring
 
-        # Move the keyring away so that the state directory
-        # is empty and `ceph-mon --mkfs` does not complain.
-        # It will recreate the keyring in the same location.
-        mv ${stateDirectory}/keyring /tmp/keyring
+          ceph mon getmap -o /tmp/monmap --keyring /tmp/keyring
 
-        ceph mon -n mon. getmap --keyring /tmp/keyring -o /tmp/monmap
+          ceph-mon --mkfs -i ${lib.escapeShellArg id} --monmap /tmp/monmap --keyring /tmp/keyring
 
-        ceph-mon --mkfs -i ${lib.escapeShellArg id} --monmap /tmp/monmap --keyring /tmp/keyring
-      '';
-    }) config.services.ceph.mon.daemons)
+          ceph auth get mon. -o "$STATE_DIRECTORY"/keyring --keyring /tmp/keyring
+          chmod 0400 "$STATE_DIRECTORY"/keyring
+        '';
+      }) config.services.ceph.mon.daemons
+    )
   );
 }
