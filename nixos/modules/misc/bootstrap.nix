@@ -119,12 +119,13 @@ in {
         }) secrets;
       in pkgs.writeShellScriptBin "bootstrap-send-secrets" (
         setup + lib.concatStrings (
-          lib.mapAttrsToList (k: v: with v; ''
-            ${pkgs.rsync}/bin/rsync --mkpath --info name2,progress2 \
-              -e "${pkgs.openssh}/bin/ssh -l ${sshUser} -i ''${SSH_ID:-secrets/deployer_ssh_ed25519_key}" \
-              --perms --chmod ${mode} \
-              ${""/* cannot use `--chown ${owner}:${group}` if receiver is on non-posix shell like fish */} \
-              --usermap $(stat -c %u ${local}):${owner} --groupmap $(stat -c %g ${local}):${owner} \
+          lib.mapAttrsToList (k: v: with v; let
+            sshCommand = "${pkgs.openssh}/bin/ssh -l ${sshUser} -i \${SSH_ID:-secrets/deployer_ssh_ed25519_key}";
+          in ''
+            # We `mkdir -p` first because `rsync --mkpath` may fail if the directory already exists.
+            ${sshCommand} ${hostname} -- mkdir -p $(dirname ${remote}) && \
+            ${pkgs.rsync}/bin/rsync --info name2,progress2 -e "${sshCommand}" --protect-args \
+              --owner --group --chown ${owner}:${group} --perms --chmod ${mode} \
               ${local} ${hostname}:${remote} || \
               if [[ -z "$SSH_ID" ]]; then
                 >&2 echo 'You can set the environment variable SSH_ID to use another identity.'
