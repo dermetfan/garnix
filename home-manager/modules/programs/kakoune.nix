@@ -757,7 +757,7 @@ in {
         require-module word-select; word-select-add-mappings
 
         set-option global state_save_exclude_globs \
-            '*/COMMIT_EDITMSG' \
+            'COMMIT_EDITMSG' \
             '*/.git/rebase-merge/git-rebase-todo' \
             '*.commit.hg.txt' \
             '*.histedit.hg.txt'
