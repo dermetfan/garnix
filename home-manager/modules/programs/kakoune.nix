@@ -840,7 +840,7 @@ in {
           {
             token = "comment";
             face = "documentation";
-            modifiers = ["documentation"];
+            modifiers = [ "documentation" ];
           }
           {
             token = "comment";
@@ -873,12 +873,12 @@ in {
           {
             token = "variable";
             face = "default+d";
-            modifiers = ["readonly"];
+            modifiers = [ "readonly" ];
           }
           {
             token = "variable";
             face = "default+d";
-            modifiers = ["constant"];
+            modifiers = [ "constant" ];
           }
           {
             token = "variable";
