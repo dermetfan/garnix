@@ -30,6 +30,126 @@
       url = "github:StevenBlack/hosts";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    kak-cosy-gruvbox = {
+      url = "github:Anfid/cosy-gruvbox.kak";
+      flake = false;
+    };
+    kak-auto-pairs = {
+      url = "github:alexherbo2/auto-pairs.kak";
+      flake = false;
+    };
+    kak-sudo-write = {
+      url = "github:occivink/kakoune-sudo-write";
+      flake = false;
+    };
+    kak-move-line = {
+      url = "git+ssh://git@git.sr.ht/~dermetfan/move-line.kak";
+      flake = false;
+    };
+    kak-smarttab = {
+      url = "github:andreyorst/smarttab.kak";
+      flake = false;
+    };
+    kak-surround = {
+      url = "github:h-youhei/kakoune-surround";
+      flake = false;
+    };
+    kak-wordcount = {
+      url = "github:ftonneau/wordcount.kak";
+      flake = false;
+    };
+    kak-tug = {
+      url = "github:matthias-margush/tug";
+      flake = false;
+    };
+    kak-fetch = {
+      url = "github:mmlb/kak-fetch";
+      flake = false;
+    };
+    kak-casing = {
+      url = "github:Parasrah/casing.kak";
+      flake = false;
+    };
+    kak-smart-quotes = {
+      url = "github:chambln/kakoune-smart-quotes";
+      flake = false;
+    };
+    kak-close-tag = {
+      url = "github:h-youhei/kakoune-close-tag";
+      flake = false;
+    };
+    kak-phantom-selection = {
+      url = "github:occivink/kakoune-phantom-selection";
+      flake = false;
+    };
+    kak-shellcheck = {
+      url = "github:whereswaldon/shellcheck.kak";
+      flake = false;
+    };
+    kak-change-directory = {
+      url = "git+ssh://git@git.sr.ht/~dermetfan/change-directory.kak";
+      flake = false;
+    };
+    kak-explain-shell = {
+      url = "github:ath3/explain-shell.kak";
+      flake = false;
+    };
+    kak-elvish = {
+      url = "gitlab:SolitudeSF/elvish.kak";
+      flake = false;
+    };
+    kak-crosshairs = {
+      url = "github:insipx/kak-crosshairs";
+      flake = false;
+    };
+    kak-table = {
+      url = "github:listentolist/kakoune-table";
+      flake = false;
+    };
+    kak-local-kakrc = {
+      url = "github:dgmulf/local-kakrc";
+      flake = false;
+    };
+    kak-expand = {
+      url = "github:occivink/kakoune-expand";
+      flake = false;
+    };
+    kak-neuron = {
+      url = "github:MilanVasko/neuron-kak";
+      flake = false;
+    };
+    kak-tmux-info = {
+      url = "github:jbomanson/tmux-kak-info.kak";
+      flake = false;
+    };
+    kak-csv = {
+      url = "github:gspia/csv.kak";
+      flake = false;
+    };
+    kak-registers = {
+      url = "github:Delapouite/kakoune-registers";
+      flake = false;
+    };
+    kak-marks = {
+      url = "github:Delapouite/kakoune-marks";
+      flake = false;
+    };
+    kak-mark = {
+      url = "gitlab:fsub/kakoune-mark";
+      flake = false;
+    };
+    kak-word-select = {
+      url = "git+ssh://git@git.sr.ht/~dermetfan/word-select.kak";
+      flake = false;
+    };
+    kak-interactively = {
+      url = "github:chambln/kakoune-interactively";
+      flake = false;
+    };
+    kak-palette = {
+      url = "github:Delapouite/kakoune-palette";
+      flake = false;
+    };
   };
 
   outputs = { self, nixpkgs, flake-utils, deploy-rs, ... }: let
@@ -94,7 +214,9 @@
     out.singles //
     {
       inherit lib;
-      overlays = out.overlays nixpkgs/overlays;
+      overlays = out.overlays nixpkgs/overlays // {
+        flake = final: prev: { flake = self; };
+      };
       nixosModules = out.nixosModules nixos/modules;
       nixosConfigurations = import nixos/configs self;
       homeManagerModules = out.nixosModules home-manager/modules;

@@ -798,297 +798,36 @@ in {
         kakboard
         powerline-kak
         active-window-kak
-        (pkgs.kakouneUtils.buildKakounePluginFrom2Nix rec {
-          pname = "auto-pairs";
-          version = src.rev;
-          src = pkgs.fetchFromGitHub {
-            owner = "alexherbo2";
-            repo = "${pname}.kak";
-            rev = "596872fb1bd6cf804ee984e005ec2e05ec6872c7";
-            hash = "sha256-5M0Omi+rSnXhm3WtU9tkBhhIcRCWaGTMOdbne7Z9Yvs=";
-          };
-        })
-        (pkgs.kakouneUtils.buildKakounePluginFrom2Nix rec {
-          pname = "sudo-write";
-          version = src.rev;
-          src = pkgs.fetchFromGitHub {
-            owner = "occivink";
-            repo = "kakoune-sudo-write";
-            rev = "abe6bd6d6e111957d7e84e790e682955b8b319c6";
-            sha256 = "05b6hxsqvh3kmi7f139rihx0i9fn2j5fjz7yzy1g4flm8lb0h129";
-          };
-        })
-        (pkgs.kakouneUtils.buildKakounePluginFrom2Nix rec {
-          pname = "move-line";
-          version = src.rev;
-          src = pkgs.fetchFromSourcehut {
-            owner = "~dermetfan";
-            repo = "${pname}.kak";
-            rev = "47a6b216de6352ec8244b4375d7ee2805e084925";
-            hash = "sha256-2OZdDfRmS4HxpdKMeZyLaBSqv3anaauz64OmhLcARTo=";
-          };
-        })
-        (pkgs.kakouneUtils.buildKakounePluginFrom2Nix rec {
-          pname = "smarttab";
-          version = src.rev;
-          src = pkgs.fetchFromGitHub {
-            owner = "andreyorst";
-            repo = "smarttab.kak";
-            rev = "1dd3f33c4f65da5c13aee5d44b2e77399595830f";
-            sha256 = "0g49k47ggppng95nwanv2rqmcfsjsgy3z1764wrl5b49h9wifhg2";
-          };
-        })
-        (pkgs.kakouneUtils.buildKakounePluginFrom2Nix rec {
-          pname = "surround";
-          version = src.rev;
-          src = pkgs.fetchFromGitHub {
-            owner = "h-youhei";
-            repo = "kakoune-surround";
-            rev = "efe74c6f434d1e30eff70d4b0d737f55bf6c5022";
-            sha256 = "09fd7qhlsazf4bcl3z7xh9z0fklw69c5j32hminphihq74qrry6h";
-          };
-        })
-        (pkgs.kakouneUtils.buildKakounePluginFrom2Nix rec {
-          pname = "wordcount";
-          version = src.rev;
-          src = pkgs.fetchFromGitHub {
-            owner = "ftonneau";
-            repo = "wordcount.kak";
-            rev = "1a5216d5acfb7220378e825646b0597ea6219f79";
-            sha256 = "1d0k408sd48yy37vgip30rgywl20aj2w56lqimr2nw7cb3ggjk4p";
-          };
-        })
-        (pkgs.kakouneUtils.buildKakounePluginFrom2Nix rec {
-          pname = "tug";
-          version = src.rev;
-          src = pkgs.fetchFromGitHub {
-            owner = "matthias-margush";
-            repo = "tug";
-            rev = "23adaadb795af2d86dcb3daf7af3ebe12e932441";
-            sha256 = "0qldzh3gr3m7sa1hibbmf1br5lgiqwn84ggm75iin113zc67avbi";
-          };
-        })
-        (pkgs.kakouneUtils.buildKakounePluginFrom2Nix rec {
-          pname = "fetch";
-          version = src.rev;
-          src = pkgs.fetchFromGitHub {
-            owner = "mmlb";
-            repo = "kak-fetch";
-            rev = "3e404480caa13bfc9ef7064be45e4d1ec43232a1";
-            sha256 = "1dqpllrrx2i4g1rwvx1434zmfx2fn0cv5wq750myf1p9p61rc0bm";
-          };
-        })
-        (pkgs.kakouneUtils.buildKakounePluginFrom2Nix rec {
-          pname = "casing";
-          version = src.rev;
-          src = pkgs.fetchFromGitHub {
-            owner = "Parasrah";
-            repo = "casing.kak";
-            rev = "bd579f04bbd17c3d8612ad0505a6641a78e239df";
-            sha256 = "13k1cx94ix7z9ny092fyplr6r2bqf5d5r1vr1iqvr9zp3c6v9hda";
-          };
-        })
-        (pkgs.kakouneUtils.buildKakounePluginFrom2Nix rec {
-          pname = "smart-quotes";
-          version = src.rev;
-          src = pkgs.fetchFromGitHub {
-            owner = "chambln";
-            repo = "kakoune-smart-quotes";
-            rev = "7eeebc475b3d5c2b8d471c42ed8b3c8f75a81cf9";
-            sha256 = "14fs48n29nd86ngwv6by3xb5yyd46q15xg6mvishi34g99nicm38";
-          };
-        })
-        (pkgs.kakouneUtils.buildKakounePluginFrom2Nix rec {
-          pname = "close-tag";
-          version = src.rev;
-          src = pkgs.fetchFromGitHub {
-            owner = "h-youhei";
-            repo = "kakoune-close-tag";
-            rev = "c719939cef45efbba24d3a6dbcc1aa273bbb8b1a";
-            sha256 = "0mfzgkgm0dbyxb7f2ghixlv4ad5kml433c2gpzjk3k1x4vxwz9dw";
-          };
-        })
-        (pkgs.kakouneUtils.buildKakounePluginFrom2Nix rec {
-          pname = "phantom-selection";
-          version = src.rev;
-          src = pkgs.fetchFromGitHub {
-            owner = "occivink";
-            repo = "kakoune-phantom-selection";
-            rev = "c522ecde928f0bf8cb9cb94efdf7208fa3bdf2e1";
-            hash = "sha256-yADE6JVJWG/vkPH5AKlrY+HN+5JGXuk0ZFJ7bE82ii8=";
-          };
-        })
-        (pkgs.kakouneUtils.buildKakounePluginFrom2Nix rec {
-          pname = "shellcheck";
-          version = src.rev;
-          src = pkgs.fetchFromGitHub {
-            owner = "whereswaldon";
-            repo = "shellcheck.kak";
-            rev = "4e633978c119bbb71f215828f7b59cea71a2c5a4";
-            sha256 = "1629jh4387ybl2iizyqc7k7r1n1rx2ljg5acn294z2jqfxg2n6mj";
-          };
-        })
-        (pkgs.kakouneUtils.buildKakounePluginFrom2Nix rec {
-          pname = "change-directory";
-          version = src.rev;
-          src = pkgs.fetchFromSourcehut {
-            owner = "~dermetfan";
-            repo = "${pname}.kak";
-            rev = "1f81e56c16cc4c3560ab0b5e61a199aaec7f2f68";
-            hash = "sha256-7H7TAJalPHWaYjYLy5IcZ92qtjaEMgMlcfSokUvsp8A=";
-          };
-        })
-        (pkgs.kakouneUtils.buildKakounePluginFrom2Nix rec {
-          pname = "explain-shell";
-          version = src.rev;
-          src = pkgs.fetchFromGitHub {
-            owner = "ath3";
-            repo = "explain-shell.kak";
-            rev = "503549ea7022a9ce9207be362d2fb74f7f6a72d6";
-            sha256 = "103kvf8jry2lwx74z1hwnmw87vhh3x95ppn2xlmq50w9z8zzh161";
-          };
-        })
-        (pkgs.kakouneUtils.buildKakounePluginFrom2Nix rec {
-          pname = "elvish";
-          version = src.rev;
-          src = pkgs.fetchFromGitLab {
-            owner = "SolitudeSF";
-            repo = "elvish.kak";
-            rev = "c71caa7575da93365e12fe031f5debc2baf73a6d";
-            sha256 = "0czxcnq16hfxvxdv61qbgk8ghxj7dgfh82xyrcasqqi3wswi143p";
-          };
-        })
-        (pkgs.kakouneUtils.buildKakounePluginFrom2Nix rec {
-          pname = "crosshairs";
-          version = src.rev;
-          src = pkgs.fetchFromGitHub {
-            owner = "insipx";
-            repo = "kak-crosshairs";
-            rev = "7edba13c535ce1bc67356b1c9461f5d261949d29";
-            sha256 = "18f3scwl87a91167zmrxgkmzy3fmmpz0l72cn1dd5fg5c4cgvsal";
-          };
-        })
-        (pkgs.kakouneUtils.buildKakounePluginFrom2Nix rec {
-          pname = "table";
-          version = src.rev;
-          src = pkgs.fetchFromGitLab {
-            owner = "listentolist";
-            repo = "kakoune-table";
-            rev = "c42ecaa91472cf778d87b289629d82d335e2b1e6";
-            sha256 = "1yri5n745bsz9a8lzg4m0kmba7l7p1shsyvnc4cc7q48va0ck35w";
-          };
-        })
-        (pkgs.kakouneUtils.buildKakounePluginFrom2Nix rec {
-          pname = "local-kakrc";
-          version = src.rev;
-          src = pkgs.fetchFromGitHub {
-            owner = "dgmulf";
-            repo = "local-kakrc";
-            rev = "2f3107e4aa1b1416f43e7551c18f8f6f0ef90348";
-            sha256 = "1dgjk1spzbjjw3sqsidqavwmbcb3kmb2ahfq5fps43c9v13k8m1l";
-          };
-        })
-        (pkgs.kakouneUtils.buildKakounePluginFrom2Nix rec {
-          pname = "expand";
-          version = src.rev;
-          src = pkgs.fetchFromGitHub {
-            owner = "occivink";
-            repo = "kakoune-expand";
-            rev = "e2c3c31e18a19ef73b8cc31e8b84255e11265689";
-            sha256 = "03afg4czqhsh21ig1mczi6jp4vypzjrbif61v2n87371v5zw6xbs";
-          };
-        })
-        (pkgs.kakouneUtils.buildKakounePluginFrom2Nix rec {
-          pname = "neuron";
-          version = src.rev;
-          src = pkgs.fetchFromGitHub {
-            owner = "MilanVasko";
-            repo = "neuron-kak";
-            rev = "bcf824ac837de95045e54d6d5a9fba48c06013e8";
-            sha256 = "1fzadn5bmd0nazm0lh2nh5r1ayggafi5qrg95c06z5z7ppkmdplb";
-          };
-        })
-        # dependency of tmux-kak-copy-mode
-        (pkgs.kakouneUtils.buildKakounePluginFrom2Nix rec {
-          pname = "tmux-kak-info";
-          version = src.rev;
-          src = pkgs.fetchFromGitHub {
-            owner = "jbomanson";
-            repo = "tmux-kak-info.kak";
-            rev = "180bdabea21d7764663aa14c4f30f406f3aa2732";
-            sha256 = "0wk7h9g801k4gdc79cb5fjd7l4s3y5lyw7y1n3aaw8dzhnyfyf0r";
-          };
-        })
-        (pkgs.kakouneUtils.buildKakounePluginFrom2Nix rec {
-          pname = "csv";
-          version = src.rev;
-          src = pkgs.fetchFromGitHub {
-            owner = "gspia";
-            repo = "csv.kak";
-            rev = "00d0c4269645e15c8f61202e265328c470cd85c2";
-            sha256 = "03hcnxchgbd2h5w2wn3c16x1fb2264wjjrfbkwrdj0vfrgswk3nx";
-          };
-        })
-        (pkgs.kakouneUtils.buildKakounePluginFrom2Nix rec {
-          pname = "registers";
-          version = src.rev;
-          src = pkgs.fetchFromGitHub {
-            owner = "Delapouite";
-            repo = "kakoune-registers";
-            rev = "9531947baecd83c1d4c3bea0adf10f4462f1e120";
-            sha256 = "08v9ndghh7wvr8rsrqm05gksk9ai5vnwvw9gwqasbppb48cv4a8c";
-          };
-        })
-        (pkgs.kakouneUtils.buildKakounePluginFrom2Nix rec {
-          pname = "marks";
-          version = src.rev;
-          src = pkgs.fetchFromGitHub {
-            owner = "Delapouite";
-            repo = "kakoune-marks";
-            rev = "4aee81c4007f04e3d11813cdcc4c25730fe89bbd";
-            sha256 = "0c4b3gng8grknsjlvicinvn8yvrjwsqs0pc5yx8sqqzxcmngz5wm";
-          };
-        })
-        (pkgs.kakouneUtils.buildKakounePluginFrom2Nix rec {
-          pname = "mark";
-          version = src.rev;
-          src = pkgs.fetchFromGitLab {
-            owner = "fsub";
-            repo = "kakoune-mark";
-            rev = "7dca6d72ba3c01824bdc2ca3b6a01be9bce2603a";
-            sha256 = "12543v4fcfnd8z2m2d1xkal7a2rckz583vsk7ms7g5k798v5hxlq";
-          };
-        })
-        (pkgs.kakouneUtils.buildKakounePluginFrom2Nix rec {
-          pname = "word-select";
-          version = src.rev;
-          src = pkgs.fetchFromSourcehut {
-            owner = "~dermetfan";
-            repo = "${pname}.kak";
-            rev = "adcccb280de928636b32130857310c641813442f";
-            hash = "sha256-jO4ET4u7SkvlnS6LuAZGH6CCa9/mwDVXiyx9BSuEGnA=";
-          };
-        })
-        (pkgs.kakouneUtils.buildKakounePluginFrom2Nix rec {
-          pname = "interactively";
-          version = src.rev;
-          src = pkgs.fetchFromGitHub {
-            owner = "chambln";
-            repo = "kakoune-interactively";
-            rev = "948baa8b5a82d9ff0b4e13e3ce175b50f4222426";
-            sha256 = "0pi90yrv5b3nxxzps863nhqrdfdkbkv3jylvaj20hc1vp3fxc1ka";
-          };
-        })
-        (pkgs.kakouneUtils.buildKakounePluginFrom2Nix rec {
-          pname = "palette";
-          version = src.rev;
-          src = pkgs.fetchFromGitHub {
-            owner = "Delapouite";
-            repo = "kakoune-palette";
-            rev = "052cab5f48578679d94717ed5f62429be9865d5d";
-            sha256 = "1p9mpzx6i816pcw9sala2kvy0ky39kwccxgsf3y3bpw6m8pi6kby";
-          };
-        })
+
+        auto-pairs
+        sudo-write
+        move-line
+        smarttab
+        surround
+        wordcount
+        tug
+        fetch
+        casing
+        smart-quotes
+        close-tag
+        phantom-selection
+        shellcheck
+        change-directory
+        explain-shell
+        elvish
+        crosshairs
+        table
+        local-kakrc
+        expand
+        neuron
+        tmux-info # dependency of tmux-kak-copy-mode
+        csv
+        registers
+        marks
+        mark
+        word-select
+        interactively
+        palette
       ];
     };
 
