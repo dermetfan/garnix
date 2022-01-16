@@ -203,15 +203,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1637917557,
-        "narHash": "sha256-3u5bLyGn5NUG3RJA7/v1Bqa/QCFGqp/01Bh/4REf9m4=",
-        "owner": "nix-community",
+        "lastModified": 1642342374,
+        "narHash": "sha256-22mGPjiHUo2Jmze4IjXCJLjeK2mbvvCztHmUyUMr4yw=",
+        "owner": "dermetfan",
         "repo": "home-manager",
-        "rev": "4daff26495ca9ac67476cba8cf15c3e36d91ab18",
+        "rev": "c234d6eedb581171e4c0546c3aa37881c7e92c96",
         "type": "github"
       },
       "original": {
-        "owner": "nix-community",
+        "owner": "dermetfan",
+        "ref": "backport-kakoune-fix-ui",
         "repo": "home-manager",
         "type": "github"
       }
