@@ -203,16 +203,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1642342374,
-        "narHash": "sha256-22mGPjiHUo2Jmze4IjXCJLjeK2mbvvCztHmUyUMr4yw=",
+        "lastModified": 1642370342,
+        "narHash": "sha256-ruKRnOk9HZKTMs+Q1qwGl7eYOAoe6pbAkZ6VlwLgPkc=",
         "owner": "dermetfan",
         "repo": "home-manager",
-        "rev": "c234d6eedb581171e4c0546c3aa37881c7e92c96",
+        "rev": "db66967853e050f8e026aed11fef200537888d9f",
         "type": "github"
       },
       "original": {
         "owner": "dermetfan",
-        "ref": "backport-kakoune-fix-ui",
+        "ref": "next",
         "repo": "home-manager",
         "type": "github"
       }

@@ -1,24 +1,8 @@
 { config, lib, pkgs, ... }:
 
 let
-  brootConf =
-    let
-      cfg = config.programs.broot;
-    in {
-      # XXX inherit cfg.modal after updating home-manager to a version that has it
-      inherit (cfg) verbs skin;
-    } // cfg.config;
-
-  brootConfFormat = pkgs.formats.toml {};
-
   cfg = config.config.programs.broot;
 in {
-  # TODO upstream
-  options.programs.broot.config = with lib; mkOption {
-    inherit (brootConfFormat) type;
-    default = {};
-  };
-
   options.config.programs.broot.enable = with lib; mkOption {
     type = types.bool;
     default = config.programs.broot.enable;
@@ -27,16 +11,11 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    xdg.configFile."broot/conf.toml".source = lib.mkForce
-      (brootConfFormat.generate "broot-config" brootConf);
-
     home.packages = [ pkgs.broot-vscode-font ];
 
-    programs.broot = {
-      config = {
-        default_flags = "g";
-        icon_theme = "vscode";
-      };
+    programs.broot.config = {
+      default_flags = "g";
+      icon_theme = "vscode";
 
       skin = {
         # https://dystroy.org/broot/skins/#gruvbox
