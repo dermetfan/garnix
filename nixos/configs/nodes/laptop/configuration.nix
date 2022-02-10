@@ -111,7 +111,16 @@
       };
     };
 
-    programs.broot.config.special_paths."/mnt/cephfs/home/dermetfan" = "no-enter";
+    programs = {
+      broot.config.special_paths."/mnt/cephfs/home/dermetfan" = "no-enter";
+
+      beets.settings = let
+        dir = "/mnt/cephfs/home/dermetfan/media/audio/music/library";
+      in {
+        directory = lib.mkForce dir;
+        library = lib.mkForce "${dir}/beets.db";
+      };
+    };
 
     config.programs.firefox.hideTabs = true;
   };

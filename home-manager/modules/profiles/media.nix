@@ -13,8 +13,12 @@ in {
     programs = {
       beets = {
         enable = builtins.any (x: x == pkgs.stdenv.system) pkgs.beets.meta.platforms;
+        # TODO make it possible upstream for `library` to refer to `config.programs.beets.settings.directory`
         settings = rec {
-          directory = "${config.xdg.userDirs.music}/library";
+          directory =
+            builtins.replaceStrings [ "$HOME/" ] [ "${config.home.homeDirectory}/" ]
+              config.xdg.userDirs.music +
+            "/library";
           library = "${directory}/beets.db";
           plugins = [
             "fromfilename"
