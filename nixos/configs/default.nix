@@ -1,20 +1,16 @@
 self:
 
 let
-  inherit (self.inputs.nixpkgs) lib;
+  inherit (self.inputs) nixpkgs;
+in
 
-  mkNixos = args: lib.nixosSystem (args // {
+nixpkgs.lib.mapAttrs (k: v:
+  let args = v self; in
+  (args.nixpkgs or nixpkgs).lib.nixosSystem (builtins.removeAttrs args [ "nixpkgs" ] // {
     specialArgs = { inherit self; } // args.specialArgs or {};
     modules = args.modules or [] ++ [
       self.outputs.nixosModule
       { nixpkgs.pkgs = self.outputs.legacyPackages.${args.system}; }
-    ];
-  });
-in
-
-lib.mapAttrs (k: v:
-  mkNixos (v // {
-    modules = v.modules or [] ++ [
       { networking.hostName = k; }
       ./node.nix
     ];
