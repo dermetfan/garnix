@@ -77,16 +77,16 @@
         "styx": "styx"
       },
       "locked": {
-        "narHash": "sha256-SWDhpErAaUgrYR52KxWcu9Jzls1jr+64a3Fc9+/XI38=",
+        "narHash": "sha256-wo3fISKsh+M2xylIkk/Idz9PAL+gOIBnj9g23+evJKw=",
         "ref": "default",
-        "rev": "7f910598f97a4de9edd25e813b58d0d6854ac6b8",
-        "revCount": 61,
+        "rev": "463b729802df1d96f47e69891496ba494970fbce",
+        "revCount": 62,
         "type": "hg",
-        "url": "ssh://hg@hg.sr.ht/~dermetfan/dermetfan-blog"
+        "url": "https://hg@hg.sr.ht/~dermetfan/dermetfan-blog"
       },
       "original": {
         "type": "hg",
-        "url": "ssh://hg@hg.sr.ht/~dermetfan/dermetfan-blog"
+        "url": "https://hg@hg.sr.ht/~dermetfan/dermetfan-blog"
       }
     },
     "flake-compat": {
@@ -294,11 +294,11 @@
         "rev": "1f81e56c16cc4c3560ab0b5e61a199aaec7f2f68",
         "revCount": 1,
         "type": "git",
-        "url": "ssh://git@git.sr.ht/~dermetfan/change-directory.kak"
+        "url": "https://git@git.sr.ht/~dermetfan/change-directory.kak"
       },
       "original": {
         "type": "git",
-        "url": "ssh://git@git.sr.ht/~dermetfan/change-directory.kak"
+        "url": "https://git@git.sr.ht/~dermetfan/change-directory.kak"
       }
     },
     "kak-close-tag": {
@@ -502,11 +502,11 @@
         "rev": "47a6b216de6352ec8244b4375d7ee2805e084925",
         "revCount": 1,
         "type": "git",
-        "url": "ssh://git@git.sr.ht/~dermetfan/move-line.kak"
+        "url": "https://git@git.sr.ht/~dermetfan/move-line.kak"
       },
       "original": {
         "type": "git",
-        "url": "ssh://git@git.sr.ht/~dermetfan/move-line.kak"
+        "url": "https://git@git.sr.ht/~dermetfan/move-line.kak"
       }
     },
     "kak-neuron": {
@@ -710,11 +710,11 @@
         "rev": "adcccb280de928636b32130857310c641813442f",
         "revCount": 1,
         "type": "git",
-        "url": "ssh://git@git.sr.ht/~dermetfan/word-select.kak"
+        "url": "https://git@git.sr.ht/~dermetfan/word-select.kak"
       },
       "original": {
         "type": "git",
-        "url": "ssh://git@git.sr.ht/~dermetfan/word-select.kak"
+        "url": "https://git@git.sr.ht/~dermetfan/word-select.kak"
       }
     },
     "kak-wordcount": {

@@ -25,7 +25,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     dermetfan-blog = {
-      url = "hg+ssh://hg@hg.sr.ht/~dermetfan/dermetfan-blog";
+      url = "hg+https://hg@hg.sr.ht/~dermetfan/dermetfan-blog";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     hosts = {
@@ -45,7 +45,7 @@
       flake = false;
     };
     kak-move-line = {
-      url = "git+ssh://git@git.sr.ht/~dermetfan/move-line.kak";
+      url = "git+https://git@git.sr.ht/~dermetfan/move-line.kak";
       flake = false;
     };
     kak-smarttab = {
@@ -89,7 +89,7 @@
       flake = false;
     };
     kak-change-directory = {
-      url = "git+ssh://git@git.sr.ht/~dermetfan/change-directory.kak";
+      url = "git+https://git@git.sr.ht/~dermetfan/change-directory.kak";
       flake = false;
     };
     kak-explain-shell = {
@@ -141,7 +141,7 @@
       flake = false;
     };
     kak-word-select = {
-      url = "git+ssh://git@git.sr.ht/~dermetfan/word-select.kak";
+      url = "git+https://git@git.sr.ht/~dermetfan/word-select.kak";
       flake = false;
     };
     kak-interactively = {
