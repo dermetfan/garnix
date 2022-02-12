@@ -5,9 +5,8 @@
     ./configuration.nix
     ./hardware-configuration.nix
 
-    ({ self, ... }: {
+    ({ self, lib, ... }: {
       imports = let
-        inherit (self.inputs.nixpkgs) lib;
         secrets = ../../../../secrets/hosts/laptop/secrets.nix;
       in 
         lib.optional (lib.fileContents secrets != "") secrets;

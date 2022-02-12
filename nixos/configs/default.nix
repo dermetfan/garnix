@@ -10,16 +10,13 @@ let
       { nixpkgs.pkgs = self.outputs.legacyPackages.${args.system}; }
     ];
   });
-
-  mkNode = args: mkNixos (args // {
-    modules = args.modules or [] ++ [ ./node.nix ];
-  });
 in
 
 lib.mapAttrs (k: v:
-  mkNode (v // {
-    modules = v.modules or [] ++ [ {
-      networking.hostName = k;
-    } ];
+  mkNixos (v // {
+    modules = v.modules or [] ++ [
+      { networking.hostName = k; }
+      ./node.nix
+    ];
   })
 ) (self.outputs.lib.filesystem.importDirToAttrs ./nodes)
