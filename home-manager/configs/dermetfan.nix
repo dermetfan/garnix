@@ -30,7 +30,7 @@
 
     vivid = {
       enable = true;
-      theme = "gruvbox";
+      theme = "gruvbox-dark";
     };
 
     browserpass = {
