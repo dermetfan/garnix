@@ -21,19 +21,11 @@
     # https://github.com/ryantm/agenix/issues/45
     sshKeyPaths = map (key: "/state${toString key.path}") config.services.openssh.hostKeys;
 
-    secrets = {
-      "ceph.client.admin.keyring" = {
-        file = ../../../../secrets/services/ceph.client.admin.keyring.age;
-        path = "/etc/ceph/ceph.client.admin.keyring";
-        owner = config.users.users.ceph.name;
-        group = config.users.users.ceph.group;
-      };
-      "ceph.client.roundcube.keyring" = {
-        file = ../../../../secrets/services/ceph.client.roundcube.keyring.age;
-        path = "/etc/ceph/ceph.client.roundcube.keyring";
-        owner = config.users.users.ceph.name;
-        group = config.users.users.ceph.group;
-      };
+    secrets."ceph.client.roundcube.keyring" = {
+      file = ../../../../secrets/services/ceph.client.roundcube.keyring.age;
+      path = "/etc/ceph/ceph.client.roundcube.keyring";
+      owner = config.users.users.ceph.name;
+      group = config.users.users.ceph.group;
     };
   };
 
@@ -101,10 +93,6 @@
       client.enable = true;
     };
   };
-
-  environment.systemPackages = with pkgs; [
-    ceph # ceph from ceph-client fails with "No module named 'rados'"
-  ];
 
   fileSystems.${config.services.roundcube.config.enigma_pgp_homedir} = {
     fsType = "fuse.ceph-fixed";
