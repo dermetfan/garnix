@@ -238,13 +238,7 @@
           hostname = "${k}.hosts.${v.config.networking.domain}";
         }) self.outputs.nixosConfigurations;
 
-        sshOpts = [
-          "-i" "secrets/deployer_ssh_ed25519_key"
-
-          # May be needed for password authentication to work.
-          # see https://github.com/serokell/deploy-rs/issues/78#issuecomment-802402464
-          # "-t"
-        ];
+        sshOpts = [ "-i" "secrets/deployer_ssh_ed25519_key" ];
       };
 
       checks = builtins.mapAttrs (system: deployLib:
