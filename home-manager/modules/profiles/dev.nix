@@ -36,6 +36,7 @@ in {
         hyperfine
         entr
         ijq
+        jd-diff-patch
         yq
       ] ++
       lib.optionals stdenv.isLinux [
