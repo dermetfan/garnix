@@ -72,7 +72,7 @@ in {
         ]
       ) ++
       lib.optionals cfg.enableWeb (
-        [ httpie ] ++
+        [ httpie curlie ] ++
         lib.optionals pkgs.stdenv.isLinux [
           httping
         ]
