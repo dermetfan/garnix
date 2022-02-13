@@ -894,6 +894,13 @@ in {
             args = [ "--stdio" ];
           };
 
+          javascript = {
+            filetypes = [ "javascript" ];
+            roots = [ ".flowconfig" ];
+            command = "flow";
+            args = [ "lsp" ];
+          };
+
           go = {
             filetypes = [ "go" ];
             roots = [ "Gopkg.toml" "go.mod" ".git" ".hg" ];
@@ -936,6 +943,7 @@ in {
       gopls go
       zls jq
       yaml-language-server
+      flow
       phpPackages.psalm
     ];
 
