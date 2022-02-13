@@ -5,11 +5,17 @@
     flake-utils.url = "github:numtide/flake-utils";
     deploy-rs = {
       url = "github:serokell/deploy-rs";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        utils.follows = "flake-utils";
+      };
     };
     agenix = {
       url = "github:yaxitech/ragenix";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-utils.follows = "flake-utils";
+      };
     };
     home-manager = {
       url = "github:dermetfan/home-manager/next";
