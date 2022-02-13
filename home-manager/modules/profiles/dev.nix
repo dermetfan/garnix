@@ -56,11 +56,6 @@ in {
         valgrind
         qcachegrind
       ] ++
-      lib.optionals cfg.enableRust [
-        # XXX re-enable once no longer marked as broken
-        # rustracer
-        # rustracerd
-      ] ++
       lib.optionals cfg.enableJava (
         [ openjdk
           gradle
