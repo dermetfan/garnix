@@ -908,6 +908,14 @@ in {
             offset_encoding = "utf-8";
           };
 
+          rust = {
+            filetypes = [ "rust" ];
+            roots = [ "Cargo.toml" ];
+            command = "rust-analyzer";
+            settings_section = "rust-analyzer";
+            settings.rust-analyzer.hoverActions.enable = false;
+          };
+
           zig = {
             filetypes = [ "zig" ];
             roots = [ "build.zig" ];
@@ -941,6 +949,7 @@ in {
         builtins.getFlake "github:nix-community/rnix-lsp/9462b0d20325a06f7e43b5a0469ec2c92e60f5fe"
       ).outputs.defaultPackage.${pkgs.system}
       gopls go
+      rust-analyzer
       zls jq
       yaml-language-server
       flow
