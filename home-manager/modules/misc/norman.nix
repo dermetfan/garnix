@@ -9,7 +9,7 @@ in {
     description = "Enable the norman keyboard layout.";
   };
 
-  config = {
+  config = lib.mkIf cfg.enable {
     home.keyboard = with lib; {
       layout = mkDefault "us";
       variant = mkDefault "norman";
