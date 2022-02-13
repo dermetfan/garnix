@@ -6,6 +6,10 @@ let
     ./deployer_ssh_ed25519_key.pub
   ];
 
+  withDeployers = builtins.mapAttrs (k: v: v // {
+    publicKeys = v.publicKeys or [] ++ deployers;
+  });
+
   host = name: readKey hosts/${name}/ssh_host_ed25519_key.pub;
 
   service = name: "services/${name}.age";
@@ -27,49 +31,49 @@ let
     );
 in
 
-builtins.listToAttrs (
-  map (k: {
+withDeployers (
+  builtins.listToAttrs (map (k: {
     name = "${k}.age";
-    value.publicKeys = deployers;
-  }) (import hosts/ssh-keys.nix)
-) //
+    value = {};
+  }) (import hosts/ssh-keys.nix)) //
 
-{
-  ${service "github"}.publicKeys = deployers;
-} //
+  {
+    ${service "github"} = {};
+    ${service "ceph.client.admin.keyring"} = {};
+  } //
 
-servicesForHosts {
-  "ceph.mgr.a.keyring" = [ "node-2" ];
-  "ceph.mds.a.keyring" = [ "node-2" ];
-  "ceph.mgr.b.keyring" = [ "node-0" ];
-  "ceph.mds.b.keyring" = [ "node-0" ];
-  "ceph.client.admin.keyring" = [ "node-2" ];
-  "ceph.client.dermetfan.keyring" = [ "laptop" ];
-  "ceph.client.diemetfan.keyring" = [ "thinkpad" ];
-  "ceph.client.mutmetfan.keyring" = [ "node-0" ];
-  "ceph.client.roundcube.keyring" = [ "node-2" ];
+  privateForHost "laptop" [
+    "yggdrasil/key.conf"
+    "freedns"
+    "secrets.nix"
+  ] //
 
-  "cache.sec" = [ "node-0" ];
+  privateForHost "thinkpad" [
+    "yggdrasil/key.conf"
+    "freedns"
+  ] //
 
-  "ssmtp" = [ "node-0" ];
-} //
+  privateForHost "node-0" [
+    "yggdrasil/key.conf"
+    "freedns"
+  ] //
 
-privateForHost "laptop" [
-  "yggdrasil/key.conf"
-  "freedns"
-  "secrets.nix"
-] //
+  privateForHost "node-2" [
+    "yggdrasil/key.conf"
+  ] //
 
-privateForHost "thinkpad" [
-  "yggdrasil/key.conf"
-  "freedns"
-] //
+  servicesForHosts {
+    "ceph.mgr.a.keyring" = [ "node-2" ];
+    "ceph.mds.a.keyring" = [ "node-2" ];
+    "ceph.mgr.b.keyring" = [ "node-0" ];
+    "ceph.mds.b.keyring" = [ "node-0" ];
+    "ceph.client.dermetfan.keyring" = [ "laptop" ];
+    "ceph.client.diemetfan.keyring" = [ "thinkpad" ];
+    "ceph.client.mutmetfan.keyring" = [ "node-0" ];
+    "ceph.client.roundcube.keyring" = [ "node-2" ];
 
-privateForHost "node-0" [
-  "yggdrasil/key.conf"
-  "freedns"
-] //
+    "cache.sec" = [ "node-0" ];
 
-privateForHost "node-2" [
-  "yggdrasil/key.conf"
-]
+    "ssmtp" = [ "node-0" ];
+  }
+)
