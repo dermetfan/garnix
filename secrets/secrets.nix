@@ -51,8 +51,6 @@ servicesForHosts {
 
   "cache.sec" = [ "node-0" ];
 
-  "nextcloud" = [ "node-0" ];
-
   "ssmtp" = [ "node-0" ];
 } //
 
