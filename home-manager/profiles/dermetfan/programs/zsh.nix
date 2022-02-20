@@ -7,7 +7,7 @@ in {
     default = config.programs.zsh.enable;
   };
 
-  config = lib.mkIf cfg.enable {
+  config = {
     home.packages = with pkgs; [
       diffutils
     ];

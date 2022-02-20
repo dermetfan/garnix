@@ -7,7 +7,7 @@ in {
     default = config.programs.starship.enable;
   };
 
-  config = lib.mkIf cfg.enable {
+  config = {
     home.packages = [ pkgs.powerline-fonts ];
 
     programs.starship.settings = {

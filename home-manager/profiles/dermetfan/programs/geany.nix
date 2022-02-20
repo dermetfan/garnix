@@ -7,7 +7,7 @@ in {
     default = config.programs.geany.enable or false;
   };
 
-  config.xdg.configFile = lib.mkIf cfg.enable {
+  config.xdg.configFile = {
     "geany/keybindings.conf".text = ''
       [Bindings]
       menu_new=<Primary>n

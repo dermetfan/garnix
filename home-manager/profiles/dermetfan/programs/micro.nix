@@ -7,7 +7,7 @@ in {
     default = config.programs.micro.enable;
   };
 
-  config.xdg.configFile = lib.mkIf cfg.enable {
+  config.xdg.configFile = {
     "micro/settings.json".text = builtins.toJSON {
       eofnewline = true;
       ignorecase = true;

@@ -44,7 +44,7 @@ in {
     };
   };
 
-  config = lib.mkIf cfg.enable {
+  config = {
     home.packages = with pkgs; [
       powerline-fonts
       font-awesome

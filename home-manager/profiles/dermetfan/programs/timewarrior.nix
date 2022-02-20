@@ -7,7 +7,7 @@ in {
     default = config.programs.timewarrior.enable or false;
   };
 
-  config.home.file = lib.mkIf cfg.enable (
+  config.home.file = (
     let
       flexitime = pkgs.fetchFromGitHub {
         owner = "AMNeumann";

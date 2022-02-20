@@ -7,7 +7,7 @@ in {
     default = config.xsession.enable && config.xsession.windowManager.i3.enable;
   };
 
-  config = lib.mkIf cfg.enable {
+  config = {
     xsession.windowManager.i3.config.keybindings = let
       mod = config.xsession.windowManager.i3.config.modifier;
     in {

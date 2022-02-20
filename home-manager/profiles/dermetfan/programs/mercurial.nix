@@ -7,7 +7,7 @@ in {
     default = config.programs.mercurial.enable;
   };
 
-  config = lib.mkIf cfg.enable {
+  config = {
     home.packages = [ pkgs.meld ];
 
     programs.mercurial = {

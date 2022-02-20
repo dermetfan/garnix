@@ -13,7 +13,7 @@ in {
     };
   };
 
-  config = lib.mkIf cfg.enable {
+  config = {
     xsession = {
       enable = nixosConfig.services.xserver.enable or false;
       windowManager.i3.enable = config.xsession.enable or false;

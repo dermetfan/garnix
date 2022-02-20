@@ -7,7 +7,7 @@ in {
     default = config.programs.tkremind.enable or false;
   };
 
-  config.programs = lib.mkIf cfg.enable {
+  config.programs = {
     tkremind = {
       colorscheme = "gruvbox-light";
       extraArgs = "-m -b1";

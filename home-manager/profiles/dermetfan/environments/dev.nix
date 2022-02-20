@@ -11,7 +11,7 @@ in {
     enableWeb = mkEnableOption "web development programs";
   };
 
-  config = lib.mkIf cfg.enable {
+  config = {
     programs = {
       mercurial.enable = true;
       git.enable = true;

@@ -9,7 +9,7 @@ in {
     enableStudios = mkEnableOption "media creation studios";
   };
 
-  config = lib.mkIf cfg.enable {
+  config = {
     programs = {
       beets = {
         enable = builtins.any (x: x == pkgs.stdenv.system) pkgs.beets.meta.platforms;

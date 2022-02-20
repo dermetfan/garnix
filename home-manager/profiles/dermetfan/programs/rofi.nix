@@ -7,37 +7,35 @@ in {
     default = config.programs.rofi.enable;
   };
 
-  config = lib.mkIf cfg.enable {
-    programs = {
-      alacritty.enable = true;
+  config.programs = {
+    alacritty.enable = true;
 
-      rofi = {
-        plugins = with pkgs; [
-          rofi-calc
-        ];
+    rofi = {
+      plugins = with pkgs; [
+        rofi-calc
+      ];
 
-        terminal = "alacritty";
+      terminal = "alacritty";
 
-        theme = let
-          inherit (config.lib.formats.rasi) mkLiteral;
-        in {
-          "@import" = "gruvbox-dark-soft";
-          window.width = mkLiteral "40%";
-          mainbox.children = map mkLiteral [ "inputbar" "message" "listview" "mode-switcher" ];
-          element-icon.margin = mkLiteral "0 6px 0 0";
-        };
+      theme = let
+        inherit (config.lib.formats.rasi) mkLiteral;
+      in {
+        "@import" = "gruvbox-dark-soft";
+        window.width = mkLiteral "40%";
+        mainbox.children = map mkLiteral [ "inputbar" "message" "listview" "mode-switcher" ];
+        element-icon.margin = mkLiteral "0 6px 0 0";
+      };
 
-        extraConfig = {
-          modi = lib.concatStringsSep "," (with pkgs; [
-            "power:${rofi-power-menu}/bin/rofi-power-menu"
-            "calc"
-            "emoji:${rofimoji}/bin/rofimoji"
-            "drun"
-            "run"
-            "ssh"
-          ]);
-          show-icons = true;
-        };
+      extraConfig = {
+        modi = lib.concatStringsSep "," (with pkgs; [
+          "power:${rofi-power-menu}/bin/rofi-power-menu"
+          "calc"
+          "emoji:${rofimoji}/bin/rofimoji"
+          "drun"
+          "run"
+          "ssh"
+        ]);
+        show-icons = true;
       };
     };
   };

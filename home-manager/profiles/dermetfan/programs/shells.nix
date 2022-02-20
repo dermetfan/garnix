@@ -19,7 +19,7 @@ in {
       l  = "exa --git-ignore";
       ll = "exa --all";
     };
-  in lib.mkIf cfg.enable {
+  in {
     exa.enable = true;
     bash.shellAliases = aliases;
     zsh .shellAliases = aliases;

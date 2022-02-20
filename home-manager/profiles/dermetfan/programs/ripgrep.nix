@@ -7,9 +7,7 @@ in {
     default = config.programs.ripgrep.enable or false;
   };
 
-  config = lib.mkIf cfg.enable {
-    programs.ripgrep.settings = ''
-      --smart-case
-    '';
-  };
+  config.programs.ripgrep.settings = ''
+    --smart-case
+  '';
 }

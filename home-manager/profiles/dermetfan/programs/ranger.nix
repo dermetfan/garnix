@@ -7,7 +7,7 @@ in {
     default = config.programs.ranger.enable or false;
   };
 
-  config = lib.mkIf cfg.enable {
+  config = {
     home.packages = with pkgs; [
       atool
       dragon-drop

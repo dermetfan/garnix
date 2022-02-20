@@ -7,7 +7,7 @@ in {
     default = config.programs.nano.enable or false;
   };
 
-  config.home.file = lib.mkIf cfg.enable (
+  config.home.file = (
     let
       nanorcs = pkgs.fetchFromGitHub {
         owner = "scopatz";

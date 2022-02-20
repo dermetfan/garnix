@@ -7,10 +7,8 @@ in {
     default = config.programs.xpdf.enable or false;
   };
 
-  config.home.file = lib.mkIf cfg.enable {
-    ".xpdfrc".text = ''
-      continuousView yes
-      initialZoom width
-    '';
-  };
+  config.home.file.".xpdfrc".text = ''
+    continuousView yes
+    initialZoom width
+  '';
 }

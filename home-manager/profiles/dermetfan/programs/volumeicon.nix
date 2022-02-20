@@ -7,7 +7,7 @@ in {
     default = config.programs.volumeicon.enable or false;
   };
 
-  config = lib.mkIf cfg.enable {
+  config = {
     home.packages = with pkgs; [
       alacritty
       alsaUtils

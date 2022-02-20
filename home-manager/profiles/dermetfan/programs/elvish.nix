@@ -7,7 +7,7 @@ in {
     default = config.programs.elvish.enable or false;
   };
 
-  config = lib.mkIf cfg.enable {
+  config = {
     programs.zoxide.enable = true;
 
     home.file.".elvish/rc.elv".text = ''

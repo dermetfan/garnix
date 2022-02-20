@@ -7,7 +7,7 @@ in {
     default = config.services.dunst.enable;
   };
 
-  config = lib.mkIf cfg.enable {
+  config = {
     programs = {
       rofi.enable = true;
       firefox.enable = true;

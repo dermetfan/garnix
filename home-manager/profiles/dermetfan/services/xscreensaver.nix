@@ -7,7 +7,7 @@ in {
     default = config.services.xscreensaver.enable;
   };
 
-  config = lib.mkIf cfg.enable {
+  config = {
     home.packages = [ pkgs.rss-glx ];
 
     services.xscreensaver.settings = {
