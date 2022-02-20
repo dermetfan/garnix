@@ -2,26 +2,27 @@
 
 let
   cfg = config.programs.networkmanager-dmenu;
-in with lib; {
-  options.programs.networkmanager-dmenu = {
+in {
+  options.programs.networkmanager-dmenu = with lib; {
     enable = mkEnableOption "networkmanager_dmenu";
 
-    config = mkOption {
+    settings = mkOption {
       type = types.attrs;
       default = {
         dmenu = {
           rofi_highlight = true;
           wifi_chars = "▂▄▆█";
-        } // (if config.programs.rofi.enable then {
+        } // lib.optionalAttrs config.programs.rofi.enable {
           dmenu_command = "rofi";
-        } else {});
+        };
         dmenu_passphrase.rofi_obscure = false;
       };
     };
   };
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     home.packages = [ pkgs.networkmanager_dmenu ];
-    xdg.configFile."networkmanager-dmenu/config.ini".text = generators.toINI {} cfg.config;
+
+    xdg.configFile."networkmanager-dmenu/config.ini".text = lib.generators.toINI {} cfg.settings;
   };
 }

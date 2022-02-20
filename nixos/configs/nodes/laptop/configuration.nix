@@ -58,8 +58,8 @@
     };
   };
 
-  home-manager.users.dermetfan.config = {
-    profiles = {
+  home-manager.users.dermetfan = {
+    profiles.dermetfan.environments = {
       admin.enable = true;
       dev = {
         enable = true;
@@ -114,6 +114,8 @@
     programs = {
       broot.config.special_paths."/mnt/cephfs/home/dermetfan" = "no-enter";
 
+      firefox.hideTabs = true;
+
       beets.settings = let
         dir = "/mnt/cephfs/home/dermetfan/media/audio/music/library";
       in {
@@ -121,8 +123,6 @@
         library = lib.mkForce "${dir}/beets.db";
       };
     };
-
-    config.programs.firefox.hideTabs = true;
   };
 
   fileSystems."/mnt/cephfs/home/dermetfan" = {

@@ -1,17 +1,6 @@
 { config, lib, pkgs, ... }:
 
-lib.mkIf (config.profiles.gui.enable && config.gtk.enable) {
-  gtk = {
-    theme = {
-      name = "Vertex-Dark";
-      package = pkgs.theme-vertex;
-    };
-    iconTheme = {
-      name = "Numix";
-      package = pkgs.numix-icon-theme;
-    };
-  };
-
+lib.mkIf config.gtk.enable {
   home.sessionVariables.GDK_PIXBUF_MODULE_FILE =
     let
       v2 = "${pkgs.librsvg.out}/lib/gdk-pixbuf-2.0";

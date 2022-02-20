@@ -88,6 +88,71 @@
         "url": "https://hg@hg.sr.ht/~dermetfan/dermetfan-blog"
       }
     },
+    "fish-abbreviation-tips": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1642133715,
+        "narHash": "sha256-841GmOAi/KS7HF7G29NUD8swaTTCPGdpIUV7B2ln32g=",
+        "owner": "Gazorby",
+        "repo": "fish-abbreviation-tips",
+        "rev": "d29a52375a0826ed86b0710f58b2495a73d3aff3",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Gazorby",
+        "repo": "fish-abbreviation-tips",
+        "type": "github"
+      }
+    },
+    "fish-autopair": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1610912397,
+        "narHash": "sha256-l6WJ2kjDO/TnU9FSigjxk5xFp90xl68gDfggkE/wrlM=",
+        "owner": "jorgebucaran",
+        "repo": "autopair.fish",
+        "rev": "1222311994a0730e53d8e922a759eeda815fcb62",
+        "type": "github"
+      },
+      "original": {
+        "owner": "jorgebucaran",
+        "repo": "autopair.fish",
+        "type": "github"
+      }
+    },
+    "fish-colored-man-pages": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1622223280,
+        "narHash": "sha256-jhvC9wTU/mUwEaKeepsUEJsvVuCiO/opcp09SzkItV8=",
+        "owner": "PatrickF1",
+        "repo": "colored_man_pages.fish",
+        "rev": "8c4965b9be9433d12ba50c28452cab8c71c59a50",
+        "type": "github"
+      },
+      "original": {
+        "owner": "PatrickF1",
+        "repo": "colored_man_pages.fish",
+        "type": "github"
+      }
+    },
+    "fish-tide": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1618436545,
+        "narHash": "sha256-XTpkjQOdFXBO9NlEwOMX26bbuxojVmdtxDcfLKXFUdE=",
+        "owner": "IlanCosman",
+        "repo": "tide",
+        "rev": "630ae9f7d93c5f53880e7d59ae4e61f6390b71a1",
+        "type": "github"
+      },
+      "original": {
+        "owner": "IlanCosman",
+        "ref": "v4.3.4",
+        "repo": "tide",
+        "type": "github"
+      }
+    },
     "flake-compat": {
       "flake": false,
       "locked": {
@@ -848,6 +913,10 @@
         "agenix": "agenix",
         "deploy-rs": "deploy-rs",
         "dermetfan-blog": "dermetfan-blog",
+        "fish-abbreviation-tips": "fish-abbreviation-tips",
+        "fish-autopair": "fish-autopair",
+        "fish-colored-man-pages": "fish-colored-man-pages",
+        "fish-tide": "fish-tide",
         "flake-utils": "flake-utils_3",
         "home-manager": "home-manager",
         "hosts": "hosts",

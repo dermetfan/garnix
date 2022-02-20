@@ -3,8 +3,9 @@
 {
   imports = [ self.inputs.nixpkgs.nixosModules.notDetected ];
 
-  home-manager.users.dermetfan.config.config = {
-    programs.i3status-rust.batteries = [ "BAT1" ];
+  home-manager.users.dermetfan = {
+    profiles.dermetfan.programs.i3status-rust.batteries = [ "BAT1" ];
+
     wayland.windowManager.sway = {
       keyboardIdentifier = "1:1:AT_Translated_Set_2_keyboard";
       clamshellOutput = "eDP-1";

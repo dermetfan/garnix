@@ -50,26 +50,7 @@ in {
     };
   };
 
-  options.config.programs.tkremind.enable = lib.mkEnableOption "tkremind settings" // {
-    default = cfg.enable;
-  };
-
   config = lib.mkIf cfg.enable {
-    programs = lib.mkIf config.config.programs.tkremind.enable {
-      tkremind = {
-        colorscheme = "gruvbox-light";
-        extraArgs = "-m -b1";
-        extraConfig = ''
-          AutoClose 1
-          ShowTodaysReminders 0
-          Editor {alacritty -e ${config.home.sessionVariables.EDITOR} +%d %s}
-        '';
-      };
-
-      alacritty.enable = true;
-      geany.enable = true;
-    };
-
     home = {
       packages = [ pkgs.remind ];
 

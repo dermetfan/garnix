@@ -56,12 +56,12 @@ rec {
     */
     let
       module =
-        if (builtins.isPath moduleSpec)
+        if builtins.isPath moduleSpec
         then import moduleSpec
         else moduleSpec;
-      functionArgs = builtins.functionArgs module;
+      functionArgs = lib.functionArgs module;
     in
-    if builtins.isFunction module && functionArgs ? self
+    if lib.isFunction module && functionArgs ? self
     then lib.setFunctionArgs
       (args: module (args // { self = flake; }))
       (builtins.removeAttrs functionArgs [ "self" ])

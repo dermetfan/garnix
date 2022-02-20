@@ -28,23 +28,9 @@ in {
     package = mkOption {
       type = types.package;
       default = pkgs.swaylock;
+      example = "pkgs.swaylock-effects";
     };
   };
 
-  config = lib.mkIf cfg.enable {
-    home.packages = [ cfg.package ];
-
-    xdg.configFile = lib.mkIf (cfg.package.name == "swaylock-effects-${cfg.package.version}") {
-      "swaylock/config".text = ''
-        screenshots
-        clock
-        indicator
-        indicator-caps-lock
-        show-keyboard-layout
-        effect-blur=7x5
-        fade-in=0.2
-        datestr=%a, %Y-%m-%d
-      '';
-    };
-  };
+  config.home.packages = lib.optional cfg.enable cfg.package;
 }

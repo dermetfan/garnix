@@ -38,6 +38,22 @@
       url = "github:StevenBlack/hosts";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    fish-tide = {
+      url = "github:IlanCosman/tide/v4.3.4";
+      flake = false;
+    };
+    fish-abbreviation-tips = {
+      url = "github:Gazorby/fish-abbreviation-tips";
+      flake = false;
+    };
+    fish-autopair = {
+      url = "github:jorgebucaran/autopair.fish";
+      flake = false;
+    };
+    fish-colored-man-pages = {
+      url = "github:PatrickF1/colored_man_pages.fish";
+      flake = false;
+    };
     kak-cosy-gruvbox = {
       url = "github:Anfid/cosy-gruvbox.kak";
       flake = false;
@@ -223,12 +239,13 @@
     {
       inherit lib;
       overlays = out.overlays nixpkgs/overlays // {
+        # TODO try not to leak this
         flake = final: prev: { flake = self; };
       };
       nixosModules = out.nixosModules nixos/modules;
       nixosConfigurations = import nixos/configs self;
       homeManagerModules = out.nixosModules home-manager/modules;
-      homeManagerConfigurations = out.nixosModules home-manager/configs;
+      homeManagerProfiles = import home-manager/profiles self;
 
       deploy = {
         nodes = builtins.mapAttrs (k: v: {

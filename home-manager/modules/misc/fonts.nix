@@ -86,7 +86,7 @@ in {
     xsession.windowManager.i3 = i3-sway;
     wayland.windowManager.sway = i3-sway;
 
-    config.programs.swappy.config = mkOptionDefault {
+    programs.swappy.settings = mkOptionDefault {
       Default = mkOptionDefault {
         text_font = mkDefault cfg.normal.family;
         text_size = mkDefault (floor (cfg.normal.size * 1.5));

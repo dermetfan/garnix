@@ -5,6 +5,7 @@ let
 in {
   options.programs.vivid = with lib; {
     enable = mkEnableOption "set LS_COLORS";
+
     theme = mkOption {
       type = types.str;
       default = "gruvbox-dark";

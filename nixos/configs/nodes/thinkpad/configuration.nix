@@ -92,53 +92,52 @@
     sessionVariables.GDK_PIXBUF_MODULE_FILE = "$(echo ${pkgs.librsvg.out}/lib/gdk-pixbuf-2.0/*/loaders.cache)";
   };
 
-  home-manager.users.marlene = lib.mkMerge [
-    self.outputs.homeManagerConfigurations.diemetfan
-    ({ nixosConfig, config, ... }: {
-      home = {
-        stateVersion = "21.05";
+  home-manager.users.marlene = { nixosConfig, config, ... }: {
+    imports = [ self.outputs.homeManagerProfiles.diemetfan ];
 
-        username = nixosConfig.users.users.marlene.name;
-        homeDirectory = nixosConfig.users.users.marlene.home;
-      };
+    home = {
+      stateVersion = "21.05";
 
-      profiles = {
-        media.enable = true;
-        office.enable = true;
-      };
+      username = nixosConfig.users.users.marlene.name;
+      homeDirectory = nixosConfig.users.users.marlene.home;
+    };
 
-      services = {
-        redshift = nixosConfig.passthru.coords or {};
-        wlsunset = nixosConfig.passthru.coords or {};
+    profiles.dermetfan.environments = {
+      media.enable = true;
+      office.enable = true;
+    };
 
-        unison = {
-          enable = true;
-          pairs.cephfs = {
-            roots = [
-              config.home.homeDirectory
-              "/mnt/cephfs/home/diemetfan"
-            ];
-            commandOptions = {
-              include = "cephfs";
-              mountpoint = "Desktop";
-              repeat = toString (60 * 15);
-              owner = builtins.toJSON true;
-              group = builtins.toJSON true;
-              times = builtins.toJSON true;
-              sortnewfirst = builtins.toJSON true;
-              sortbysize = builtins.toJSON true;
-              watch = builtins.toJSON false;
-            };
+    services = {
+      redshift = nixosConfig.passthru.coords or {};
+      wlsunset = nixosConfig.passthru.coords or {};
+
+      unison = {
+        enable = true;
+        pairs.cephfs = {
+          roots = [
+            config.home.homeDirectory
+            "/mnt/cephfs/home/diemetfan"
+          ];
+          commandOptions = {
+            include = "cephfs";
+            mountpoint = "Desktop";
+            repeat = toString (60 * 15);
+            owner = builtins.toJSON true;
+            group = builtins.toJSON true;
+            times = builtins.toJSON true;
+            sortnewfirst = builtins.toJSON true;
+            sortbysize = builtins.toJSON true;
+            watch = builtins.toJSON false;
           };
         };
       };
+    };
 
-      programs = {
-        firefox.enable = true;
-        browserpass.enable = lib.mkForce false;
-      };
-    })
-  ];
+    programs = {
+      firefox.enable = true;
+      browserpass.enable = lib.mkForce false;
+    };
+  };
 
   users.users.marlene = {
     isNormalUser = true;

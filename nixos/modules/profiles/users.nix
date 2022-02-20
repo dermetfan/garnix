@@ -51,7 +51,7 @@ in {
         defaultUser = lib.mkDefault config.users.users.dermetfan.name;
       };
 
-      home-manager.users.dermetfan = self.outputs.homeManagerConfigurations.dermetfan;
+      home-manager.users = { inherit (self.outputs.homeManagerProfiles) dermetfan; };
     })
   ]);
 }
