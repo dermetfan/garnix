@@ -239,10 +239,7 @@
     out.singles //
     {
       inherit lib;
-      overlays = out.overlays nixpkgs/overlays // {
-        # TODO try not to leak this
-        flake = final: prev: { flake = self; };
-      };
+      overlays = builtins.mapAttrs (k: v: v self) (out.overlays nixpkgs/overlays);
       nixosModules = out.nixosModules nixos/modules;
       nixosConfigurations = import nixos/configs self;
       homeManagerModules = out.nixosModules home-manager/modules;

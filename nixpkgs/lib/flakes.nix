@@ -23,8 +23,11 @@ rec {
       ) nixosModule homeManagerModule overlay;
     };
 
-    packages = system: outputs.singles.overlay {}
-      (import flake.inputs.nixpkgs { inherit system; });
+    packages = system:
+      self.inputs.flake-utils.lib.flattenTree (
+        outputs.singles.overlay {}
+          (import flake.inputs.nixpkgs { inherit system; })
+      );
 
     legacyPackages = args:
       import flake.inputs.nixpkgs ({

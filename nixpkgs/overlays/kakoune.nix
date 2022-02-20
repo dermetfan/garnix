@@ -1,8 +1,10 @@
+self:
+
 final: prev: {
   kakoune-unwrapped = prev.kakoune-unwrapped.overrideAttrs (oldAttrs: {
     postInstall = ''
       ${oldAttrs.postInstall}
-      ln -s ${prev.flake.inputs.kak-cosy-gruvbox}/colors/cosy-gruvbox.kak $out/share/kak/colors/
+      ln -s ${self.inputs.kak-cosy-gruvbox}/colors/cosy-gruvbox.kak $out/share/kak/colors/
     '';
   });
 
@@ -11,7 +13,7 @@ final: prev: {
       prev.kakouneUtils.buildKakounePluginFrom2Nix rec {
         pname = name;
         version = src.rev;
-        src = prev.flake.inputs."kak-${name}";
+        src = self.inputs."kak-${name}";
       }
     )) [
       "auto-pairs"
