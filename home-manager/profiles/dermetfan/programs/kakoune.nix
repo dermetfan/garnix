@@ -763,7 +763,7 @@ in {
           set-face global crosshairs_line default,rgb:383838+d
           set-face global crosshairs_column default,rgb:383838+d
 
-          set-option global kakboard_paste_keys p P K <a-p> <a-P> <a-R>
+          set-option global kakboard_paste_keys p P <a-p> <a-P> <a-R>
 
           eval %sh{kak-lsp --kakoune -s $kak_session}
         '';
