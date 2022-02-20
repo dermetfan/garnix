@@ -39,6 +39,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     fish-tide = {
+      # TODO update when fixed: https://github.com/IlanCosman/tide/issues/253
       url = "github:IlanCosman/tide/v4.3.4";
       flake = false;
     };
