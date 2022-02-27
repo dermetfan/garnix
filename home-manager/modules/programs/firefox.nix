@@ -12,7 +12,7 @@ in {
     hideTabs = mkEnableOption "hide tabs";
   };
 
-  config = {
+  config = lib.mkIf cfg.enable {
     programs.firefox = {
       package = lib.mkIf (!config.xsession.enable && !nixosConfig.services.xserver.enable or false) pkgs.firefox-wayland;
 
@@ -29,7 +29,7 @@ in {
       '';
     };
 
-    home.file.".mozilla/firefox/${config.programs.firefox.profiles.${config.home.username}.path}/chrome/userContent.css".text = lib.mkIf cfg.enable ''
+    home.file.".mozilla/firefox/${config.programs.firefox.profiles.${config.home.username}.path}/chrome/userContent.css".text = ''
       @-moz-document
       url('about:newtab'),
       url('about:blank') {
