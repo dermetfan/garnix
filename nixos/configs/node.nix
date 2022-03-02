@@ -25,7 +25,7 @@
 
         ceph = {
           yggdrasil = true;
-          monInitialHosts = with self.nixosConfigurations; [ node-2 node-0 ];
+          monInitialHosts = with self.nixosConfigurations; [ node-2 node-0 node-3 ];
         };
       };
     };

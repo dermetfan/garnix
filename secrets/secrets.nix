@@ -62,11 +62,17 @@ withDeployers (
     "yggdrasil/key.conf"
   ] //
 
+  privateForHost "node-3" [
+    "yggdrasil/key.conf"
+  ] //
+
   servicesForHosts {
     "ceph.mgr.a.keyring" = [ "node-2" ];
     "ceph.mds.a.keyring" = [ "node-2" ];
     "ceph.mgr.b.keyring" = [ "node-0" ];
     "ceph.mds.b.keyring" = [ "node-0" ];
+    "ceph.mgr.c.keyring" = [ "node-3" ];
+    "ceph.mds.c.keyring" = [ "node-3" ];
     "ceph.client.dermetfan.keyring" = [ "laptop" ];
     "ceph.client.diemetfan.keyring" = [ "thinkpad" ];
     "ceph.client.mutmetfan.keyring" = [ "node-0" ];
