@@ -76,7 +76,7 @@ withDeployers (
     "ceph.client.dermetfan.keyring" = [ "laptop" ];
     "ceph.client.diemetfan.keyring" = [ "thinkpad" ];
     "ceph.client.mutmetfan.keyring" = [ "node-0" ];
-    "ceph.client.roundcube.keyring" = [ "node-2" ];
+    "ceph.client.roundcube.keyring" = [ "node-3" ];
 
     "cache.sec" = [ "node-0" ];
 

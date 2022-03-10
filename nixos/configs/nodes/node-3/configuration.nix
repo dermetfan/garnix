@@ -11,16 +11,29 @@
   environment.persistence."/state" = {
     files = map (key: key.path) config.services.openssh.hostKeys;
     directories = [
+      "/var/lib/acme"
       "/var/lib/ceph"
+      config.services.postgresql.dataDir
     ];
   };
 
   age = {
     # https://github.com/ryantm/agenix/issues/45
     identityPaths = map (key: "/state${toString key.path}") config.services.openssh.hostKeys;
+
+    secrets."ceph.client.roundcube.keyring" = {
+      file = ../../../../secrets/services/ceph.client.roundcube.keyring.age;
+      path = "/etc/ceph/ceph.client.roundcube.keyring";
+      owner = config.users.users.ceph.name;
+      group = config.users.users.ceph.group;
+    };
   };
 
+  profiles.roundcube.enable = true;
+
   services = {
+    homepage.enable = true;
+
     znapzend = {
       pure = true;
       zetup = let
@@ -60,6 +73,7 @@
       mgr = {
         enable = true;
         daemons = [ "c" ];
+        dashboard.enable = true;
         openFirewall = true;
       };
       mds = {
@@ -78,6 +92,15 @@
       };
       client.enable = true;
     };
+  };
+
+  fileSystems.${config.services.roundcube.config.enigma_pgp_homedir} = {
+    fsType = "fuse.ceph-fixed";
+    device = "none";
+    options = [
+      "nofail"
+      "ceph.id=roundcube,ceph.client_mountpoint=/services/roundcube/enigma"
+    ];
   };
 
   bootstrap.secrets.initrd_ssh_host_ed25519_key.path = null;
