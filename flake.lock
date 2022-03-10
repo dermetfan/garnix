@@ -279,6 +279,32 @@
         "type": "github"
       }
     },
+    "home-manager-shell": {
+      "inputs": {
+        "flake-utils": [
+          "flake-utils"
+        ],
+        "home-manager": [
+          "home-manager"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1653341038,
+        "narHash": "sha256-CfVnoUl6kZPA6YW1F+K+BR/5Kql6yXlfWUDHUpVbtvU=",
+        "owner": "~dermetfan",
+        "repo": "home-manager-shell",
+        "rev": "30e5cdb99604833f5ccd3473dc4eed76079107a8",
+        "type": "sourcehut"
+      },
+      "original": {
+        "owner": "~dermetfan",
+        "repo": "home-manager-shell",
+        "type": "sourcehut"
+      }
+    },
     "hosts": {
       "inputs": {
         "flake-utils": "flake-utils_4",
@@ -918,6 +944,7 @@
         "fish-tide": "fish-tide",
         "flake-utils": "flake-utils_3",
         "home-manager": "home-manager",
+        "home-manager-shell": "home-manager-shell",
         "hosts": "hosts",
         "impermanence": "impermanence",
         "kak-auto-pairs": "kak-auto-pairs",

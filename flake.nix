@@ -17,6 +17,14 @@
       url = "github:dermetfan/home-manager/next";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    home-manager-shell = {
+      url = "sourcehut:~dermetfan/home-manager-shell";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-utils.follows = "flake-utils";
+        home-manager.follows = "home-manager";
+      };
+    };
     impermanence.url = "github:nix-community/impermanence";
     nur = {
       url = "github:nix-community/NUR";
@@ -173,7 +181,7 @@
     };
   };
 
-  outputs = { self, nixpkgs, flake-utils, deploy-rs, ... }: let
+  outputs = { self, nixpkgs, flake-utils, deploy-rs, home-manager, home-manager-shell, ... }: let
     lib = import nixpkgs/lib self;
     out = (lib.flake self).outputs;
   in
@@ -186,9 +194,18 @@
       };
 
       defaultApp = self.outputs.apps.${system}.deploy-rs;
+
       apps = nixpkgs.lib.genAttrs [ "deploy-rs" "agenix" ] (flake:
         self.inputs.${flake}.defaultApp.${system}
-      );
+      ) // {
+        home-manager-shell = flake-utils.lib.mkApp {
+          drv = home-manager-shell.lib {
+            inherit system;
+            target = self;
+            args.extraSpecialArgs.nixosConfig = null;
+          };
+        };
+      };
 
       devShell = nixpkgs.legacyPackages.${system}.mkShell {
         SSH_ASKPASS_REQUIRE = "prefer";
