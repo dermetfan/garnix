@@ -1,7 +1,6 @@
 {
   inputs = {
     nixpkgs.url = "nixpkgs/release-21.11";
-    "nixpkgs-21.05".url = "nixpkgs/release-21.05";
     flake-utils.url = "github:numtide/flake-utils";
     deploy-rs = {
       url = "github:serokell/deploy-rs";
