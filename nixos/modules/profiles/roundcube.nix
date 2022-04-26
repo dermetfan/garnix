@@ -17,7 +17,7 @@ in {
         pname = "multi_smtp";
         version = "0.0.0";
         src = pkgs.fetchgit {
-          # if Gist goes down recover source from commit d88c10634015
+          # if Gist goes down recover source from commit 68fe1bc
           url = https://gist.github.com/kimbtech/b6b08f1778420766ee1a2d24117d4871;
           rev = "7453877ddc3fbe6529d14d9a246285702abd9ca8";
           sha256 = "1q3dcqagyyvrskkw2bh5dl2kx643jzw5n67c7gs7mylq18wfh4sj";
@@ -35,7 +35,7 @@ in {
       "multi_smtp"
     ];
 
-    config = {
+    settings = {
       default_host = lib.mkOptionDefault {
         "ssl://imap.inf.h-brs.de:993" = "H-BRS FB02 Informatik";
         "ssl://owa.stud.h-brs.de:993" = "H-BRS FB06 Sozialpolitik und Soziale Sicherung";

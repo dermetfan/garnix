@@ -94,7 +94,7 @@
     };
   };
 
-  fileSystems.${config.services.roundcube.config.enigma_pgp_homedir} = {
+  fileSystems.${config.services.roundcube.settings.enigma_pgp_homedir} = {
     fsType = "fuse.ceph-fixed";
     device = "none";
     options = [

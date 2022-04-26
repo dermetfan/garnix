@@ -3,7 +3,7 @@
 let
   cfg = config.services.roundcube;
 in {
-  options.services.roundcube.config = with lib; mkOption {
+  options.services.roundcube.settings = with lib; mkOption {
     type = with types; submodule {
       freeformType = attrsOf (oneOf [ bool int str (listOf str) (attrsOf str)]);
       options = {
@@ -91,6 +91,6 @@ in {
   };
 
   config.services.roundcube.extraConfig = lib.mkIf cfg.enable (
-    self.outputs.lib.generators.toPHP { variable = "config"; } cfg.config
+    self.outputs.lib.generators.toPHP { variable = "config"; } cfg.settings
   );
 }
