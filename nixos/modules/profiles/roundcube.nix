@@ -13,16 +13,6 @@ in {
     package = pkgs.roundcube.withPlugins (plugins: with plugins; [
       persistent_login
       carddav
-      (pkgs.roundcubePlugins.roundcubePlugin {
-        pname = "multi_smtp";
-        version = "0.0.0";
-        src = pkgs.fetchgit {
-          # if Gist goes down recover source from commit 68fe1bc
-          url = https://gist.github.com/kimbtech/b6b08f1778420766ee1a2d24117d4871;
-          rev = "56377169299143f320c57a7de6e6b5c307f3a339";
-          hash = "sha256-Vy9XRAGYNAX8xRoD5u6q3iYarHpjpEGaJDuQfgcRzNw=";
-        };
-      })
     ]);
 
     plugins = [
@@ -32,7 +22,6 @@ in {
       "attachment_reminder"
       "vcard_attachments"
       "zipdownload"
-      "multi_smtp"
     ];
 
     settings = {
