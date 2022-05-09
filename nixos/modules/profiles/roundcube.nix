@@ -19,8 +19,8 @@ in {
         src = pkgs.fetchgit {
           # if Gist goes down recover source from commit 68fe1bc
           url = https://gist.github.com/kimbtech/b6b08f1778420766ee1a2d24117d4871;
-          rev = "7453877ddc3fbe6529d14d9a246285702abd9ca8";
-          sha256 = "1q3dcqagyyvrskkw2bh5dl2kx643jzw5n67c7gs7mylq18wfh4sj";
+          rev = "56377169299143f320c57a7de6e6b5c307f3a339";
+          hash = "sha256-Vy9XRAGYNAX8xRoD5u6q3iYarHpjpEGaJDuQfgcRzNw=";
         };
       })
     ]);
