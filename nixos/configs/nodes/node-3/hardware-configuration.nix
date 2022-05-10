@@ -13,7 +13,6 @@
     ];
     kernelModules = [ "kvm-intel" ];
     loader.systemd-boot.enable = true;
-    tmpOnTmpfs = true;
 
     kernelNetwork = {
       enable = true;

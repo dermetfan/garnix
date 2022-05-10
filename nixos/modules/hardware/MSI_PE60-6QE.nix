@@ -46,8 +46,6 @@ in {
         blacklistedKernelModules = [
           "nouveau" # causes CPU stalls with intel GPU driver (HyperThreading bug?)
         ];
-
-        tmpOnTmpfs = lib.mkDefault true;
       };
 
       nix.maxJobs = if cfg.hyperThreading then 8 else 4;

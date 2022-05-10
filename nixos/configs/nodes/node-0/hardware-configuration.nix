@@ -14,8 +14,6 @@
       enable = true;
       device = "/dev/disk/by-id/ata-SAMSUNG_SP2504C_S09QJ1GLB66805";
     };
-
-    tmpOnTmpfs = true;
   };
 
   networking.interfaces.enp30s0 = {
