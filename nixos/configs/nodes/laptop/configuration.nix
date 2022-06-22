@@ -15,7 +15,6 @@
     notebook.enable = true;
     gui.enable = true;
     dev.enable = true;
-    iog.enable = true;
     users = {
       enable = true;
       users.dermetfan.enable = true;
@@ -66,6 +65,7 @@
         enableRust = true;
         enableWeb = true;
       };
+      iog.enable = true;
       media.enableEditors = true;
       office.enable = true;
       gui.enable = true;
