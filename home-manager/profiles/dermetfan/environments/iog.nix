@@ -26,7 +26,5 @@ in {
         };
       }
     ];
-
-    fish.shellAbbrs.nix-iog = "nix --extra-substituters 'https://hydra.iohk.io https://hydra.p42.at'";
   };
 }
