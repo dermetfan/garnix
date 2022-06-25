@@ -721,11 +721,6 @@ in {
               name = "WinSetOption";
               option = "filetype=(zig|go)";
               commands = ''
-                lsp-enable-window
-                lsp-auto-signature-help-enable
-                lsp-diagnostic-lines-enable window
-                lsp-inline-diagnostics-enable window
-                lsp-inlay-diagnostics-enable window ${""/*FIXME doesn't work automatically*/}
                 set-option window lsp_hover_anchor true
                 set-option window lsp_auto_highlight_references true
                 hook window -group semantic-tokens BufReload .* lsp-semantic-tokens
@@ -734,6 +729,11 @@ in {
                 hook -once -always window WinSetOption filetype=.* %{
                     remove-hooks window semantic-tokens
                 }
+                lsp-enable-window
+                lsp-auto-signature-help-enable
+                lsp-diagnostic-lines-enable window
+                lsp-inline-diagnostics-enable window
+                lsp-inlay-diagnostics-enable window ${""/*FIXME doesn't work automatically*/}
               '';
             }
             {
