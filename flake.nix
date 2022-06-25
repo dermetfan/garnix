@@ -205,6 +205,8 @@
             args.extraSpecialArgs.nixosConfig = null;
           };
         };
+
+        default = self.outputs.apps.${system}.deploy-rs;
       };
 
       devShell = nixpkgs.legacyPackages.${system}.mkShell {
