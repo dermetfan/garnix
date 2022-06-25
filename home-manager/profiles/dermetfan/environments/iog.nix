@@ -26,5 +26,7 @@ in {
         };
       }
     ];
+
+    gpg.enable = true;
   };
 }
