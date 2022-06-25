@@ -29,6 +29,7 @@ in {
       before = wantedBy;
       path = with pkgs; [ ceph ];
       script = ''
+        # FIXME this only works if a client.admin key is present
         ceph mgr module enable dashboard
       '' + lib.concatMapStrings (mgr: ''
         ceph config set mgr mgr/dashboard/${mgr}/server_port ${toString cfg.port.${mgr}}
