@@ -190,8 +190,6 @@
         config = import nixpkgs/config.nix;
       };
 
-      defaultApp = self.outputs.apps.${system}.deploy-rs;
-
       apps = nixpkgs.lib.genAttrs [ "deploy-rs" "agenix" ] (flake:
         self.inputs.${flake}.defaultApp.${system}
       ) // {
