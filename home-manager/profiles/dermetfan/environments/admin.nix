@@ -45,7 +45,7 @@
     diffoscope
     ftop
     hdparm
-    libsysfs
+    sysfsutils
     mdcat
     nethogs
     ngrep
@@ -53,7 +53,7 @@
     pciutils
     psmisc
     progress
-    sshfsFuse
+    sshfs-fuse
     tty-share
     upterm
   ] ++ lib.optionals (config.profiles.dermetfan.environments.gui.enable && stdenv.isLinux) [

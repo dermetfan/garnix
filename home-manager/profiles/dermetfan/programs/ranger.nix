@@ -10,7 +10,7 @@ in {
   config = {
     home.packages = with pkgs; [
       atool
-      dragon-drop
+      xdragon
     ];
 
     programs.zoxide.enable = true;
@@ -50,7 +50,7 @@ in {
 
         map k chain draw_possible_programs; console open_with%space
 
-        map yD shell -f dragon -x %p
+        map yD shell -f xdragon -x %p
 
         # Searching
         map j  search_next
