@@ -28,6 +28,7 @@ in {
     home.packages = with pkgs;
       [ ack
         grex
+        comma
         nox
         nixos-shell
         pijul
