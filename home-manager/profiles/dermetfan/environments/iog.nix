@@ -13,20 +13,24 @@ in {
     };
   };
 
-  config.programs = {
-    git.includes = [
-      {
-        condition = "gitdir:${cfg.reposDir}/";
-        contents = {
-          user = {
-            email = "robin.stumm@iohk.io";
-            signingkey = "D00F363866377AD9";
+  config = {
+    programs = {
+      git.includes = [
+        {
+          condition = "gitdir:${cfg.reposDir}/";
+          contents = {
+            user = {
+              email = "robin.stumm@iohk.io";
+              signingkey = "D00F363866377AD9";
+            };
+            commit.gpgSign = true;
           };
-          commit.gpgSign = true;
-        };
-      }
-    ];
+        }
+      ];
 
-    gpg.enable = true;
+      gpg.enable = true;
+    };
+
+    services.gpg-agent.enable = true;
   };
 }
