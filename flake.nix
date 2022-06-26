@@ -191,6 +191,7 @@
       };
 
       apps = nixpkgs.lib.genAttrs [ "deploy-rs" "agenix" ] (flake:
+        self.inputs.${flake}.apps.${system}.default or
         self.inputs.${flake}.defaultApp.${system}
       ) // {
         home-manager-shell = flake-utils.lib.mkApp {
