@@ -15,7 +15,7 @@
       sl
     ] ++ lib.optionals config.profiles.dermetfan.environments.gui.enable [
       kobodeluxe
-      cool-old-term
+      cool-retro-term
       teamspeak_client
     ];
   };

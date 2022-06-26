@@ -73,7 +73,7 @@
       udevil
 
       tdesktop
-      skype
+      skypeforlinux
       feh
       gucharmap
       qalculate-gtk
