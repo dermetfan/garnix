@@ -52,11 +52,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1643787431,
-        "narHash": "sha256-8IwuVgXulRE3ZWq6z8mytarawC32pKPKR20EyDtSH+w=",
+        "lastModified": 1653594315,
+        "narHash": "sha256-kJ0ENmnQJ4qL2FeYKZba9kvv1KmIuB3NVpBwMeI7AJQ=",
         "owner": "serokell",
         "repo": "deploy-rs",
-        "rev": "4154ba1aaaf7333a916384c348d867d03b6f1409",
+        "rev": "184349d8149436748986d1bdba087e4149e9c160",
         "type": "github"
       },
       "original": {
@@ -154,11 +154,11 @@
     "flake-compat": {
       "flake": false,
       "locked": {
-        "lastModified": 1641205782,
-        "narHash": "sha256-4jY7RCWUoZ9cKD8co0/4tFARpWB+57+r1bLLvXNJliY=",
+        "lastModified": 1648199409,
+        "narHash": "sha256-JwPKdC2PoVBkG6E+eWw3j6BMR6sL3COpYWfif7RVb8Y=",
         "owner": "edolstra",
         "repo": "flake-compat",
-        "rev": "b7547d3eed6f32d06102ead8991ec52ab0a4f1a7",
+        "rev": "64a525ee38886ab9028e6f61790de0832aa3ef03",
         "type": "github"
       },
       "original": {
