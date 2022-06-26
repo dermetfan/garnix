@@ -360,17 +360,17 @@
     "kak-casing": {
       "flake": false,
       "locked": {
-        "lastModified": 1599852778,
+        "lastModified": 1656243794,
         "narHash": "sha256-qsG0DRv3p7xxDHmHXFpxeIlsMr3eiQS8Tf/0SFJnYY4=",
-        "owner": "Parasrah",
+        "owner": "~dermetfan",
         "repo": "casing.kak",
-        "rev": "bd579f04bbd17c3d8612ad0505a6641a78e239df",
-        "type": "github"
+        "rev": "671d7e21edfcf855301feafb7be2bdd78510a6af",
+        "type": "sourcehut"
       },
       "original": {
-        "owner": "Parasrah",
+        "owner": "~dermetfan",
         "repo": "casing.kak",
-        "type": "github"
+        "type": "sourcehut"
       }
     },
     "kak-change-directory": {

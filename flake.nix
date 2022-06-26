@@ -96,7 +96,7 @@
       flake = false;
     };
     kak-casing = {
-      url = "github:Parasrah/casing.kak";
+      url = "sourcehut:~dermetfan/casing.kak";
       flake = false;
     };
     kak-smart-quotes = {
