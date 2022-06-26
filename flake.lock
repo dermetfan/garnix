@@ -378,15 +378,15 @@
       "locked": {
         "lastModified": 1637099626,
         "narHash": "sha256-7H7TAJalPHWaYjYLy5IcZ92qtjaEMgMlcfSokUvsp8A=",
-        "ref": "master",
+        "owner": "~dermetfan",
+        "repo": "change-directory.kak",
         "rev": "1f81e56c16cc4c3560ab0b5e61a199aaec7f2f68",
-        "revCount": 1,
-        "type": "git",
-        "url": "https://git@git.sr.ht/~dermetfan/change-directory.kak"
+        "type": "sourcehut"
       },
       "original": {
-        "type": "git",
-        "url": "https://git@git.sr.ht/~dermetfan/change-directory.kak"
+        "owner": "~dermetfan",
+        "repo": "change-directory.kak",
+        "type": "sourcehut"
       }
     },
     "kak-close-tag": {
@@ -586,15 +586,15 @@
       "locked": {
         "lastModified": 1637099638,
         "narHash": "sha256-2OZdDfRmS4HxpdKMeZyLaBSqv3anaauz64OmhLcARTo=",
-        "ref": "master",
+        "owner": "~dermetfan",
+        "repo": "move-line.kak",
         "rev": "47a6b216de6352ec8244b4375d7ee2805e084925",
-        "revCount": 1,
-        "type": "git",
-        "url": "https://git@git.sr.ht/~dermetfan/move-line.kak"
+        "type": "sourcehut"
       },
       "original": {
-        "type": "git",
-        "url": "https://git@git.sr.ht/~dermetfan/move-line.kak"
+        "owner": "~dermetfan",
+        "repo": "move-line.kak",
+        "type": "sourcehut"
       }
     },
     "kak-neuron": {
@@ -794,15 +794,15 @@
       "locked": {
         "lastModified": 1637099654,
         "narHash": "sha256-jO4ET4u7SkvlnS6LuAZGH6CCa9/mwDVXiyx9BSuEGnA=",
-        "ref": "master",
+        "owner": "~dermetfan",
+        "repo": "word-select.kak",
         "rev": "adcccb280de928636b32130857310c641813442f",
-        "revCount": 1,
-        "type": "git",
-        "url": "https://git@git.sr.ht/~dermetfan/word-select.kak"
+        "type": "sourcehut"
       },
       "original": {
-        "type": "git",
-        "url": "https://git@git.sr.ht/~dermetfan/word-select.kak"
+        "owner": "~dermetfan",
+        "repo": "word-select.kak",
+        "type": "sourcehut"
       }
     },
     "kak-wordcount": {

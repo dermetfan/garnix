@@ -72,7 +72,7 @@
       flake = false;
     };
     kak-move-line = {
-      url = "git+https://git@git.sr.ht/~dermetfan/move-line.kak";
+      url = "sourcehut:~dermetfan/move-line.kak";
       flake = false;
     };
     kak-smarttab = {
@@ -116,7 +116,7 @@
       flake = false;
     };
     kak-change-directory = {
-      url = "git+https://git@git.sr.ht/~dermetfan/change-directory.kak";
+      url = "sourcehut:~dermetfan/change-directory.kak";
       flake = false;
     };
     kak-explain-shell = {
@@ -168,7 +168,7 @@
       flake = false;
     };
     kak-word-select = {
-      url = "git+https://git@git.sr.ht/~dermetfan/word-select.kak";
+      url = "sourcehut:~dermetfan/word-select.kak";
       flake = false;
     };
     kak-interactively = {
