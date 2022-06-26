@@ -69,5 +69,6 @@
     nix-index.enable = true;
     ripgrep.enable = true;
     skim.enable = true;
+    direnv.enable = true;
   };
 }
