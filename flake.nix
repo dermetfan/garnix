@@ -30,10 +30,7 @@
       url = "github:nix-community/NUR";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    neuron = {
-      url = "github:srid/neuron";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    neuron.url = "github:srid/neuron";
     dermetfan-blog = {
       url = "hg+https://hg@hg.sr.ht/~dermetfan/dermetfan-blog";
       inputs.nixpkgs.follows = "nixpkgs";
