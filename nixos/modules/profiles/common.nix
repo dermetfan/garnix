@@ -20,7 +20,7 @@ in {
       systemFeatures = lib.mkDefault [ "recursive-nix" ];
 
       extraOptions = ''
-        experimental-features = nix-command flakes recursive-nix
+        experimental-features = nix-command flakes recursive-nix impure-derivations ca-derivations
       '';
     };
 
