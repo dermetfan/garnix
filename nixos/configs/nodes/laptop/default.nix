@@ -7,7 +7,7 @@ self: {
 
     ({ self, lib, ... }: {
       imports = let
-        secrets = ../../../../secrets/hosts/laptop/secrets.nix;
+        secrets = "${<secrets>}/hosts/laptop/secrets.nix";
       in 
         lib.optional (lib.fileContents secrets != "") secrets;
 

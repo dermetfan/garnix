@@ -1,3 +1,15 @@
 /secrets/askpass
 /secrets/deployer_ssh_*_key
-/secrets/hosts/**/ssh_host_*_key
+
+/secrets/hosts/*/*
+!/secrets/hosts/*/*.age
+!/secrets/hosts/*/*.pub
+!/secrets/hosts/*/yggdrasil/
+/secrets/hosts/*/yggdrasil/*
+!/secrets/hosts/*/yggdrasil/*.age
+!/secrets/hosts/*/yggdrasil/*.pub
+!/secrets/hosts/*/yggdrasil/ip
+
+/secrets/services/*
+!/secrets/services/*.age
+!/secrets/services/*.pub
