@@ -17,8 +17,6 @@ in {
         (builtins.readFile ../../../secrets/services/cache.pub)
       ];
 
-      package = pkgs.nixUnstable;
-
       systemFeatures = lib.mkDefault [ "recursive-nix" ];
 
       extraOptions = ''
