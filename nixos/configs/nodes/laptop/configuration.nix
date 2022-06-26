@@ -74,7 +74,7 @@
     };
 
     home = {
-      stateVersion = "20.09";
+      stateVersion = "22.05";
 
       packages = with pkgs; [
         asciinema
