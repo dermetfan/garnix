@@ -5,7 +5,7 @@
       duration = 100;
     };
 
-    background_opacity = 0.9;
+    window.opacity = 0.9;
 
     key_bindings = [
       { key = "Left";  mods = "Alt|Shift";     chars = "\\x1b[1;4D"; }
