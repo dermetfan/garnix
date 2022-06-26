@@ -265,16 +265,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1642370342,
-        "narHash": "sha256-ruKRnOk9HZKTMs+Q1qwGl7eYOAoe6pbAkZ6VlwLgPkc=",
+        "lastModified": 1656198262,
+        "narHash": "sha256-7cd494s9AUhf/9qEkhn8sY+bIdgUDnjTKUZ+SqqZdRk=",
         "owner": "dermetfan",
         "repo": "home-manager",
-        "rev": "db66967853e050f8e026aed11fef200537888d9f",
+        "rev": "685dad58bb9b38d78e376d1866f33088024ac52b",
         "type": "github"
       },
       "original": {
         "owner": "dermetfan",
-        "ref": "next",
+        "ref": "broot-config-22.05",
         "repo": "home-manager",
         "type": "github"
       }

@@ -3,7 +3,7 @@
 {
   home.packages = [ pkgs.broot-vscode-font ];
 
-  programs.broot.config = {
+  programs.broot.settings = {
     default_flags = "g";
     icon_theme = "vscode";
 

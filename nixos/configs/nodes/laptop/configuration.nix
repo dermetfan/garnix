@@ -112,7 +112,7 @@
     };
 
     programs = {
-      broot.config.special_paths."/mnt/cephfs/home/dermetfan" = "no-enter";
+      broot.settings.special_paths."/mnt/cephfs/home/dermetfan" = "no-enter";
 
       firefox.hideTabs = true;
 

@@ -14,7 +14,7 @@
       inputs.flake-utils.follows = "flake-utils";
     };
     home-manager = {
-      url = "github:dermetfan/home-manager/next";
+      url = "github:dermetfan/home-manager/broot-config-22.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     home-manager-shell = {
