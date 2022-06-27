@@ -265,11 +265,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1656198262,
-        "narHash": "sha256-7cd494s9AUhf/9qEkhn8sY+bIdgUDnjTKUZ+SqqZdRk=",
+        "lastModified": 1656318615,
+        "narHash": "sha256-GE9rQQ8+I/rqKusa1NyJluCSDaAyQx1qexu7tE1rHkM=",
         "owner": "dermetfan",
         "repo": "home-manager",
-        "rev": "685dad58bb9b38d78e376d1866f33088024ac52b",
+        "rev": "473eac9b4911153722c4882ad29df56aa196b4ad",
         "type": "github"
       },
       "original": {
