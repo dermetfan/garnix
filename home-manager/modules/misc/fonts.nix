@@ -30,7 +30,7 @@ in {
           type = fontModule;
           default = {
             family = "DejaVu Sans";
-            size = 11.0;
+            size = 12.0;
             package = pkgs.dejavu_fonts;
           };
         };
@@ -39,7 +39,7 @@ in {
           type = fontModule;
           default = {
             family = "FiraCode Nerd Font Mono";
-            size = 11.0;
+            size = 12.0;
             package = pkgs.nerdfonts.override { fonts = [ "FiraCode" ]; };
           };
         };
