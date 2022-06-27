@@ -60,9 +60,6 @@ in {
         # in case qt5.qtwayland is in systemPackages
         export QT_QPA_PLATFORM=wayland
         export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
-
-        # FIXME fontconfig does not find its config file without this
-        export FONTCONFIG_FILE=~/.config/fontconfig/conf.d/10-hm-fonts.conf
       '';
     };
 
