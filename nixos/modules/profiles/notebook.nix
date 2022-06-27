@@ -7,10 +7,5 @@ in {
 
   config = lib.mkIf cfg.enable {
     networking.networkmanager.enable = true;
-
-    fonts = {
-      fontDir.enable = true;
-      enableGhostscriptFonts = true;
-    };
   };
 }

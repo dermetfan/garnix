@@ -30,6 +30,13 @@ in {
 
     security.acme.email = "serverkorken@gmail.com";
 
+    fonts = {
+      enableDefaultFonts = true;
+      fontDir.enable = true;
+      fontconfig.enable = true;
+      enableGhostscriptFonts = true;
+    };
+
     programs = {
       mosh.enable = true;
       tmux.enable = true;
