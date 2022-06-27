@@ -44,7 +44,7 @@
       enable = true;
       mon = {
         enable = true;
-        daemons = [ "c" ];
+        daemons = [ "a" ];
         openFirewall = true;
       };
       client.enable = true;
