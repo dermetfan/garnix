@@ -28,7 +28,7 @@ in {
 
     networking.stevenBlackHosts.enable = true;
 
-    security.acme.email = "serverkorken@gmail.com";
+    security.acme.defaults.email = "serverkorken@gmail.com";
 
     fonts = {
       enableDefaultFonts = true;

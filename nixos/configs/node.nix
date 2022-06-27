@@ -38,7 +38,7 @@
     services = {
       openssh = {
         passwordAuthentication = false;
-        challengeResponseAuthentication = false;
+        kbdInteractiveAuthentication = false;
       };
 
       ceph.global.fsid = "efec54b4-7ee8-479d-ba1c-34c5eb766dfa";
