@@ -196,8 +196,7 @@
       ) // {
         home-manager-shell = flake-utils.lib.mkApp {
           drv = home-manager-shell.lib {
-            inherit system;
-            target = self;
+            inherit self system;
             args.extraSpecialArgs.nixosConfig = null;
           };
         };
