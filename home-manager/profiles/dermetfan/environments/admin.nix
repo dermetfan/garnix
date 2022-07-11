@@ -11,31 +11,18 @@
     fd
     fdupes
     file
-    fzy
-    du-dust
     entr
-    gptfdisk
-    lrzip
     lsof
     ncdu
-    ncid
-    neofetch
     nix-diff
     nix-du
     nix-output-monitor
     nix-prefetch-scripts
     nix-universal-prefetch
-    peco
     procs
     pv
     rsync
-    sd
-    sipcalc
-    smartmontools
     socat
-    wakelan
-    wget
-    gotty
     bottom
     ijq
   ] ++ lib.optionals config.profiles.dermetfan.environments.gui.enable [
@@ -44,23 +31,15 @@
   ] ++ lib.optionals stdenv.isLinux [
     diffoscope
     ftop
-    hdparm
     sysfsutils
     mdcat
-    nethogs
-    ngrep
-    parted
     pciutils
     psmisc
     progress
     sshfs-fuse
     tty-share
-    upterm
   ] ++ lib.optionals (config.profiles.dermetfan.environments.gui.enable && stdenv.isLinux) [
-    glxinfo
     gpa
-    gparted
-    filezilla
   ];
 
   programs = {
