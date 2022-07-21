@@ -43,6 +43,8 @@ in {
           optional config.programs.light                .enable "video"          ++
           optional config.networking.networkmanager     .enable "networkmanager" ++
           optional config.virtualisation.docker         .enable "docker"         ++
+          optional config.virtualisation.podman         .enable "podman"         ++
+          optional config.virtualisation.libvirtd       .enable "libvirtd"       ++
           optional config.virtualisation.virtualbox.host.enable "vboxusers"      ++
           optional config.programs.adb                  .enable "adbusers";
       };
