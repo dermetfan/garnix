@@ -1,6 +1,10 @@
 {
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/release-22.05";
+    flake-parts = {
+      url = "github:hercules-ci/flake-parts";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     flake-utils.url = "github:numtide/flake-utils";
     deploy-rs = {
       url = "github:serokell/deploy-rs";
@@ -182,70 +186,35 @@
     };
   };
 
-  outputs = { self, nixpkgs, flake-utils, deploy-rs, home-manager, home-manager-shell, ... }: let
-    lib = import nixpkgs/lib self;
-    out = (lib.flake self).outputs;
-  in
-    flake-utils.lib.eachSystem [ "x86_64-linux" ] (system: {
-      packages = out.packages system;
+  outputs = { self, nixpkgs, flake-parts, ... }:
+    flake-parts.lib.mkFlake {
+      inherit self;
+      specialArgs.lib = nixpkgs.lib.extend (final: prev:
+        nixpkgs.lib.recursiveUpdate prev (import parts/lib prev)
+      );
+    } {
+      systems = [ "x86_64-linux" ];
 
-      legacyPackages = out.legacyPackages {
-        inherit system;
-        config = import nixpkgs/config.nix;
-      };
+      imports = map (part: ./parts + "/${part}") [
+        # module args
+        "nixpkgs.nix"
 
-      apps = nixpkgs.lib.genAttrs [ "deploy-rs" "agenix" ] (flake:
-        self.inputs.${flake}.apps.${system}.default or
-        self.inputs.${flake}.defaultApp.${system}
-      ) // {
-        home-manager-shell = flake-utils.lib.mkApp {
-          drv = home-manager-shell.lib {
-            inherit self system;
-            args.extraSpecialArgs.nixosConfig = null;
-          };
-        };
+        # schema outputs
+        "legacyPackages.nix"
+        "packages.nix"
+        "devShells.nix"
+        "overlays"
+        "apps.nix"
+        "nixosModules"
+        "nixosConfigurations"
 
-        default = self.outputs.apps.${system}.deploy-rs;
-      };
+        # third-party schema outputs
+        "homeManagerModules"
+        "homeManagerProfiles"
+        "deploy.nix"
 
-      devShell = nixpkgs.legacyPackages.${system}.mkShell {
-        SSH_ASKPASS_REQUIRE = "prefer";
-        SSH_ASKPASS = "secrets/askpass";
-        shellHook = ''
-          cd $(git rev-parse --show-toplevel)
-
-          if [[ ! -x "$SSH_ASKPASS" ]]; then
-              >&2 echo    "$SSH_ASKPASS"' is missing or not executable.'
-              >&2 echo    'Please place a script there that prints the key for'
-              >&2 echo -e '\tsecrets/deployer_ssh_ed25519_key'
-          fi
-
-          export NIX_PATH="''${NIX_PATH:-}''${NIX_PATH:+:}secrets=$PWD/secrets"
-        '';
-      };
-    }) //
-    out.singles //
-    {
-      inherit lib;
-      overlays = builtins.mapAttrs (k: v: v self) (out.overlays nixpkgs/overlays);
-      nixosModules = out.nixosModules nixos/modules;
-      nixosConfigurations = import nixos/configs self;
-      homeManagerModules = out.nixosModules home-manager/modules;
-      homeManagerProfiles = import home-manager/profiles self;
-
-      deploy = {
-        nodes = builtins.mapAttrs (k: v: {
-          profiles.system.path = deploy-rs.lib.${v.config.nixpkgs.pkgs.system}.activate.nixos v;
-          sshUser = "root";
-          user = "root";
-          hostname = "${k}.hosts.${v.config.networking.domain}";
-        }) self.outputs.nixosConfigurations;
-
-        sshOpts = [ "-i" "secrets/deployer_ssh_ed25519_key" ];
-      };
-
-      checks = builtins.mapAttrs (system: deployLib:
-        deployLib.deployChecks self.outputs.deploy
-      ) deploy-rs.lib;
+        # custom outputs
+        "lib.nix"
+      ];
     };
 }

@@ -183,6 +183,26 @@
         "type": "github"
       }
     },
+    "flake-parts": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1664385320,
+        "narHash": "sha256-uSCHb9RUqHRjTpI8OzyaUuHckFnnxwZqlXEuo+yUpYQ=",
+        "owner": "hercules-ci",
+        "repo": "flake-parts",
+        "rev": "45298bd207b26e1bcd030a0bb075aa2da29f8e30",
+        "type": "github"
+      },
+      "original": {
+        "owner": "hercules-ci",
+        "repo": "flake-parts",
+        "type": "github"
+      }
+    },
     "flake-utils": {
       "locked": {
         "lastModified": 1649676176,
@@ -995,6 +1015,7 @@
         "fish-autopair": "fish-autopair",
         "fish-colored-man-pages": "fish-colored-man-pages",
         "fish-tide": "fish-tide",
+        "flake-parts": "flake-parts",
         "flake-utils": "flake-utils_3",
         "home-manager": "home-manager",
         "home-manager-shell": "home-manager-shell",
