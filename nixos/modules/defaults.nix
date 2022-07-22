@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, utils, pkgs, ... }:
 
 let
   cfg = config.defaults;
@@ -16,6 +16,12 @@ in {
         "@${config.users.groups.wheel.name}"
       ];
     };
+
+    # lxqt-config-brightness refuses to work if `$SHELL` is not in `/etc/shells`.
+    environment.shells = map utils.toShellPath (
+      [ config.users.defaultUserShell ] ++
+      map (user: user.shell) (builtins.attrValues config.users.users)
+    );
 
     networking = {
       useDHCP = false;
