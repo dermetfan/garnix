@@ -3,12 +3,7 @@
 {
   imports = [ ../../../imports/age.nix ];
 
-  system.stateVersion = "20.03";
-
-  age.secrets."ceph.client.diemetfan.keyring" = {
-    file = ../../../../secrets/services/ceph.client.diemetfan.keyring.age;
-    path = "/etc/ceph/ceph.client.diemetfan.keyring";
-  };
+  system.stateVersion = "22.05";
 
   profiles = {
     handson.enable = true;
@@ -16,6 +11,7 @@
     gui.enable = true;
     users.enable = true;
     afraid-freedns.enable = true;
+    yggdrasil.enable = true;
   };
 
   i18n.defaultLocale = "de_DE.UTF-8";
@@ -26,11 +22,6 @@
 
   services = {
     yggdrasil.publicPeers.germany.enable = true;
-
-    ceph = {
-      enable = true;
-      client.enable = true;
-    };
 
     pipewire = {
       enable = true;
@@ -49,7 +40,7 @@
       displayManager = {
         autoLogin = {
           enable = true;
-          user = config.users.users.marlene.name;
+          user = config.users.users.lynn.name;
         };
         sddm.enable = true;
       };
@@ -71,7 +62,7 @@
           inherit timestampFormat;
         };
 
-        "root/home/${config.users.users.marlene.name}" = {
+        "root/home/${config.users.users.lynn.name}" = {
           plan = "15min=>5min,1hour=>15min,1day=>1hour,1week=>1day,1month=>1week";
           inherit timestampFormat;
         };
@@ -92,14 +83,24 @@
     sessionVariables.GDK_PIXBUF_MODULE_FILE = "$(echo ${pkgs.librsvg.out}/lib/gdk-pixbuf-2.0/*/loaders.cache)";
   };
 
-  home-manager.users.marlene = { nixosConfig, config, ... }: {
-    imports = [ self.outputs.homeManagerProfiles.diemetfan ];
+  home-manager.users.lynn = { nixosConfig, config, ... }: {
+    imports = [ self.outputs.homeManagerProfiles.dermetfan ];
 
     home = {
-      stateVersion = "21.05";
+      stateVersion = "22.05";
 
-      username = nixosConfig.users.users.marlene.name;
-      homeDirectory = nixosConfig.users.users.marlene.home;
+      username = nixosConfig.users.users.lynn.name;
+      homeDirectory = nixosConfig.users.users.lynn.home;
+
+      sessionVariables = {
+        TERMINAL = "alacritty";
+        EDITOR = "geany";
+        PAGER = "less";
+      };
+
+      packages = with pkgs; [
+        libreoffice
+      ];
     };
 
     profiles.dermetfan.environments = {
@@ -110,63 +111,38 @@
     services = {
       redshift = nixosConfig.passthru.coords or {};
       wlsunset = nixosConfig.passthru.coords or {};
-
-      unison = {
-        enable = true;
-        pairs.cephfs = {
-          roots = [
-            config.home.homeDirectory
-            "/mnt/cephfs/home/diemetfan"
-          ];
-          commandOptions = {
-            include = "cephfs";
-            mountpoint = "Desktop";
-            repeat = toString (60 * 15);
-            owner = builtins.toJSON true;
-            group = builtins.toJSON true;
-            times = builtins.toJSON true;
-            sortnewfirst = builtins.toJSON true;
-            sortbysize = builtins.toJSON true;
-            watch = builtins.toJSON false;
-          };
-        };
-      };
     };
 
     programs = {
+      alacritty.enable = true;
+      geany.enable = true;
+      less.enable = true;
+      fish.enable = true;
       firefox.enable = true;
+      chromium.enable = true;
       browserpass.enable = lib.mkForce false;
     };
   };
 
-  users.users.marlene = {
-    isNormalUser = true;
+  users.users = {
+    root.hashedPassword = lib.mkForce "$6$u9W4NZj2wPlDR.Vm$MC7J11xhII9DDfZ10Ev5Tna6jZX57KwKNiqiLOqR630kJsHNgpOaulFMsxQsFLfF9DUw.AsL/DnTcEYGwVO8q.";
 
-    hashedPassword = "$6$jj92FejhdockmW$5NjOp0/HFBjO.YhxbPEDKx3FSebO0QP1bU.iQIArCVpe7Ca6ZzXGGxux1GnDBRxca8LPtFb.pyo7gvbA8Kz5X1";
+    lynn = {
+      isNormalUser = true;
 
-    extraGroups = [
-      "wheel"
-      "networkmanager"
-      "video" # backlight
-      "ceph"
-    ];
-  };
+      hashedPassword = "$6$am.ZfZ88QXPUe0zp$s6MPBjK73zC3Lt/Nsqb.CuKmrmKhGZosRIREHKfbdZMZ7Kn9WzkVVbLG1WCP6zJnopt4frMmW82pu.DNA4Cet1";
 
-  fileSystems = {
-    "/home/marlene" = {
-      device = "root/home/marlene";
-      fsType = "zfs";
-    };
-
-    "/mnt/cephfs/home/diemetfan" = {
-      device = "none";
-      fsType = "fuse.ceph-fixed";
-      options = [
-        "nofail"
-        "ceph.id=diemetfan"
-        "ceph.client_mountpoint=/home/diemetfan"
+      extraGroups = [
+        "wheel"
+        "networkmanager"
+        "video" # backlight
       ];
     };
+  };
+
+  fileSystems."/home/lynn" = {
+    device = "root/home/lynn";
+    fsType = "zfs";
   };
 
   networking.hostId = "8425e349";
