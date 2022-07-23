@@ -41,6 +41,7 @@ in {
       opengl.enable = true;
       bluetooth.powerOnBoot = false;
       uhk.enable = true;
+      vial.enable = true;
     };
   };
 }
