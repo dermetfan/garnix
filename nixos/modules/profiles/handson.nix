@@ -35,6 +35,8 @@ in {
       };
 
       logind.lidSwitch = "ignore";
+
+      udev.packages = [ pkgs.qmk-udev-rules ];
     };
 
     hardware = {
