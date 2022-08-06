@@ -22,7 +22,10 @@
     wayland.windowManager.sway = {
       wrapperFeatures.gtk = true;
 
-      enableUHK = true;
+      customKeyboards = [
+        "7504:24866:Ultimate_Gadget_Laboratories_UHK_60_v1"
+        "43256:6195:Bastard_Keyboards_Charybdis_(4x6)_Elite-C"
+      ];
 
       config = {
         input = {
@@ -37,11 +40,6 @@
           "1118:57:Microsoft_Microsoft_5-Button_Mouse_with_IntelliEye(TM)" = {
             accel_profile = "adaptive";
             pointer_accel = "0.95";
-          };
-          "7504:24866:Ultimate_Gadget_Laboratories_UHK_60_v1" = {
-            xkb_options = "compose:rctrl";
-            accel_profile = "flat";
-            pointer_accel = "0";
           };
         };
 

@@ -21,7 +21,16 @@ in {
       '';
     };
 
-    enableUHK = mkEnableOption "UHK input";
+    customKeyboards = mkOption {
+      type = with types; listOf str;
+      default = [];
+      description = ''
+        Input identifiers of custom keyboards.
+        These will have no pointer acceleration set
+        and the default keymap variant removed as
+        such settings are configured on the keyboard itself.
+      '';
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -30,24 +39,23 @@ in {
         ${cfg.keyboardIdentifier} = with config.home.keyboard; {
           xkb_layout = layout;
           xkb_variant = variant;
-          xkb_options = lib.concatStringsSep "," options;
+          xkb_options = builtins.concatStringsSep "," options;
         };
+      } // lib.genAttrs cfg.customKeyboards (identifier: {
+        xkb_layout = config.home.keyboard.layout;
+        xkb_variant = with lib; concatStringsSep "," (
+          zipListsWith # remove variant for us layout (that is what the board's keymap is for)
+            (layout: optionalString (layout != "us"))
+            (splitString "," config.home.keyboard.layout)
+            (splitString "," config.home.keyboard.variant)
+        );
+        xkb_options = builtins.concatStringsSep "," config.home.keyboard.options;
 
-        "7504:24866:Ultimate_Gadget_Laboratories_UHK_60_v1" = lib.mkIf cfg.enableUHK {
-          xkb_layout = config.home.keyboard.layout;
-          xkb_variant = with lib; concatStringsSep "," (
-            zipListsWith # remove variant for us layout (that is what UHK keymaps are for)
-              (layout: optionalString (layout != "us"))
-              (splitString "," config.home.keyboard.layout)
-              (splitString "," config.home.keyboard.variant)
-          );
+        inherit (config.wayland.windowManager.sway.config.input."type:keyboard") repeat_delay repeat_rate;
 
-          inherit (config.wayland.windowManager.sway.config.input."type:keyboard") repeat_delay repeat_rate;
-
-          accel_profile = "flat";
-          pointer_accel = "0";
-        };
-      };
+        accel_profile = "flat";
+        pointer_accel = "0";
+      });
 
       extraConfig = lib.optionalString (cfg.clamshellOutput != "") ''
         bindswitch --reload --locked lid:on output ${cfg.clamshellOutput} disable
