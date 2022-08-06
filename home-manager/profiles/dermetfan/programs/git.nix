@@ -19,6 +19,7 @@
     extraConfig = {
       status.submoduleSummary = true;
       diff.submodule = "log";
+      pull.ff = "only";
     };
   };
 }
