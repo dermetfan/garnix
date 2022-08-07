@@ -82,3 +82,17 @@ For example, for an MDS called `a` on the default cluster named `ceph`:
 ```
 ceph auth get-or-create mds.a osd "allow rwx" mds "allow *" mon "allow profile mds" > /var/lib/ceph/mds/ceph-a/keyring
 ```
+
+# I Learned
+
+## Encrypted ZFS Root
+
+GRUB does [not support](https://github.com/zfsonlinux/grub/issues/24) encrypted ZFS. Even if only one arbitrary dataset in the root pool is encrypted, `grub-probe` will fail.
+
+Since I don't know a BIOS bootloader that supports encrypted ZFS, that means we cannot use BIOS boot but have to use UEFI so that we can put the initrd on a separate boot partition that is not in an encrypted zpool. I use systemd-boot and a simple 512 MiB vfat partition for this.
+
+## Hetzner's Boot
+
+Hetzner Online's Server has legacy+UEFI boot enabled so one would think that UEFI would just work. However, by default it first does network boot into "Hetzner PXE boot manager", that then checks if Hetzner's rescue system is activated, and if not boots from local drive **in legacy mode**. Therefore UEFI does actually not work. You have to join their UEFI beta to be able to boot the rescue system with UEFI.
+
+If you don't want to join the UEFI beta you can switch from legacy+UEFI to UEFI only boot mode as a workaround. This skips "Hetzner PXE boot manager" (which does legacy boot) and goes directly to UEFI boot (according to your boot order settings). Therefore this is incompatible with Hetzner's rescue systems. You need a "KVM console" (which has nothing to do with KVM) to get access to the BIOS using a NoVNC connection (web VNC client).
