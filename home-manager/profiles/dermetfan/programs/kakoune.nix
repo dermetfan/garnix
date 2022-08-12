@@ -722,7 +722,6 @@ in {
               option = "filetype=(zig|go)";
               commands = ''
                 set-option window lsp_hover_anchor true
-                set-option window lsp_auto_highlight_references true
                 hook window -group semantic-tokens BufReload .* lsp-semantic-tokens
                 hook window -group semantic-tokens NormalIdle .* lsp-semantic-tokens
                 hook window -group semantic-tokens InsertIdle .* lsp-semantic-tokens
