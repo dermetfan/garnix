@@ -32,6 +32,7 @@ in {
         Type = "oneshot";
         inherit (service.serviceConfig) PrivateDevices;
       };
+      unitConfig.ConditionPathExists = "!${service.unitConfig.ConditionPathExists}";
     }
   )) cfg;
 }
