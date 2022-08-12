@@ -19,7 +19,7 @@ in {
 
   config = lib.mkIf cfg.enable {
     bootstrap.secrets.github-token = {
-      file = "${<secrets>}/services/github";
+      file = "${toString <secrets>}/services/github";
       path = null;
     };
 

@@ -6,7 +6,7 @@ in {
   options.bootstrap.secrets = with lib; mkOption {
     type = types.attrsOf (types.submodule (sub: {
       options = let
-        hostSecretsDir = "${<secrets>}/hosts/${config.networking.hostName}";
+        hostSecretsDir = "${toString <secrets>}/hosts/${config.networking.hostName}";
       in {
         file = mkOption {
           type = types.str;

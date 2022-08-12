@@ -10,7 +10,7 @@ in {
   config.bootstrap.secrets = lib.mkIf cfg (
     builtins.listToAttrs (
       map (id: lib.nameValuePair "ceph-mon-${id}/bootstrap.keyring" {
-        file = "secrets/services/ceph.client.admin.keyring";
+        file = "${toString <secrets>}/services/ceph.client.admin.keyring";
         path = "/var/lib/${config.systemd.services."ceph-mon-${id}".serviceConfig.StateDirectory}/keyring";
         mode = "0400";
         owner = config.users.users.ceph.uid;
