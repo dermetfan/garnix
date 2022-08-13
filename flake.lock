@@ -292,11 +292,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1656664056,
-        "narHash": "sha256-UtQrG/pNxhF3vmOrThrDQ8E7xBm5FKzvNfZjKaAaX7E=",
+        "lastModified": 1660404122,
+        "narHash": "sha256-SHmdTV2FfWq0QsvVJY4GIOlT5Fase0/EtJJS8MJ13cU=",
         "owner": "~dermetfan",
         "repo": "home-manager-shell",
-        "rev": "b7355752d95f2612c146b0b80cb4355f61163e2b",
+        "rev": "60fbe83ad410377e416ac09b745d80c9be26d27d",
         "type": "sourcehut"
       },
       "original": {
