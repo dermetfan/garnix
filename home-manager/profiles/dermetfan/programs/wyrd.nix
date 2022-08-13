@@ -47,8 +47,8 @@ in {
     bind "q" quit
     bind "a" quick_add
 
-    bind "<pageup>" scroll_up
-    bind "<pagedown>" scroll_down
+    bind "<pageup>" previous_month
+    bind "<pagedown>" next_month
 
     color left_divider   yellow default
     color right_divider  yellow default
