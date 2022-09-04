@@ -74,10 +74,10 @@
         "styx": "styx"
       },
       "locked": {
-        "narHash": "sha256-M+JRTifpN37MXrOzUcdfoVev4yHDKl0zPTVB+UZ6fbs=",
+        "narHash": "sha256-ndWCOl6EFWw3kmmBbOyMkVzx723zU24FFc+YJRzxijQ=",
         "ref": "default",
-        "rev": "baa76249c7c7bc51ab0d423457d25b66a7f2c835",
-        "revCount": 69,
+        "rev": "5e4e89aceb9077e127d761dd133bac55cd45bcac",
+        "revCount": 70,
         "type": "hg",
         "url": "https://hg@hg.sr.ht/~dermetfan/dermetfan-blog"
       },
@@ -1019,7 +1019,10 @@
     "styx": {
       "inputs": {
         "nixpkgs": "nixpkgs_4",
-        "utils": "utils"
+        "utils": [
+          "dermetfan-blog",
+          "flake-utils"
+        ]
       },
       "locked": {
         "lastModified": 1631224929,
@@ -1033,21 +1036,6 @@
         "owner": "dermetfan",
         "ref": "modernize",
         "repo": "styx",
-        "type": "github"
-      }
-    },
-    "utils": {
-      "locked": {
-        "lastModified": 1649676176,
-        "narHash": "sha256-OWKJratjt2RW151VUlJPRALb7OU2S5s+f0vLj4o1bHM=",
-        "owner": "numtide",
-        "repo": "flake-utils",
-        "rev": "a4b154ebbdc88c8498a5c7b01589addc9e9cb678",
-        "type": "github"
-      },
-      "original": {
-        "owner": "numtide",
-        "repo": "flake-utils",
         "type": "github"
       }
     }
