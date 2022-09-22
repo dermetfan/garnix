@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ self, config, lib, pkgs, ... }:
 
 let
   cfg = config.profiles.dermetfan.programs.kakoune;
@@ -878,7 +878,7 @@ in {
           nix = {
             filetypes = [ "nix" ];
             roots = [ "flake.nix" "shell.nix" "release.nix" ".git" ".hg" "default.nix" ];
-            command = "rnix-lsp";
+            command = "nil";
           };
 
           php = {
@@ -946,7 +946,7 @@ in {
       fd # fzf.kak
 
       # kak-lsp
-      rnix-lsp
+      self.inputs.nil.packages.${pkgs.system}.default
       gopls go
       rust-analyzer
       zls jq

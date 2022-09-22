@@ -39,6 +39,10 @@
       url = "github:StevenBlack/hosts";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nil = {
+      url = "github:oxalica/nil";
+      inputs.flake-utils.follows = "flake-utils";
+    };
     fish-tide = {
       # TODO update when fixed: https://github.com/IlanCosman/tide/issues/253
       url = "github:IlanCosman/tide/v4.3.4";
