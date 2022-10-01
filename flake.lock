@@ -74,10 +74,10 @@
         "styx": "styx"
       },
       "locked": {
-        "narHash": "sha256-ndWCOl6EFWw3kmmBbOyMkVzx723zU24FFc+YJRzxijQ=",
+        "narHash": "sha256-SmoBwVJuMXSXndNO9sNqQfwHLRr4d3zBcPRqDH82jfU=",
         "ref": "default",
-        "rev": "5e4e89aceb9077e127d761dd133bac55cd45bcac",
-        "revCount": 70,
+        "rev": "f6e730cd4d4c1b6eb215cb1568ad91958c1e96f4",
+        "revCount": 73,
         "type": "hg",
         "url": "https://hg@hg.sr.ht/~dermetfan/dermetfan-blog"
       },
