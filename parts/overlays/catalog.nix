@@ -18,6 +18,36 @@ let
       package = "fzy";
     }
     {
+      category = "Developent/Tools/Nix";
+      package = "deadnix";
+    }
+    {
+      category = "Developent/Tools/Nix";
+      package = "statix";
+    }
+    {
+      category = "Developent/Tools/Nix";
+      package = "nix-linter";
+    }
+    {
+      category = "Hardware";
+      package = "glances";
+    }
+    {
+      category = "Hardware";
+      package = "bottom";
+      executable = "btm";
+    }
+    {
+      category = "Hardware";
+      package = "iotop";
+    }
+    {
+      category = "Hardware";
+      flake = "github:macunha1/configuration.nix";
+      package = "uhk-agent";
+    }
+    {
       category = "Hardware";
       package = "smartmontools";
     }
@@ -110,7 +140,7 @@ final: prev: {
         paths = map (entry: prev.writeTextFile rec {
           name = entry.package;
           text = ''
-            nix shell nixpkgs#${prev.lib.escapeShellArg name} \
+            nix shell ${prev.lib.escapeShellArg (entry.flake or "nixpkgs")}#${prev.lib.escapeShellArg name} \
               -c ${prev.lib.escapeShellArg (entry.executable or name)} "$@"
           '';
           executable = true;
