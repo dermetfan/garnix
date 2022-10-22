@@ -188,6 +188,10 @@
       url = "github:Delapouite/kakoune-palette";
       flake = false;
     };
+    kak-focus = {
+      url = "github:caksoylar/kakoune-focus";
+      flake = false;
+    };
   };
 
   outputs = { self, nixpkgs, flake-parts, ... }:

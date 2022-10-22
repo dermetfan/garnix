@@ -537,6 +537,22 @@
         "type": "github"
       }
     },
+    "kak-focus": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1657086360,
+        "narHash": "sha256-6WWYolbmwR9imHlzp1lrLpUtHOUCayRQOlicES6oXKI=",
+        "owner": "caksoylar",
+        "repo": "kakoune-focus",
+        "rev": "8cd630444f6155d53aed2c9fe0265d2c9e75bd97",
+        "type": "github"
+      },
+      "original": {
+        "owner": "caksoylar",
+        "repo": "kakoune-focus",
+        "type": "github"
+      }
+    },
     "kak-interactively": {
       "flake": false,
       "locked": {
@@ -1048,6 +1064,7 @@
         "kak-expand": "kak-expand",
         "kak-explain-shell": "kak-explain-shell",
         "kak-fetch": "kak-fetch",
+        "kak-focus": "kak-focus",
         "kak-interactively": "kak-interactively",
         "kak-local-kakrc": "kak-local-kakrc",
         "kak-mark": "kak-mark",

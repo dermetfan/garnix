@@ -810,6 +810,7 @@ in {
           word-select
           interactively
           palette
+          focus
         ];
       };
 

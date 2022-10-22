@@ -50,6 +50,7 @@ final: prev: {
       "word-select"
       "interactively"
       "palette"
+      "focus"
     ]
   );
 }
