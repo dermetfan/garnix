@@ -777,6 +777,22 @@
         "type": "github"
       }
     },
+    "kak-themes": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1665672645,
+        "narHash": "sha256-JUYrqo19d1CaL4ZLF83jWLldKg31mEJWn3TzQznCeYw=",
+        "owner": "anhsirk0",
+        "repo": "kakoune-themes",
+        "rev": "cadba958ed18f2c8b78ab397395b08e9b2f2c17f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "anhsirk0",
+        "repo": "kakoune-themes",
+        "type": "github"
+      }
+    },
     "kak-tmux-info": {
       "flake": false,
       "locked": {
@@ -1047,6 +1063,7 @@
         "kak-sudo-write": "kak-sudo-write",
         "kak-surround": "kak-surround",
         "kak-table": "kak-table",
+        "kak-themes": "kak-themes",
         "kak-tmux-info": "kak-tmux-info",
         "kak-tug": "kak-tug",
         "kak-word-select": "kak-word-select",

@@ -4,7 +4,12 @@ final: prev: {
   kakoune-unwrapped = prev.kakoune-unwrapped.overrideAttrs (oldAttrs: {
     postInstall = ''
       ${oldAttrs.postInstall}
-      ln -s ${inputs.kak-cosy-gruvbox}/colors/cosy-gruvbox.kak $out/share/kak/colors/
+      for f in ${with inputs; prev.lib.escapeShellArgs [
+        kak-cosy-gruvbox
+        kak-themes
+      ]}; do
+        ln -s "$f"/colors/* $out/share/kak/colors/
+      done
     '';
   });
 

@@ -68,6 +68,10 @@
       url = "github:Anfid/cosy-gruvbox.kak";
       flake = false;
     };
+    kak-themes = {
+      url = "github:anhsirk0/kakoune-themes";
+      flake = false;
+    };
     kak-auto-pairs = {
       url = "github:alexherbo2/auto-pairs.kak";
       flake = false;
