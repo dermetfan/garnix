@@ -92,27 +92,6 @@
     services = {
       redshift = config.passthru.coords or {};
       wlsunset = config.passthru.coords or {};
-
-      unison = {
-        enable = true;
-        pairs.cephfs = {
-          roots = [
-            config.users.users.dermetfan.home
-            "/mnt/cephfs/home/dermetfan"
-          ];
-          commandOptions = {
-            include = "cephfs";
-            mountpoint = ".local";
-            repeat = toString (60 * 15);
-            owner = builtins.toJSON true;
-            group = builtins.toJSON true;
-            times = builtins.toJSON true;
-            sortnewfirst = builtins.toJSON true;
-            sortbysize = builtins.toJSON true;
-            watch = builtins.toJSON false;
-          };
-        };
-      };
     };
 
     programs = {
