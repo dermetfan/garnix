@@ -112,6 +112,7 @@
     device = "none";
     fsType = "fuse.ceph-fixed";
     options = [
+      "noauto"
       "nofail"
       "ceph.id=dermetfan"
       "ceph.client_mountpoint=/home/dermetfan"
