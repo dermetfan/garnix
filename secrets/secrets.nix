@@ -67,6 +67,7 @@ withDeployers (
     "ceph.mds.b.keyring" = [ "node-0" ];
     "ceph.mgr.c.keyring" = [ "node-3" ];
     "ceph.mds.c.keyring" = [ "node-3" ];
+    "ceph.client.fs.keyring" = [ "node-3" "laptop" ];
     "ceph.client.dermetfan.keyring" = [ "laptop" ];
     "ceph.client.diemetfan.keyring" = [ "thinkpad" ];
     "ceph.client.mutmetfan.keyring" = [ "node-0" ];
@@ -75,5 +76,7 @@ withDeployers (
     "cache.sec" = [ "node-0" ];
 
     "ssmtp" = [ "node-0" ];
+
+    filestash = [ "node-3" ];
   }
 )

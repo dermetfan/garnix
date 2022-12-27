@@ -39,6 +39,10 @@
       url = "hg+https://hg@hg.sr.ht/~dermetfan/dermetfan-blog";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    filestash = {
+      url = "sourcehut:~dermetfan/filestash.nix";
+      inputs.parts.follows = "flake-parts";
+    };
     hosts = {
       url = "github:StevenBlack/hosts";
       inputs.nixpkgs.follows = "nixpkgs";
