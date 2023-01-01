@@ -237,12 +237,6 @@
   bootstrap.secrets.initrd_ssh_host_ed25519_key.path = null;
 
   boot = {
-    kernelParams = [
-      # https://nixos.wiki/wiki/NixOS_on_ZFS#Known_issues
-      # https://github.com/openzfs/zfs/issues/260
-      "nohibernate"
-    ];
-
     zfs.unlockEncryptedPoolsViaSSH = {
       enable = true;
       hostKeys = [

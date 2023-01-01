@@ -15,7 +15,7 @@ in {
       description = ''
         Whether Hyper-Threading is enabled.
 
-        Sets <option>nix.maxJobs</option> to 8, otherwise 4.
+        Sets <option>nix.settings.max-jobs</option> to 8, otherwise 4.
 
         Remember the HyperThreading bug in Intel Skylake and Kaby Lake 6th and 7th gen, especially i7-6700K.
         This laptop is fitted with an i7-6700HQ and therefore affected without BIOS update.
@@ -50,7 +50,7 @@ in {
         ];
       };
 
-      nix.maxJobs = if cfg.hyperThreading then 8 else 4;
+      nix.settings.max-jobs = if cfg.hyperThreading then 8 else 4;
 
       hardware = {
         enableAllFirmware = true;

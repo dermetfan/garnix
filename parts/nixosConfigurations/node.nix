@@ -6,7 +6,7 @@ parts:
   options.nix.buildMachine = with lib; mkOption {
     type = types.attrs;
     default = {
-      inherit (config.nix) maxJobs;
+      maxJobs = config.nix.settings.max-jobs;
       inherit (pkgs) system;
     };
   };

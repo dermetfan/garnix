@@ -8,12 +8,12 @@ in {
   options.defaults.enable = lib.mkEnableOption "sensible defaults";
 
   config = lib.mkIf cfg.enable {
-    nix = {
-      binaryCachePublicKeys = [
+    nix.settings = {
+      trusted-public-keys = [
         "hydra.nixos.org-1:CNHJZBh9K4tP3EKF6FkkgeVYsS3ohTl+oS0Qa8bezVs="
       ];
 
-      trustedUsers = [
+      trusted-users = [
         "root"
         "@${config.users.groups.wheel.name}"
       ];

@@ -29,16 +29,24 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    age.secrets."yggdrasil.conf".file = secret "key.conf.age";
+    age.secrets."yggdrasil.conf" = {
+      file = secret "key.conf.age";
+      mode = "440";
+      group = config.users.groups.yggdrasil-secrets.name;
+    };
+
+    users.groups.yggdrasil-secrets = {};
 
     services.yggdrasil = {
       enable = true;
       configFile = config.age.secrets."yggdrasil.conf".path;
-      config = {
+      settings = {
         Listen = [ "tls://[::]:${toString cfg.port}" ];
         PublicKey = lib.fileContents (secret "key.pub");
       };
     };
+
+    systemd.services.yggdrasil.serviceConfig.SupplementaryGroups = [ config.users.groups.yggdrasil-secrets.name ];
 
     networking = {
       hosts.${cfg.ip} = lib.mkDefault [

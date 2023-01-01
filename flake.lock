@@ -304,19 +304,22 @@
       "inputs": {
         "nixpkgs": [
           "nixpkgs"
+        ],
+        "utils": [
+          "flake-utils"
         ]
       },
       "locked": {
-        "lastModified": 1656318615,
-        "narHash": "sha256-GE9rQQ8+I/rqKusa1NyJluCSDaAyQx1qexu7tE1rHkM=",
-        "owner": "dermetfan",
+        "lastModified": 1672244468,
+        "narHash": "sha256-xaZb8AZqoXRCSqPusCk4ouf+fUNP8UJdafmMTF1Ltlw=",
+        "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "473eac9b4911153722c4882ad29df56aa196b4ad",
+        "rev": "89a8ba0b5b43b3350ff2e3ef37b66736b2ef8706",
         "type": "github"
       },
       "original": {
-        "owner": "dermetfan",
-        "ref": "broot-config-22.05",
+        "owner": "nix-community",
+        "ref": "release-22.11",
         "repo": "home-manager",
         "type": "github"
       }
@@ -1047,16 +1050,16 @@
     },
     "nixpkgs_8": {
       "locked": {
-        "lastModified": 1656219440,
-        "narHash": "sha256-2dhFA29f3dpw4axAKhVj8JsHQzHViG92a7AfkXLHnBY=",
+        "lastModified": 1672353432,
+        "narHash": "sha256-oZfgp/44/o2tWiylV30cR+DLyWTJ+5dhsdWZVpzs3e4=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "4a155658a7c3a9e465c365beb0a50352efa64ca0",
+        "rev": "913a47cd064cc06440ea84e5e0452039a85781f0",
         "type": "github"
       },
       "original": {
         "owner": "NixOS",
-        "ref": "release-22.05",
+        "ref": "nixos-22.11",
         "repo": "nixpkgs",
         "type": "github"
       }

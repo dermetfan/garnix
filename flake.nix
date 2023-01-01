@@ -1,6 +1,6 @@
 {
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/release-22.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-22.11";
     flake-parts = {
       url = "github:hercules-ci/flake-parts";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -18,8 +18,11 @@
       inputs.flake-utils.follows = "flake-utils";
     };
     home-manager = {
-      url = "github:dermetfan/home-manager/broot-config-22.05";
-      inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:nix-community/home-manager/release-22.11";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        utils.follows = "flake-utils";
+      };
     };
     home-manager-shell = {
       url = "sourcehut:~dermetfan/home-manager-shell";

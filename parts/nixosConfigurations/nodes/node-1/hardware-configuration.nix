@@ -37,7 +37,7 @@
     fsType = "zfs";
   };
 
-  nix.maxJobs = 2;
+  nix.settings.max-jobs = 2;
 
   powerManagement.cpuFreqGovernor = "ondemand";
 }

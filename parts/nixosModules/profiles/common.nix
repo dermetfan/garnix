@@ -15,11 +15,13 @@ in {
     profiles.users.enable = true;
 
     nix = {
-      binaryCachePublicKeys = [
-        (builtins.readFile ../../../secrets/services/cache.pub)
-      ];
+      settings = {
+        trusted-public-keys = [
+          (builtins.readFile ../../../secrets/services/cache.pub)
+        ];
 
-      systemFeatures = lib.mkDefault [ "recursive-nix" ];
+        system-features = lib.mkDefault [ "recursive-nix" ];
+      };
 
       extraOptions = ''
         experimental-features = nix-command flakes recursive-nix impure-derivations ca-derivations
