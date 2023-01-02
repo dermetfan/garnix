@@ -39,6 +39,7 @@ in {
 
     services.yggdrasil = {
       enable = true;
+      group = config.users.groups.wheel.name;
       configFile = config.age.secrets."yggdrasil.conf".path;
       settings = {
         Listen = [ "tls://[::]:${toString cfg.port}" ];
