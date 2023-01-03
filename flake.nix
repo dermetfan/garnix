@@ -33,10 +33,7 @@
       };
     };
     impermanence.url = "github:nix-community/impermanence";
-    nur = {
-      url = "github:nix-community/NUR";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    nur.url = "github:nix-community/NUR";
     neuron.url = "github:srid/neuron";
     dermetfan-blog = {
       url = "hg+https://hg@hg.sr.ht/~dermetfan/dermetfan-blog";
