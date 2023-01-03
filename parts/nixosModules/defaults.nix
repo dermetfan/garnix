@@ -1,6 +1,6 @@
-_:
+{ inputs, ... }:
 
-{ config, lib, utils, pkgs, ... }:
+{ options, config, lib, utils, pkgs, ... }:
 
 let
   cfg = config.defaults;
@@ -8,15 +8,25 @@ in {
   options.defaults.enable = lib.mkEnableOption "sensible defaults";
 
   config = lib.mkIf cfg.enable {
-    nix.settings = {
-      trusted-public-keys = [
-        "hydra.nixos.org-1:CNHJZBh9K4tP3EKF6FkkgeVYsS3ohTl+oS0Qa8bezVs="
-      ];
+    nix = {
+      registry.nixpkgs.flake = inputs.nixpkgs;
 
-      trusted-users = [
-        "root"
-        "@${config.users.groups.wheel.name}"
-      ];
+      nixPath = map (entry:
+        if lib.hasPrefix "nixpkgs=" entry
+        then "nixpkgs=${inputs.nixpkgs}"
+        else entry
+      ) options.nix.nixPath.default;
+
+      settings = {
+        trusted-public-keys = [
+          "hydra.nixos.org-1:CNHJZBh9K4tP3EKF6FkkgeVYsS3ohTl+oS0Qa8bezVs="
+        ];
+
+        trusted-users = [
+          "root"
+          "@${config.users.groups.wheel.name}"
+        ];
+      };
     };
 
     # lxqt-config-brightness refuses to work if `$SHELL` is not in `/etc/shells`.
