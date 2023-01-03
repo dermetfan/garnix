@@ -1,7 +1,7 @@
 {
   perSystem = { system, pkgs, ... }: {
     devShells.default = pkgs.mkShell {
-      SSH_ASKPASS_REQUIRE = "prefer";
+      SSH_ASKPASS_REQUIRE = "force";
       SSH_ASKPASS = "secrets/askpass";
       shellHook = ''
         cd $(git rev-parse --show-toplevel)
