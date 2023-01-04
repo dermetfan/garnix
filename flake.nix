@@ -25,7 +25,7 @@
       };
     };
     home-manager-shell = {
-      url = "sourcehut:~dermetfan/home-manager-shell";
+      url = "sourcehut:~dermetfan/home-manager-shell/release-22.11";
       inputs = {
         nixpkgs.follows = "nixpkgs";
         flake-utils.follows = "flake-utils";
