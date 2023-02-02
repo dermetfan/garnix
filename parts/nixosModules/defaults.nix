@@ -29,11 +29,20 @@ in {
       };
     };
 
-    # lxqt-config-brightness refuses to work if `$SHELL` is not in `/etc/shells`.
-    environment.shells = map utils.toShellPath (
-      [ config.users.defaultUserShell ] ++
-      map (user: user.shell) (builtins.attrValues config.users.users)
-    );
+    environment = {
+      # lxqt-config-brightness refuses to work if `$SHELL` is not in `/etc/shells`.
+      shells = map utils.toShellPath (
+        [ config.users.defaultUserShell ] ++
+        map (user: user.shell) (builtins.attrValues config.users.users)
+      );
+
+      # for nix' own shell completions
+      pathsToLink = [
+        "/share/bash-completion"
+        "/share/zsh"
+        "/share/fish"
+      ];
+    };
 
     networking = {
       useDHCP = false;
