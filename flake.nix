@@ -36,7 +36,7 @@
     nur.url = "github:nix-community/NUR";
     neuron.url = "github:srid/neuron";
     dermetfan-blog = {
-      url = "hg+https://hg@hg.sr.ht/~dermetfan/dermetfan-blog";
+      url = "sourcehut:~dermetfan/dermetfan-blog";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     filestash = {

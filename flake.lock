@@ -74,16 +74,17 @@
         "styx": "styx"
       },
       "locked": {
-        "narHash": "sha256-iM/6QJNSYiLmtWyodshOdgxefBKoK6MBEq+jMj6x3ys=",
-        "ref": "default",
-        "rev": "98b1472e5db1a5e2c2a0e4308b7f8e3800a7d63c",
-        "revCount": 72,
-        "type": "hg",
-        "url": "https://hg@hg.sr.ht/~dermetfan/dermetfan-blog"
+        "lastModified": 1684782951,
+        "narHash": "sha256-oXkZ7a+hdrK/f1+CgZm4v0Qc+6GJZx80RhvfqHAtw9g=",
+        "owner": "~dermetfan",
+        "repo": "dermetfan-blog",
+        "rev": "bf36c94573d93cdbca592ace70732f967d04a342",
+        "type": "sourcehut"
       },
       "original": {
-        "type": "hg",
-        "url": "https://hg@hg.sr.ht/~dermetfan/dermetfan-blog"
+        "owner": "~dermetfan",
+        "repo": "dermetfan-blog",
+        "type": "sourcehut"
       }
     },
     "filestash": {
