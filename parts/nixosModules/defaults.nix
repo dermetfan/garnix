@@ -26,6 +26,13 @@ in {
           "root"
           "@${config.users.groups.wheel.name}"
         ];
+
+        connect-timeout = 5;
+
+        min-free = 1024 * 1024 * 512; # 512 MiB
+        max-free = 1024 * 1024 * 1024 * 2; # 2 GiB
+
+        auto-optimise-store = true;
       };
     };
 
