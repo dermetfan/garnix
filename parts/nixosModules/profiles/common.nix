@@ -5,61 +5,68 @@
 let
   cfg = config.profiles.common;
 in {
-  imports = [ inputs.hosts.nixosModule ];
+  imports = with inputs; [
+    hosts.nixosModule
+    programs-sqlite.nixosModules.programs-sqlite
+  ];
 
   options.profiles.common.enable = lib.mkEnableOption "common settings";
 
-  config = lib.mkIf cfg.enable {
-    defaults.enable = true;
+  config = lib.mkMerge [
+    { programs-sqlite.enable = cfg.enable && config.programs.command-not-found.enable; }
 
-    profiles.users.enable = true;
+    (lib.mkIf cfg.enable {
+      defaults.enable = true;
 
-    nix = {
-      settings = {
-        trusted-public-keys = [
-          (builtins.readFile ../../../secrets/services/cache.pub)
-        ];
+      profiles.users.enable = true;
 
-        system-features = lib.mkDefault [ "recursive-nix" ];
+      nix = {
+        settings = {
+          trusted-public-keys = [
+            (builtins.readFile ../../../secrets/services/cache.pub)
+          ];
+
+          system-features = lib.mkDefault [ "recursive-nix" ];
+        };
+
+        extraOptions = ''
+          experimental-features = nix-command flakes recursive-nix impure-derivations ca-derivations
+        '';
       };
 
-      extraOptions = ''
-        experimental-features = nix-command flakes recursive-nix impure-derivations ca-derivations
-      '';
-    };
+      time.timeZone = "Europe/Berlin";
 
-    time.timeZone = "Europe/Berlin";
+      networking.stevenBlackHosts.enable = true;
 
-    networking.stevenBlackHosts.enable = true;
+      security.acme.defaults.email = "serverkorken@gmail.com";
 
-    security.acme.defaults.email = "serverkorken@gmail.com";
-
-    fonts = {
-      enableDefaultFonts = true;
-      fontDir.enable = true;
-      fontconfig.enable = true;
-      enableGhostscriptFonts = true;
-    };
-
-    programs = {
-      mosh.enable = true;
-      tmux.enable = true;
-    };
-
-    services = {
-      openssh = {
-        enable = true;
-        hostKeys = [
-          rec { type = "ed25519"; path = "/etc/ssh/ssh_host_${type}_key"; }
-        ];
+      fonts = {
+        enableDefaultFonts = true;
+        fontDir.enable = true;
+        fontconfig.enable = true;
+        enableGhostscriptFonts = true;
       };
 
-      "1.1.1.1".enable = true;
+      programs = {
+        mosh.enable = true;
+        tmux.enable = true;
+      };
 
-      znapzend.enable = builtins.any (x: x == "zfs") (map
-        (fs: fs.fsType)
-        (builtins.attrValues config.fileSystems)
-      );
-    };
-  };
+      services = {
+        openssh = {
+          enable = true;
+          hostKeys = [
+            rec { type = "ed25519"; path = "/etc/ssh/ssh_host_${type}_key"; }
+          ];
+        };
+
+        "1.1.1.1".enable = true;
+
+        znapzend.enable = builtins.any (x: x == "zfs") (map
+          (fs: fs.fsType)
+          (builtins.attrValues config.fileSystems)
+        );
+      };
+    })
+  ];
 }

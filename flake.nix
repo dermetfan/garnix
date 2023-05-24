@@ -35,6 +35,13 @@
     impermanence.url = "github:nix-community/impermanence";
     nur.url = "github:nix-community/NUR";
     neuron.url = "github:srid/neuron";
+    programs-sqlite = {
+      url = "github:wamserma/flake-programs-sqlite";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        utils.follows = "flake-utils";
+      };
+    };
     dermetfan-blog = {
       url = "sourcehut:~dermetfan/dermetfan-blog";
       inputs.nixpkgs.follows = "nixpkgs";
