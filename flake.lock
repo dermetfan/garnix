@@ -89,6 +89,7 @@
     },
     "filestash": {
       "inputs": {
+        "filestash": "filestash_2",
         "nixpkgs": "nixpkgs_5",
         "npmlock2nix": "npmlock2nix",
         "parts": [
@@ -96,17 +97,33 @@
         ]
       },
       "locked": {
-        "lastModified": 1668370120,
-        "narHash": "sha256-xMXH3AoEXmRWTQSXrE0UlH8G0DnlNHEbY4K3JmT2Fro=",
+        "lastModified": 1685035441,
+        "narHash": "sha256-/qlEkCMnUSaZW/09tbsYu8JmNymRmRh8CyzrMxTMlCA=",
         "owner": "~dermetfan",
         "repo": "filestash.nix",
-        "rev": "679b2f0686afcbe52ec4f8afba112cb0711c22bf",
+        "rev": "360a88e86a00818914618d54d67f27a11e933afd",
         "type": "sourcehut"
       },
       "original": {
         "owner": "~dermetfan",
         "repo": "filestash.nix",
         "type": "sourcehut"
+      }
+    },
+    "filestash_2": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1684758571,
+        "narHash": "sha256-0nJT7kFFlXRhFe3VDXl94z1h/NGmwsUXuybXyTZ2iaU=",
+        "owner": "mickael-kerjean",
+        "repo": "filestash",
+        "rev": "dbf0878335e51c602db74ee844b6766e1f012c60",
+        "type": "github"
+      },
+      "original": {
+        "owner": "mickael-kerjean",
+        "repo": "filestash",
+        "type": "github"
       }
     },
     "fish-abbreviation-tips": {
@@ -1004,11 +1021,11 @@
     },
     "nixpkgs_5": {
       "locked": {
-        "lastModified": 1666424192,
-        "narHash": "sha256-rb/a7Kg9s31jqkvdOQHFrUc5ig5kB+O2ZKB8mjU2kW8=",
+        "lastModified": 1684973047,
+        "narHash": "sha256-ZLnSr35L6C49pCZS9fZCCqkIKNAeQzykov2QfosNG9w=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "4f8287f3d597c73b0d706cfad028c2d51821f64d",
+        "rev": "21eb6c6ba74dcbe3ea5926ee46287300fb066630",
         "type": "github"
       },
       "original": {
