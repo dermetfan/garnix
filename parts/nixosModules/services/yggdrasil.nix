@@ -7,6 +7,7 @@ let
 in {
   options.services.yggdrasil.publicPeers.germany.enable = lib.mkEnableOption "public peers in Germany";
 
+  # XXX fetch and parse https://github.com/yggdrasil-network/public-peers/blob/master/europe/germany.md
   config.services.yggdrasil.settings.Peers = lib.mkIf cfg.publicPeers.germany.enable [
     "tcp://94.130.203.208:5999"
     "tcp://phrl42.ydns.eu:8842"
