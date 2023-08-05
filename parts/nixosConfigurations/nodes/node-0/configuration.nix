@@ -19,7 +19,7 @@
 
   age = {
     # https://github.com/ryantm/agenix/issues/45
-    sshKeyPaths = map (key: "/state${toString key.path}") config.services.openssh.hostKeys;
+    identityPaths = map (key: "/state${toString key.path}") config.services.openssh.hostKeys;
 
     secrets."ceph.client.mutmetfan.keyring" = {
       file = ../../../../secrets/services/ceph.client.mutmetfan.keyring.age;
