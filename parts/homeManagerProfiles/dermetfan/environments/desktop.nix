@@ -21,8 +21,6 @@
       chromium .enable = config.profiles.dermetfan.environments.gui.enable;
       zathura  .enable = config.profiles.dermetfan.environments.gui.enable;
 
-      mako.enable = config.profiles.dermetfan.environments.gui.enable && !config.xsession.enable;
-
       password-store = {
         enable = true;
         package = (pkgs.pass.override {
@@ -48,6 +46,8 @@
       dunst                 .enable = config.xsession.enable;
       xscreensaver          .enable = config.xsession.enable;
       network-manager-applet.enable = config.xsession.enable;
+
+      mako.enable = config.profiles.dermetfan.environments.gui.enable && !config.xsession.enable;
 
       redshift = {
         enable = config.xsession.enable;

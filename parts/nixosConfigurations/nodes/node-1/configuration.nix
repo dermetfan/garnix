@@ -5,9 +5,9 @@ _:
 {
   profiles.afraid-freedns.enable = true;
 
-  services.openssh = {
-    passwordAuthentication = lib.mkForce true;
-    challengeResponseAuthentication = lib.mkForce true;
+  services.openssh.settings = {
+    PasswordAuthentication = lib.mkForce true;
+    ChallengeResponseAuthentication = lib.mkForce true;
   };
 
   networking.firewall = {

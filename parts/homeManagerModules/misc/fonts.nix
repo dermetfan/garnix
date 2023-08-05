@@ -75,13 +75,13 @@ in {
         size = mkDefault cfg.mono.size;
       };
 
-      mako.font = with cfg.normal; mkDefault "${familyPango} ${toString size}";
-
       tkremind.font = mkDefault {
         inherit (cfg.normal) family;
         size = floor cfg.normal.size;
       };
     };
+
+    services.mako.font = with cfg.normal; mkDefault "${familyPango} ${toString size}";
 
     xsession.windowManager.i3 = i3-sway;
     wayland.windowManager.sway = i3-sway;

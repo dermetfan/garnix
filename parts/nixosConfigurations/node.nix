@@ -38,9 +38,9 @@ parts:
     };
 
     services = {
-      openssh = {
-        passwordAuthentication = false;
-        kbdInteractiveAuthentication = false;
+      openssh.settings = {
+        PasswordAuthentication = false;
+        KbdInteractiveAuthentication = false;
       };
 
       ceph.global.fsid = "efec54b4-7ee8-479d-ba1c-34c5eb766dfa";

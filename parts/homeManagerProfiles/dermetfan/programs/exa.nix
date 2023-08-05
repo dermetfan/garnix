@@ -1,20 +1,18 @@
 { lib, pkgs, ... }:
 
-let
-  aliases.exa = lib.concatStringsSep " " [
-    "exa"
-    "--long"
-    "--group"
-    "--time-style=iso"
-    "--icons"
-    "--git"
-    "--group-directories-first"
-  ];
-in {
-  programs = {
-    bash.shellAliases = aliases;
-    zsh .shellAliases = aliases;
-    fish.shellAliases = aliases;
+{
+  programs.exa = {
+    enableAliases = false;
+
+    icons = true;
+    git = true;
+
+    extraOptions = [
+      "--long"
+      "--group"
+      "--time-style=iso"
+      "--group-directories-first"
+    ];
   };
 
   # for icons

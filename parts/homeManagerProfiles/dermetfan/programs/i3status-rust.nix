@@ -58,7 +58,7 @@ in {
       blocks = let
         disk_space = {
           block = "disk_space";
-          format = "{icon} {path} {percentage} {free}";
+          format = " $icon $path $percentage $available ";
           info_type = "used";
           warning = 75;
           alert = 90;
@@ -70,19 +70,24 @@ in {
       } ++ [
         {
           block = "memory";
-          format_mem = "{mem_used_percents} {mem_avail;G}";
-          format_swap = "{swap_used_percents} {swap_free;G}";
+          format = " $icon $mem_used_percents.eng(w:1) $mem_avail.eng(p:Gi) ";
+          format_alt = " $icon_swap $swap_used_percents.eng(w:1) $swap_free.eng(p:Gi) ";
         }
         {
           block = "temperature";
-          format = "⌀{average}C ↑{max}C";
+          format = " $icon ⌀{$average}C ↑{$max}C ";
         }
         { block = "load"; }
       ] ++ (
-        map (battery: {
+        map (device: rec {
           block = "battery";
-          device = battery;
-          format = "{percentage} {time} {power}";
+          inherit device;
+          format = charging_format;
+          full_format = not_charging_format;
+          charging_format = " $icon $percentage $time $power ";
+          empty_format = charging_format;
+          not_charging_format = " $icon $percentage ";
+          missing_format = " $icon missing ";
         }) cfg.batteries
       ) ++ lib.optional cfg.enableEco (let
         eco = pkgs.writeScript "eco.sh" ''
@@ -97,19 +102,22 @@ in {
                   ${lib.optionalString config.xsession.enable "systemctl --user start picom"}
                   sudo cpupower frequency-set -g performance
                   ;;
+              *)
+                  sudo cpupower frequency-info | grep 'The governor "powersave" may decide'
+                  ;;
           esac
         '';
       in {
         block = "toggle";
-        text = "eco";
+        format = " $icon eco ";
         command_on = "${eco} on";
         command_off = "${eco} off";
-        command_state = "${eco}";
+        command_state = eco;
       }) ++ [
         {
           block = "time";
           interval = 1;
-          format = "%b %m-%d %a %H:%M:%S";
+          format = " $icon $timestamp.datetime(f:'%b %m-%d %a %H:%M:%S') ";
         }
       ];
     };

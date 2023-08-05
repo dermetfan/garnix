@@ -24,6 +24,8 @@ in {
         defaultUserShell = pkgs.fish;
       };
 
+      programs.fish.enable = true;
+
       home-manager = {
         useUserPackages = true;
         useGlobalPkgs = true;

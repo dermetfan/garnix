@@ -1,6 +1,6 @@
 {
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-22.11";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.05";
     flake-parts = {
       url = "github:hercules-ci/flake-parts";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -18,14 +18,14 @@
       inputs.flake-utils.follows = "flake-utils";
     };
     home-manager = {
-      url = "github:nix-community/home-manager/release-22.11";
+      url = "github:nix-community/home-manager/release-23.05";
       inputs = {
         nixpkgs.follows = "nixpkgs";
         utils.follows = "flake-utils";
       };
     };
     home-manager-shell = {
-      url = "sourcehut:~dermetfan/home-manager-shell/release-22.11";
+      url = "sourcehut:~dermetfan/home-manager-shell/release-23.05";
       inputs = {
         nixpkgs.follows = "nixpkgs";
         flake-utils.follows = "flake-utils";

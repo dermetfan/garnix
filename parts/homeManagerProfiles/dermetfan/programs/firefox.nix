@@ -9,8 +9,8 @@ in {
   };
 
   config.programs = {
-    firefox = {
-      profiles.${config.home.username}.userChrome = ''
+    firefox.profiles.${config.home.username} = {
+      userChrome = ''
         /**
          * @name Dim Unloaded Tabs
          * @author Niklas Gollenstede

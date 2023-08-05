@@ -7,9 +7,10 @@
     programs = {
       swappy  .enable = true;
       swaylock.enable = true;
-      mako    .enable = true;
       jq      .enable = true;
     };
+
+    services.mako.enable = true;
 
     home.packages = with pkgs; [
       clipman wl-clipboard
@@ -45,8 +46,8 @@
 
         keybindings = let
           mod = config.wayland.windowManager.sway.config.modifier;
-          wobShowVolume = ''printf "%d #282828D9 #FB3934FF #DBDBB2FF\n" $(amixer sget Master | grep -m 1 '\[on\]' | grep -E '\[[[:digit:]]{1,3}%\]' -o | grep -E '[[:digit:]]{1,3}' -o || echo 0) > $SWAYSOCK.wob'';
-          wobShowBacklight = ''printf '%.0f #282828D9 #DBDBB2FF #DBDBB2FF\n' $(light -G) > $SWAYSOCK.wob'';
+          wobShowVolume = ''printf "%d 282828D9 FB3934FF DBDBB2FF\n" $(amixer sget Master | grep -m 1 '\[on\]' | grep -E '\[[[:digit:]]{1,3}%\]' -o | grep -E '[[:digit:]]{1,3}' -o || echo 0) > $SWAYSOCK.wob'';
+          wobShowBacklight = ''printf '%.0f 282828D9 DBDBB2FF DBDBB2FF\n' $(light -G) > $SWAYSOCK.wob'';
         in {
           "${mod}+c" = "exec clipman pick --tool rofi --max-items=50";
 
@@ -56,8 +57,8 @@
           "Print" = ''exec grim -g "$(slurp)" - | swappy -f - -o "${config.xdg.userDirs.pictures}/screenshots/$(date --iso-8601=ns).png"'';
           "Shift+Print" = ''exec grim - | swappy -f - -o "${config.xdg.userDirs.pictures}/screenshots/$(date --iso-8601=ns).png"'';
 
-          "${mod}+Grave" = lib.mkIf config.programs.mako.enable ''exec makoctl dismiss'';
-          "${mod}+Asciitilde" = lib.mkIf config.programs.mako.enable ''exec makoctl restore'';
+          "${mod}+Grave" = lib.mkIf config.services.mako.enable ''exec makoctl dismiss'';
+          "${mod}+Asciitilde" = lib.mkIf config.services.mako.enable ''exec makoctl restore'';
 
           "XF86AudioRaiseVolume" = "exec ${lib.optionalString (!(nixosConfig.sound.enable or false && nixosConfig.sound.mediaKeys.enable or false)) "amixer -q set Master 2%+ unmute &&"} ${wobShowVolume}";
           "XF86AudioLowerVolume" = "exec ${lib.optionalString (!(nixosConfig.sound.enable or false && nixosConfig.sound.mediaKeys.enable or false)) "amixer -q set Master 2%- unmute &&"} ${wobShowVolume}";
