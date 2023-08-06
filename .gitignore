@@ -13,3 +13,5 @@
 /secrets/services/*
 !/secrets/services/*.age
 !/secrets/services/*.pub
+
+/.direnv/
