@@ -32,7 +32,7 @@
       SSH_ASKPASS = "secrets/askpass";
 
       shellHook = ''
-        cd $(git rev-parse --show-toplevel)
+        cd "$(git rev-parse --show-toplevel)"
 
         if [[ ! -x "$SSH_ASKPASS" ]]; then
             >&2 echo    "$SSH_ASKPASS"' is missing or not executable.'
