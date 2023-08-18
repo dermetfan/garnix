@@ -10,7 +10,7 @@ in {
     package = mkOption {
       type = types.package;
       default = inputs.dermetfan-blog.defaultPackage.${pkgs.system}.overrideArgs (old: {
-        extraConf.data.secrets.github.personalAccessToken = builtins.readFile config.bootstrap.secrets.github-token.cleartext;
+        extraConf.data.secrets.github.personalAccessToken = lib.fileContents "${toString <secrets>}/services/github";
       });
     };
     domain = mkOption {
@@ -20,11 +20,6 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    bootstrap.secrets.github-token = {
-      file = "${toString <secrets>}/services/github";
-      path = null;
-    };
-
     services.nginx = {
       enable = true;
       virtualHosts.${cfg.domain} = {

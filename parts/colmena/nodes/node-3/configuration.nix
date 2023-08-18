@@ -234,13 +234,11 @@
     };
   };
 
-  bootstrap.secrets.initrd_ssh_host_ed25519_key.path = null;
-
   boot = {
     zfs.unlockEncryptedPoolsViaSSH = {
       enable = true;
       hostKeys = [
-        config.bootstrap.secrets.initrd_ssh_host_ed25519_key.cleartext
+        "${toString <secrets>}/hosts/node-3/initrd_ssh_host_ed25519_key"
       ];
     };
 

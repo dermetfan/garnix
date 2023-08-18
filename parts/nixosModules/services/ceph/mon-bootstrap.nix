@@ -1,4 +1,4 @@
-_:
+{ self, inputs, ... }:
 
 { config, lib, pkgs, ... }:
 
@@ -9,14 +9,21 @@ in {
     default = true;
   };
 
-  config.bootstrap.secrets = lib.mkIf cfg (
+  config.deployment.keys = lib.mkIf cfg (
     builtins.listToAttrs (
-      map (id: lib.nameValuePair "ceph-mon-${id}/bootstrap.keyring" {
-        file = "${toString <secrets>}/services/ceph.client.admin.keyring";
-        path = "/var/lib/${config.systemd.services."ceph-mon-${id}".serviceConfig.StateDirectory}/keyring";
-        mode = "0400";
-        owner = config.users.users.ceph.uid;
-        group = config.users.groups.ceph.gid;
+      map (id: lib.nameValuePair "ceph-mon-${id}-bootstrap.keyring" {
+        keyCommand = [
+          "rage"
+          "--decrypt"
+          "--identity"
+          "secrets/deployer_ssh_ed25519_key"
+          "${self}/secrets/services/ceph.client.admin.keyring.age"
+        ];
+        destDir = "/var/lib/${config.systemd.services."ceph-mon-${id}".serviceConfig.StateDirectory}";
+        name = "keyring";
+        permissions = "0400";
+        user = config.users.users.ceph.name;
+        group = config.users.groups.ceph.name;
       }) config.services.ceph.mon.daemons
     )
   );

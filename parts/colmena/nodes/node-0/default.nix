@@ -1,7 +1,7 @@
-parts:
+{ getSystem, ... }:
 
 {
-  system = "x86_64-linux";
+  nodeNixpkgs = (getSystem "x86_64-linux").legacyPackages;
 
   modules = [
     ./configuration.nix
