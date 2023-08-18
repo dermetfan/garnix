@@ -31,12 +31,6 @@
 
   profiles.afraid-freedns.enable = true;
 
-  # samba TODO use `services.samba.openFirewall` instead once using recent enough nixpkgs
-  networking.firewall = {
-    allowedTCPPorts = [ 139 445 ];
-    allowedUDPPorts = [ 137 138 ];
-  };
-
   services = {
     yggdrasil.publicPeers.germany.enable = true;
 
@@ -98,6 +92,7 @@
 
     samba = {
       enable = true;
+      openFirewall = true;
       extraConfig = ''
         server string = ${config.networking.hostName}
         netbios name = ${config.networking.hostName}
