@@ -13,6 +13,8 @@
       (node.modules or []);
   }) nodes // {
     meta = {
+      allowApplyAll = false;
+
       nixpkgs = (getSystem "x86_64-linux").legacyPackages;
 
       nodeNixpkgs = builtins.mapAttrs (_: node: node.nodeNixpkgs) nodes;
