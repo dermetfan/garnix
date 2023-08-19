@@ -39,7 +39,6 @@
       gpg-agent.enable = true;
 
       blueman-applet        .enable = config.profiles.dermetfan.environments.gui.enable && nixosConfig.hardware.bluetooth.enable or true;
-      rsibreak              .enable = config.profiles.dermetfan.environments.gui.enable;
 
       parcellite            .enable = config.xsession.enable;
       flameshot             .enable = config.xsession.enable;
