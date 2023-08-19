@@ -595,11 +595,11 @@
     "kak-expand": {
       "flake": false,
       "locked": {
-        "lastModified": 1628326664,
-        "narHash": "sha256-enXDf9nhjIOs2MG4uLL8129ypYmf1fBiEFBD/Bl5Tg0=",
+        "lastModified": 1682270642,
+        "narHash": "sha256-v6xQHUCvD0wvDO9Biek7uhFpnssUqoWVEog4ndY4w2U=",
         "owner": "occivink",
         "repo": "kakoune-expand",
-        "rev": "6a2b7bfc9701177fa44560ebc9598a66bef8b0ff",
+        "rev": "36da21591c78a7886714b0bd3b319fb57adbe182",
         "type": "github"
       },
       "original": {
@@ -643,11 +643,11 @@
     "kak-focus": {
       "flake": false,
       "locked": {
-        "lastModified": 1657086360,
-        "narHash": "sha256-6WWYolbmwR9imHlzp1lrLpUtHOUCayRQOlicES6oXKI=",
+        "lastModified": 1688256492,
+        "narHash": "sha256-cMhUP/PjQ+lxAK1oeEVrNxdrHdKVVWuJr2LSZIuiv2o=",
         "owner": "caksoylar",
         "repo": "kakoune-focus",
-        "rev": "8cd630444f6155d53aed2c9fe0265d2c9e75bd97",
+        "rev": "d39ee2f1dcf450f5c8b05c6bfda0227e9b985d98",
         "type": "github"
       },
       "original": {
@@ -707,11 +707,11 @@
     "kak-mark": {
       "flake": false,
       "locked": {
-        "lastModified": 1546896884,
-        "narHash": "sha256-mHZYNkpnlnd0PVPvgcqfLAt1qJo9NFHFR8065sgepIg=",
+        "lastModified": 1673989856,
+        "narHash": "sha256-BUOPiNHVQmzXyikD36zt11BazFkoNj76PRX42EcQB/4=",
         "owner": "fsub",
         "repo": "kakoune-mark",
-        "rev": "7dca6d72ba3c01824bdc2ca3b6a01be9bce2603a",
+        "rev": "ace5953b72d103c4228e89ceab0aab2ef8d65075",
         "type": "gitlab"
       },
       "original": {
@@ -771,11 +771,11 @@
     "kak-phantom-selection": {
       "flake": false,
       "locked": {
-        "lastModified": 1628326567,
-        "narHash": "sha256-yADE6JVJWG/vkPH5AKlrY+HN+5JGXuk0ZFJ7bE82ii8=",
+        "lastModified": 1681977417,
+        "narHash": "sha256-r7LUQ2XC6pdlKJTev2Xfp4UQc1dlXimZi3JU6X4UsPs=",
         "owner": "occivink",
         "repo": "kakoune-phantom-selection",
-        "rev": "c522ecde928f0bf8cb9cb94efdf7208fa3bdf2e1",
+        "rev": "253857c550c90df2d719f52a61af3d77ab059957",
         "type": "github"
       },
       "original": {
@@ -787,11 +787,11 @@
     "kak-registers": {
       "flake": false,
       "locked": {
-        "lastModified": 1592549244,
-        "narHash": "sha256-DCmyGSLr3qUV5i/xze0uUaWp5yug4qwzypsfCF+zaSM=",
+        "lastModified": 1646141066,
+        "narHash": "sha256-k9EGgf9VEbDATmI0s0owwzfZ5aoWbjAZw714Kg1rxW8=",
         "owner": "Delapouite",
         "repo": "kakoune-registers",
-        "rev": "9531947baecd83c1d4c3bea0adf10f4462f1e120",
+        "rev": "b8ca8e04ebe50671a937bceccba69c62b68ae8b0",
         "type": "github"
       },
       "original": {
@@ -835,11 +835,11 @@
     "kak-smarttab": {
       "flake": false,
       "locked": {
-        "lastModified": 1614190700,
-        "narHash": "sha256-4kEXeYKJrEIzJ+aEP/zTUjtWcRbbKm5Levbe9w6ZiTw=",
+        "lastModified": 1649581983,
+        "narHash": "sha256-STLZSwQPM+gTnkA+FQOF4I0ifPTjQWpEc/95JRzvIqU=",
         "owner": "andreyorst",
         "repo": "smarttab.kak",
-        "rev": "1dd3f33c4f65da5c13aee5d44b2e77399595830f",
+        "rev": "86ac6599b13617ff938905ba4cdd8225d7eb6a2e",
         "type": "github"
       },
       "original": {
@@ -899,11 +899,11 @@
     "kak-themes": {
       "flake": false,
       "locked": {
-        "lastModified": 1665672645,
-        "narHash": "sha256-JUYrqo19d1CaL4ZLF83jWLldKg31mEJWn3TzQznCeYw=",
+        "lastModified": 1671900539,
+        "narHash": "sha256-iq6Q0bXY7sofnMLfRbJth4YEuo5l0qia607Ifqh+8S4=",
         "owner": "anhsirk0",
         "repo": "kakoune-themes",
-        "rev": "cadba958ed18f2c8b78ab397395b08e9b2f2c17f",
+        "rev": "98c36fa83d8dcdb3b9c6688d4ef35163ce65d513",
         "type": "github"
       },
       "original": {
