@@ -81,8 +81,8 @@
       url = "github:anhsirk0/kakoune-themes";
       flake = false;
     };
-    kak-auto-pairs = {
-      url = "github:alexherbo2/auto-pairs.kak";
+    kak-easymotion = {
+      url = "sourcehut:~voroskoi/easymotion.kak";
       flake = false;
     };
     kak-sudo-write = {
@@ -113,8 +113,8 @@
       url = "github:mmlb/kak-fetch";
       flake = false;
     };
-    kak-casing = {
-      url = "sourcehut:~dermetfan/casing.kak";
+    kak-case = {
+      url = "gitlab:FlyingWombat/case.kak";
       flake = false;
     };
     kak-smart-quotes = {
@@ -177,16 +177,12 @@
       url = "github:Delapouite/kakoune-registers";
       flake = false;
     };
-    kak-marks = {
-      url = "github:Delapouite/kakoune-marks";
-      flake = false;
-    };
     kak-mark = {
       url = "gitlab:fsub/kakoune-mark";
       flake = false;
     };
-    kak-word-select = {
-      url = "sourcehut:~dermetfan/word-select.kak";
+    kak-hump = {
+      url = "github:Delapouite/kakoune-hump";
       flake = false;
     };
     kak-interactively = {

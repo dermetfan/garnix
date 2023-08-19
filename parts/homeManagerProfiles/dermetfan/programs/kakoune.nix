@@ -190,55 +190,6 @@ in {
             }
 
             {
-              mode = "easymotion-custom";
-              docstring = "char →";
-              key = "l";
-              effect = ": easy-motion-f<ret>";
-            }
-            {
-              mode = "easymotion-custom";
-              docstring = "char ←";
-              key = "u";
-              effect = ": easy-motion-alt-f<ret>";
-            }
-            {
-              mode = "easymotion-custom";
-              docstring = "word →";
-              key = "o";
-              effect = ": easy-motion-w<ret>";
-            }
-            {
-              mode = "easymotion-custom";
-              docstring = "word ←";
-              key = "n";
-              effect = ": easy-motion-b<ret>";
-            }
-            {
-              mode = "easymotion-custom";
-              docstring = "WORD →";
-              key = "O";
-              effect = ": easy-motion-W<ret>";
-            }
-            {
-              mode = "easymotion-custom";
-              docstring = "WORD ←";
-              key = "N";
-              effect = ": easy-motion-B<ret>";
-            }
-            {
-              mode = "easymotion-custom";
-              docstring = "line ↓";
-              key = "i";
-              effect = ": easy-motion-j<ret>";
-            }
-            {
-              mode = "easymotion-custom";
-              docstring = "line ↑";
-              key = "r";
-              effect = ": easy-motion-k<ret>";
-            }
-
-            {
               docstring = "view mode";
               mode = "normal";
               key = "v";
@@ -355,55 +306,28 @@ in {
             }
 
             {
-              docstring = "search";
-              mode = "user";
-              key = "/";
-              effect = "/";
+              docstring = "select next hump";
+              mode = "normal";
+              key = "w";
+              effect = ": select-next-hump<ret>";
             }
             {
-              docstring = "backward search";
-              mode = "user";
-              key = "<a-/>";
-              effect = "<a-/>";
+              docstring = "select previous hump";
+              mode = "normal";
+              key = "b";
+              effect = ": select-previous-hump<ret>";
             }
             {
-              docstring = "extend search";
-              mode = "user";
-              key = "?";
-              effect = "?";
+              docstring = "extend next hump";
+              mode = "normal";
+              key = "W";
+              effect = ": extend-next-hump<ret>";
             }
             {
-              docstring = "backward extend search";
-              mode = "user";
-              key = "<a-?>";
-              effect = "<a-?>";
-            }
-
-            {
-              docstring = "fzf mode";
-              mode = "user";
-              key = "f";
-              effect = ": fzf-mode<ret>";
-            }
-
-            {
-              docstring = "(un)comment line";
-              mode = "user";
-              key = "c";
-              effect = ": comment-line<ret>";
-            }
-            {
-              docstring = "(un)comment block";
-              mode = "user";
-              key = "<s-c>";
-              effect = ": comment-block<ret>";
-            }
-
-            {
-              docstring = "easymotion mode";
-              mode = "user";
-              key = "m";
-              effect = ": enter-user-mode easymotion${lib.optionalString cfg.remapMovement "-custom"}<ret>";
+              docstring = "extend previous hump";
+              mode = "normal";
+              key = "B";
+              effect = ": extend-previous-hump<ret>";
             }
 
             {
@@ -440,6 +364,152 @@ in {
             }
 
             {
+              docstring = "search";
+              mode = "user";
+              key = "/";
+              effect = "/";
+            }
+            {
+              docstring = "search backward";
+              mode = "user";
+              key = "<a-/>";
+              effect = "<a-/>";
+            }
+            {
+              docstring = "extend search";
+              mode = "user";
+              key = "?";
+              effect = "?";
+            }
+            {
+              docstring = "extend search backward";
+              mode = "user";
+              key = "<a-?>";
+              effect = "<a-?>";
+            }
+
+            {
+              docstring = "fzf mode";
+              mode = "user";
+              key = "f";
+              effect = ": fzf-mode<ret>";
+            }
+
+            {
+              docstring = "focus toggle";
+              mode = "user";
+              key = "F";
+              effect = ": focus-toggle<ret>";
+            }
+
+            {
+              docstring = "(un)comment line";
+              mode = "user";
+              key = "c";
+              effect = ": comment-line<ret>";
+            }
+            {
+              docstring = "(un)comment block";
+              mode = "user";
+              key = "<a-c>";
+              effect = ": comment-block<ret>";
+            }
+
+            {
+              docstring = "case convert mode";
+              mode = "user";
+              key = "C";
+              effect = ": enter-user-mode case<ret>";
+            }
+
+            {
+              docstring = "easymotion mode";
+              mode = "user";
+              key = "m";
+              effect = ": enter-user-mode easymotion-custom<ret>";
+            }
+            {
+              mode = "easymotion-custom";
+              docstring = "→ 🔍";
+              key = if cfg.remapMovement then "o" else "l";
+              effect = ": easymotion-streak-forward<ret>";
+            }
+            {
+              mode = "easymotion-custom";
+              docstring = "← 🔍";
+              key = if cfg.remapMovement then "n" else "h";
+              effect = ": easymotion-streak-backward<ret>";
+            }
+            {
+              mode = "easymotion-custom";
+              docstring = "→";
+              key = "w";
+              effect = ": easymotion-w<ret>";
+            }
+            {
+              mode = "easymotion-custom";
+              docstring = "←";
+              key = "b";
+              effect = ": easymotion-b<ret>";
+            }
+            {
+              mode = "easymotion-custom";
+              docstring = "↓";
+              key = if cfg.remapMovement then "i" else "j";
+              effect = ": easymotion-j<ret>";
+            }
+            {
+              mode = "easymotion-custom";
+              docstring = "↑";
+              key = if cfg.remapMovement then "r" else "k";
+              effect = ": easymotion-k<ret>";
+            }
+
+            {
+              docstring = "mark mode";
+              mode = "user";
+              key = "M";
+              effect = ": enter-user-mode mark<ret>";
+            }
+            {
+              docstring = "mark word";
+              mode = "mark";
+              key = "w";
+              effect = ": mark-word<ret>";
+            }
+            {
+              docstring = "mark pattern";
+              mode = "mark";
+              key = "/";
+              effect = ": mark-set ";
+            }
+            {
+              docstring = "unmark";
+              mode = "mark";
+              key = "d";
+              effect = ": mark-del ";
+            }
+            {
+              docstring = "unmark all";
+              mode = "mark";
+              key = "D";
+              effect = ": mark-clear<ret>";
+            }
+
+            {
+              docstring = "registers info";
+              mode = "user";
+              key = "r";
+              effect = ": info-registers<ret>";
+            }
+            {
+              docstring = "registers buffer";
+              mode = "user";
+              key = "R";
+              effect = ": list-registers<ret>";
+            }
+
+            {
               docstring = "surround mode";
               mode = "user";
               key = "w";
@@ -471,7 +541,7 @@ in {
             }
 
             {
-              docstring = "enter phantom selection mode";
+              docstring = "phantom selection mode";
               mode = "user";
               key = "p";
               effect = ": enter-user-mode phantom<ret>";
@@ -485,19 +555,19 @@ in {
             {
               docstring = "clear phantom selections";
               mode = "phantom";
-              key = "S";
+              key = "<a-s>";
               effect = ": phantom-selection-select-all; phantom-selection-clear<ret>";
             }
             {
               docstring = "select next phantom selection";
               mode = "phantom";
-              key = "n";
+              key = if cfg.remapMovement then "j" else "n";
               effect = ": phantom-selection-iterate-next<ret>";
             }
             {
               docstring = "select previous phantom selection";
               mode = "phantom";
-              key = "N";
+              key = "<a-" + (if cfg.remapMovement then "j" else "n") + ">";
               effect = ": phantom-selection-iterate-prev<ret>";
             }
 
@@ -510,7 +580,7 @@ in {
             {
               docstring = "disable system clipboard";
               mode = "user";
-              key = "S";
+              key = "<a-s>";
               effect = ": kakboard-disable<ret>";
             }
 
@@ -653,6 +723,13 @@ in {
               '';
             }
             {
+              name = "BufCreate";
+              option = ".*";
+              commands = ''
+                smarttab
+              '';
+            }
+            {
               name = "ModuleLoaded";
               option = "powerline";
               commands = ''
@@ -750,8 +827,8 @@ in {
         extraConfig = ''
           enable-auto-pairs
           require-module move-line
+          require-module easymotion
           powerline-start
-          require-module word-select; word-select-add-mappings
 
           set-option global state_save_exclude_globs \
               'COMMIT_EDITMSG' \
@@ -773,7 +850,8 @@ in {
           kakoune-buffer-switcher
           kakoune-extra-filetypes
           kakoune-state-save
-          kakoune-easymotion
+          kakoune-vertical-selection
+          kak-auto-pairs
           kak-lsp
           kak-fzf
           kak-ansi
@@ -781,7 +859,7 @@ in {
           powerline-kak
           active-window-kak
 
-          auto-pairs
+          easymotion
           sudo-write
           move-line
           smarttab
@@ -789,7 +867,7 @@ in {
           wordcount
           tug
           fetch
-          casing
+          case
           smart-quotes
           close-tag
           phantom-selection
@@ -805,9 +883,8 @@ in {
           tmux-info # dependency of tmux-kak-copy-mode
           csv
           registers
-          marks
           mark
-          word-select
+          hump
           interactively
           palette
           focus
@@ -945,6 +1022,8 @@ in {
       perl socat # gdb
 
       fd # fzf.kak
+
+      lua5_3 # easymotion
 
       # kak-lsp
       self.inputs.nil.packages.${pkgs.system}.default

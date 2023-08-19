@@ -21,7 +21,7 @@ final: prev: {
         src = inputs."kak-${name}";
       }
     )) [
-      "auto-pairs"
+      "easymotion"
       "sudo-write"
       "move-line"
       "smarttab"
@@ -29,7 +29,7 @@ final: prev: {
       "wordcount"
       "tug"
       "fetch"
-      "casing"
+      "case"
       "smart-quotes"
       "close-tag"
       "phantom-selection"
@@ -45,9 +45,8 @@ final: prev: {
       "tmux-info" # dependency of tmux-kak-copy-mode
       "csv"
       "registers"
-      "marks"
       "mark"
-      "word-select"
+      "hump"
       "interactively"
       "palette"
       "focus"

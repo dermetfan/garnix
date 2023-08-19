@@ -464,36 +464,20 @@
         "type": "github"
       }
     },
-    "kak-auto-pairs": {
+    "kak-case": {
       "flake": false,
       "locked": {
-        "lastModified": 1643626359,
-        "narHash": "sha256-abhvJheqjKNUZ13AgjoQkCqC5eW3UfJ8jWg0zqfGZW8=",
-        "owner": "alexherbo2",
-        "repo": "auto-pairs.kak",
-        "rev": "23e2f3e15c21a35ed3947c5f3cfac51dea37a747",
-        "type": "github"
+        "lastModified": 1580397749,
+        "narHash": "sha256-t/FmcZr0WTNNnn0VS2w7xXqc8r1rR07OfXiqx2mWVgA=",
+        "owner": "FlyingWombat",
+        "repo": "case.kak",
+        "rev": "6f1511820aa3abfa118e0f856118adc8113e2185",
+        "type": "gitlab"
       },
       "original": {
-        "owner": "alexherbo2",
-        "repo": "auto-pairs.kak",
-        "type": "github"
-      }
-    },
-    "kak-casing": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1656243794,
-        "narHash": "sha256-qsG0DRv3p7xxDHmHXFpxeIlsMr3eiQS8Tf/0SFJnYY4=",
-        "owner": "~dermetfan",
-        "repo": "casing.kak",
-        "rev": "671d7e21edfcf855301feafb7be2bdd78510a6af",
-        "type": "sourcehut"
-      },
-      "original": {
-        "owner": "~dermetfan",
-        "repo": "casing.kak",
-        "type": "sourcehut"
+        "owner": "FlyingWombat",
+        "repo": "case.kak",
+        "type": "gitlab"
       }
     },
     "kak-change-directory": {
@@ -576,6 +560,22 @@
         "type": "github"
       }
     },
+    "kak-easymotion": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1607545817,
+        "narHash": "sha256-kKN/a2BxZZDIISGBjxSlgxq6GFeKoqr2WIYKpJcl1HE=",
+        "owner": "~voroskoi",
+        "repo": "easymotion.kak",
+        "rev": "d5772bd319acdb86adf0d91ffb2f085f811aa453",
+        "type": "sourcehut"
+      },
+      "original": {
+        "owner": "~voroskoi",
+        "repo": "easymotion.kak",
+        "type": "sourcehut"
+      }
+    },
     "kak-elvish": {
       "flake": false,
       "locked": {
@@ -656,6 +656,22 @@
         "type": "github"
       }
     },
+    "kak-hump": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1571738349,
+        "narHash": "sha256-gfkXxDBtu1wV70uoFvSjF2I2xHuqWVeDxlPjd6Rz9NA=",
+        "owner": "Delapouite",
+        "repo": "kakoune-hump",
+        "rev": "b57d0548740634fd1b407a217a223110c16b51e2",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Delapouite",
+        "repo": "kakoune-hump",
+        "type": "github"
+      }
+    },
     "kak-interactively": {
       "flake": false,
       "locked": {
@@ -702,22 +718,6 @@
         "owner": "fsub",
         "repo": "kakoune-mark",
         "type": "gitlab"
-      }
-    },
-    "kak-marks": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1524151124,
-        "narHash": "sha256-lZf/bGX9Y6xR94VdoLHmMm+P7LaRxU2ltjM/9OwbizA=",
-        "owner": "Delapouite",
-        "repo": "kakoune-marks",
-        "rev": "4aee81c4007f04e3d11813cdcc4c25730fe89bbd",
-        "type": "github"
-      },
-      "original": {
-        "owner": "Delapouite",
-        "repo": "kakoune-marks",
-        "type": "github"
       }
     },
     "kak-move-line": {
@@ -944,22 +944,6 @@
         "type": "github"
       }
     },
-    "kak-word-select": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1637099654,
-        "narHash": "sha256-jO4ET4u7SkvlnS6LuAZGH6CCa9/mwDVXiyx9BSuEGnA=",
-        "owner": "~dermetfan",
-        "repo": "word-select.kak",
-        "rev": "adcccb280de928636b32130857310c641813442f",
-        "type": "sourcehut"
-      },
-      "original": {
-        "owner": "~dermetfan",
-        "repo": "word-select.kak",
-        "type": "sourcehut"
-      }
-    },
     "kak-wordcount": {
       "flake": false,
       "locked": {
@@ -1183,22 +1167,22 @@
         "home-manager-shell": "home-manager-shell",
         "hosts": "hosts",
         "impermanence": "impermanence",
-        "kak-auto-pairs": "kak-auto-pairs",
-        "kak-casing": "kak-casing",
+        "kak-case": "kak-case",
         "kak-change-directory": "kak-change-directory",
         "kak-close-tag": "kak-close-tag",
         "kak-cosy-gruvbox": "kak-cosy-gruvbox",
         "kak-crosshairs": "kak-crosshairs",
         "kak-csv": "kak-csv",
+        "kak-easymotion": "kak-easymotion",
         "kak-elvish": "kak-elvish",
         "kak-expand": "kak-expand",
         "kak-explain-shell": "kak-explain-shell",
         "kak-fetch": "kak-fetch",
         "kak-focus": "kak-focus",
+        "kak-hump": "kak-hump",
         "kak-interactively": "kak-interactively",
         "kak-local-kakrc": "kak-local-kakrc",
         "kak-mark": "kak-mark",
-        "kak-marks": "kak-marks",
         "kak-move-line": "kak-move-line",
         "kak-neuron": "kak-neuron",
         "kak-palette": "kak-palette",
@@ -1213,7 +1197,6 @@
         "kak-themes": "kak-themes",
         "kak-tmux-info": "kak-tmux-info",
         "kak-tug": "kak-tug",
-        "kak-word-select": "kak-word-select",
         "kak-wordcount": "kak-wordcount",
         "neuron": "neuron",
         "nil": "nil",
