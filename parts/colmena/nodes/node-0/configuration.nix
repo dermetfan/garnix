@@ -46,10 +46,6 @@
           inherit timestampFormat recursive;
           plan = planFew;
         };
-        "root/nix" = {
-          inherit timestampFormat recursive;
-          plan = planFew;
-        };
         "root/state" = {
           inherit timestampFormat recursive;
           plan = planMany;
