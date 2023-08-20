@@ -7,7 +7,7 @@
     { key = "age"; imports = [ inputs.agenix.nixosModules.age ]; }
   ];
 
-  system.stateVersion = "21.05";
+  system.stateVersion = "23.05";
 
   age.secrets."ceph.client.dermetfan.keyring" = {
     file = ../../../../secrets/services/ceph.client.dermetfan.keyring.age;
@@ -78,7 +78,7 @@
     };
 
     home = {
-      stateVersion = "22.05";
+      stateVersion = "23.05";
 
       packages = with pkgs; [
         asciinema
