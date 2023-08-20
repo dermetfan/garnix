@@ -149,7 +149,7 @@ final: prev: {
           '';
           executable = true;
           destination = "/${entry.category}/${name} — " + (
-            prev.lib.replaceChars [ "/" ] [ "|" ] (
+            prev.lib.replaceStrings [ "/" ] [ "|" ] (
               prev.${entry.package}.meta.description or "(no description)"
             )
           );
