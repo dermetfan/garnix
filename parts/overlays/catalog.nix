@@ -175,7 +175,10 @@ final: prev: {
         };
       });
     in ''
-      exec "$(broot --conf ${conf} ${catalog})"
+      exe=$(broot --conf ${conf} ${catalog})
+      if [[ -n "$exe" ]]; then
+          exec "$exe"
+      fi
     '';
   };
 }
