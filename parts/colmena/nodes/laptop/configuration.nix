@@ -77,13 +77,7 @@
       game.enable = true;
     };
 
-    home = {
-      stateVersion = "23.05";
-
-      packages = with pkgs; [
-        asciinema
-      ];
-    };
+    home.stateVersion = "23.05";
 
     xsession.initExtra = ''
       telegram-desktop &

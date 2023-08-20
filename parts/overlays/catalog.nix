@@ -123,6 +123,10 @@ let
       category = "Telephony";
       package = "ncid";
     }
+    {
+      category = "Terminal";
+      package = "asciinema";
+    }
   ];
 in
 
