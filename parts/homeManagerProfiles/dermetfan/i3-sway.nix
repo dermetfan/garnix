@@ -22,7 +22,10 @@ let
         hideEdgeBorders = "both";
       };
 
-      floating.border = cfg.config.window.border;
+      floating = {
+        titlebar = false;
+        border = cfg.config.window.border;
+      };
 
       assigns."10" = [
         { class = "^TelegramDesktop$"; }
