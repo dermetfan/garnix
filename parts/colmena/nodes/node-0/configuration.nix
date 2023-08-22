@@ -76,11 +76,8 @@
       };
       osd = {
         enable = true;
-        daemons = [ "2" "3" ];
-        activate = {
-          "2" = "6790b95b-8ef9-4a7a-a4d8-fe44cd4be8a1";
-          "3" = "f15558c7-348c-4ec4-ac05-62dffbcea8b6";
-        };
+        daemons = [ "3" ];
+        activate."3" = "f15558c7-348c-4ec4-ac05-62dffbcea8b6";
         openFirewall = true;
       };
       client.enable = true;
