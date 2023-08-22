@@ -24,7 +24,7 @@ in {
 
     enableGPU = mkOption {
       type = types.enum [ true false "bumblebee" ];
-      default = "bumblebee";
+      default = false;
     };
   };
 
