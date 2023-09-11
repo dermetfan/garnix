@@ -16,7 +16,6 @@
       files = map (key: key.path) config.services.openssh.hostKeys;
       directories = [
         "/var/lib/acme"
-        "/var/lib/ceph"
         config.services.postgresql.dataDir
       ];
     };
@@ -28,30 +27,17 @@
     # https://github.com/ryantm/agenix/issues/45
     identityPaths = map (key: "/state${toString key.path}") config.services.openssh.hostKeys;
 
-    secrets = {
-      "ceph.client.fs.keyring" = {
-        file = ../../../../secrets/services/ceph.client.fs.keyring.age;
-        path = "/etc/ceph/ceph.client.fs.keyring";
-        owner = config.users.users.ceph.name;
-        group = config.users.users.ceph.group;
-      };
-
-      "ceph.client.roundcube.keyring" = {
-        file = ../../../../secrets/services/ceph.client.roundcube.keyring.age;
-        path = "/etc/ceph/ceph.client.roundcube.keyring";
-        owner = config.users.users.ceph.name;
-        group = config.users.users.ceph.group;
-      };
-
-      filestash = {
-        file = ../../../../secrets/services/filestash.age;
-        owner = config.services.filestash.user;
-        group = config.services.filestash.group;
-      };
+    secrets.filestash = {
+      file = ../../../../secrets/services/filestash.age;
+      owner = config.services.filestash.user;
+      group = config.services.filestash.group;
     };
   };
 
-  profiles.roundcube.enable = true;
+  profiles = {
+    roundcube.enable = true;
+    yggdrasil.enable = true;
+  };
 
   services = {
     homepage.enable = true;
@@ -168,74 +154,28 @@
 
     yggdrasil.publicPeers.germany.enable = true;
 
-    ceph = {
-      enable = true;
-      mon = {
-        enable = true;
-        daemons = [ "c" ];
-        openFirewall = true;
-      };
-      mgr = {
-        enable = true;
-        daemons = [ "c" ];
-        dashboard.enable = true;
-        openFirewall = true;
-      };
-      mds = {
-        enable = true;
-        daemons = [ "c" ];
-        openFirewall = true;
-      };
-      osd = {
-        enable = true;
-        daemons = [ "4" "5" ];
-        activate = {
-          "4" = "623369b5-6240-45ac-bb7f-c5874cc0d89f";
-          "5" = "2b59ed1f-a637-4324-8e0c-6315cb99a7ef";
-        };
-        openFirewall = true;
-      };
-      client.enable = true;
-    };
+    roundcube.settings.enigma_pgp_homedir = "/tank/services/roundcube/enigma";
   };
 
-  fileSystems = {
-    ${config.services.roundcube.settings.enigma_pgp_homedir} = {
-      fsType = "fuse.ceph-fixed";
-      device = "none";
-      options = [
-        "nofail"
-        "ceph.id=roundcube"
-        "ceph.client_mountpoint=/services/roundcube/enigma"
-      ];
-    };
-
-    "/mnt/webdav/home" = {
-      fsType = "fuse.bindfs";
-      device = "/mnt/cephfs/home";
-      options = [
-        "map=1000/webdav:@users/@webdav"
-        "nofail"
-      ];
-    };
-
-    "/mnt/cephfs/home" = {
-      device = "none";
-      fsType = "fuse.ceph-fixed";
-      options = [
-        "nofail"
-        "ceph.id=fs"
-        "ceph.client_mountpoint=/home"
-      ];
-    };
+  fileSystems."/mnt/webdav/home" = {
+    fsType = "fuse.bindfs";
+    device = "/tank/home";
+    options = [
+      "map=1000/webdav:@users/@webdav"
+      "nofail"
+    ];
   };
 
   boot = {
-    zfs.unlockEncryptedPoolsViaSSH = {
-      enable = true;
-      hostKeys = [
-        "${toString <secrets>}/hosts/node-3/initrd_ssh_host_ed25519_key"
-      ];
+    zfs = {
+      extraPools = [ "tank" ];
+
+      unlockEncryptedPoolsViaSSH = {
+        enable = true;
+        hostKeys = [
+          "${toString <secrets>}/hosts/node-3/initrd_ssh_host_ed25519_key"
+        ];
+      };
     };
 
     initrd = {

@@ -10,23 +10,11 @@
 
   system.stateVersion = "23.05";
 
-  environment.persistence."/state" = {
-    files = map (key: key.path) config.services.openssh.hostKeys;
-    directories = [
-      "/var/lib/ceph"
-    ];
-  };
+  environment.persistence."/state".files = map (key: key.path) config.services.openssh.hostKeys;
 
   age = {
     # https://github.com/ryantm/agenix/issues/45
     identityPaths = map (key: "/state${toString key.path}") config.services.openssh.hostKeys;
-
-    secrets."ceph.client.mutmetfan.keyring" = {
-      file = ../../../../secrets/services/ceph.client.mutmetfan.keyring.age;
-      path = "/etc/ceph/ceph.client.mutmetfan.keyring";
-      owner = config.users.users.ceph.name;
-      group = config.users.users.ceph.group;
-    };
   };
 
   profiles.afraid-freedns.enable = true;
@@ -57,32 +45,6 @@
       };
     };
 
-    ceph = {
-      enable = true;
-      mon = {
-        enable = true;
-        daemons = [ "b" ];
-        openFirewall = true;
-      };
-      mgr = {
-        enable = true;
-        daemons = [ "b" ];
-        openFirewall = true;
-      };
-      mds = {
-        enable = true;
-        daemons = [ "b" ];
-        openFirewall = true;
-      };
-      osd = {
-        enable = true;
-        daemons = [ "3" ];
-        activate."3" = "f15558c7-348c-4ec4-ac05-62dffbcea8b6";
-        openFirewall = true;
-      };
-      client.enable = true;
-    };
-
     samba = {
       enable = true;
       openFirewall = true;
@@ -93,22 +55,13 @@
         map to guest = bad user
       '';
       shares.mutmetfan = {
-        path = "/mnt/cephfs/home/mutmetfan";
+        path = "/tank/home/mutmetfan";
         browseable = "yes";
         writeable = "yes";
         "read only" = "no";
         "guest ok" = "no";
       };
     };
-  };
-
-  fileSystems."/mnt/cephfs/home/mutmetfan" = {
-    fsType = "fuse.ceph-fixed";
-    device = "none";
-    options = [
-      "nofail"
-      "ceph.id=mutmetfan,ceph.client_mountpoint=/home/mutmetfan"
-    ];
   };
 
   users.users.mutmetfan = {

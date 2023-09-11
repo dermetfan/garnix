@@ -9,11 +9,6 @@
 
   system.stateVersion = "23.05";
 
-  age.secrets."ceph.client.dermetfan.keyring" = {
-    file = ../../../../secrets/services/ceph.client.dermetfan.keyring.age;
-    path = "/etc/ceph/ceph.client.dermetfan.keyring";
-  };
-
   profiles = {
     handson.enable = true;
     notebook.enable = true;
@@ -43,16 +38,6 @@
 
   services = {
     yggdrasil.publicPeers.germany.enable = true;
-
-    ceph = {
-      enable = true;
-      mon = {
-        enable = true;
-        daemons = [ "a" ];
-        openFirewall = true;
-      };
-      client.enable = true;
-    };
 
     pipewire = {
       enable = true;
@@ -88,28 +73,6 @@
       wlsunset = config.passthru.coords or {};
     };
 
-    programs = {
-      broot.settings.special_paths."/mnt/cephfs/home/dermetfan" = "no-enter";
-
-      firefox.hideTabs = true;
-
-      beets.settings = let
-        dir = "/mnt/cephfs/home/dermetfan/media/audio/music/library";
-      in {
-        directory = lib.mkForce dir;
-        library = lib.mkForce "${dir}/beets.db";
-      };
-    };
-  };
-
-  fileSystems."/mnt/cephfs/home/dermetfan" = {
-    device = "none";
-    fsType = "fuse.ceph-fixed";
-    options = [
-      "noauto"
-      "nofail"
-      "ceph.id=dermetfan"
-      "ceph.client_mountpoint=/home/dermetfan"
-    ];
+    programs.firefox.hideTabs = true;
   };
 }

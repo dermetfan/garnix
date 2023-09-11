@@ -39,7 +39,6 @@ withDeployers (
 
   {
     ${service "github"} = {};
-    ${service "ceph.client.admin.keyring"} = {};
   } //
 
   privateForHost "laptop" [
@@ -63,16 +62,6 @@ withDeployers (
   ] //
 
   servicesForHosts {
-    "ceph.mgr.b.keyring" = [ "node-0" ];
-    "ceph.mds.b.keyring" = [ "node-0" ];
-    "ceph.mgr.c.keyring" = [ "node-3" ];
-    "ceph.mds.c.keyring" = [ "node-3" ];
-    "ceph.client.fs.keyring" = [ "node-3" "laptop" ];
-    "ceph.client.dermetfan.keyring" = [ "laptop" ];
-    "ceph.client.diemetfan.keyring" = [ "thinkpad" ];
-    "ceph.client.mutmetfan.keyring" = [ "node-0" ];
-    "ceph.client.roundcube.keyring" = [ "node-3" ];
-
     "cache.sec" = [ "node-0" ];
 
     "ssmtp" = [ "node-0" ];

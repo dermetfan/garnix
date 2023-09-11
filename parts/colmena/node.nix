@@ -24,11 +24,6 @@ parts:
           (map (name: parts.config.flake.nixosConfigurations.${name}.config))
           (builtins.filter (peer: peer.networking.hostName != config.networking.hostName))
         ];
-
-        ceph = {
-          yggdrasil = true;
-          monInitialHosts = with parts.config.flake.nixosConfigurations; [ node-0 node-3 ];
-        };
       };
     };
 
@@ -37,13 +32,9 @@ parts:
       optimise.automatic = true;
     };
 
-    services = {
-      openssh.settings = {
-        PasswordAuthentication = false;
-        KbdInteractiveAuthentication = false;
-      };
-
-      ceph.global.fsid = "efec54b4-7ee8-479d-ba1c-34c5eb766dfa";
+    services.openssh.settings = {
+      PasswordAuthentication = false;
+      KbdInteractiveAuthentication = false;
     };
 
     users.users.root.openssh.authorizedKeys.keyFiles = [
