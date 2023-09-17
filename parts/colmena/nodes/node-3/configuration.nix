@@ -37,6 +37,7 @@
   profiles = {
     roundcube.enable = true;
     yggdrasil.enable = true;
+    ntfy-sh.enable = true;
   };
 
   services = {
