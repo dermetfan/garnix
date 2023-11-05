@@ -17,7 +17,10 @@
     identityPaths = map (key: "/state${toString key.path}") config.services.openssh.hostKeys;
   };
 
-  profiles.afraid-freedns.enable = true;
+  profiles = {
+    afraid-freedns.enable = true;
+    yggdrasil.enable = true;
+  };
 
   services = {
     yggdrasil.publicPeers.germany.enable = true;
