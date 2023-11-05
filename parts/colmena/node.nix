@@ -17,14 +17,12 @@ parts:
     profiles = {
       common.enable = true;
 
-      cluster = {
-        node.peers = lib.pipe ./nodes [
-          builtins.readDir
-          builtins.attrNames
-          (map (name: parts.config.flake.nixosConfigurations.${name}.config))
-          (builtins.filter (peer: peer.networking.hostName != config.networking.hostName))
-        ];
-      };
+      cluster.node.peers = lib.pipe ./nodes [
+        builtins.readDir
+        builtins.attrNames
+        (map (name: parts.config.flake.nixosConfigurations.${name}.config))
+        (builtins.filter (peer: peer.networking.hostName != config.networking.hostName))
+      ];
     };
 
     nix = {
