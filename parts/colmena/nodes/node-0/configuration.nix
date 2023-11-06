@@ -67,10 +67,25 @@
     };
   };
 
-  users.users.mutmetfan = {
-    isNormalUser = true;
-    createHome = false;
-    useDefaultShell = false;
+  users = {
+    users = {
+      znapzend = {
+        isSystemUser = true;
+        group = config.users.groups.znapzend.name;
+        shell = pkgs.bash;
+        openssh.authorizedKeys.keyFiles = [
+          ../../../../secrets/hosts/node-3/ssh_host_ed25519_key.pub
+        ];
+      };
+
+      mutmetfan = {
+        isNormalUser = true;
+        createHome = false;
+        useDefaultShell = false;
+      };
+    };
+
+    groups.znapzend = {};
   };
 
   boot = {

@@ -1,6 +1,6 @@
 { inputs, ... }:
 
-{ config, lib, pkgs, ... }:
+{ nodes, config, lib, pkgs, ... }:
 
 {
   imports = [
@@ -39,6 +39,14 @@
     yggdrasil.enable = true;
     ntfy-sh.enable = true;
   };
+
+  programs.ssh.extraConfig = ''
+    Host znapzend-node-0
+      Hostname ${with nodes.node-0.config.networking; "${hostName}.hosts.${domain}"}
+  '' + lib.concatMapStringsSep "\n" (key: "  IdentityFile ${key.path}") config.services.openssh.hostKeys + "\n" + ''
+      User znapzend
+      IdentitiesOnly yes
+  '';
 
   services = {
     homepage.enable = true;
@@ -132,11 +140,21 @@
 
     znapzend = {
       pure = true;
+      features = {
+        compressed = true;
+        recvu = true;
+        zfsGetType = true;
+      };
       zetup = let
         timestampFormat = "%Y-%m-%dT%H:%M:%SZ";
         recursive = true;
         planFew = "1week=>1day,1month=>1week";
         planMany = "1week=>1day,1hour=>15minutes,15minutes=>5minutes,1day=>1hour,1year=>1month,1month=>1week";
+        destinations = attrs: {
+          node-0 = {
+            host = "znapzend-node-0";
+          } // attrs;
+        };
       in {
         "root/root" = {
           inherit timestampFormat recursive;
@@ -149,6 +167,22 @@
         "root/home" = {
           inherit timestampFormat recursive;
           plan = planMany;
+        };
+        "tank/home" = {
+          inherit timestampFormat recursive;
+          plan = planMany;
+          destinations = destinations {
+            dataset = "tank/home";
+            plan = planMany;
+          };
+        };
+        "tank/services" = {
+          inherit timestampFormat recursive;
+          plan = planFew;
+          destinations = destinations {
+            dataset = "tank/services";
+            plan = planFew;
+          };
         };
       };
     };
