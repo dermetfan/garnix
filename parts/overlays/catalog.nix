@@ -18,6 +18,10 @@ let
       package = "fzy";
     }
     {
+      category = "Streams";
+      package = "tailspin";
+    }
+    {
       category = "Developent/Tools/Nix";
       package = "deadnix";
     }
