@@ -47,42 +47,16 @@
         };
       };
     };
-
-    samba = {
-      enable = true;
-      openFirewall = true;
-      extraConfig = ''
-        server string = ${config.networking.hostName}
-        netbios name = ${config.networking.hostName}
-        guest account = nobody
-        map to guest = bad user
-      '';
-      shares.mutmetfan = {
-        path = "/tank/home/mutmetfan";
-        browseable = "yes";
-        writeable = "yes";
-        "read only" = "no";
-        "guest ok" = "no";
-      };
-    };
   };
 
   users = {
-    users = {
-      znapzend = {
-        isSystemUser = true;
-        group = config.users.groups.znapzend.name;
-        shell = pkgs.bash;
-        openssh.authorizedKeys.keyFiles = [
-          ../../../../secrets/hosts/node-3/ssh_host_ed25519_key.pub
-        ];
-      };
-
-      mutmetfan = {
-        isNormalUser = true;
-        createHome = false;
-        useDefaultShell = false;
-      };
+    users.znapzend = {
+      isSystemUser = true;
+      group = config.users.groups.znapzend.name;
+      shell = pkgs.bash;
+      openssh.authorizedKeys.keyFiles = [
+        ../../../../secrets/hosts/node-3/ssh_host_ed25519_key.pub
+      ];
     };
 
     groups.znapzend = {};
