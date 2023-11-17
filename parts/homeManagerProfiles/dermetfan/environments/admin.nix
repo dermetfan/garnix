@@ -6,12 +6,14 @@
   config.home.packages = with pkgs; [
     bashmount
     bandwhich
+    bottom
     binutils
     curl
+    entr
     fd
     fdupes
     file
-    entr
+    ijq
     lsof
     ncdu
     nix-diff
@@ -23,8 +25,6 @@
     pv
     rsync
     socat
-    bottom
-    ijq
   ] ++ lib.optionals config.profiles.dermetfan.environments.gui.enable [
     tigervnc
     nix-query-tree-viewer
