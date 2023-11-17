@@ -37,6 +37,7 @@ in {
         tokei
         hyperfine
         entr
+        watchexec
         ijq
         jd-diff-patch
         yq

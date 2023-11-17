@@ -25,6 +25,7 @@
     pv
     rsync
     socat
+    watchexec
   ] ++ lib.optionals config.profiles.dermetfan.environments.gui.enable [
     tigervnc
     nix-query-tree-viewer
