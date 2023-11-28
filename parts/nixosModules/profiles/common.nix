@@ -52,7 +52,12 @@ in {
         tmux.enable = true;
       };
 
-      services = {
+      services = let
+        hasZfsFilesystem = builtins.any (x: x == "zfs") (map
+          (fs: fs.fsType)
+          (builtins.attrValues config.fileSystems)
+        );
+      in {
         openssh = {
           enable = true;
           hostKeys = [
@@ -62,10 +67,8 @@ in {
 
         "1.1.1.1".enable = true;
 
-        znapzend.enable = builtins.any (x: x == "zfs") (map
-          (fs: fs.fsType)
-          (builtins.attrValues config.fileSystems)
-        );
+        zfs.autoScrub.enable = hasZfsFilesystem;
+        znapzend.enable = hasZfsFilesystem;
       };
     })
   ];
