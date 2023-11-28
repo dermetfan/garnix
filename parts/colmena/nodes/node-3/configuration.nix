@@ -144,6 +144,7 @@
         compressed = true;
         recvu = true;
         zfsGetType = true;
+        skipIntermediates = true;
       };
       zetup = let
         timestampFormat = "%Y-%m-%dT%H:%M:%SZ";
