@@ -63,11 +63,15 @@
   };
 
   boot = {
-    zfs.unlockEncryptedPoolsViaSSH = {
-      enable = true;
-      hostKeys = [
-        "${toString <secrets>}/hosts/node-0/initrd_ssh_host_ed25519_key"
-      ];
+    zfs = {
+      extraPools = [ "tank" ];
+
+      unlockEncryptedPoolsViaSSH = {
+        enable = true;
+        hostKeys = [
+          "${toString <secrets>}/hosts/node-0/initrd_ssh_host_ed25519_key"
+        ];
+      };
     };
 
     initrd = {
