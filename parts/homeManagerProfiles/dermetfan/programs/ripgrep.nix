@@ -7,7 +7,7 @@ in {
     default = config.programs.ripgrep.enable or false;
   };
 
-  config.programs.ripgrep.settings = ''
-    --smart-case
-  '';
+  config.programs.ripgrep.arguments = [
+    "--smart-case"
+  ];
 }

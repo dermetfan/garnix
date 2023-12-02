@@ -13,7 +13,7 @@ in {
     ];
 
     programs = {
-      exa.enable = true;
+      eza.enable = true;
       zoxide.enable = true;
 
       zsh = {

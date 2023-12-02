@@ -60,6 +60,7 @@ in {
     
     programs.swaylock.package = lib.mkIf cfg.enableEffects pkgs.swaylock-effects;
 
+    # XXX https://github.com/nix-community/home-manager/pull/4707
     xdg.configFile."xdg-desktop-portal-wlr/config".text = lib.mkIf (
       nixosConfig.xdg.portal.enable or false &&
       builtins.elem pkgs.xdg-desktop-portal-wlr nixosConfig.xdg.portal.extraPortals or []

@@ -41,7 +41,7 @@ in {
       security.acme.defaults.email = "serverkorken@gmail.com";
 
       fonts = {
-        enableDefaultFonts = true;
+        enableDefaultPackages = true;
         fontDir.enable = true;
         fontconfig.enable = true;
         enableGhostscriptFonts = true;

@@ -1,7 +1,7 @@
 { lib, pkgs, ... }:
 
 {
-  programs.exa = {
+  programs.eza = {
     enableAliases = false;
 
     icons = true;

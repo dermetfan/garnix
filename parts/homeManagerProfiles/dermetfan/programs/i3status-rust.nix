@@ -90,29 +90,31 @@ in {
           missing_format = " $icon missing ";
         }) cfg.batteries
       ) ++ lib.optional cfg.enableEco (let
-        eco = pkgs.writeScript "eco.sh" ''
-          #! ${pkgs.bash}/bin/bash
-          # XXX should this be a script provided by the system config with sudo rights?
-          case "$1" in
-              on)
-                  ${lib.optionalString config.xsession.enable "systemctl --user stop picom"}
-                  sudo cpupower frequency-set -g powersave
-                  ;;
-              off)
-                  ${lib.optionalString config.xsession.enable "systemctl --user start picom"}
-                  sudo cpupower frequency-set -g performance
-                  ;;
-              *)
-                  sudo cpupower frequency-info | grep 'The governor "powersave" may decide'
-                  ;;
-          esac
-        '';
+        eco = pkgs.writeShellApplication {
+          name = "eco.sh";
+          runtimeInputs = [ pkgs.linuxPackages.cpupower ];
+          text = ''
+            case "''${1:-}" in
+                on)
+                    ${lib.optionalString config.xsession.enable "systemctl --user stop picom"}
+                    sudo cpupower frequency-set -g powersave
+                    ;;
+                off)
+                    ${lib.optionalString config.xsession.enable "systemctl --user start picom"}
+                    sudo cpupower frequency-set -g performance
+                    ;;
+                *)
+                    sudo cpupower frequency-info | grep 'The governor "powersave" may decide'
+                    ;;
+            esac
+          '';
+        };
       in {
         block = "toggle";
         format = " $icon eco ";
-        command_on = "${eco} on";
-        command_off = "${eco} off";
-        command_state = eco;
+        command_on = "${lib.getExe eco} on";
+        command_off = "${lib.getExe eco} off";
+        command_state = lib.getExe eco;
       }) ++ [
         {
           block = "time";

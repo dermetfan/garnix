@@ -21,11 +21,9 @@ in {
       ntfy-sh = {
         enable = true;
         settings = {
-          listen-http = lib.mkDefault ":2586";
           base-url = "https://${cfg.domain}";
           upstream-base-url = "https://ntfy.sh";
           auth-default-access = "deny-all";
-          attachment-cache-dir = "/var/cache/${CacheDirectory}/attachments";
         };
       };
 
@@ -42,7 +40,5 @@ in {
         in assert (builtins.length split == 2); "http://${addr}:${port}";
       };
     };
-
-    systemd.services.ntfy-sh.serviceConfig = { inherit CacheDirectory; };
   });
 }

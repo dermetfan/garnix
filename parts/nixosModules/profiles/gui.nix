@@ -26,10 +26,8 @@ in {
 
     xdg.portal = {
       enable = config.xdg.portal.extraPortals != [];
-      extraPortals = with pkgs;
-        lib.optionals (!config.services.xserver.enable) [
-          xdg-desktop-portal-wlr
-        ];
+      wlr.enable = !config.services.xserver.enable;
+      config.common.default = "*";
     };
   };
 }

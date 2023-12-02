@@ -16,11 +16,11 @@ in {
 
   config.programs = let
     aliases = {
-      l  = "exa --git-ignore";
-      ll = "exa --all";
+      l  = "eza --git-ignore";
+      ll = "eza --all";
     };
   in {
-    exa.enable = true;
+    eza.enable = true;
     bash.shellAliases = aliases;
     zsh .shellAliases = aliases;
     fish.shellAliases = aliases;

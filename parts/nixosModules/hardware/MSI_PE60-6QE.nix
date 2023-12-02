@@ -30,7 +30,10 @@ in {
 
   config = lib.mkIf cfg.enable (lib.mkMerge [
     {
-      nixpkgs.config.allowUnfree = true;
+      nixpkgs.config = {
+        allowUnfree = true;
+        nvidia.acceptLicense = true;
+      };
 
       boot = {
         initrd.availableKernelModules = [
