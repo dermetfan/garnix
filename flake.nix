@@ -46,7 +46,10 @@
     };
     filestash = {
       url = "sourcehut:~dermetfan/filestash.nix";
-      inputs.parts.follows = "flake-parts";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        parts.follows = "flake-parts";
+      };
     };
     hosts = {
       url = "github:StevenBlack/hosts";
