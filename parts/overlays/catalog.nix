@@ -81,6 +81,10 @@ let
     }
     {
       category = "Networking";
+      package = "trippy";
+    }
+    {
+      category = "Networking";
       package = "wakelan";
     }
     {
