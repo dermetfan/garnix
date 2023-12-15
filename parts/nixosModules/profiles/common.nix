@@ -27,11 +27,9 @@ in {
           ];
 
           system-features = lib.mkDefault [ "recursive-nix" ];
-        };
 
-        extraOptions = ''
-          experimental-features = nix-command flakes recursive-nix impure-derivations ca-derivations
-        '';
+          experimental-features = [ "nix-command" "flakes" "recursive-nix" "impure-derivations" "ca-derivations" "fetch-closure" ];
+        };
       };
 
       time.timeZone = "Europe/Berlin";
