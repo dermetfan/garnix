@@ -11,6 +11,7 @@ let
   });
 
   host = name: readKey hosts/${name}/ssh_host_ed25519_key.pub;
+  user = name: readKey users/${name}/id_ed25519.pub;
 
   service = name: "services/${name}.age";
 
@@ -19,6 +20,14 @@ let
       map (secret: {
         name = "hosts/${hostName}/${secret}.age";
         value.publicKeys = [ (host hostName) ];
+      }) secrets
+    );
+
+  privateForUser = userName: secrets:
+    builtins.listToAttrs (
+      map (secret: {
+        name = "users/${userName}/${secret}.age";
+        value.publicKeys = [ (user userName) ];
       }) secrets
     );
 
@@ -40,6 +49,10 @@ withDeployers (
   {
     ${service "github"} = {};
   } //
+
+  privateForUser "dermetfan" [
+    "nix-access-tokens"
+  ] //
 
   privateForHost "laptop" [
     "yggdrasil/key.conf"
