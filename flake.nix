@@ -15,8 +15,11 @@
       };
     };
     agenix = {
-      url = "github:yaxitech/ragenix";
-      inputs.flake-utils.follows = "flake-utils";
+      url = "github:ryantm/agenix";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        home-manager.follows = "home-manager";
+      };
     };
     home-manager = {
       url = "github:nix-community/home-manager/release-23.11";

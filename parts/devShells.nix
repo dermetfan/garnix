@@ -31,6 +31,8 @@
       SSH_ASKPASS_REQUIRE = "force";
       SSH_ASKPASS = "secrets/askpass";
 
+      RULES = "secrets/secrets.nix";
+
       shellHook = ''
         cd "$(git rev-parse --show-toplevel)"
 

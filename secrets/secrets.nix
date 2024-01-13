@@ -1,4 +1,13 @@
 let
+  inherit (
+    let
+      flakeLock = builtins.fromJSON (builtins.readFile ../flake.lock);
+      rootNode = flakeLock.nodes.${flakeLock.root};
+      nixpkgsNode = flakeLock.nodes.${rootNode.inputs.nixpkgs};
+    in
+      builtins.getFlake (with nixpkgsNode.locked; "${type}:${owner}/${repo}/${rev}")
+  ) lib;
+
   removeNewlines = builtins.replaceStrings [ "\n" ] [ "" ];
   readKey = file: removeNewlines (builtins.readFile file);
 
@@ -40,7 +49,10 @@ let
     );
 in
 
-withDeployers (
+lib.mapAttrs' (key:
+  # correct for RULES=secrets from the project root dir
+  lib.nameValuePair "secrets/${key}"
+) (withDeployers (
   builtins.listToAttrs (map (k: {
     name = "${k}.age";
     value = {};
@@ -81,4 +93,4 @@ withDeployers (
 
     filestash = [ "node-3" ];
   }
-)
+))
