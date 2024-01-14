@@ -17,6 +17,7 @@
       directories = [
         "/var/lib/acme"
         config.services.postgresql.dataDir
+        "/var/lib/authelia-${config.services.authelia.instances.default.name}"
       ];
     };
 
@@ -27,10 +28,30 @@
     # https://github.com/ryantm/agenix/issues/45
     identityPaths = map (key: "/state${toString key.path}") config.services.openssh.hostKeys;
 
-    secrets.filestash = {
-      file = ../../../../secrets/services/filestash.age;
-      owner = config.services.filestash.user;
-      group = config.services.filestash.group;
+    secrets = {
+      authelia-default-users = {
+        file = ../../../../secrets/services/authelia/users.json.age;
+        owner = config.services.authelia.instances.default.user;
+        group = config.services.authelia.instances.default.group;
+      };
+
+      authelia-default-storage = {
+        file = ../../../../secrets/services/authelia/storage.age;
+        owner = config.services.authelia.instances.default.user;
+        group = config.services.authelia.instances.default.group;
+      };
+
+      authelia-default-jwt = {
+        file = ../../../../secrets/services/authelia/jwt.age;
+        owner = config.services.authelia.instances.default.user;
+        group = config.services.authelia.instances.default.group;
+      };
+
+      filestash = {
+        file = ../../../../secrets/services/filestash.age;
+        owner = config.services.filestash.user;
+        group = config.services.filestash.group;
+      };
     };
   };
 
@@ -103,7 +124,7 @@
         connections = map (username: {
           label = username;
           type = "webdav";
-          url = "https://webdav.${config.networking.domain}";
+          url = with config.services.webdav.settings; "http://${address}:${toString port}";
           inherit username;
         }) [
           "dermetfan"
@@ -113,13 +134,51 @@
       };
     };
 
+    authelia = {
+      instances.default = {
+        enable = true;
+        secrets = {
+          storageEncryptionKeyFile = config.age.secrets.authelia-default-storage.path;
+          jwtSecretFile = config.age.secrets.authelia-default-jwt.path;
+        };
+        settings = let
+          stateDirectory = "/var/lib/authelia-default";
+        in {
+          theme = "auto";
+          session = { inherit (config.networking) domain; };
+          storage.local.path = "${stateDirectory}/db.sqlite3";
+          notifier.filesystem.filename = "${stateDirectory}/notifications.txt";
+          access_control.default_policy = "two_factor";
+          authentication_backend.file = {
+            search.email = true;
+            inherit (config.age.secrets.authelia-default-users) path;
+          };
+        };
+      };
+
+      nginx = {
+        enable = true;
+        virtualHosts.default.host = "auth.${config.networking.domain}";
+      };
+    };
+
     nginx.virtualHosts = let
       extraConfig = ''
         client_max_body_size 5G;
         proxy_request_buffering off;
       '';
+
+      authelia = config.services.authelia.nginx.virtualHosts.default.protectLocation "/";
     in {
-      "webdav.${config.networking.domain}" = {
+      ${config.services.authelia.nginx.virtualHosts.default.host}.enableACME = true;
+
+      ${config.services.roundcube.hostName} = _: {
+        imports = [ authelia ];
+      };
+
+      "webdav.${config.networking.domain}" = _: {
+        imports = [ authelia ];
+
         enableACME = true;
         forceSSL = true;
 
@@ -128,7 +187,9 @@
         inherit extraConfig;
       };
 
-      ${config.services.filestash.settings.general.host} = {
+      ${config.services.filestash.settings.general.host} = _: {
+        imports = [ authelia ];
+
         enableACME = true;
         forceSSL = true;
 

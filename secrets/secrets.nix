@@ -92,5 +92,9 @@ lib.mapAttrs' (key:
     "ssmtp" = [ "node-0" ];
 
     filestash = [ "node-3" ];
+
+    "authelia/jwt" = [ "node-3" ];
+    "authelia/storage" = [ "node-3" ];
+    "authelia/users.json" = [ "node-3" ];
   }
 ))

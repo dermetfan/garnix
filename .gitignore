@@ -14,4 +14,8 @@
 !/secrets/services/*.age
 !/secrets/services/*.pub
 
+!/secrets/services/authelia/
+/secrets/services/authelia/*
+!/secrets/services/authelia/*.age
+
 /.direnv/
