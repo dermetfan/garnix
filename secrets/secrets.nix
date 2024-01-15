@@ -89,7 +89,7 @@ lib.mapAttrs' (key:
   servicesForHosts {
     "cache.sec" = [ "node-0" ];
 
-    "ssmtp" = [ "node-0" ];
+    "roundcube-google-oauth2-client-secret" = [ "node-3" ];
 
     filestash = [ "node-3" ];
 

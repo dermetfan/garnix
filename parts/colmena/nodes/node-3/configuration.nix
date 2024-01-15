@@ -47,6 +47,12 @@
         group = config.services.authelia.instances.default.group;
       };
 
+      roundcube-google-oauth2-client-secret = {
+        file = ../../../../secrets/services/roundcube-google-oauth2-client-secret.age;
+        owner = config.services.roundcube.database.username;
+        group = config.services.roundcube.database.username;
+      };
+
       filestash = {
         file = ../../../../secrets/services/filestash.age;
         owner = config.services.filestash.user;
@@ -251,7 +257,16 @@
 
     yggdrasil.publicPeers.germany.enable = true;
 
-    roundcube.settings.enigma_pgp_homedir = "/tank/services/roundcube/enigma";
+    roundcube = {
+      enableGoogleLogin = true;
+
+      settings = {
+        oauth_client_id = "911394111478-ttomv09cm1jvom5tun0ajk3e2likv1tl.apps.googleusercontent.com";
+        oauth_client_secret = /. + config.age.secrets.roundcube-google-oauth2-client-secret.path;
+
+        enigma_pgp_homedir = "/tank/services/roundcube/enigma";
+      };
+    };
   };
 
   fileSystems."/mnt/webdav/home" = {

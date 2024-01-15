@@ -14,6 +14,7 @@ lib:
         if isBool value then if value then "true" else "false" else
         if isList value then "[\n" + (concatStringsSep ",\n" (map writeValue value)) + "\n]" else
         if isAttrs value then "[\n" + (concatStringsSep ",\n" (mapAttrsToList (k: v: "${escapeShellArg k} => ${writeValue v}") value)) + "\n]" else
+        if isPath value then ''substr(file_get_contents(${escapeShellArg value}), 0, -1)'' else
         throw "value of unsupported type ${builtins.typeOf value}"
       ;
     in
