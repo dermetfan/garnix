@@ -93,10 +93,12 @@ in {
       };
 
       nginx = {
-        recommendedOptimisation  = true;
-        recommendedProxySettings = true;
-        recommendedTlsSettings   = true;
-        recommendedGzipSettings  = true;
+        recommendedOptimisation   = true;
+        recommendedProxySettings  = true;
+        recommendedTlsSettings    = true;
+        recommendedGzipSettings   = true;
+        recommendedBrotliSettings = true;
+        recommendedZstdSettings   = true;
       };
     };
 
