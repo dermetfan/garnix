@@ -148,8 +148,6 @@ in {
     boot = {
       loader.timeout = 1;
 
-      zfs.forceImportRoot = false;
-
       # defaults only to `config.users.users.root.openssh.authorizedKeys.keys`
       # XXX add this to nixpkgs?
       initrd.network.ssh.authorizedKeys = map builtins.readFile config.users.users.root.openssh.authorizedKeys.keyFiles;
