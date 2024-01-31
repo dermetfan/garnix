@@ -30,9 +30,13 @@ in {
         enable = true;
         inherit hostKeys;
       };
-      postCommands = ''
-        echo 'zfs load-key -a; killall zfs' >> /root/.profile
-      '';
+      postCommands =
+        lib.concatMapStrings (pool: ''
+          zpool import -N ${lib.escapeShellArg pool}
+        '') config.boot.zfs.extraPools
+        + ''
+          echo 'zfs load-key -a; killall zfs' >> /root/.profile
+        '';
     };
 
     # https://github.com/NixOS/nixpkgs/issues/98100
