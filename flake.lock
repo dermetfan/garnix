@@ -83,11 +83,11 @@
         "styx": "styx"
       },
       "locked": {
-        "lastModified": 1703170671,
-        "narHash": "sha256-wRHJI8EL6ABnTnK7FBm0z5OEtLhaiGBQiR9RCANnIwg=",
+        "lastModified": 1706775658,
+        "narHash": "sha256-7QvDgmvT9sJMxQD5ujcBpJ48vVyWzFprqmzPA3VAq4c=",
         "owner": "~dermetfan",
         "repo": "dermetfan-blog",
-        "rev": "5f44478a931d2051eb0615cb175993d1523f1ba6",
+        "rev": "0313d416d88dd2ffd0243ca521f279ed0985497f",
         "type": "sourcehut"
       },
       "original": {
