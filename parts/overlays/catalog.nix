@@ -10,6 +10,10 @@ let
       package = "sd";
     }
     {
+      category = "Files";
+      package = "ratarmount";
+    }
+    {
       category = "Streams";
       package = "peco";
     }
