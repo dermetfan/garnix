@@ -14,6 +14,10 @@ let
       package = "ratarmount";
     }
     {
+      category = "Files";
+      package = "fq";
+    }
+    {
       category = "Streams";
       package = "peco";
     }
