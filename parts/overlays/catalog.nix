@@ -30,6 +30,10 @@ let
       package = "tailspin";
     }
     {
+      category = "Developent/Tools";
+      package = "scc";
+    }
+    {
       category = "Developent/Tools/Nix";
       package = "deadnix";
     }

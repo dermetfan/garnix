@@ -34,7 +34,6 @@ in {
         pijul
         qemu
         dos2unix
-        tokei
         hyperfine
         entr
         watchexec
@@ -43,7 +42,6 @@ in {
         yq
       ] ++
       lib.optionals stdenv.isLinux [
-        loc
         tty-share
         upterm
         mdcat
