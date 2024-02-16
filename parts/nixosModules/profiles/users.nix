@@ -51,6 +51,8 @@ in {
           optional config.virtualisation.libvirtd       .enable "libvirtd"       ++
           optional config.virtualisation.virtualbox.host.enable "vboxusers"      ++
           optional config.programs.adb                  .enable "adbusers";
+
+        openssh.authorizedKeys.keyFiles = config.users.users.root.openssh.authorizedKeys.keyFiles or [];
       };
 
       services.xserver.displayManager.slim = lib.mkIf (!lib.versionOlder "19.09" lib.version) {
