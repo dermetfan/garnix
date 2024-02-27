@@ -24,6 +24,7 @@
     procs
     pv
     rsync
+    sd
     socat
     watchexec
   ] ++ lib.optionals config.profiles.dermetfan.environments.gui.enable [
