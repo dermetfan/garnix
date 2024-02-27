@@ -3,6 +3,6 @@
     [cargo-new]
     name = "Robin Stumm"
     email = "serverkorken@gmail.com"
-    vcs = "hg"
+    vcs = "git"
   '';
 }
