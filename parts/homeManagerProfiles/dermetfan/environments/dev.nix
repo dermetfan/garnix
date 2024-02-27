@@ -7,7 +7,6 @@ in {
     enable.default = false;
     enableNative = mkEnableOption "native development programs";
     enableRust = mkEnableOption "Rust development programs";
-    enableJava = mkEnableOption "Java development programs";
     enableWeb = mkEnableOption "web development programs";
   };
 
@@ -57,16 +56,6 @@ in {
         valgrind
         qcachegrind
       ] ++
-      lib.optionals cfg.enableJava (
-        [ openjdk
-          gradle
-        ] ++
-        lib.optionals config.profiles.dermetfan.environments.gui.enable [
-          android-studio
-          jetbrains.idea-community
-          visualvm
-        ]
-      ) ++
       lib.optionals cfg.enableWeb (
         [ httpie curlie ] ++
         lib.optionals pkgs.stdenv.isLinux [
