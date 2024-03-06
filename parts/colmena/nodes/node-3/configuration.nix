@@ -194,12 +194,39 @@
       };
 
       ${config.services.filestash.settings.general.host} = _: {
-        imports = [ authelia ];
+        imports = [
+          authelia
+          (config.services.authelia.nginx.virtualHosts.default.protectLocation "/api/session/auth")
+        ];
 
         enableACME = true;
         forceSSL = true;
 
-        locations."/".proxyPass = "http://127.0.0.1:${toString config.services.filestash.settings.general.port}";
+        locations = let
+          location.proxyPass = "http://127.0.0.1:${toString config.services.filestash.settings.general.port}";
+        in {
+          # protected by authelia
+          "/" = location;
+          "/api/session/auth" = location;
+
+          # all other locations are not protected by authelia
+          # so we can list public prefixes here
+          # see https://github.com/mickael-kerjean/filestash/blob/master/server/routes.go
+          "/s/" = location;
+          "/api/" = location;
+          "/assets/" = location;
+          "/favicon.ico" = location;
+          "/sw_cache.js" = location;
+          "/report" = location;
+          "/about" = location;
+          "/robots.txt" = location;
+          "/manifest.json" = location;
+          "/.well-known/security.txt" = location;
+          "/healthz" = location;
+          "/custom.css" = location;
+          "/doc" = location;
+          "/overrides/" = location;
+        };
 
         inherit extraConfig;
       };
