@@ -43,7 +43,7 @@ in {
         hyperfine
         entr
         watchexec
-        ijq
+        jnv
         jd-diff-patch
         yq
         zig-shell-completions

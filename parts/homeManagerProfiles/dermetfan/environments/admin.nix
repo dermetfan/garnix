@@ -13,7 +13,7 @@
     fd
     fdupes
     file
-    ijq
+    jnv
     lsof
     ncdu
     nix-diff

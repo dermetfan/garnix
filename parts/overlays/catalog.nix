@@ -34,6 +34,14 @@ let
       package = "scc";
     }
     {
+      category = "Developent/Tools";
+      package = "jnv";
+    }
+    {
+      category = "Developent/Tools";
+      package = "ijq";
+    }
+    {
       category = "Developent/Tools/Nix";
       package = "deadnix";
     }
