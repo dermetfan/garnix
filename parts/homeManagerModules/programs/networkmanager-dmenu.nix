@@ -16,12 +16,19 @@ in {
           dmenu_command = "rofi";
         };
         dmenu_passphrase.rofi_obscure = false;
+      } // lib.optionalAttrs (config.home.sessionVariables ? TERMINAL) {
+        editor.terminal = config.home.sessionVariables.TERMINAL;
       };
     };
   };
 
   config = lib.mkIf cfg.enable {
-    home.packages = [ pkgs.networkmanager_dmenu ];
+    home.packages = with pkgs; [
+      networkmanager_dmenu
+
+      # for connection editor GUI
+      networkmanagerapplet
+    ];
 
     xdg.configFile."networkmanager-dmenu/config.ini".text = lib.generators.toINI {} cfg.settings;
   };
