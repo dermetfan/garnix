@@ -1000,6 +1000,23 @@ in {
             roots = [ "build.zig" ];
             command = "zls";
           };
+
+          haskell = {
+            filetypes = [ "haskell" "lhaskell" "cabalproject" ];
+            roots = [ "Setup.hs" "stack.yaml" "*.cabal" "cabal.project" ];
+            command = lib.getExe (pkgs.writeShellApplication {
+              # https://nixos.org/manual/nixpkgs/stable/#haskell-language-server
+              name = "haskell-language-server-wrapper-wrapper";
+              text = ''
+                if command -v haskell-language-server-wrapper >/dev/null 2>&1; then
+                  exec haskell-language-server-wrapper "$@"
+                else
+                  exec haskell-language-server "$@"
+                fi
+              '';
+            });
+            args = [ "--lsp" ];
+          };
         };
       };
 
