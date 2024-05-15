@@ -1,6 +1,6 @@
 _:
 
-{ config, lib, ... }:
+{ config, lib, pkgs, ... }:
 
 let
   cfg = config.profiles.dev;
@@ -18,6 +18,15 @@ in {
       };
 
       networkmanager.unmanaged = [ "interface-name:ve-*" ];
+    };
+
+    environment.systemPackages = with pkgs; [
+      man-pages
+    ];
+
+    documentation = {
+      dev.enable = true;
+      man.generateCaches = true;
     };
 
     virtualisation.docker = {
