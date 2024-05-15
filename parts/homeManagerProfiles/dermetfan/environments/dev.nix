@@ -12,6 +12,11 @@ in {
 
   config = {
     programs = {
+      man = {
+        enable = true;
+        generateCaches = true;
+      };
+
       mercurial.enable = true;
       git.enable = true;
       jq.enable = true;
@@ -25,7 +30,9 @@ in {
     };
 
     home.packages = with pkgs;
-      [ ack
+      [
+        man-pages
+        ack
         grex
         comma
         nox
