@@ -20,8 +20,6 @@ in {
       networkmanager.unmanaged = [ "interface-name:ve-*" ];
     };
 
-    programs.adb.enable = true;
-
     virtualisation.docker = {
       enable = true;
       enableOnBoot = false;
