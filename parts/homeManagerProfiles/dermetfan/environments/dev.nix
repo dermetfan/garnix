@@ -39,6 +39,7 @@ in {
         ijq
         jd-diff-patch
         yq
+        zig-shell-completions
       ] ++
       lib.optionals stdenv.isLinux [
         tty-share
