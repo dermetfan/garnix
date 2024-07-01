@@ -65,6 +65,8 @@
     roundcube.enable = true;
     yggdrasil.enable = true;
     ntfy-sh.enable = true;
+    users.users.dermetfan.enable = true;
+    dev.enable = true;
   };
 
   programs.ssh.extraConfig = ''
@@ -293,6 +295,16 @@
 
         enigma_pgp_homedir = "/tank/services/roundcube/enigma";
       };
+    };
+  };
+
+  home-manager.users.dermetfan = {
+    home.stateVersion = "23.11";
+
+    profiles.dermetfan.environments = {
+      admin.enable = true;
+      dev.enable = true;
+      iog.enable = true;
     };
   };
 
