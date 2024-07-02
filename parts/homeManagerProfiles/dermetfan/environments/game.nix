@@ -4,8 +4,6 @@
   options.profiles.dermetfan.environments.game.enable.default = false;
 
   config = {
-    programs.minecraft.enable = config.profiles.dermetfan.environments.gui.enable;
-
     home.packages = with pkgs; [
       fortune
       lolcat

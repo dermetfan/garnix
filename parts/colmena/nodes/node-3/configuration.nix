@@ -9,7 +9,7 @@
     inputs.filestash.nixosModules.default
   ];
 
-  system.stateVersion = "23.11";
+  system.stateVersion = "24.05";
 
   environment = {
     persistence."/state" = {
@@ -299,7 +299,7 @@
   };
 
   home-manager.users.dermetfan = {
-    home.stateVersion = "23.11";
+    home.stateVersion = "24.05";
 
     profiles.dermetfan.environments = {
       admin.enable = true;

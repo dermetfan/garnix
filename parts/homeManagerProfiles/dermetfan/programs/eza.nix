@@ -2,7 +2,11 @@
 
 {
   programs.eza = {
-    enableAliases = false;
+    enableBashIntegration = false;
+    enableZshIntegration = false;
+    enableFishIntegration = false;
+    enableIonIntegration = false;
+    enableNushellIntegration = false;
 
     icons = true;
     git = true;
