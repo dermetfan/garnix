@@ -9,7 +9,7 @@
     inputs.filestash.nixosModules.default
   ];
 
-  system.stateVersion = "24.05";
+  system.stateVersion = "24.11";
 
   environment = {
     persistence."/state" = {
@@ -153,8 +153,27 @@
         settings = let
           stateDirectory = "/var/lib/authelia-default";
         in {
+          # Define a subset of the default endpoints because we don't need them all.
+          # https://www.authelia.com/reference/guides/proxy-authorization/#default-endpoints
+          server = {
+            address = "tcp://127.0.0.1:9091";
+            endpoints.authz.auth-request = {
+              implementation = "AuthRequest";
+              authn_strategies = [
+                {
+                  name = "HeaderAuthorization";
+                  schemes = [ "Basic" ];
+                }
+                { name = "CookieSession"; }
+              ];
+            };
+          };
+
           theme = "auto";
-          session = { inherit (config.networking) domain; };
+          session.cookies = lib.singleton {
+            inherit (config.networking) domain;
+            authelia_url = "https://${config.services.authelia.nginx.virtualHosts.default.host}";
+          };
           storage.local.path = "${stateDirectory}/db.sqlite3";
           notifier.filesystem.filename = "${stateDirectory}/notifications.txt";
           access_control.default_policy = "two_factor";
@@ -308,7 +327,7 @@
   };
 
   home-manager.users.dermetfan = {
-    home.stateVersion = "24.05";
+    home.stateVersion = "24.11";
 
     profiles.dermetfan.environments = {
       admin.enable = true;
