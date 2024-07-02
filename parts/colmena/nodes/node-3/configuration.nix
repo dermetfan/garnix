@@ -153,7 +153,10 @@
           stateDirectory = "/var/lib/authelia-default";
         in {
           theme = "auto";
-          session = { inherit (config.networking) domain; };
+          session.cookies = lib.singleton {
+            inherit (config.networking) domain;
+            authelia_url = "https://${config.services.authelia.nginx.virtualHosts.default.host}";
+          };
           storage.local.path = "${stateDirectory}/db.sqlite3";
           notifier.filesystem.filename = "${stateDirectory}/notifications.txt";
           access_control.default_policy = "two_factor";
