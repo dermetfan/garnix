@@ -852,7 +852,7 @@ in {
           kakoune-state-save
           kakoune-vertical-selection
           kak-auto-pairs
-          kak-lsp
+          kakoune-lsp
           kak-fzf
           kak-ansi
           kakboard

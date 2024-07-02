@@ -44,6 +44,16 @@
           };
         };
 
+        output."*".background = "${config.xdg.configHome}/sway/background fill";
+
+        seat."*" = {
+          hide_cursor = toString 2500;
+          # XXX `seat."*"` should be a list. Fix upstream?
+          # Since we cannot declare the `hide_cursor` key twice,
+          # append a space that is ignored in the resulting `sway.conf` anyway.
+          "hide_cursor " = "when-typing enable";
+        };
+
         keybindings = let
           mod = config.wayland.windowManager.sway.config.modifier;
           wobShowVolume = ''printf "%d 282828D9 FB3934FF DBDBB2FF\n" $(amixer sget Master | grep -m 1 '\[on\]' | grep -E '\[[[:digit:]]{1,3}%\]' -o | grep -E '[[:digit:]]{1,3}' -o || echo 0) > $SWAYSOCK.wob'';
@@ -102,12 +112,12 @@
       };
 
       extraConfig = ''
-        seat seat0 hide_cursor 2500
-        seat seat0 hide_cursor when-typing enable
-        output * background ${config.xdg.configHome}/sway/background fill
         exec wl-paste --type text --watch clipman store --max-items=50
         exec mkfifo $SWAYSOCK.wob && tail -f $SWAYSOCK.wob | wob
       '';
+
+      # fails as it is not able to access the background image
+      checkConfig = false;
     };
   };
 }

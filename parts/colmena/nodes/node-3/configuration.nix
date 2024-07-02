@@ -9,7 +9,7 @@
     inputs.filestash.nixosModules.default
   ];
 
-  system.stateVersion = "23.11";
+  system.stateVersion = "24.05";
 
   environment = {
     persistence."/state" = {
@@ -181,7 +181,14 @@
       ${config.services.authelia.nginx.virtualHosts.default.host}.enableACME = true;
 
       ${config.services.roundcube.hostName} = _: {
-        imports = [ authelia ];
+        imports = [
+          # The Roundcube module sets a `Cache-Control` header on the `/` route
+          # that interferes with Authelia so that it leads to a redirection loop.
+          # Therefore we are not protecting `/`. We can do so because it only calls `/index.php` anyway.
+
+          # this location is defined in the NixOS Roundcube module
+          (config.services.authelia.nginx.virtualHosts.default.protectLocation "~* \\.php(/|$)")
+        ];
       };
 
       "webdav.${config.networking.domain}" = _: {
@@ -299,7 +306,7 @@
   };
 
   home-manager.users.dermetfan = {
-    home.stateVersion = "23.11";
+    home.stateVersion = "24.05";
 
     profiles.dermetfan.environments = {
       admin.enable = true;

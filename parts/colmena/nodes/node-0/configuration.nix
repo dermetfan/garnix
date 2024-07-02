@@ -8,7 +8,7 @@
     inputs.impermanence.nixosModules.impermanence
   ];
 
-  system.stateVersion = "23.11";
+  system.stateVersion = "24.05";
 
   environment.persistence."/state".files = map (key: key.path) config.services.openssh.hostKeys;
 

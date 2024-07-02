@@ -15,307 +15,240 @@ in {
 
     programs.zoxide.enable = true;
 
-    xdg.configFile = let
-      env = name: if config.home.sessionVariables ? ${name}
-        then config.home.sessionVariables.${name}
-        else "\$${name}";
-      EDITOR = env "EDITOR";
-      PAGER  = env "PAGER";
-    in {
-      "ranger/rc.conf".text = ''
-        # ===================================================================
-        # == Options
-        # ===================================================================
+    # default = config.home.sessionVariables.SHELL or null;
+    # ${lib.optionalString (cfg.shell != null) "map S shell ${cfg.shell}"}
 
-        # State of the three backends git, hg, bzr. The possible states are
-        # disabled, local (only show local info), enabled (show local and remote
-        # information).
-        set vcs_backend_hg local
-        set vcs_backend_git local
+    programs.ranger = {
+      mappings = {
+        K  = "reload_cwd";
+        h  = "display_file";
+        k  = "chain draw_possible_programs; console open_with%space";
+        yD = "shell -f xdragon -x %p";
 
-        # Use a unicode "..." character to mark cut-off filenames?
-        set unicode_ellipsis true
+        j = "search_next";
+        J = "search_next forward=False";
 
-        # Abbreviate $HOME with ~ in the titlebar (first line) of ranger?
-        set tilde_in_titlebar true
+        R = "move up=0.5    pages=True";
+        I = "move down=0.5  pages=True";
 
-        # ===================================================================
-        # == Define keys for the browser
-        # ===================================================================
+        gm = "cd /run/media/${config.home.username}";
+        gM = "cd /media";
+        gs = "cd /tmp";
 
-        # Basic
-        map K reload_cwd
+        lr = "set sort_reverse!";
+        lz = "set sort=random";
+        ls = "chain set sort=size;      set sort_reverse=False";
+        lb = "chain set sort=basename;  set sort_reverse=False";
+        ln = "chain set sort=natural;   set sort_reverse=False";
+        lm = "chain set sort=mtime;     set sort_reverse=False";
+        lc = "chain set sort=ctime;     set sort_reverse=False";
+        la = "chain set sort=atime;     set sort_reverse=False";
+        lt = "chain set sort=type;      set sort_reverse=False";
+        le = "chain set sort=extension; set sort_reverse=False";
 
-        map h display_file
+        lS = "chain set sort=size;      set sort_reverse=True";
+        lB = "chain set sort=basename;  set sort_reverse=True";
+        lN = "chain set sort=natural;   set sort_reverse=True";
+        lM = "chain set sort=mtime;     set sort_reverse=True";
+        lC = "chain set sort=ctime;     set sort_reverse=True";
+        lA = "chain set sort=atime;     set sort_reverse=True";
+        lT = "chain set sort=type;      set sort_reverse=True";
+        lE = "chain set sort=extension; set sort_reverse=True";
 
-        map k chain draw_possible_programs; console open_with%space
+        zv = "set vcs_aware!";
+        zV = "set use_preview_script!";
+      };
 
-        map yD shell -f xdragon -x %p
+      settings = {
+        vcs_backend_hg = "local";
+        vcs_backend_git = "local";
 
-        # Searching
-        map j  search_next
-        map J  search_next forward=False
+        unicode_ellipsis = true;
 
-        # VIM-like
+        tilde_in_titlebar = true;
+      };
+
+      extraConfig = ''
         copymap <UP>    r
         copymap <DOWN>  i
         copymap <LEFT>  n
         copymap <RIGHT> o
 
-        map R  move up=0.5    pages=True
-        map I  move down=0.5  pages=True
         copymap R <C-U>
         copymap I <C-D>
-
-        # Jumping around
-        map gm cd /run/media/${config.home.username}
-        map gM cd /media
-        map gs cd /tmp
-
-        # Sorting
-        map lr set sort_reverse!
-        map lz set sort=random
-        map ls chain set sort=size;      set sort_reverse=False
-        map lb chain set sort=basename;  set sort_reverse=False
-        map ln chain set sort=natural;   set sort_reverse=False
-        map lm chain set sort=mtime;     set sort_reverse=False
-        map lc chain set sort=ctime;     set sort_reverse=False
-        map la chain set sort=atime;     set sort_reverse=False
-        map lt chain set sort=type;      set sort_reverse=False
-        map le chain set sort=extension; set sort_reverse=False
-
-        map lS chain set sort=size;      set sort_reverse=True
-        map lB chain set sort=basename;  set sort_reverse=True
-        map lN chain set sort=natural;   set sort_reverse=True
-        map lM chain set sort=mtime;     set sort_reverse=True
-        map lC chain set sort=ctime;     set sort_reverse=True
-        map lA chain set sort=atime;     set sort_reverse=True
-        map lT chain set sort=type;      set sort_reverse=True
-        map lE chain set sort=extension; set sort_reverse=True
-
-        # Settings
-        map zv set vcs_aware!
-        map zV set use_preview_script!
       '';
 
-      "ranger/rifle.conf".text = ''
-        # vim: ft=cfg
-        #
-        # This is the configuration file of "rifle", ranger's file executor/opener.
-        # Each line consists of conditions and a command.  For each line the conditions
-        # are checked and if they are met, the respective command is run.
-        #
-        # Syntax:
-        #   <condition1> , <condition2> , ... = command
-        #
-        # The command can contain these environment variables:
-        #   $1-$9 | The n-th selected file
-        #   $@    | All selected files
-        #
-        # If you use the special command "ask", rifle will ask you what program to run.
-        #
-        # Prefixing a condition with "!" will negate its result.
-        # These conditions are currently supported:
-        #   match <regexp> | The regexp matches $1
-        #   ext <regexp>   | The regexp matches the extension of $1
-        #   mime <regexp>  | The regexp matches the mime type of $1
-        #   name <regexp>  | The regexp matches the basename of $1
-        #   path <regexp>  | The regexp matches the absolute path of $1
-        #   has <program>  | The program is installed (i.e. located in $PATH)
-        #   env <variable> | The environment variable "variable" is non-empty
-        #   file           | $1 is a file
-        #   directory      | $1 is a directory
-        #   number <n>     | change the number of this command to n
-        #   terminal       | stdin, stderr and stdout are connected to a terminal
-        #   X              | $DISPLAY is not empty (i.e. Xorg runs)
-        #
-        # There are also pseudo-conditions which have a "side effect":
-        #   flag <flags>  | Change how the program is run. See below.
-        #   label <label> | Assign a label or name to the command so it can
-        #                 | be started with :open_with <label> in ranger
-        #                 | or `rifle -p <label>` in the standalone executable.
-        #   else          | Always true.
-        #
-        # Flags are single characters which slightly transform the command:
-        #   f | Fork the program, make it run in the background.
-        #     |   New command = setsid $command >& /dev/null &
-        #   r | Execute the command with root permissions
-        #     |   New command = sudo $command
-        #   t | Run the program in a new terminal.  If $TERMCMD is not defined,
-        #     | rifle will attempt to extract it from $TERM.
-        #     |   New command = $TERMCMD -e $command
-        # Note: The "New command" serves only as an illustration, the exact
-        # implementation may differ.
-        # Note: When using rifle in ranger, there is an additional flag "c" for
-        # only running the current file even if you have marked multiple files.
+      plugins = [
+        {
+          name = "zoxide";
+          # TODO fetch as flake input
+          src = pkgs.fetchFromGitHub {
+            owner = "jchook";
+            repo = "ranger-zoxide";
+            rev = "b03a5f18939d4bde3a346b221b478410cfb87096";
+            sha256 = "0dddaqm3ipz4cw0m7ynnmkrcxfnnvdsm3c7l7711wmqnkmbjxvrr";
+          };
+        }
+      ];
 
-        #-------------------------------------------
-        # Misc
-        #-------------------------------------------
-        mime ^text,  label editor = ${EDITOR} -- "$@"
-        mime ^text,  label pager  = ${PAGER} -- "$@"
-        mime ^text,  X, has geany,   flag f = geany   -- "$@"
-        !mime ^text, label editor, ext xml|json|yml|yaml|csv|tex|py|pl|rb|js|sh|php|lua|rs|nix = ${EDITOR} -- "$@"
-        !mime ^text, label pager,  ext xml|json|yml|yaml|csv|tex|py|pl|rb|js|sh|php|lua|rs|nix = ${PAGER} -- "$@"
+      rifle = let
+        env = name: if config.home.sessionVariables ? ${name}
+          then config.home.sessionVariables.${name}
+          else "\$${name}";
+        EDITOR = env "EDITOR";
+        PAGER  = env "PAGER";
+      in [
+        ## Misc
 
-        ext 1                         = man "$1"
-        ext s[wmf]c, has zsnes, X     = zsnes "$1"
-        ext s[wmf]c, has snes9x-gtk,X = snes9x-gtk "$1"
-        ext nes, has fceux, X         = fceux "$1"
-        ext exe                       = wine "$1"
-        name ^[mM]akefile$            = make
+        { condition = "mime ^text,  label editor";                                                              command = ''${EDITOR} -- "$@"''; }
+        { condition = "mime ^text,  label pager ";                                                              command = ''${PAGER}  -- "$@"''; }
+        { condition = "mime ^text,  X, has geany,   flag f";                                                    command = ''geany     -- "$@"''; }
+        { condition = "!mime ^text, label editor, ext xml|json|yml|yaml|csv|tex|py|pl|rb|js|sh|php|lua|rs|nix"; command = ''${EDITOR} -- "$@"''; }
+        { condition = "!mime ^text, label pager,  ext xml|json|yml|yaml|csv|tex|py|pl|rb|js|sh|php|lua|rs|nix"; command = ''${PAGER}  -- "$@"''; }
 
-        #-------------------------------------------
-        # Websites
-        #-------------------------------------------
-        ext x?html?, has surf,           X, flag f = surf -- file://"$1"
-        ext x?html?, has vimprobable,    X, flag f = vimprobable -- "$@"
-        ext x?html?, has vimprobable2,   X, flag f = vimprobable2 -- "$@"
-        ext x?html?, has qutebrowser,    X, flag f = qutebrowser -- "$@"
-        ext x?html?, has dwb,            X, flag f = dwb -- "$@"
-        ext x?html?, has jumanji,        X, flag f = jumanji -- "$@"
-        ext x?html?, has luakit,         X, flag f = luakit -- "$@"
-        ext x?html?, has uzbl,           X, flag f = uzbl -- "$@"
-        ext x?html?, has uzbl-tabbed,    X, flag f = uzbl-tabbed -- "$@"
-        ext x?html?, has uzbl-browser,   X, flag f = uzbl-browser -- "$@"
-        ext x?html?, has uzbl-core,      X, flag f = uzbl-core -- "$@"
-        ext x?html?, has firefox,        X, flag f = firefox -- "$@"
-        ext x?html?, has chromium,       X, flag f = chromium -- "$@"
-        ext x?html?, has vivaldi,        X, flag f = vivaldi -- "$@"
-        ext x?html?, has opera,          X, flag f = opera -- "$@"
-        ext x?html?, has midori,         X, flag f = midori -- "$@"
-        ext x?html?, has seamonkey,      X, flag f = seamonkey -- "$@"
-        ext x?html?, has iceweasel,      X, flag f = iceweasel -- "$@"
-        ext x?html?, has epiphany,       X, flag f = epiphany -- "$@"
-        ext x?html?, has konqueror,      X, flag f = konqueror -- "$@"
-        ext x?html?, has elinks,          terminal = elinks "$@"
-        ext x?html?, has links2,          terminal = links2 "$@"
-        ext x?html?, has links,           terminal = links "$@"
-        ext x?html?, has lynx,            terminal = lynx -- "$@"
-        ext x?html?, has w3m,             terminal = w3m "$@"
+        { condition = "ext 1";                         command = ''man        "$1"''; }
+        { condition = "ext s[wmf]c, has zsnes, X";     command = ''zsnes      "$1"''; }
+        { condition = "ext s[wmf]c, has snes9x-gtk,X"; command = ''snes9x-gtk "$1"''; }
+        { condition = "ext nes, has fceux, X";         command = ''fceux      "$1"''; }
+        { condition = "ext exe";                       command = ''wine       "$1"''; }
+        { condition = "name ^[mM]akefile$";            command = ''make'';            }
 
-        #--------------------------------------------
-        # Code
-        #-------------------------------------------
-        ext py  = python -- "$1"
-        ext pl  = perl -- "$1"
-        ext rb  = ruby -- "$1"
-        ext js  = node -- "$1"
-        ext sh  = sh -- "$1"
-        ext php = php -- "$1"
-        ext jar = java -jar "$1"
+        ## Websites
 
-        #--------------------------------------------
-        # Audio without X
-        #-------------------------------------------
-        mime ^audio|ogg$, terminal, has mpv      = mpv -- "$@"
-        mime ^audio|ogg$, terminal, has mplayer2 = mplayer2 -- "$@"
-        mime ^audio|ogg$, terminal, has mplayer  = mplayer -- "$@"
-        ext midi?,        terminal, has wildmidi = wildmidi -- "$@"
+        { condition = "ext x?html?, has surf,           X, flag f"; command = ''surf  -- file://"$1"''; }
+        { condition = "ext x?html?, has vimprobable,    X, flag f"; command = ''vimprobable  -- "$@"''; }
+        { condition = "ext x?html?, has vimprobable2,   X, flag f"; command = ''vimprobable2 -- "$@"''; }
+        { condition = "ext x?html?, has qutebrowser,    X, flag f"; command = ''qutebrowser  -- "$@"''; }
+        { condition = "ext x?html?, has dwb,            X, flag f"; command = ''dwb          -- "$@"''; }
+        { condition = "ext x?html?, has jumanji,        X, flag f"; command = ''jumanji      -- "$@"''; }
+        { condition = "ext x?html?, has luakit,         X, flag f"; command = ''luakit       -- "$@"''; }
+        { condition = "ext x?html?, has uzbl,           X, flag f"; command = ''uzbl         -- "$@"''; }
+        { condition = "ext x?html?, has uzbl-tabbed,    X, flag f"; command = ''uzbl-tabbed  -- "$@"''; }
+        { condition = "ext x?html?, has uzbl-browser,   X, flag f"; command = ''uzbl-browser -- "$@"''; }
+        { condition = "ext x?html?, has uzbl-core,      X, flag f"; command = ''uzbl-core    -- "$@"''; }
+        { condition = "ext x?html?, has firefox,        X, flag f"; command = ''firefox      -- "$@"''; }
+        { condition = "ext x?html?, has chromium,       X, flag f"; command = ''chromium     -- "$@"''; }
+        { condition = "ext x?html?, has vivaldi,        X, flag f"; command = ''vivaldi      -- "$@"''; }
+        { condition = "ext x?html?, has opera,          X, flag f"; command = ''opera        -- "$@"''; }
+        { condition = "ext x?html?, has midori,         X, flag f"; command = ''midori       -- "$@"''; }
+        { condition = "ext x?html?, has seamonkey,      X, flag f"; command = ''seamonkey    -- "$@"''; }
+        { condition = "ext x?html?, has iceweasel,      X, flag f"; command = ''iceweasel    -- "$@"''; }
+        { condition = "ext x?html?, has epiphany,       X, flag f"; command = ''epiphany     -- "$@"''; }
+        { condition = "ext x?html?, has konqueror,      X, flag f"; command = ''konqueror    -- "$@"''; }
+        { condition = "ext x?html?, has elinks,          terminal"; command = ''elinks          "$@"''; }
+        { condition = "ext x?html?, has links2,          terminal"; command = ''links2          "$@"''; }
+        { condition = "ext x?html?, has links,           terminal"; command = ''links           "$@"''; }
+        { condition = "ext x?html?, has lynx,            terminal"; command = ''lynx         -- "$@"''; }
+        { condition = "ext x?html?, has w3m,             terminal"; command = ''w3m             "$@"''; }
 
-        #--------------------------------------------
-        # Video/Audio with a GUI
-        #-------------------------------------------
-        mime ^video|audio, has gmplayer, X, flag f = gmplayer -- "$@"
-        mime ^video|audio, has smplayer, X, flag f = smplayer "$@"
-        mime ^video,       has mpv,      X, flag f = mpv -- "$@"
-        mime ^video,       has mpv,      X, flag f = mpv --fs -- "$@"
-        mime ^video,       has mplayer2, X, flag f = mplayer2 -- "$@"
-        mime ^video,       has mplayer2, X, flag f = mplayer2 -fs -- "$@"
-        mime ^video,       has mplayer,  X, flag f = mplayer -- "$@"
-        mime ^video,       has mplayer,  X, flag f = mplayer -fs -- "$@"
-        mime ^video|audio, has vlc,      X, flag f = vlc -- "$@"
-        mime ^video|audio, has totem,    X, flag f = totem -- "$@"
-        mime ^video|audio, has totem,    X, flag f = totem --fullscreen -- "$@"
+        ## Code
 
-        #--------------------------------------------
-        # Video without X:
-        #-------------------------------------------
-        mime ^video, terminal, !X, has mpv       = mpv -- "$@"
-        mime ^video, terminal, !X, has mplayer2  = mplayer2 -- "$@"
-        mime ^video, terminal, !X, has mplayer   = mplayer -- "$@"
+        { condition = "ext py";  command = ''python -- "$1"''; }
+        { condition = "ext pl";  command = ''perl   -- "$1"''; }
+        { condition = "ext rb";  command = ''ruby   -- "$1"''; }
+        { condition = "ext js";  command = ''node   -- "$1"''; }
+        { condition = "ext sh";  command = ''sh     -- "$1"''; }
+        { condition = "ext php"; command = ''php    -- "$1"''; }
+        { condition = "ext jar"; command = ''java -jar "$1"''; }
 
-        #-------------------------------------------
-        # Documents
-        #-------------------------------------------
-        ext pdf, has llpp,     X, flag f = llpp "$@"
-        ext pdf, has zathura,  X, flag f = zathura -- "$@"
-        ext pdf, has mupdf,    X, flag f = mupdf "$@"
-        ext pdf, has mupdf-x11,X, flag f = mupdf-x11 "$@"
-        ext pdf, has apvlv,    X, flag f = apvlv -- "$@"
-        ext pdf, has xpdf,     X, flag f = xpdf -- "$@"
-        ext pdf, has evince,   X, flag f = evince -- "$@"
-        ext pdf, has atril,    X, flag f = atril -- "$@"
-        ext pdf, has okular,   X, flag f = okular -- "$@"
-        ext pdf, has epdfview, X, flag f = epdfview -- "$@"
-        ext pdf, has qpdfview, X, flag f = qpdfview "$@"
+        ## Audio without X
 
-        ext docx?, has catdoc,       terminal = catdoc -- "$@" | "${PAGER}"
+        { condition = "mime ^audio|ogg$, terminal, has mpv     "; command = ''mpv      -- "$@"''; }
+        { condition = "mime ^audio|ogg$, terminal, has mplayer2"; command = ''mplayer2 -- "$@"''; }
+        { condition = "mime ^audio|ogg$, terminal, has mplayer "; command = ''mplayer  -- "$@"''; }
+        { condition = "ext midi?,        terminal, has wildmidi"; command = ''wildmidi -- "$@"''; }
 
-        ext                        sxc|xlsx?|xlt|xlw|gnm|gnumeric, has gnumeric,    X, flag f = gnumeric -- "$@"
-        ext                        sxc|xlsx?|xlt|xlw|gnm|gnumeric, has kspread,     X, flag f = kspread -- "$@"
-        ext pptx?|od[dfgpst]|docx?|sxc|xlsx?|xlt|xlw|gnm|gnumeric, has libreoffice, X, flag f = libreoffice "$@"
-        ext pptx?|od[dfgpst]|docx?|sxc|xlsx?|xlt|xlw|gnm|gnumeric, has soffice,     X, flag f = soffice "$@"
-        ext pptx?|od[dfgpst]|docx?|sxc|xlsx?|xlt|xlw|gnm|gnumeric, has ooffice,     X, flag f = ooffice "$@"
+        ## Video/Audio with a GUI
 
-        ext djvu, has zathura,X, flag f = zathura -- "$@"
-        ext djvu, has evince, X, flag f = evince -- "$@"
-        ext djvu, has atril,  X, flag f = atril -- "$@"
+        { condition = "mime ^video|audio, has gmplayer, X, flag f"; command = ''gmplayer           -- "$@"''; }
+        { condition = "mime ^video|audio, has smplayer, X, flag f"; command = ''smplayer              "$@"''; }
+        { condition = "mime ^video,       has mpv,      X, flag f"; command = ''mpv                -- "$@"''; }
+        { condition = "mime ^video,       has mpv,      X, flag f"; command = ''mpv --fs           -- "$@"''; }
+        { condition = "mime ^video,       has mplayer2, X, flag f"; command = ''mplayer2           -- "$@"''; }
+        { condition = "mime ^video,       has mplayer2, X, flag f"; command = ''mplayer2 -fs       -- "$@"''; }
+        { condition = "mime ^video,       has mplayer,  X, flag f"; command = ''mplayer            -- "$@"''; }
+        { condition = "mime ^video,       has mplayer,  X, flag f"; command = ''mplayer -fs        -- "$@"''; }
+        { condition = "mime ^video|audio, has vlc,      X, flag f"; command = ''vlc                -- "$@"''; }
+        { condition = "mime ^video|audio, has totem,    X, flag f"; command = ''totem              -- "$@"''; }
+        { condition = "mime ^video|audio, has totem,    X, flag f"; command = ''totem --fullscreen -- "$@"''; }
 
-        #-------------------------------------------
-        # Image Viewing:
-        #-------------------------------------------
-        mime ^image/svg, has inkscape, X, flag f = inkscape -- "$@"
-        mime ^image/svg, has display,  X, flag f = display -- "$@"
+        ## Video without X
 
-        mime ^image, has pqiv,      X, flag f = pqiv -- "$@"
-        mime ^image, has sxiv,      X, flag f = sxiv -- "$@"
-        mime ^image, has feh,       X, flag f = feh --scale-down -- "$@"
-        mime ^image, has mirage,    X, flag f = mirage -- "$@"
-        mime ^image, has ristretto, X, flag f = ristretto "$@"
-        mime ^image, has eog,       X, flag f = eog -- "$@"
-        mime ^image, has eom,       X, flag f = eom -- "$@"
-        mime ^image, has gimp,      X, flag f = gimp -- "$@"
-        ext xcf,                    X, flag f = gimp -- "$@"
+        { condition = "mime ^video, terminal, !X, has mpv";      command = ''mpv      -- "$@"''; }
+        { condition = "mime ^video, terminal, !X, has mplayer2"; command = ''mplayer2 -- "$@"''; }
+        { condition = "mime ^video, terminal, !X, has mplayer";  command = ''mplayer  -- "$@"''; }
 
-        #-------------------------------------------
-        # Archives
-        #-------------------------------------------
+        ## Documents
+
+        { condition = "ext pdf, has llpp,     X, flag f"; command = ''llpp        "$@"''; }
+        { condition = "ext pdf, has zathura,  X, flag f"; command = ''zathura  -- "$@"''; }
+        { condition = "ext pdf, has mupdf,    X, flag f"; command = ''mupdf       "$@"''; }
+        { condition = "ext pdf, has mupdf-x11,X, flag f"; command = ''mupdf-x11   "$@"''; }
+        { condition = "ext pdf, has apvlv,    X, flag f"; command = ''apvlv    -- "$@"''; }
+        { condition = "ext pdf, has xpdf,     X, flag f"; command = ''xpdf     -- "$@"''; }
+        { condition = "ext pdf, has evince,   X, flag f"; command = ''evince   -- "$@"''; }
+        { condition = "ext pdf, has atril,    X, flag f"; command = ''atril    -- "$@"''; }
+        { condition = "ext pdf, has okular,   X, flag f"; command = ''okular   -- "$@"''; }
+        { condition = "ext pdf, has epdfview, X, flag f"; command = ''epdfview -- "$@"''; }
+        { condition = "ext pdf, has qpdfview, X, flag f"; command = ''qpdfview    "$@"''; }
+
+        { condition = "ext docx?, has catdoc, terminal"; command = ''catdoc -- "$@" | "${PAGER}"''; }
+
+        { condition = "ext                        sxc|xlsx?|xlt|xlw|gnm|gnumeric, has gnumeric,    X, flag f"; command = ''gnumeric -- "$@"''; }
+        { condition = "ext                        sxc|xlsx?|xlt|xlw|gnm|gnumeric, has kspread,     X, flag f"; command = ''kspread  -- "$@"''; }
+        { condition = "ext pptx?|od[dfgpst]|docx?|sxc|xlsx?|xlt|xlw|gnm|gnumeric, has libreoffice, X, flag f"; command = ''libreoffice "$@"''; }
+        { condition = "ext pptx?|od[dfgpst]|docx?|sxc|xlsx?|xlt|xlw|gnm|gnumeric, has soffice,     X, flag f"; command = ''soffice     "$@"''; }
+        { condition = "ext pptx?|od[dfgpst]|docx?|sxc|xlsx?|xlt|xlw|gnm|gnumeric, has ooffice,     X, flag f"; command = ''ooffice     "$@"''; }
+
+        { condition = "ext djvu, has zathura,X, flag f"; command = ''zathura -- "$@"''; }
+        { condition = "ext djvu, has evince, X, flag f"; command = ''evince  -- "$@"''; }
+        { condition = "ext djvu, has atril,  X, flag f"; command = ''atril   -- "$@"''; }
+
+        ## Image Viewing
+
+        { condition = "mime ^image/svg, has inkscape, X, flag f"; command = ''inkscape -- "$@"''; }
+        { condition = "mime ^image/svg, has display,  X, flag f"; command = ''display  -- "$@"''; }
+
+        { condition = "mime ^image, has pqiv,      X, flag f"; command = ''pqiv             -- "$@"''; }
+        { condition = "mime ^image, has sxiv,      X, flag f"; command = ''sxiv             -- "$@"''; }
+        { condition = "mime ^image, has feh,       X, flag f"; command = ''feh --scale-down -- "$@"''; }
+        { condition = "mime ^image, has mirage,    X, flag f"; command = ''mirage           -- "$@"''; }
+        { condition = "mime ^image, has ristretto, X, flag f"; command = ''ristretto           "$@"''; }
+        { condition = "mime ^image, has eog,       X, flag f"; command = ''eog              -- "$@"''; }
+        { condition = "mime ^image, has eom,       X, flag f"; command = ''eom              -- "$@"''; }
+        { condition = "mime ^image, has gimp,      X, flag f"; command = ''gimp             -- "$@"''; }
+        { condition = "ext xcf,                    X, flag f"; command = ''gimp             -- "$@"''; }
+
+        ## Archives
+
         # avoid password prompt by providing empty password
-        ext 7z, has 7z = 7z -p l "$@" | "${PAGER}"
-        # This requires atool
-        ext ace|ar|arc|bz2?|cab|cpio|cpt|deb|dgc|dmg|gz|iso|jar|msi|pkg|rar|shar|tar|tgz|xar|xpi|xz|zip,    has als     = als -- "$@" | "${PAGER}"
-        ext ace|ar|arc|bz2?|cab|cpio|cpt|deb|dgc|dmg|gz|iso|jar|msi|pkg|rar|shar|tar|tgz|xar|xpi|xz|zip|7z, has aunpack = aunpack -- "$@"
+        { condition = "ext 7z, has 7z"; command = ''7z -p l "$@" | "${PAGER}"''; }
 
-        ext ace|ar|arc|bz2?|cab|cpio|cpt|deb|dgc|dmg|gz|iso|jar|msi|pkg|rar|shar|tar|tgz|tar\.gz|xar|xpi|xz|zip|7z, has xarchiver, X, flag f = xarchiver -- "$@"
+        # This requires atool
+        { condition = "ext ace|ar|arc|bz2?|cab|cpio|cpt|deb|dgc|dmg|gz|iso|jar|msi|pkg|rar|shar|tar|tgz|xar|xpi|xz|zip,    has als    "; command = ''als -- "$@" | "${PAGER}"''; }
+        { condition = "ext ace|ar|arc|bz2?|cab|cpio|cpt|deb|dgc|dmg|gz|iso|jar|msi|pkg|rar|shar|tar|tgz|xar|xpi|xz|zip|7z, has aunpack"; command = ''aunpack -- "$@"''; }
+
+        { condition = "ext ace|ar|arc|bz2?|cab|cpio|cpt|deb|dgc|dmg|gz|iso|jar|msi|pkg|rar|shar|tar|tgz|tar\.gz|xar|xpi|xz|zip|7z, has xarchiver, X, flag f"; command = ''xarchiver -- "$@"''; }
 
         # Fallback:
-        ext tar|gz, has tar = tar vvtf "$@" | "${PAGER}"
-        ext tar|gz, has tar = tar vvxf "$@"
+        { condition = "ext tar|gz, has tar"; command = ''tar vvtf "$@" | "${PAGER}"''; }
+        { condition = "ext tar|gz, has tar"; command = ''tar vvxf "$@"''; }
 
-        #-------------------------------------------
-        # Misc
-        #-------------------------------------------
-        label wallpaper, number 11, mime ^image, has feh, X = feh --bg-scale "$1"
-        label wallpaper, number 12, mime ^image, has feh, X = feh --bg-tile "$1"
-        label wallpaper, number 13, mime ^image, has feh, X = feh --bg-center "$1"
-        label wallpaper, number 14, mime ^image, has feh, X = feh --bg-fill "$1"
+        ## Misc
+
+        { condition = "label wallpaper, number 11, mime ^image, has feh, X"; command = ''eh --bg-scale "$1"''; }
+        { condition = "label wallpaper, number 12, mime ^image, has feh, X"; command = ''eh --bg-tile "$1"''; }
+        { condition = "label wallpaper, number 13, mime ^image, has feh, X"; command = ''eh --bg-center "$1"''; }
+        { condition = "label wallpaper, number 14, mime ^image, has feh, X"; command = ''eh --bg-fill "$1"''; }
 
         # Define the editor for non-text files + pager as last action
-                      !mime ^text, !ext xml|json|yml|yaml|csv|tex|py|pl|rb|js|sh|php|lua|rs|nix = ask
-        label editor, !mime ^text, !ext xml|json|yml|yaml|csv|tex|py|pl|rb|js|sh|php|lua|rs|nix = ${EDITOR} -- "$@"
-        label pager,  !mime ^text, !ext xml|json|yml|yaml|csv|tex|py|pl|rb|js|sh|php|lua|rs|nix = ${PAGER} -- "$@"
+        { condition = "              !mime ^text, !ext xml|json|yml|yaml|csv|tex|py|pl|rb|js|sh|php|lua|rs|nix"; command = ''sk''; }
+        { condition = "label editor, !mime ^text, !ext xml|json|yml|yaml|csv|tex|py|pl|rb|js|sh|php|lua|rs|nix"; command = ''{EDITOR} -- "$@"''; }
+        { condition = "label pager,  !mime ^text, !ext xml|json|yml|yaml|csv|tex|py|pl|rb|js|sh|php|lua|rs|nix"; command = ''{PAGER} -- "$@"''; }
 
         # The very last action, so that it's never triggered accidentally, is to execute a program:
-        mime application/x-executable = "$1"
-      '';
-
-      "ranger/plugins/zoxide".source = pkgs.fetchFromGitHub {
-        owner = "jchook";
-        repo = "ranger-zoxide";
-        rev = "b03a5f18939d4bde3a346b221b478410cfb87096";
-        sha256 = "0dddaqm3ipz4cw0m7ynnmkrcxfnnvdsm3c7l7711wmqnkmbjxvrr";
-      };
+        { condition = "mime application/x-executable"; command = ''$1"''; }
+      ];
     };
   };
 }

@@ -1,10 +1,7 @@
 {
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
-    flake-parts = {
-      url = "github:hercules-ci/flake-parts";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
+    flake-parts.url = "github:hercules-ci/flake-parts";
     flake-utils.url = "github:numtide/flake-utils";
     colmena = {
       url = "github:zhaofengli/colmena";
@@ -22,7 +19,7 @@
       };
     };
     home-manager = {
-      url = "github:nix-community/home-manager/release-23.11";
+      url = "github:nix-community/home-manager/release-24.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     home-manager-shell = {
@@ -205,9 +202,9 @@
     };
   };
 
-  outputs = { self, nixpkgs, flake-parts, ... }:
+  outputs = inputs @ { self, nixpkgs, flake-parts, ... }:
     flake-parts.lib.mkFlake {
-      inherit self;
+      inherit inputs;
       specialArgs.lib = nixpkgs.lib.extend (final: prev:
         nixpkgs.lib.recursiveUpdate prev (import parts/lib prev)
       );
