@@ -23,7 +23,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     home-manager-shell = {
-      url = "sourcehut:~dermetfan/home-manager-shell/release-23.11";
+      url = "sourcehut:~dermetfan/home-manager-shell/release-24.05";
       inputs = {
         nixpkgs.follows = "nixpkgs";
         flake-utils.follows = "flake-utils";
