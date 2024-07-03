@@ -687,11 +687,11 @@
     "kak-phantom-selection": {
       "flake": false,
       "locked": {
-        "lastModified": 1681977417,
-        "narHash": "sha256-r7LUQ2XC6pdlKJTev2Xfp4UQc1dlXimZi3JU6X4UsPs=",
+        "lastModified": 1696324629,
+        "narHash": "sha256-KnLoaC9uZVcZDZuuqxe9LMmveH0m4LwQJtUhDolKWOA=",
         "owner": "occivink",
         "repo": "kakoune-phantom-selection",
-        "rev": "253857c550c90df2d719f52a61af3d77ab059957",
+        "rev": "ffbed4ac8a9b2f0277213ca479a62ccc6620e33d",
         "type": "github"
       },
       "original": {
@@ -815,11 +815,11 @@
     "kak-themes": {
       "flake": false,
       "locked": {
-        "lastModified": 1671900539,
-        "narHash": "sha256-iq6Q0bXY7sofnMLfRbJth4YEuo5l0qia607Ifqh+8S4=",
+        "lastModified": 1714463530,
+        "narHash": "sha256-lt4AqWVNpP2eOitzMVxbFMj9aMXgLRNId/BEBK6xeYU=",
         "owner": "anhsirk0",
         "repo": "kakoune-themes",
-        "rev": "98c36fa83d8dcdb3b9c6688d4ef35163ce65d513",
+        "rev": "b8e18c63c1bef57085fb1604b60e91b61f1732c4",
         "type": "github"
       },
       "original": {
