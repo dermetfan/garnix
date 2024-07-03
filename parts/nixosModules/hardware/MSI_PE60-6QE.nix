@@ -35,6 +35,20 @@ in {
         nvidia.acceptLicense = true;
       };
 
+      # TODO remove once no longer needed
+      # https://github.com/NixOS/nixpkgs/issues/319838#issuecomment-2171123309
+      nixpkgs.overlays = [
+        (final: prev: {
+          bumblebee = prev.bumblebee.override {
+            nvidia_x11_i686 = null;
+            libglvnd_i686 = null;
+          };
+          primus = prev.primus.override {
+            primusLib_i686 = null;
+          };
+        })
+      ];
+
       boot = {
         initrd.availableKernelModules = [
           "xhci_pci"
