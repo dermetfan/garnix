@@ -38,6 +38,10 @@
     services = {
       gpg-agent.enable = true;
 
+      # TODO remove once fixed upstream
+      # https://github.com/nix-community/home-manager/issues/5146#issuecomment-2156125022
+      gpg-agent.pinentryPackage = pkgs.pinentry;
+
       blueman-applet        .enable = config.profiles.dermetfan.environments.gui.enable && nixosConfig.hardware.bluetooth.enable or true;
 
       parcellite            .enable = config.xsession.enable;
