@@ -7,7 +7,7 @@
 
     window.opacity = 0.9;
 
-    key_bindings = [
+    keyboard.bindings = [
       { key = "Left";  mods = "Alt|Shift";     chars = ''\\x1b[1;4D''; }
       { key = "Right"; mods = "Alt|Shift";     chars = ''\\x1b[1;4C''; }
       { key = "Up";    mods = "Alt|Shift";     chars = ''\\x1b[1;4A''; }
