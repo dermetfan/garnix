@@ -89,6 +89,10 @@ let
     }
     {
       category = "Networking";
+      package = "doggo";
+    }
+    {
+      category = "Networking";
       package = "sipcalc";
     }
     {
