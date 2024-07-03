@@ -36,8 +36,10 @@
     xserver = {
       enable = true;
 
-      layout = lib.mkForce "de";
-      xkbVariant = lib.mkForce "";
+      xkb = {
+        layout = lib.mkForce "de";
+        variant = lib.mkForce "";
+      };
 
       libinput.enable = true;
 

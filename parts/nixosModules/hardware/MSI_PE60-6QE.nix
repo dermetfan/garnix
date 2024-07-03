@@ -87,32 +87,36 @@ in {
         esac
       '';
     in lib.mkIf (cfg.enableGPU == "bumblebee") {
-      services.xserver.videoDrivers = [ "intel" ];
-
       hardware.bumblebee.enable = true;
 
       systemd.services.bumblebeed.wantedBy = lib.mkForce [];
 
-      services.xserver.displayManager = let
-        hasSlim = lib.versionOlder lib.version "20.03";
-      in {
-        # There is no generic post display manager hook
-        # so this will only start, but not stop, bumblebeed.
-        sessionCommands = lib.optionalString (
-          (!hasSlim || !config.services.xserver.displayManager.slim.enable) &&
-          !config.services.xserver.displayManager.sddm.enable
-        ) "${script} start";
+      services = {
+        xserver = {
+          videoDrivers = [ "intel" ];
 
-        sddm = {
+          displayManager = let
+            hasSlim = lib.versionOlder lib.version "20.03";
+          in {
+            # There is no generic post display manager hook
+            # so this will only start, but not stop, bumblebeed.
+            sessionCommands = lib.optionalString (
+              (!hasSlim || !config.services.xserver.displayManager.slim.enable) &&
+              !config.services.xserver.displayManager.sddm.enable
+            ) "${script} start";
+          } // (lib.optionalAttrs hasSlim {
+            slim.extraConfig = ''
+              sessionstart_cmd ${script} start
+              sessionstop_cmd  ${script} stop
+            '';
+          });
+        };
+
+        displayManager.sddm = {
           setupScript = "${script} start";
           stopScript  = "${script} stop";
         };
-      } // (lib.optionalAttrs hasSlim {
-        slim.extraConfig = ''
-          sessionstart_cmd ${script} start
-          sessionstop_cmd  ${script} stop
-        '';
-      });
+      };
 
       powerManagement = let
         pid = "/run/bumblebeed.pid";

@@ -20,18 +20,20 @@ in {
 
     services = {
       xserver = {
-        layout = "us";
-        xkbVariant = "norman";
-        xkbOptions = "compose:lwin,compose:rwin,eurosign:e";
+        xkb = {
+          layout = "us";
+          variant = "norman";
+          options = "compose:lwin,compose:rwin,eurosign:e";
+        };
 
         synaptics.twoFingerScroll = true;
       };
 
       kmscon = {
         extraConfig = ''
-          xkb-layout=${config.services.xserver.layout}
-          xkb-variant=${config.services.xserver.xkbVariant}
-          xkb-options=${config.services.xserver.xkbOptions}
+          xkb-layout=${config.services.xserver.xkb.layout}
+          xkb-variant=${config.services.xserver.xkb.variant}
+          xkb-options=${config.services.xserver.xkb.options}
         '';
         hwRender = true;
       };
