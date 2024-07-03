@@ -7,7 +7,7 @@
     { key = "age"; imports = [ inputs.agenix.nixosModules.age ]; }
   ];
 
-  system.stateVersion = "23.11";
+  system.stateVersion = "24.05";
 
   profiles = {
     handson.enable = true;
@@ -63,7 +63,7 @@
       game.enable = true;
     };
 
-    home.stateVersion = "23.11";
+    home.stateVersion = "24.05";
 
     xsession.initExtra = ''
       telegram-desktop &
