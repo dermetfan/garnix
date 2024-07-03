@@ -8,14 +8,14 @@
     window.opacity = 0.9;
 
     key_bindings = [
-      { key = "Left";  mods = "Alt|Shift";     chars = "\\x1b[1;4D"; }
-      { key = "Right"; mods = "Alt|Shift";     chars = "\\x1b[1;4C"; }
-      { key = "Up";    mods = "Alt|Shift";     chars = "\\x1b[1;4A"; }
-      { key = "Down";  mods = "Alt|Shift";     chars = "\\x1b[1;4D"; }
-      { key = "Left";  mods = "Control|Shift"; chars = "\\x1b[1;6D"; }
-      { key = "Right"; mods = "Control|Shift"; chars = "\\x1b[1;6C"; }
-      { key = "Up";    mods = "Control|Shift"; chars = "\\x1b[1;6A"; }
-      { key = "Down";  mods = "Control|Shift"; chars = "\\x1b[1;6B"; }
+      { key = "Left";  mods = "Alt|Shift";     chars = ''\\x1b[1;4D''; }
+      { key = "Right"; mods = "Alt|Shift";     chars = ''\\x1b[1;4C''; }
+      { key = "Up";    mods = "Alt|Shift";     chars = ''\\x1b[1;4A''; }
+      { key = "Down";  mods = "Alt|Shift";     chars = ''\\x1b[1;4D''; }
+      { key = "Left";  mods = "Control|Shift"; chars = ''\\x1b[1;6D''; }
+      { key = "Right"; mods = "Control|Shift"; chars = ''\\x1b[1;6C''; }
+      { key = "Up";    mods = "Control|Shift"; chars = ''\\x1b[1;6A''; }
+      { key = "Down";  mods = "Control|Shift"; chars = ''\\x1b[1;6B''; }
       { mode = "Vi|~Search"; key = "R";        mods = "Shift";   action = "ScrollLineUp";            }
       { mode = "Vi|~Search"; key = "I";        mods = "Shift";   action = "ScrollLineDown";          }
       { mode = "Vi|~Search"; key = "PageUp";                     action = "ScrollPageUp";            }
