@@ -1,8 +1,16 @@
+{ pkgs, ... }:
+
 {
-  home.sessionVariables = {
-    TERMINAL = "alacritty";
-    EDITOR = "kak";
-    PAGER = "less";
+  home = {
+    sessionVariables = {
+      TERMINAL = "alacritty";
+      EDITOR = "kak";
+      PAGER = "less";
+    };
+
+    packages = with pkgs; [
+      catalog
+    ];
   };
 
   programs = {
