@@ -10,7 +10,21 @@
       jq      .enable = true;
     };
 
-    services.mako.enable = true;
+    services = {
+      mako.enable = true;
+
+      wob = {
+        enable = true;
+        settings = {
+          "" = {
+            background_color = "282828D9";
+            bar_color = "DBDBB2FF";
+          };
+          "style.volume".border_color = "FB3934FF";
+          "style.backlight".border_color = "DBDBB2FF";
+        };
+      };
+    };
 
     home.packages = with pkgs; [
       clipman wl-clipboard
@@ -56,8 +70,9 @@
 
         keybindings = let
           mod = config.wayland.windowManager.sway.config.modifier;
-          wobShowVolume = ''printf "%d 282828D9 FB3934FF DBDBB2FF\n" $(amixer sget Master | grep -m 1 '\[on\]' | grep -E '\[[[:digit:]]{1,3}%\]' -o | grep -E '[[:digit:]]{1,3}' -o || echo 0) > $SWAYSOCK.wob'';
-          wobShowBacklight = ''printf '%.0f 282828D9 DBDBB2FF DBDBB2FF\n' $(light -G) > $SWAYSOCK.wob'';
+          # XXX use wireplumber for this. example: https://github.com/nix-community/home-manager/issues/3993#issuecomment-1554484665
+          wobShowVolume = ''printf '%d volume\n' $(amixer sget Master | grep -m 1 '\[on\]' | grep -E '\[[[:digit:]]{1,3}%\]' -o | grep -E '[[:digit:]]{1,3}' -o || echo 0) > $XDG_RUNTIME_DIR/wob.sock'';
+          wobShowBacklight = ''printf '%.0f backlight\n' $(light -G) > $XDG_RUNTIME_DIR/wob.sock'';
         in {
           "${mod}+c" = "exec clipman pick --tool rofi --max-items=50";
 
@@ -113,7 +128,6 @@
 
       extraConfig = ''
         exec wl-paste --type text --watch clipman store --max-items=50
-        exec mkfifo $SWAYSOCK.wob && tail -f $SWAYSOCK.wob | wob
       '';
 
       # fails as it is not able to access the background image
