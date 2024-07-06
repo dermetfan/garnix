@@ -999,6 +999,16 @@ in {
             filetypes = [ "zig" ];
             roots = [ "build.zig" ];
             command = "zls";
+            args = [
+              "--config-path"
+              (pkgs.writers.writeJSON "zls.json" {
+                # https://kristoff.it/blog/improving-your-zls-experience/
+                enable_build_on_save = true;
+                build_on_save_step = "check";
+
+                enable_autofix = true;
+              })
+            ];
           };
 
           haskell = {
