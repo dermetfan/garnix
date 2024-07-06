@@ -478,16 +478,15 @@
     "kak-easymotion": {
       "flake": false,
       "locked": {
-        "lastModified": 1720005003,
+        "lastModified": 1720276949,
         "narHash": "sha256-/V2K253aoINQQ5RiWKPBFSzc3HsWJRH+di6oaivsHEA=",
-        "owner": "~dermetfan",
+        "owner": "~voroskoi",
         "repo": "easymotion.kak",
-        "rev": "4e27667127415f446692581f6984c615f5c4eb33",
+        "rev": "215bc523324347d1e8920e80d8ac1763212941ab",
         "type": "sourcehut"
       },
       "original": {
-        "owner": "~dermetfan",
-        "ref": "fix-modechange",
+        "owner": "~voroskoi",
         "repo": "easymotion.kak",
         "type": "sourcehut"
       }

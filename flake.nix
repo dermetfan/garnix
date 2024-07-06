@@ -85,9 +85,7 @@
       flake = false;
     };
     kak-easymotion = {
-      # TODO switch back once fixed upstream
-      # url = "sourcehut:~voroskoi/easymotion.kak";
-      url = "sourcehut:~dermetfan/easymotion.kak/fix-modechange";
+      url = "sourcehut:~voroskoi/easymotion.kak";
       flake = false;
     };
     kak-sudo-write = {
