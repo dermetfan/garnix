@@ -700,29 +700,6 @@ in {
               '';
             }
             {
-              name = "WinSetOption";
-              option = "filetype=nix";
-              commands = ''
-                set-option window indentwidth 2
-                set-option window tabstop 2
-
-                # smarttab plugin
-                expandtab
-                set-option window softtabstop 2
-              '';
-            }
-            {
-              name = "WinSetOption";
-              option = "filetype=zig";
-              commands = ''
-                set-option window indentwidth 4
-
-                # smarttab plugin
-                expandtab
-                set-option window softtabstop 4
-              '';
-            }
-            {
               name = "BufCreate";
               option = ".*";
               commands = ''
@@ -796,9 +773,39 @@ in {
             }
             {
               name = "WinSetOption";
-              option = "filetype=(zig|go)";
+              option = "filetype=nix";
+              commands = ''
+                set-option window indentwidth 2
+                set-option window tabstop 2
+
+                # smarttab plugin
+                expandtab
+                set-option window softtabstop 2
+              '';
+            }
+            {
+              name = "WinSetOption";
+              option = "filetype=zig";
+              commands = ''
+                set-option window indentwidth 4
+
+                # smarttab plugin
+                expandtab
+                set-option window softtabstop 4
+
+                set-option buffer formatcmd 'zig fmt'
+                set-option global lsp_server_configuration zls.zig_lib_path="%sh{zig env | jq -r .lib_dir}/lib/zig"
+                set-option -add global lsp_server_configuration zls.warn_style=true
+                set-option -add global lsp_server_configuration zls.enable_semantic_tokens=true
+              '';
+            }
+            {
+              name = "WinSetOption";
+              option = "filetype=(nix|zig|rust|go|haskell)";
               commands = ''
                 set-option window lsp_hover_anchor true
+                set-option window lsp_auto_highlight_references true
+                set-face window Reference default,rgba:38383838+d
                 hook window -group semantic-tokens BufReload .* lsp-semantic-tokens
                 hook window -group semantic-tokens NormalIdle .* lsp-semantic-tokens
                 hook window -group semantic-tokens InsertIdle .* lsp-semantic-tokens
@@ -809,17 +816,6 @@ in {
                 lsp-auto-signature-help-enable
                 lsp-diagnostic-lines-enable window
                 lsp-inline-diagnostics-enable window
-                lsp-inlay-diagnostics-enable window ${""/*FIXME doesn't work automatically*/}
-              '';
-            }
-            {
-              name = "WinSetOption";
-              option = "filetype=zig";
-              commands = ''
-                set-option buffer formatcmd 'zig fmt'
-                set-option global lsp_server_configuration zls.zig_lib_path="%sh{zig env | jq -r .lib_dir}/lib/zig"
-                set-option -add global lsp_server_configuration zls.warn_style=true
-                set-option -add global lsp_server_configuration zls.enable_semantic_tokens=true
               '';
             }
           ];
