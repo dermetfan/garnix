@@ -42,6 +42,14 @@ let
       package = "ijq";
     }
     {
+      category = "Developent/Tools";
+      package = "fq";
+    }
+    {
+      category = "Developent/Tools";
+      package = "gron";
+    }
+    {
       category = "Developent/Tools/Nix";
       package = "deadnix";
     }
