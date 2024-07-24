@@ -40,26 +40,47 @@
     userEmail = "serverkorken@gmail.com";
 
     aliases = {
-      st = "status --short";
-      lg = "log --graph --decorate --abbrev-commit --pretty=medium";
+      st = "status";
+      lg = "log --graph";
       co = "checkout";
       ci = "commit";
-      pl = "pull --prune";
       spull = ''!git pull "$@" && git submodule sync --recursive && git submodule update --init --recursive'';
     };
 
     extraConfig = {
-      status.submoduleSummary = true;
+      log = {
+        abbrevCommit = true;
+        date = "iso";
+        decorate = true;
+        initialDecorationSet = "all";
+      };
+      status = {
+        short = true;
+        submoduleSummary = true;
+      };
       diff = {
         submodule = "log";
         colorMoved = "default";
         colorMovedWS = "allow-indentation-change";
         noprefix = true;
       };
+      push.autoSetupRemote = true;
       pull.ff = "only";
-      fetch.writeCommitGraph = true;
+      fetch = {
+        prune = true;
+        pruneTags = true;
+        writeCommitGraph = true;
+      };
+      format.pretty = "short";
       gc.writeCommitGraph = true;
       rerere.enabled = true;
+      revert.reference = true;
+      rebase = {
+        rescheduleFailedExec = true;
+        missingCommitsCheck = "warn";
+        updateRefs = true;
+      };
+      interactive.singleKey = true;
     };
   };
 }
