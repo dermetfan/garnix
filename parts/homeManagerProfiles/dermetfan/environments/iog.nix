@@ -1,4 +1,4 @@
-{ nixosConfig ? null, config, lib, pkgs, ... }:
+{ nixosConfig ? null, config, lib, ... }:
 
 let
   cfg = config.profiles.dermetfan.environments.iog;
