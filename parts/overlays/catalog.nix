@@ -72,6 +72,10 @@ let
     }
     {
       category = "Hardware";
+      package = "btop";
+    }
+    {
+      category = "Hardware";
       package = "iotop";
     }
     {
