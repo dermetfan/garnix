@@ -17,6 +17,8 @@ in {
         generateCaches = true;
       };
 
+      atuin.enable = true;
+
       mercurial.enable = true;
       git.enable = true;
       jq.enable = true;
