@@ -133,6 +133,10 @@ let
     }
     {
       category = "Networking";
+      package = "mitmproxy";
+    }
+    {
+      category = "Networking";
       package = "nethogs";
     }
     {
