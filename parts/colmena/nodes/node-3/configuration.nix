@@ -248,6 +248,7 @@
         recvu = true;
         zfsGetType = true;
         skipIntermediates = true;
+        oracleMode = true;
       };
       zetup = let
         timestampFormat = "%Y-%m-%dT%H:%M:%SZ";
