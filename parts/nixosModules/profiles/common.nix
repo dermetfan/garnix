@@ -28,7 +28,7 @@ in {
 
           system-features = lib.mkDefault [ "recursive-nix" ];
 
-          experimental-features = [ "nix-command" "flakes" "recursive-nix" "impure-derivations" "ca-derivations" "fetch-closure" "repl-flake" ];
+          experimental-features = [ "nix-command" "flakes" "recursive-nix" "impure-derivations" "ca-derivations" "fetch-closure" ];
         };
       };
 

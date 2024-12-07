@@ -26,13 +26,15 @@
       };
     };
 
-    home.packages = with pkgs; [
-      clipman wl-clipboard
-      grim slurp
-      wob alsaUtils
-      libnotify
-      bash
-    ];
+    home.packages = with pkgs;
+      [
+        clipman wl-clipboard
+        grim slurp
+        wob alsa-utils
+        libnotify
+        bash
+      ] ++
+      lib.optional (!nixosConfig.programs.light.enable) light;
 
     wayland.windowManager.sway = {
       wrapperFeatures.gtk = true;
@@ -72,7 +74,6 @@
           mod = config.wayland.windowManager.sway.config.modifier;
           # XXX use wireplumber for this. example: https://github.com/nix-community/home-manager/issues/3993#issuecomment-1554484665
           wobShowVolume = ''printf '%d volume\n' $(amixer sget Master | grep -m 1 '\[on\]' | grep -E '\[[[:digit:]]{1,3}%\]' -o | grep -E '[[:digit:]]{1,3}' -o || echo 0) > $XDG_RUNTIME_DIR/wob.sock'';
-          wobShowBacklight = ''printf '%.0f backlight\n' $(light -G) > $XDG_RUNTIME_DIR/wob.sock'';
         in {
           "${mod}+c" = "exec clipman pick --tool rofi --max-items=50";
 
@@ -85,22 +86,23 @@
           "${mod}+Grave" = lib.mkIf config.services.mako.enable ''exec makoctl dismiss'';
           "${mod}+Asciitilde" = lib.mkIf config.services.mako.enable ''exec makoctl restore'';
 
-          "XF86AudioRaiseVolume" = "exec ${lib.optionalString (!(nixosConfig.sound.enable or false && nixosConfig.sound.mediaKeys.enable or false)) "amixer -q set Master 2%+ unmute &&"} ${wobShowVolume}";
-          "XF86AudioLowerVolume" = "exec ${lib.optionalString (!(nixosConfig.sound.enable or false && nixosConfig.sound.mediaKeys.enable or false)) "amixer -q set Master 2%- unmute &&"} ${wobShowVolume}";
+          "XF86AudioRaiseVolume" = "exec ${lib.optionalString (!nixosConfig.misc.hotkeys.sound.enable or false) "amixer -q set Master 2%+ unmute &&"} ${wobShowVolume}";
+          "XF86AudioLowerVolume" = "exec ${lib.optionalString (!nixosConfig.misc.hotkeys.sound.enable or false) "amixer -q set Master 2%- unmute &&"} ${wobShowVolume}";
           "XF86AudioMute" =
             let
               toggle = ''(amixer sget Master | grep -m 1 -E '(Mono|Right|Left):' | grep '\[on\]' -q && amixer -q set Master mute || amixer -q set Master unmute)''; # FIXME works but seems to toggle twice
             in
-              "exec ${lib.optionalString (!nixosConfig.sound.mediaKeys.enable or false) "amixer -q set Master mute &&"} ${wobShowVolume}";
+              "exec ${lib.optionalString (!nixosConfig.misc.hotkeys.sound.enable or false) "amixer -q set Master mute &&"} ${wobShowVolume}";
 
           "XF86ScreenSaver"    = "exec swaylock";
           "${mod}+Scroll_Lock" = "exec swaylock";
-        } // lib.optionalAttrs (!nixosConfig.misc.hotkeys.enableBacklightKeys) {
-          "XF86MonBrightnessUp"         = "exec light -A 5 && ${wobShowBacklight}";
-          "XF86MonBrightnessDown"       = "exec light -U 5 && ${wobShowBacklight}";
-          "Shift+XF86MonBrightnessUp"   = "exec light -rA 1 && ${wobShowBacklight}";
-          "Shift+XF86MonBrightnessDown" = "exec light -rU 1 && ${wobShowBacklight}";
-        } // {
+        } // (let
+          systemWide = with nixosConfig.programs.light; enable && brightnessKeys.enable;
+          wobShowBacklight = ''printf '%.0f backlight\n' $(light -G) > $XDG_RUNTIME_DIR/wob.sock'';
+        in {
+          "XF86MonBrightnessUp"   = "exec ${lib.optionalString (!systemWide) "light -A 5 &&"} ${wobShowBacklight}";
+          "XF86MonBrightnessDown" = "exec ${lib.optionalString (!systemWide) "light -U 5 &&"} ${wobShowBacklight}";
+        }) // {
           "${mod}+Alt+Space" = let
             toggle = pkgs.writeScript "sway-toggle-keymap" ''
               #! ${pkgs.bash}/bin/bash

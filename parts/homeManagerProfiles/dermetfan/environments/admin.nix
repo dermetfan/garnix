@@ -20,7 +20,6 @@
     nix-du
     nix-output-monitor
     nix-prefetch-scripts
-    nix-universal-prefetch
     procs
     pv
     rsync

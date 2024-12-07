@@ -10,7 +10,7 @@ in {
   config = {
     home.packages = with pkgs; [
       alacritty
-      alsaUtils
+      alsa-utils
     ];
 
     programs.volumeicon.settings = ''

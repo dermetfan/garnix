@@ -86,9 +86,7 @@
       settings = {
         address = "127.0.0.1";
         port = 4918;
-        auth = true;
-
-        modify = true;
+        behindProxy = true;
 
         cors = {
           enabled = true;
@@ -100,10 +98,13 @@
           ];
         };
 
+        directory = "/var/empty";
+        permissions = "CRUD";
+
         users = lib.mapAttrsToList
           (username: password: {
             inherit username password;
-            scope = "/mnt/webdav/home/${username}";
+            directory = "/mnt/webdav/home/${username}";
           })
           {
             dermetfan = "{bcrypt}$2a$05$t73.WbNz16IN8Qe6GEoXneAEiMb8diJorYWtHVTgtX/xP5hBatItK";
@@ -340,7 +341,7 @@
     initrd = {
       network.ssh.port = 2222;
 
-      postDeviceCommands = lib.mkAfter ''
+      postResumeCommands = lib.mkAfter ''
         zfs rollback -r root/root@blank
         zfs rollback -r root/home@blank
       '';

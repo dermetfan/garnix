@@ -8,7 +8,7 @@
     enableIonIntegration = false;
     enableNushellIntegration = false;
 
-    icons = true;
+    icons = "auto";
     git = true;
 
     extraOptions = [

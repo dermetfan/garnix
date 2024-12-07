@@ -106,7 +106,7 @@ in {
       # breaks impure nix-shell before Nix 1.11.5
       # https://github.com/NixOS/nix/issues/976
       # https://github.com/NixOS/nixpkgs/issues/14172
-      bash.enableCompletion = lib.mkIf (
+      bash.completion.enable = lib.mkIf (
         lib.versionAtLeast builtins.nixVersion "1.11.5"
       ) false;
 
@@ -124,14 +124,8 @@ in {
 
     console.useXkbConfig = true;
 
-    # Does not work with hardware.pulseaudio.enable
-    # because amixer cannot connect to PulseAudio
-    # user daemon as another user (root)
-    # => share PulseAudio cookie?
-    sound.mediaKeys.volumeStep = "2%";
-
     hardware = {
-      opengl.driSupport32Bit = pkgs.stdenv.isx86_64;
+      graphics.enable32Bit = pkgs.stdenv.isx86_64;
 
       pulseaudio = {
         support32Bit = pkgs.stdenv.isx86_64;
