@@ -14,9 +14,12 @@
     };
   };
 
-  hardware."MSI PE60-6QE" = {
-    enable = true;
-    enableGPU = false;
+  hardware = {
+    "MSI PE60-6QE" = {
+      enable = true;
+      enableGPU = false;
+    };
+    nvidia.open = false;
   };
 
   boot.loader.grub = {

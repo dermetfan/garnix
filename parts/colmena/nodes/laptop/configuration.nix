@@ -7,7 +7,7 @@
     { key = "age"; imports = [ inputs.agenix.nixosModules.age ]; }
   ];
 
-  system.stateVersion = "24.05";
+  system.stateVersion = "24.11";
 
   profiles = {
     handson.enable = true;
@@ -22,7 +22,7 @@
     yggdrasil.enable = true;
   };
 
-  misc.hotkeys.enableBacklightKeys = false; # handled by sway config
+  programs.light.brightnessKeys.enable = lib.mkForce false; # handled by sway config
 
   hardware.yubikey.enable = true;
 
@@ -63,7 +63,7 @@
       game.enable = true;
     };
 
-    home.stateVersion = "24.05";
+    home.stateVersion = "24.11";
 
     xsession.initExtra = ''
       telegram-desktop &

@@ -8,7 +8,7 @@
     inputs.impermanence.nixosModules.impermanence
   ];
 
-  system.stateVersion = "24.05";
+  system.stateVersion = "24.11";
 
   environment.persistence."/state".files = map (key: key.path) config.services.openssh.hostKeys;
 
@@ -77,7 +77,7 @@
     initrd = {
       network.ssh.port = 2222;
 
-      postDeviceCommands = lib.mkAfter ''
+      postResumeCommands = lib.mkAfter ''
         zfs rollback -r root/root@blank
         zfs rollback -r root/home@blank
       '';

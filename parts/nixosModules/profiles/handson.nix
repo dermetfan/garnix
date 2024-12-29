@@ -8,11 +8,14 @@ in {
   options.profiles.handson.enable = lib.mkEnableOption "hands-on settings";
 
   config = lib.mkIf cfg.enable {
-    misc.hotkeys.enable = true;
+    misc.hotkeys = {
+      enable = true;
+      sound.enable = !config.services.xserver.enable &&
+        # https://github.com/NixOS/nixpkgs/pull/337345#issuecomment-2527813220
+        false;
+    };
 
     profiles.gui.enable = lib.mkDefault config.services.xserver.enable;
-
-    sound.mediaKeys.enable = !config.services.xserver.enable;
 
     environment.systemPackages = with pkgs;
       [ ntfs3g exfat ] ++
@@ -44,7 +47,7 @@ in {
     };
 
     hardware = {
-      opengl.enable = true;
+      graphics.enable = true;
       bluetooth.powerOnBoot = false;
       uhk.enable = true;
       vial.enable = true;

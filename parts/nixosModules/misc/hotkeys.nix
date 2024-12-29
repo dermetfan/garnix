@@ -15,6 +15,7 @@ let
     [
       linuxPackages.cpupower
     ] ++
+    (lib.optional cfg.sound.enable alsa-utils) ++
     (lib.optionals config.services.xserver.enable [
       maim slop
       xorg.xhost
@@ -26,13 +27,25 @@ in {
   options.misc.hotkeys = with lib; {
     enable = mkEnableOption "hotkeys";
 
-    enableBacklightKeys = mkEnableOption "backlight keys" // {
-      default = true;
-    };
-
     screenshotsDirectory = mkOption {
       type = types.path;
       default = "/tmp/screenshots";
+    };
+
+    sound = {
+      enable = mkEnableOption "sound keys" // {
+        default = true;
+      };
+
+      volumeStep = mkOption {
+        type = types.str;
+        default = "2%";
+        example = "1";
+        description = ''
+          The value by which to increment/decrement volume on media keys.
+          See amixer(1) for allowed values.
+        '';
+      };
     };
 
     keyCodes = mkOption {
@@ -72,6 +85,22 @@ in {
             type = listOf int;
             default = [];
           };
+          XF86_AudioMute = mkOption {
+            type = listOf int;
+            default = [ 113 ];
+          };
+          XF86_AudioLowerVolume = mkOption {
+            type = listOf int;
+            default = [ 114 ];
+          };
+          XF86_AudioRaiseVolume = mkOption {
+            type = listOf int;
+            default = [ 115 ];
+          };
+          XF86XK_AudioMicMute = mkOption {
+            type = listOf int;
+            default = [ 190 ];
+          };
         };
       };
       default = {};
@@ -79,8 +108,6 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    programs.light.enable = true;
-
     services = {
       actkbd = {
         enable = true;
@@ -185,36 +212,29 @@ in {
                 "export DISPLAY=':0' && xinput --set-prop '${touchpad}' 'Device Enabled' $(xinput --list-props '${touchpad}' | grep -c 'Device Enabled ([[:digit:]]\\+):[[:space:]].*0')";
             }
           ]) ++
-          (lib.optionals cfg.enableBacklightKeys [
+          (lib.optionals cfg.sound.enable [
             {
-              keys = XF86MonBrightnessUp;
-              events = [ "key" "rep" ];
-              command = "light -A 10";
+              keys = XF86_AudioMute;
+              events = [ "key" ];
+              command = "amixer -q set Master toggle";
             }
+
             {
-              keys = XF86MonBrightnessDown;
+              keys = XF86_AudioLowerVolume;
               events = [ "key" "rep" ];
-              command = "light -U 10";
+              command = "amixer -q set Master ${cfg.sound.volumeStep}- unmute";
             }
+
             {
-              keys = [ Shift_L ] ++ XF86MonBrightnessUp;
+              keys = XF86_AudioRaiseVolume;
               events = [ "key" "rep" ];
-              command = "light -rA 1";
+              command = "amixer -q set Master ${cfg.sound.volumeStep}+ unmute";
             }
+
             {
-              keys = [ Shift_R ] ++ XF86MonBrightnessUp;
-              events = [ "key" "rep" ];
-              command = "light -rA 1";
-            }
-            {
-              keys = [ Shift_L ] ++ XF86MonBrightnessDown;
-              events = [ "key" "rep" ];
-              command = "light -rU 1";
-            }
-            {
-              keys = [ Shift_R ] ++ XF86MonBrightnessDown;
-              events = [ "key" "rep" ];
-              command = "light -rU 1";
+              keys = XF86XK_AudioMicMute;
+              events = [ "key" ];
+              command = "amixer -q set Capture toggle";
             }
           ]);
         };
