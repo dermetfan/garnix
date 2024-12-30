@@ -33,6 +33,10 @@
     };
     impermanence.url = "github:nix-community/impermanence";
     nur.url = "github:nix-community/NUR";
+    nix-index-database = {
+      url = "github:nix-community/nix-index-database";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     neuron.url = "github:srid/neuron";
     programs-sqlite = {
       url = "github:wamserma/flake-programs-sqlite";

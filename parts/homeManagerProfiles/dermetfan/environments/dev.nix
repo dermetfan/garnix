@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ self, config, lib, pkgs, ... }:
 
 let
   cfg = config.profiles.dermetfan.environments.dev;
@@ -9,6 +9,10 @@ in {
     enableRust = mkEnableOption "Rust development programs";
     enableWeb = mkEnableOption "web development programs";
   };
+
+  imports = [
+    self.inputs.nix-index-database.hmModules.nix-index
+  ];
 
   config = {
     programs = {
@@ -29,6 +33,8 @@ in {
       geany.enable = config.profiles.dermetfan.environments.gui.enable;
 
       cargo.enable = cfg.enableRust;
+
+      nix-index-database.comma.enable = true;
     };
 
     home.packages = with pkgs;
@@ -36,7 +42,6 @@ in {
         man-pages
         ack
         grex
-        comma
         nox
         nixos-shell
         pijul
