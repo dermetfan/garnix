@@ -28,7 +28,10 @@ in {
       jq.enable = true;
       ripgrep.enable = true;
       skim.enable = true;
-      direnv.enable = true;
+      direnv = {
+        enable = true;
+        nix-direnv.enable = true;
+      };
 
       geany.enable = config.profiles.dermetfan.environments.gui.enable;
 
