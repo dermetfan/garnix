@@ -13,10 +13,10 @@
       };
     };
     agenix = {
-      url = "github:ryantm/agenix";
+      url = "github:yaxitech/ragenix";
       inputs = {
         nixpkgs.follows = "nixpkgs";
-        home-manager.follows = "home-manager";
+        flake-utils.follows = "flake-utils";
       };
     };
     home-manager = {
