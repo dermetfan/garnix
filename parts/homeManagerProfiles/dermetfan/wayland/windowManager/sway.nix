@@ -37,6 +37,8 @@
       lib.optional (!nixosConfig.programs.light.enable) light;
 
     wayland.windowManager.sway = {
+      systemd.xdgAutostart = true;
+
       wrapperFeatures.gtk = true;
 
       customKeyboards = [
