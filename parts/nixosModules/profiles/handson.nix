@@ -47,7 +47,6 @@ in {
     };
 
     hardware = {
-      graphics.enable = true;
       bluetooth.powerOnBoot = false;
       uhk.enable = true;
       vial.enable = true;

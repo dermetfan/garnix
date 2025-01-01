@@ -23,5 +23,7 @@ in {
 
       unclutter.enable = config.services.xserver.enable;
     };
+
+    hardware.graphics.enable = true;
   };
 }
