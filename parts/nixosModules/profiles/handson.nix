@@ -17,9 +17,9 @@ in {
 
     profiles.gui.enable = lib.mkDefault config.services.xserver.enable;
 
-    environment.systemPackages = with pkgs;
-      [ ntfs3g exfat ] ++
-      lib.optional config.programs.zsh.enable nix-zsh-completions;
+    environment.systemPackages = with pkgs; [
+      ntfs3g exfat
+    ];
 
     services = {
       xserver = {
