@@ -49,10 +49,7 @@ let
     );
 in
 
-lib.mapAttrs' (key:
-  # correct for RULES=secrets from the project root dir
-  lib.nameValuePair "secrets/${key}"
-) (withDeployers (
+withDeployers (
   builtins.listToAttrs (map (k: {
     name = "${k}.age";
     value = {};
@@ -97,4 +94,4 @@ lib.mapAttrs' (key:
     "authelia/storage" = [ "node-3" ];
     "authelia/users.json" = [ "node-3" ];
   }
-))
+)
