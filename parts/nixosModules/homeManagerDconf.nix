@@ -11,12 +11,10 @@ in {
 
   config.programs.dconf.enable = lib.mkIf (
     cfg &&
-    builtins.any (k: let
-      v = config.home-manager.users.${k};
-    in
-      v.dconf.settings != {} ||
-      v.services.easyeffects.enable ||
-      v.services.pulseeffects.enable
-    ) (builtins.attrNames config.home-manager.users)
+    builtins.any (user:
+      user.dconf.settings != {} ||
+      user.services.easyeffects.enable ||
+      user.services.pulseeffects.enable
+    ) (builtins.attrValues config.home-manager.users)
   ) true;
 }
