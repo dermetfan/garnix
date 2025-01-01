@@ -222,6 +222,19 @@
         inherit extraConfig;
       };
 
+      "webdav.ygg.${config.networking.domain}" = {
+        listen = [
+          {
+            addr = "[${config.profiles.yggdrasil.ip}]";
+            port = 8808;
+          }
+        ];
+
+        locations."/".proxyPass = with config.services.webdav.settings; "http://${address}:${toString port}";
+
+        inherit extraConfig;
+      };
+
       ${config.services.filestash.settings.general.host} = _: {
         imports = [
           authelia
@@ -335,6 +348,16 @@
       iog.enable = true;
     };
   };
+
+  networking.firewall.extraCommands = ''
+    ip6tables \
+      -I INPUT \
+      -p tcp \
+      -s ${nodes.muttop.config.profiles.yggdrasil.ip} \
+      -d ${config.profiles.yggdrasil.ip} \
+      --dport ${toString (builtins.elemAt config.services.nginx.virtualHosts."webdav.ygg.${config.networking.domain}".listen 0).port} \
+      -j ACCEPT
+  '';
 
   fileSystems."/mnt/webdav/home" = {
     fsType = "fuse.bindfs";

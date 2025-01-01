@@ -69,9 +69,9 @@ withDeployers (
     "secrets.nix"
   ] //
 
-  privateForHost "thinkpad" [
+  privateForHost "muttop" [
     "yggdrasil/key.conf"
-    "freedns"
+    "secrets.nix"
   ] //
 
   privateForHost "node-0" [
