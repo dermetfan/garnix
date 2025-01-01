@@ -23,11 +23,5 @@ in {
 
       unclutter.enable = config.services.xserver.enable;
     };
-
-    xdg.portal = {
-      enable = config.xdg.portal.extraPortals != [];
-      wlr.enable = !config.services.xserver.enable;
-      config.common.default = "*";
-    };
   };
 }
