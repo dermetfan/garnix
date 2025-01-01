@@ -70,12 +70,5 @@ in {
         export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
       '';
     };
-
-    # TODO remove once using a recent enough home-manager version
-    # https://github.com/nix-community/home-manager/issues/2064
-    systemd.user.targets.tray.Unit = {
-      Description = "Home Manager System Tray";
-      BindsTo = [ "sway-session.target" ];
-    };
   };
 }
