@@ -55,10 +55,6 @@ in {
         openssh.authorizedKeys.keyFiles = config.users.users.root.openssh.authorizedKeys.keyFiles or [];
       };
 
-      services.xserver.displayManager.slim = lib.mkIf (!lib.versionOlder "19.09" lib.version) {
-        defaultUser = lib.mkDefault config.users.users.dermetfan.name;
-      };
-
       home-manager.users = { inherit (parts.config.flake.homeManagerProfiles) dermetfan; };
     })
   ]);
