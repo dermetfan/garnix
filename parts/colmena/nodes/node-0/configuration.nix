@@ -1,6 +1,6 @@
 { inputs, ... }:
 
-{ config, pkgs, lib, ... }:
+{ name, config, pkgs, lib, ... }:
 
 {
   imports = [
@@ -69,7 +69,7 @@
       unlockEncryptedPoolsViaSSH = {
         enable = true;
         hostKeys = [
-          "${toString <secrets>}/hosts/node-0/initrd_ssh_host_ed25519_key"
+          "${toString <secrets>}/hosts/${name}/initrd_ssh_host_ed25519_key"
         ];
       };
     };
