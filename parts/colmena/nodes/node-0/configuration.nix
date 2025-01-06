@@ -50,8 +50,12 @@
   };
 
   users = {
+    # Setting up zfs permissions needs to be done manually:
+    # `zfs allow -u znapzend mount,create,destroy,receive tank`
     users.znapzend = {
       isSystemUser = true;
+      # Separate group to make sure that the user does not
+      # get any unintended permissions via its group.
       group = config.users.groups.znapzend.name;
       shell = pkgs.bash;
       openssh.authorizedKeys.keyFiles = [
