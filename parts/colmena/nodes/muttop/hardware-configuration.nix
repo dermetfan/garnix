@@ -3,7 +3,10 @@
 { config, lib, ... }:
 
 {
-  imports = [ inputs.nixpkgs.nixosModules.notDetected ];
+  imports = with inputs; [
+    nixpkgs.nixosModules.notDetected
+    disko.nixosModules.disko
+  ];
 
   hardware = {
     bluetooth.enable = true;
@@ -27,21 +30,68 @@
     };
   };
 
-  fileSystems = {
-    "/" = {
-      device = "root";
-      fsType = "zfs";
-    };
+  powerManagement.cpuFreqGovernor = "performance";
 
-    "/boot" = {
-      device = "/dev/disk/by-uuid/0236-8B6F";
-      fsType = "vfat";
+  fileSystems."/state".neededForBoot = true;
+
+  disko.devices = {
+    disk.root = {
+      device = "/dev/disk/by-id/ata-JAJS600M1TB_AA000000000000001052";
+      content = {
+        type = "gpt";
+        partitions = {
+          ESP = {
+            size = "512M";
+            type = "EF00";
+            content = {
+              type = "filesystem";
+              format = "vfat";
+              mountpoint = "/boot";
+            };
+          };
+          swap = {
+            size = "12G";
+            content = {
+              type = "swap";
+              resumeDevice = true;
+            };
+          };
+          zfs = {
+            size = "100%";
+            content = {
+              type = "zfs";
+              pool = "root";
+            };
+          };
+        };
+      };
+    };
+    zpool.root = {
+      rootFsOptions = {
+        compression = "zstd";
+        acltype = "posix";
+        xattr = "sa";
+        mountpoint = "none";
+      };
+
+      postCreateHook = "zfs snapshot -r root@blank";
+
+      datasets = lib.mapAttrs (_: v: v // {
+        type = "zfs_fs";
+        options = v.options or {} // lib.optionalAttrs (v ? "mountpoint") {inherit (v) mountpoint;};
+      }) {
+        reserved = {
+          options = {
+            refreserv = "1G";
+            canmount = "off";
+            mountpoint = "none";
+          };
+        };
+        root.mountpoint = "/";
+        nix.mountpoint = "/nix";
+        home.mountpoint = "/home";
+        state.mountpoint = "/state";
+      };
     };
   };
-
-  swapDevices = [
-    { device = "/dev/disk/by-uuid/0c949c06-05d1-40c5-9414-e8f6489f6b43"; }
-  ];
-
-  powerManagement.cpuFreqGovernor = "performance";
 }

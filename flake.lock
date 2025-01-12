@@ -137,6 +137,26 @@
         "type": "sourcehut"
       }
     },
+    "disko": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1736591904,
+        "narHash": "sha256-LFO8pSrPKrH8OPq2HaAuBG5skk8/MNJ/9YmK3KsnSks=",
+        "owner": "nix-community",
+        "repo": "disko",
+        "rev": "33827d2bd16bfe2e21b62956526c72d313595dfd",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "disko",
+        "type": "github"
+      }
+    },
     "filestash": {
       "inputs": {
         "filestash": "filestash_2",
@@ -1133,6 +1153,7 @@
         "agenix": "agenix",
         "colmena": "colmena",
         "dermetfan-blog": "dermetfan-blog",
+        "disko": "disko",
         "filestash": "filestash",
         "fish-abbreviation-tips": "fish-abbreviation-tips",
         "fish-autopair": "fish-autopair",

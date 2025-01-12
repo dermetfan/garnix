@@ -5,6 +5,7 @@
 {
   imports = [
     { key = "age"; imports = [ inputs.agenix.nixosModules.age ]; }
+    inputs.impermanence.nixosModules.impermanence
   ];
 
   system.stateVersion = "24.11";
@@ -169,10 +170,9 @@
     };
   };
 
-  fileSystems.${config.users.users.mutmetfan.home} = {
-    device = "root/home/${config.users.users.mutmetfan.name}";
-    fsType = "zfs";
-  };
-
   networking.hostId = "8425e349";
+
+  boot.initrd.postResumeCommands = lib.mkAfter ''
+    zfs rollback -r root/root@blank
+  '';
 }

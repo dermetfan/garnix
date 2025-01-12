@@ -32,6 +32,10 @@
       };
     };
     impermanence.url = "github:nix-community/impermanence";
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nur.url = "github:nix-community/NUR";
     nix-index-database = {
       url = "github:nix-community/nix-index-database";
