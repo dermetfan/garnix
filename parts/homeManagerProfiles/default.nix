@@ -1,4 +1,4 @@
-{ inputs, config, lib, ... }:
+{ config, lib, ... }:
 
 let
   inherit (builtins) mapAttrs attrValues readDir;
