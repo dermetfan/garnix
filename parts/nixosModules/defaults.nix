@@ -139,12 +139,6 @@ in {
       bluetooth.settings.General.Enable = lib.concatStringsSep "," ["Source" "Sink" "Media" "Socket"];
     };
 
-    boot = {
-      loader.timeout = 1;
-
-      # defaults only to `config.users.users.root.openssh.authorizedKeys.keys`
-      # XXX add this to nixpkgs?
-      initrd.network.ssh.authorizedKeys = map builtins.readFile config.users.users.root.openssh.authorizedKeys.keyFiles;
-    };
+    boot.loader.timeout = lib.mkDefault 1;
   };
 }
