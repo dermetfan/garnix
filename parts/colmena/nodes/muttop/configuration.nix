@@ -107,7 +107,10 @@
   passthru = {};
 
   home-manager.users.mutmetfan = { nixosConfig, config, ... }: {
-    imports = [ parts.config.flake.homeManagerProfiles.defaults ];
+    imports = [
+      parts.config.flake.homeManagerProfiles.defaults
+      ./xdg-config.nix
+    ];
 
     home = {
       stateVersion = "24.11";
@@ -139,19 +142,11 @@
       chromium.enable = true;
     };
 
-    xdg = {
-      portal = {
-        extraPortals = with pkgs; [
-          lxqt.xdg-desktop-portal-lxqt
-        ];
-        config.lxqt.default = [ "lxqt" ];
-      };
-
-      configFile."" = {
-        source = ./xdg-config;
-        recursive = true;
-        force = true;
-      };
+    xdg.portal = {
+      extraPortals = with pkgs; [
+        lxqt.xdg-desktop-portal-lxqt
+      ];
+      config.lxqt.default = [ "lxqt" ];
     };
 
     gtk = {
