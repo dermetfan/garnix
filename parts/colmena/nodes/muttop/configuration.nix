@@ -10,6 +10,12 @@
 
   system.stateVersion = "24.11";
 
+  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+    "brscan4"
+    "brscan4-etc-files"
+    "brother-udev-rule-type1"
+  ];
+
   environment.persistence."/state".files = map (key: key.path) config.services.openssh.hostKeys;
 
   # https://github.com/ryantm/agenix/issues/45
@@ -87,6 +93,11 @@
         };
       };
     };
+
+    printing = {
+      enable = true;
+      stateless = true;
+    };
   };
 
   programs.nm-applet.enable = true;
@@ -110,6 +121,7 @@
         libreoffice
         liberation_ttf_v2
         qpdfview
+        simple-scan
       ];
     };
 
@@ -166,6 +178,8 @@
         "wheel"
         "networkmanager"
         "video" # backlight
+        "lp" # printing
+        "scanner"
       ];
     };
   };

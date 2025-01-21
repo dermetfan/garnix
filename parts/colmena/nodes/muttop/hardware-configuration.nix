@@ -11,6 +11,23 @@
   hardware = {
     bluetooth.enable = true;
     cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+
+    printers = {
+      ensureDefaultPrinter = "Brother_MFC-J4420DW";
+      ensurePrinters = [
+        {
+          name = "Brother_MFC-J4420DW";
+          deviceUri = "ipp://BRWC48E8FBE3AB4/ipp";
+          model = "everywhere";
+          ppdOptions.Duplex = "DuplexNoTumble";
+        }
+      ];
+    };
+
+    sane = {
+      enable = true;
+      brscan4.enable = true;
+    };
   };
 
   boot = {
