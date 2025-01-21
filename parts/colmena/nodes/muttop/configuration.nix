@@ -139,12 +139,44 @@
       inherit (nixosConfig.passthru.coords) latitude longitude;
     };
 
-    programs = {
+    programs = let
+      mozillaSearch = {
+        default = "Ecosia";
+        engines = {
+          Ecosia.metaData = {};
+          Google.metaData = {};
+        };
+        order = [ "Ecosia" "Google" ];
+        force = true;
+      };
+    in {
       geany.enable = true;
       less.enable = true;
       fish.enable = true;
-      firefox.enable = true;
       chromium.enable = true;
+
+      firefox = {
+        enable = true;
+        languagePacks = [ "de" ];
+
+        profiles.${config.home.username} = {
+          search = mozillaSearch;
+          extensions = let
+            inherit (pkgs.extend inputs.nur.overlay) nur;
+          in with nur.repos.rycee.firefox-addons; [
+            ublock-origin
+            decentraleyes
+          ];
+        };
+      };
+
+      thunderbird = {
+        enable = true;
+        profiles.${config.home.username} = {
+          isDefault = true;
+          search = mozillaSearch;
+        };
+      };
     };
 
     xdg.portal = {
