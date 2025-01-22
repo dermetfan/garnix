@@ -135,6 +135,7 @@
         liberation_ttf_v2
         qpdfview
         simple-scan
+        qalculate-gtk
       ];
     };
 

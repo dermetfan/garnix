@@ -23,7 +23,8 @@
         favorites\1\desktopFile=/run/current-system/etc/profiles/per-user/${config.home.username}/share/applications/firefox.desktop
         favorites\2\desktopFile=/run/current-system/etc/profiles/per-user/${config.home.username}/share/applications/writer.desktop
         favorites\3\desktopFile=/run/current-system/etc/profiles/per-user/${config.home.username}/share/applications/simple-scan.desktop
-        favorites\size=3
+        favorites\4\desktopFile=/run/current-system/etc/profiles/per-user/${config.home.username}/share/applications/qalculate-gtk.desktop
+        favorites\size=4
         type=fancymenu
 
         [mount]
