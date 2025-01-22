@@ -40,6 +40,11 @@
 
   time.timeZone = "Europe/Berlin";
 
+  fonts = {
+    enableDefaultPackages = true;
+    enableGhostscriptFonts = true;
+  };
+
   services = {
     yggdrasil.publicPeers.germany.enable = true;
 
