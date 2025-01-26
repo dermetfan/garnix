@@ -112,6 +112,11 @@
 
   programs.nm-applet.enable = true;
 
+  systemd.services.ensure-printers.serviceConfig = {
+    Restart = "on-failure";
+    RestartSec = "3min";
+  };
+
   # Avoids evaluation error due to undefined option value in pure evaluation
   # below in home-manager's redshift and wlsunset services.
   passthru = {};
