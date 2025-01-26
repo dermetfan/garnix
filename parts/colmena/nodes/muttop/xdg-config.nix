@@ -122,5 +122,22 @@
         useAdvancedManualFormat=false
       '';
     };
+
+    # Disable file locking because it does not work properly on a WebDAV share.
+    # When opened via PCManFM-qt it opens files in read-only mode,
+    # and when mounted via davfs2 it seems to straight up not save changes,
+    # probably because it saves the changes somewhere else and fails to replace the file.
+    # Maybe that would work better if we configured `use_locks = 0` for davfs2
+    # but PCManFM-qt is preferred as it works better knowing the underlying filesystem is remote.
+    "libreoffice/4/user/registrymodifications.xcu".text = ''
+      <?xml version="1.0" encoding="UTF-8"?>
+      <oor:items xmlns:oor="http://openoffice.org/2001/registry" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <item oor:path="/org.openoffice.Office.Common/Misc">
+          <prop oor:name="UseDocumentSystemFileLocking" oor:op="fuse">
+            <value>false</value>
+          </prop>
+        </item>
+      </oor:items>
+    '';
   };
 }
