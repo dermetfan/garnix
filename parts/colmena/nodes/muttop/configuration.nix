@@ -67,17 +67,12 @@
       };
     };
 
-    libinput.enable = true;
+    desktopManager.plasma6.enable = true;
+    tlp.enable = false; # conflicts with power-profiles-daemon at eval time, which plasma6 enables by default
 
-    xserver = {
-      enable = true;
-
-      xkb = {
-        layout = lib.mkForce "de";
-        variant = lib.mkForce "";
-      };
-
-      desktopManager.lxqt.enable = true;
+    xserver.xkb = {
+      layout = lib.mkForce "de";
+      variant = lib.mkForce "";
     };
 
     blueman.enable = true;
@@ -110,21 +105,41 @@
     };
   };
 
-  programs.nm-applet.enable = true;
-
   systemd.services.ensure-printers.serviceConfig = {
     Restart = "on-failure";
     RestartSec = "10";
   };
 
-  # Avoids evaluation error due to undefined option value in pure evaluation
-  # below in home-manager's redshift and wlsunset services.
-  passthru = {};
-
-  home-manager.users.mutmetfan = { nixosConfig, config, ... }: {
+  home-manager.users.mutmetfan = { nixosConfig, config, ... }: let
+    webdav = {
+      name = "Sohn-Server";
+      url = "[${nodes.node-3.config.profiles.yggdrasil.ip}]/home/mutmetfan";
+    };
+  in {
     imports = [
       parts.config.flake.homeManagerProfiles.defaults
-      ./xdg-config.nix
+      ({ config, ... }: {
+        imports = [ inputs.plasma-manager.homeModules.plasma-manager ];
+
+        xdg = lib.mkIf config.xdg.autostart.enable {
+          # Conflicts with home-manager's `xdg.autostart` at build time.
+          # TODO fix upstream?
+          # https://github.com/nix-community/plasma-manager/blob/27dfa61b64d0cdb8e4ba6f3aaa4d4e067d64cb5c/modules/startup.nix#L210
+          configFile."autostart/plasma-manager-autostart.desktop".enable = false;
+
+          autostart.entries = [
+            # Unfortunately causes infinite recursion.
+            # config.xdg.configFile."autostart/plasma-manager-autostart.desktop".source
+            (builtins.toFile "plasma-manager-autostart.desktop" ''
+              [Desktop Entry]
+              Type=Application
+              Name=Plasma Manager theme application
+              Exec=${config.xdg.dataHome}/plasma-manager/run_all.sh
+              X-KDE-autostart-condition=ksmserver
+            '')
+          ];
+        };
+      })
     ];
 
     home = {
@@ -138,17 +153,9 @@
       packages = with pkgs; [
         libreoffice
         liberation_ttf_v2
-        qpdfview
         simple-scan
         qalculate-gtk
-        xmagnify
       ];
-    };
-
-    services.redshift = lib.optionalAttrs (nixosConfig ? passthru.coords) {
-      enable = true;
-      tray = true;
-      inherit (nixosConfig.passthru.coords) latitude longitude;
     };
 
     programs = let
@@ -161,13 +168,23 @@
         order = [ "ecosia" "google" ];
         force = true;
       };
+
+      nativeMessagingHosts = with pkgs; [
+        kdePackages.plasma-browser-integration
+      ];
     in {
       geany.enable = true;
       less.enable = true;
       fish.enable = true;
-      chromium.enable = true;
+
+      chromium = {
+        inherit nativeMessagingHosts;
+        enable = true;
+      };
 
       firefox = {
+        inherit nativeMessagingHosts;
+
         enable = true;
         languagePacks = [ "de" ];
 
@@ -189,28 +206,217 @@
           search = mozillaSearch;
         };
       };
-    };
 
-    xdg = {
-      desktopEntries.magnify = {
-        name = "Lupe";
-        exec = "magnify -h 250 -m 2";
-        categories = [ "Utility" ];
-      };
+      plasma = {
+        enable = true;
 
-      portal = {
-        extraPortals = with pkgs; [
-          lxqt.xdg-desktop-portal-lxqt
+        kwin = {
+          nightLight = {
+            enable = true;
+            mode = "location";
+            location = {
+              inherit (nixosConfig.passthru.coords) latitude longitude;
+            };
+            temperature.night = 3000;
+          };
+
+          effects = {
+            shakeCursor.enable = true;
+            wobblyWindows.enable = true;
+            zoom.enable = true;
+          };
+        };
+
+        panels = [
+          {
+            location = "left";
+            floating = true;
+            widgets = [
+              {
+                kickoff = {
+                  icon = "alienarena";
+                  favoritesDisplayMode = "list";
+                };
+              }
+              {
+                iconTasks = {
+                  appearance = {
+                    fill = true;
+                    showTooltips = false;
+                  };
+                  behavior.grouping = {
+                    method = "byProgramName";
+                    clickAction = "showTextualList";
+                  };
+                };
+              }
+              "org.kde.plasma.marginsseparator"
+              { systemTray = {}; }
+              { digitalClock = {}; }
+              "org.kde.plasma.showdesktop"
+            ];
+          }
         ];
-        config.lxqt.default = [ "lxqt" ];
+
+        desktop.widgets = builtins.attrValues (let
+          display = {
+            width = 1920;
+            height = 1080;
+          };
+        in rec {
+          notes = {
+            name = "org.kde.plasma.notes";
+            position = {
+              horizontal = display.width - notes.size.width;
+              vertical = display.height - notes.size.height;
+            };
+            size = with display; {
+              width = width / 6;
+              height = height / 4;
+            };
+            config.General.color = "yellow";
+          };
+
+          calculator = {
+            name = "org.kde.plasma.calculator";
+            position = {
+              horizontal = display.width - notes.size.width - calculator.size.width;
+              vertical = display.height - calculator.size.height;
+            };
+            size = with display; {
+              width = width / 7;
+              height = height / 4;
+            };
+          };
+        });
+
+        shortcuts.kwin = {
+          view_actual_size = [ "Ctrl+Num+0" "Meta+0" ];
+          view_zoom_in = [ "Ctrl+Num++" "Meta++" ];
+          view_zoom_out = [ "Ctrl+Num+-" "Meta+-" ];
+        };
+
+        session.sessionRestore = {
+          restoreOpenApplicationsOnLogin = "onLastLogout";
+          excludeApplications = [
+            "firefox"
+            "chromium"
+          ];
+        };
+
+        configFile = {
+          kwinrc = {
+            # https://github.com/nix-community/plasma-manager/issues/486
+            Effect-overview.BorderActivate.value = 3;
+
+            Windows.ElectricBorders.value = 1;
+
+            TabBox.OrderMinimizedMode.value = 1;
+          };
+
+          dolphinrc = {
+            General = {
+              BrowseThroughArchives.value = true;
+              ShowToolTips.value = true;
+              ShowZoomSlider.value = true;
+            };
+
+            MainWindow.MenuBar.value = "Disabled";
+          };
+
+          krdpserverrc.General = {
+            Autostart = true;
+            Certificate = "${config.xdg.dataHome}/krdpserver/krdp.crt";
+            CertificateKey = "${config.xdg.dataHome}/krdpserver/krdp.key";
+            Users = config.home.username;
+          };
+        };
       };
     };
 
     gtk = {
       enable = true;
       gtk3.bookmarks = [
-        "dav://[${nodes.node-3.config.profiles.yggdrasil.ip}]/home/mutmetfan Server"
+        (with webdav; "dav://${url} ${name}")
       ];
+    };
+
+    xdg = {
+      autostart = {
+        enable = true;
+        readOnly = true;
+        entries = [
+          "${config.programs.thunderbird.package.desktopItem}/share/applications/thunderbird.desktop"
+        ];
+      };
+
+      configFile."libreoffice/4/user/registrymodifications.xcu".text = let
+        item = path: prop: value: let
+          renderValue = value: {
+            bool = builtins.toJSON;
+            string = lib.id;
+            list = lib.concatMapStrings (it: "<it>${renderValue it}</it>");
+          }.${builtins.typeOf value} value;
+        in ''
+          <item oor:path="${path}">
+            <prop oor:name="${prop}" oor:op="fuse">
+              <value>${renderValue value}</value>
+            </prop>
+          </item>
+        '';
+      in lib.concatStrings [
+        ''
+          <?xml version="1.0" encoding="UTF-8"?>
+          <oor:items xmlns:oor="http://openoffice.org/2001/registry" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        ''
+
+        # Disable file locking because it does not work properly on a WebDAV share.
+        # When opened via Dolphin, it opens files in read-only mode,
+        # and when mounted via davfs2 it seems to straight up not save changes,
+        # probably because it saves the changes somewhere else and fails to replace the file.
+        # Maybe that would work better if we configured `use_locks = 0` for davfs2
+        # but Dolphin is preferred as it works better knowing the underlying filesystem is remote.
+        (item "/org.openoffice.Office.Common/Misc" "UseDocumentSystemFileLocking" false)
+
+        (item "/org.openoffice.Office.Common/Misc" "FilePickerLastService" "http://${webdav.url}/")
+        (item "/org.openoffice.Office.Common/Misc" "FilePickerPlacesNames" [ webdav.name ])
+        (item "/org.openoffice.Office.Common/Misc" "FilePickerPlacesUrls" [ "http://${webdav.url}/" ])
+
+        # Use the built-in file saving dialog.
+        # The system one (whichever that actually is)
+        # does show the GTK3 bookmarks, but does not actually support WebDAV
+        # (seems like an additional plugin needs to be installed or something).
+        (item "/org.openoffice.Office.Common/Misc" "UseSystemFileDialog" false)
+
+        ''
+          </oor:items>
+        ''
+      ];
+
+      dataFile = {
+        "user-places.xbel" = {
+          source = pkgs.replaceVars xdg-data/user-places.xbel {
+            webdav = "webdav://${webdav.url}";
+          };
+          force = true;
+        };
+
+        "dolphinui.rc" = {
+          source = xdg-data/kxmlgui5/dolphin/dolphinui.rc;
+          force = true;
+        };
+      } // (let
+        destination = "/share/remoteview";
+      in {
+        "remoteview/${webdav.name}.desktop".source = (pkgs.makeDesktopItem {
+          inherit destination;
+          inherit (webdav) name;
+          desktopName = webdav.name;
+          icon = "folder-remote";
+          type = "Link";
+          url = "webdav://${webdav.url}";
+        }) + "${destination}/${webdav.name}.desktop";
+      });
     };
   };
 
@@ -232,7 +438,20 @@
     };
   };
 
-  networking.hostId = "8425e349";
+  networking = {
+    hostId = "8425e349";
+
+    firewall.extraCommands = ''
+      # krdpserver (KDE's built-in RDP server)
+      ip6tables \
+        -I INPUT \
+        -p tcp \
+        -s ${nodes.laptop.config.profiles.yggdrasil.ip} \
+        -d ${config.profiles.yggdrasil.ip} \
+        --dport 3389 \
+        -j ACCEPT
+    '';
+  };
 
   boot.initrd.postResumeCommands = lib.mkAfter ''
     zfs rollback -r root/root@blank

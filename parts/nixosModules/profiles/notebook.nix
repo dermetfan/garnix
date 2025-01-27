@@ -19,7 +19,7 @@ in {
     };
 
     services.tlp = {
-      enable = true;
+      enable = lib.mkDefault true;
       settings = {
         # https://linrunner.de/tlp/support/optimizing.html#extend-battery-runtime
         CPU_ENERGY_PERF_POLICY_ON_BAT = "power";

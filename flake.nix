@@ -31,6 +31,13 @@
         home-manager.follows = "home-manager";
       };
     };
+    plasma-manager = {
+      url = "github:nix-community/plasma-manager";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        home-manager.follows = "home-manager";
+      };
+    };
     wrapper-manager.url = "github:viperML/wrapper-manager";
     impermanence.url = "github:nix-community/impermanence";
     disko = {
