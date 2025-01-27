@@ -61,10 +61,6 @@
         autoNumlock = true;
         wayland.enable = true;
       };
-      autoLogin = {
-        enable = true;
-        user = config.users.users.muttop.name;
-      };
     };
 
     libinput.enable = true;
