@@ -110,7 +110,7 @@
 
   systemd.services.ensure-printers.serviceConfig = {
     Restart = "on-failure";
-    RestartSec = "3min";
+    RestartSec = "10";
   };
 
   # Avoids evaluation error due to undefined option value in pure evaluation
