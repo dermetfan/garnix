@@ -69,12 +69,12 @@ in {
           hasSSL = h: onlySSL h || h.addSSL || h.forceSSL;
           # Run `systemctl restart acme-fixperms.service` if permissions in /var/lib/acme cause troubles.
         in
-          lib.optional (any (h: !(onlySSL h))) 80 ++
+          lib.optional (any (h: !(onlySSL h))) config.services.nginx.defaultHTTPListenPort ++
           lib.optional (any (h: hasSSL h || (
             if lib.versionAtLeast lib.version "21.11"
             then h.rejectSSL
             else false
-          ))) 443
+          ))) config.services.nginx.defaultSSLListenPort
       );
     };
 
