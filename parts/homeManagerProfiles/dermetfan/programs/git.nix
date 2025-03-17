@@ -59,12 +59,18 @@
         submoduleSummary = true;
       };
       diff = {
+        algorithm = "histogram";
         submodule = "log";
         colorMoved = "default";
         colorMovedWS = "allow-indentation-change";
-        noprefix = true;
+        noPrefix = true;
       };
-      push.autoSetupRemote = true;
+      branch.sort = "committerdate";
+      tag.sort = "version:refname";
+      push = {
+        autoSetupRemote = true;
+        followTags = true;
+      };
       pull.ff = "only";
       fetch = {
         prune = true;
@@ -73,7 +79,10 @@
       };
       format.pretty = "short";
       gc.writeCommitGraph = true;
-      rerere.enabled = true;
+      rerere = {
+        enabled = true;
+        autoUpdate = true;
+      };
       revert.reference = true;
       rebase = {
         rescheduleFailedExec = true;
