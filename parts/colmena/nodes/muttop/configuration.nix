@@ -137,6 +137,7 @@
         qpdfview
         simple-scan
         qalculate-gtk
+        xmagnify
       ];
     };
 
@@ -186,11 +187,19 @@
       };
     };
 
-    xdg.portal = {
-      extraPortals = with pkgs; [
-        lxqt.xdg-desktop-portal-lxqt
-      ];
-      config.lxqt.default = [ "lxqt" ];
+    xdg = {
+      desktopEntries.magnify = {
+        name = "Lupe";
+        exec = "magnify -h 250 -m 2";
+        categories = [ "Utility" ];
+      };
+
+      portal = {
+        extraPortals = with pkgs; [
+          lxqt.xdg-desktop-portal-lxqt
+        ];
+        config.lxqt.default = [ "lxqt" ];
+      };
     };
 
     gtk = {
