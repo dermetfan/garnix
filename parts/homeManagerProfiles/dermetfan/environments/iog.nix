@@ -7,9 +7,15 @@ in {
     enable = mkEnableOption "IOG" // {
       default = nixosConfig.profiles.iog.enable or false;
     };
+
     reposDir = mkOption {
       type = types.path;
-      default = "${config.home.homeDirectory}/projects/development/IOHK";
+      default = "${config.home.homeDirectory}/projects/development/IOHK/repos";
+    };
+
+    gitSigningFormat = mkOption {
+      type = types.enum ["gpg" "ssh"];
+      default = "ssh";
     };
   };
 
@@ -18,12 +24,19 @@ in {
       git.includes = [
         {
           condition = "gitdir:${cfg.reposDir}/";
-          contents = {
+          contents = rec {
             user = {
               email = "robin.stumm@iohk.io";
-              signingkey = "D00F363866377AD9";
+              signingKey = {
+                gpg = "D00F363866377AD9";
+                ssh = "${config.home.homeDirectory}/.ssh/id_ed25519.pub";
+              }.${cfg.gitSigningFormat};
             };
             commit.gpgSign = true;
+            gpg = lib.mkIf (cfg.gitSigningFormat == "ssh") {
+              format = "ssh";
+              ssh.allowedSignersFile = user.signingKey;
+            };
           };
         }
       ];

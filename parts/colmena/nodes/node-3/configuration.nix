@@ -339,13 +339,16 @@
     };
   };
 
-  home-manager.users.dermetfan = {
+  home-manager.users.dermetfan = { options, ... }: {
     home.stateVersion = "24.11";
 
     profiles.dermetfan.environments = {
       admin.enable = true;
       dev.enable = true;
-      iog.enable = true;
+      iog = {
+        enable = true;
+        reposDir = "/tank${options.profiles.dermetfan.environments.iog.reposDir.default}";
+      };
     };
   };
 
