@@ -1,4 +1,4 @@
-_:
+{ inputs, ... }:
 
 # Tested on: MSI PE60-6QEi781
 { config, lib, pkgs, ... }:
@@ -6,6 +6,8 @@ _:
 let
   cfg = config.hardware."MSI PE60-6QE";
 in {
+  imports = [ inputs.nixos-hardware.nixosModules.common-cpu-intel ];
+
   options.hardware."MSI PE60-6QE" = with lib; {
     enable = mkEnableOption "MSI PE60-6QE";
 
@@ -30,24 +32,7 @@ in {
 
   config = lib.mkIf cfg.enable (lib.mkMerge [
     {
-      nixpkgs.config = {
-        allowUnfree = true;
-        nvidia.acceptLicense = true;
-      };
-
-      # TODO remove once no longer needed
-      # https://github.com/NixOS/nixpkgs/issues/319838#issuecomment-2171123309
-      nixpkgs.overlays = [
-        (final: prev: {
-          bumblebee = prev.bumblebee.override {
-            nvidia_x11_i686 = null;
-            libglvnd_i686 = null;
-          };
-          primus = prev.primus.override {
-            primusLib_i686 = null;
-          };
-        })
-      ];
+      nixpkgs.config.allowUnfree = true;
 
       boot = {
         initrd.availableKernelModules = [
@@ -61,10 +46,6 @@ in {
         ];
 
         kernelModules = [ "kvm-intel" ];
-
-        blacklistedKernelModules = [
-          "nouveau" # causes CPU stalls with intel GPU driver (HyperThreading bug?)
-        ];
       };
 
       nix.settings.max-jobs = if cfg.hyperThreading then 8 else 4;
@@ -77,41 +58,55 @@ in {
       services.pulseaudio.package = pkgs.pulseaudioFull;
     }
 
+    (lib.mkIf (cfg.enableGPU != false) {
+      nixpkgs = {
+        config.nvidia.acceptLicense = true;
+
+        # TODO remove once no longer needed
+        # https://github.com/NixOS/nixpkgs/issues/319838#issuecomment-2171123309
+        overlays = [
+          (final: prev: {
+            bumblebee = prev.bumblebee.override {
+              nvidia_x11_i686 = null;
+              libglvnd_i686 = null;
+            };
+            primus = prev.primus.override {
+              primusLib_i686 = null;
+            };
+          })
+        ];
+      };
+
+      hardware.nvidia = {
+        modesetting.enable = true;
+        open = false;
+      };
+    })
+
+    (lib.mkIf (cfg.enableGPU != true) {
+      boot.blacklistedKernelModules = [
+        "nouveau" # causes CPU stalls with intel GPU driver (HyperThreading bug?)
+      ];
+    })
+
     (let
       script = pkgs.writeScript "bumblebeeHack.sh" ''
         #! ${pkgs.bash}/bin/bash
         case "$1" in
-            start) systemctl start bumblebeed.service ;;
-            stop)  systemctl stop  bumblebeed.service ;;
-            poweron)  ${config.boot.kernelPackages.bbswitch}/bin/discrete_vga_poweron  ;;
-            poweroff) ${config.boot.kernelPackages.bbswitch}/bin/discrete_vga_poweroff ;;
+            start)    systemctl start bumblebeed.service ;;
+            stop)     systemctl stop  bumblebeed.service ;;
+            poweron)  discrete_vga_poweron  ;;
+            poweroff) discrete_vga_poweroff ;;
         esac
       '';
     in lib.mkIf (cfg.enableGPU == "bumblebee") {
-      hardware.bumblebee.enable = true;
-
-      systemd.services.bumblebeed.wantedBy = lib.mkForce [];
+      hardware.bumblebee = {
+        enable = true;
+        connectDisplay = true;
+      };
 
       services = {
-        xserver = {
-          videoDrivers = [ "intel" ];
-
-          displayManager = let
-            hasSlim = lib.versionOlder lib.version "20.03";
-          in {
-            # There is no generic post display manager hook
-            # so this will only start, but not stop, bumblebeed.
-            sessionCommands = lib.optionalString (
-              (!hasSlim || !config.services.xserver.displayManager.slim.enable) &&
-              !config.services.xserver.displayManager.sddm.enable
-            ) "${script} start";
-          } // (lib.optionalAttrs hasSlim {
-            slim.extraConfig = ''
-              sessionstart_cmd ${script} start
-              sessionstop_cmd  ${script} stop
-            '';
-          });
-        };
+        xserver.videoDrivers = [ "intel" ];
 
         displayManager.sddm = {
           setupScript = "${script} start";
@@ -135,14 +130,10 @@ in {
     (lib.mkIf (cfg.enableGPU == true) {
       services.xserver.videoDrivers = [ "nvidia" ];
 
-      hardware.nvidia = {
-        modesetting.enable = true;
-
-        prime = {
-          sync.enable = true;
-          nvidiaBusId = "PCI:1:0:0";
-          intelBusId  = "PCI:0:2:0";
-        };
+      hardware.nvidia.prime = {
+        sync.enable = true;
+        nvidiaBusId = "PCI:1:0:0";
+        intelBusId  = "PCI:0:2:0";
       };
     })
 
