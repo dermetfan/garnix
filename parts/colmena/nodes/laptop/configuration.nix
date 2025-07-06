@@ -60,7 +60,6 @@
       office.enable = true;
       gui.enable = true;
       desktop.enable = true;
-      game.enable = true;
     };
 
     home.stateVersion = "25.05";
