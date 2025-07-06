@@ -19,3 +19,4 @@
 !/secrets/services/authelia/*.age
 
 /.direnv/
+/.gcroots/
