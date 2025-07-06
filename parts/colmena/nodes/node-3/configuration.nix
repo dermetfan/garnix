@@ -9,12 +9,13 @@
     inputs.filestash.nixosModules.default
   ];
 
-  system.stateVersion = "24.11";
+  system.stateVersion = "25.05";
 
   environment = {
     persistence."/state" = {
       files = map (key: key.path) config.services.openssh.hostKeys;
       directories = [
+        "/var/lib/nixos"
         "/var/lib/acme"
         config.services.postgresql.dataDir
         "/var/lib/authelia-${config.services.authelia.instances.default.name}"
@@ -78,6 +79,12 @@
   '';
 
   services = {
+    # For some reason, NixOS 25.05 does not default to PostgreSQL 17; NixOS 25.11 will, though.
+    # https://github.com/NixOS/nixpkgs/pull/417502/files#diff-332df55682746a7949fbc279642f4b761456b3470ce93c541924a69ce8a45763
+    postgresql.package =
+      assert config.services.postgresql.enable;
+      pkgs.postgresql_17;
+
     homepage.enable = true;
 
     webdav = {
@@ -340,7 +347,7 @@
   };
 
   home-manager.users.dermetfan = { options, ... }: {
-    home.stateVersion = "24.11";
+    home.stateVersion = "25.05";
 
     profiles.dermetfan.environments = {
       admin.enable = true;

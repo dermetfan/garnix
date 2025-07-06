@@ -20,5 +20,5 @@
   };
 
   # for icons
-  home.packages = [ (pkgs.nerdfonts.override { fonts = [ "FiraCode" ]; }) ];
+  home.packages = [ pkgs.nerd-fonts.fira-code ];
 }

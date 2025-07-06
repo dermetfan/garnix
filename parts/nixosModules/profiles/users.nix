@@ -5,7 +5,7 @@
 let
   cfg = config.profiles.users;
 in {
-  imports = [ inputs.home-manager.nixosModule ];
+  imports = [ inputs.home-manager.nixosModules.default ];
 
   options.profiles.users = with lib; {
     enable = mkEnableOption "users";

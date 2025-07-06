@@ -10,7 +10,7 @@ in {
   config = lib.mkIf cfg.enable {
     environment = {
       systemPackages = with pkgs;
-        lib.optional config.hardware.pulseaudio.enable pavucontrol;
+        lib.optional config.services.pulseaudio.enable pavucontrol;
 
       variables = {
         SDL_VIDEO_X11_DGAMOUSE = "0"; # fix for jumping mouse (in qemu)

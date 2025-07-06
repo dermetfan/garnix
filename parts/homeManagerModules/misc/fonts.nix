@@ -40,7 +40,7 @@ in {
           default = {
             family = "FiraCode Nerd Font Mono";
             size = 12.0;
-            package = pkgs.nerdfonts.override { fonts = [ "FiraCode" ]; };
+            package = pkgs.nerd-fonts.fira-code;
           };
         };
       };
@@ -81,7 +81,7 @@ in {
       };
     };
 
-    services.mako.font = with cfg.normal; mkDefault "${familyPango} ${toString size}";
+    services.mako.settings.font = with cfg.normal; mkDefault "${familyPango} ${toString size}";
 
     xsession.windowManager.i3 = i3-sway;
     wayland.windowManager.sway = i3-sway;

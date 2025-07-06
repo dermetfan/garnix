@@ -72,8 +72,9 @@ in {
       hardware = {
         enableAllFirmware = true;
         bluetooth.enable = true;
-        pulseaudio.package = pkgs.pulseaudioFull;
       };
+
+      services.pulseaudio.package = pkgs.pulseaudioFull;
     }
 
     (let

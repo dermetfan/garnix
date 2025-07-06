@@ -2,7 +2,7 @@
 
 let
   cfg = config.profiles.dermetfan.programs.firefox;
-  inherit (pkgs.extend self.inputs.nur.overlay) nur;
+  inherit (pkgs.extend self.inputs.nur.overlays.default) nur;
 in {
   options.profiles.dermetfan.programs.firefox.enable = lib.mkEnableOption "firefox" // {
     default = config.programs.firefox.enable;
@@ -34,7 +34,7 @@ in {
         }
       '';
 
-      extensions = with nur.repos.rycee.firefox-addons; [
+      extensions.packages = with nur.repos.rycee.firefox-addons; [
         browserpass
         ublock-origin
         decentraleyes

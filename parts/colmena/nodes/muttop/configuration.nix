@@ -8,7 +8,7 @@
     inputs.impermanence.nixosModules.impermanence
   ];
 
-  system.stateVersion = "24.11";
+  system.stateVersion = "25.05";
 
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
     "brscan4"
@@ -16,7 +16,12 @@
     "brother-udev-rule-type1"
   ];
 
-  environment.persistence."/state".files = map (key: key.path) config.services.openssh.hostKeys;
+  environment.persistence."/state" = {
+    files = map (key: key.path) config.services.openssh.hostKeys;
+    directories = [
+      "/var/lib/nixos"
+    ];
+  };
 
   # https://github.com/ryantm/agenix/issues/45
   age.identityPaths = map (key: "/state${toString key.path}") config.services.openssh.hostKeys;
@@ -113,7 +118,7 @@
     ];
 
     home = {
-      stateVersion = "24.11";
+      stateVersion = "25.05";
 
       username = nixosConfig.users.users.mutmetfan.name;
       homeDirectory = nixosConfig.users.users.mutmetfan.home;

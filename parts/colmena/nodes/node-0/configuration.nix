@@ -8,9 +8,14 @@
     inputs.impermanence.nixosModules.impermanence
   ];
 
-  system.stateVersion = "24.11";
+  system.stateVersion = "25.05";
 
-  environment.persistence."/state".files = map (key: key.path) config.services.openssh.hostKeys;
+  environment.persistence."/state" = {
+    files = map (key: key.path) config.services.openssh.hostKeys;
+    directories = [
+      "/var/lib/nixos"
+    ];
+  };
 
   age = {
     # https://github.com/ryantm/agenix/issues/45

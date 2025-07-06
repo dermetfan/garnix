@@ -83,6 +83,14 @@ in {
     services = {
       pipewire.alsa.support32Bit = pkgs.stdenv.isx86_64;
 
+      pulseaudio = {
+        support32Bit = pkgs.stdenv.isx86_64;
+        extraConfig = ''
+          load-module module-echo-cancel source_name=noecho
+          set-default-source noecho
+        '';
+      };
+
       syncthing.openDefaultPorts = true;
 
       xserver.synaptics.palmDetect = true;
@@ -126,14 +134,6 @@ in {
 
     hardware = {
       graphics.enable32Bit = pkgs.stdenv.isx86_64;
-
-      pulseaudio = {
-        support32Bit = pkgs.stdenv.isx86_64;
-        extraConfig = ''
-          load-module module-echo-cancel source_name=noecho
-          set-default-source noecho
-        '';
-      };
 
       # https://nixos.wiki/wiki/Bluetooth#Enabling_A2DP_Sink
       bluetooth.settings.General.Enable = lib.concatStringsSep "," ["Source" "Sink" "Media" "Socket"];

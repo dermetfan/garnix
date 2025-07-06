@@ -2,7 +2,7 @@
 
 {
   home.packages = with pkgs; [
-    (nerdfonts.override { fonts = [ "Meslo" ]; }) # tide
+    nerd-fonts.meslo-lg # tide
     any-nix-shell
   ];
 

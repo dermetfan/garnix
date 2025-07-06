@@ -1,5 +1,5 @@
-{ inputs, config, ... }:
+{ config, ... }:
 
 {
-  flake.nixosConfigurations = (inputs.colmena.lib.makeHive config.flake.colmena).nodes;
+  flake.nixosConfigurations = config.flake.colmenaHive.nodes;
 }

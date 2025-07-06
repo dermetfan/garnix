@@ -83,11 +83,11 @@ in {
           block = "battery";
           inherit device;
           format = charging_format;
-          full_format = not_charging_format;
-          charging_format = " $icon $percentage $time $power ";
-          empty_format = charging_format;
-          not_charging_format = " $icon $percentage ";
+          charging_format = "${not_charging_format}{$time_remaining.duration(hms:true, min_unit:m) |}";
+          not_charging_format = " $icon $percentage {$power |}";
           missing_format = " $icon missing ";
+          full_format = charging_format;
+          empty_format = charging_format;
         }) cfg.batteries
       ) ++ lib.optional cfg.enableEco (let
         eco = pkgs.writeShellApplication {
