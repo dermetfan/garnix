@@ -10,7 +10,7 @@ in {
     package = mkOption {
       type = types.package;
       default = inputs.dermetfan-blog.defaultPackage.${pkgs.system}.overrideArgs (old: {
-        extraConf.data.secrets.github.personalAccessToken = lib.fileContents "${toString <secrets>}/services/github";
+        extraConf.data.secrets.github.personalAccessToken = builtins.extraBuiltins.readSecret ../../../secrets/services/github.age;
       });
     };
     domain = mkOption {

@@ -6,13 +6,17 @@ let
   cfg = config.boot.zfs.unlockEncryptedPoolsViaSSH;
 
   hostKeys = map
-    (p: pkgs.writeText "ssh_host_key" (builtins.readFile p))
+    (pathOrStr: pkgs.writeText "ssh_host_key" (
+      if builtins.isPath pathOrStr
+      then builtins.readFile pathOrStr
+      else pathOrStr
+    ))
     cfg.hostKeys;
 in {
   options.boot.zfs.unlockEncryptedPoolsViaSSH = with lib; {
     enable = lib.mkEnableOption "unlocking ZFS encrypted pools over SSH in the initial ramdisk";
     hostKeys = mkOption {
-      type = with types; listOf path;
+      type = with types; listOf (either path str);
     };
   };
 
