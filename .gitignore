@@ -1,5 +1,5 @@
+/secrets/askkey
 /secrets/askpass
-/secrets/deployer_ssh_*_key
 
 /secrets/hosts/*/*
 !/secrets/hosts/*/*.age

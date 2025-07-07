@@ -15,20 +15,22 @@
           exit 1
         fi
 
-        TMP=$(mktemp --tmpdir "$(basename "$PWD").$(basename "$1" .age)".XXX)
-        trap 'rm "$TMP"' EXIT
+        identityFile=$(mktemp --tmpdir deployer_ssh_key.XXX)
+        tmp=$(mktemp --tmpdir "$(basename "$PWD").$(basename "$1" .age)".XXX)
+        trap 'rm "$identityFile" "$tmp"' EXIT
 
-        PASS=$(secrets/askpass)
+        secrets/askkey >> "$identityFile"
+        pass=$(secrets/askpass)
 
         # rage reads the password from /dev/tty instead of stdin.
         # https://github.com/str4d/rage/issues/550
         expect <<EOF
         log_user 0
-        spawn rage --decrypt --identity secrets/deployer_ssh_ed25519_key --output "$TMP" "$1"
+        spawn rage --decrypt --identity "$identityFile" --output "$tmp" "$1"
         while {1} {
           expect {
             "Type passphrase for" {
-              send "$PASS\n"
+              send "$pass\n"
               expect "\n"
             }
             eof {
@@ -38,9 +40,9 @@
         }
         EOF
       '' + (if nix then ''
-        cat "$TMP"
+        cat "$tmp"
       '' else ''
-        nix eval --impure --expr "builtins.readFile $TMP"
+        nix eval --impure --expr "builtins.readFile $tmp"
       ''))
       (builtins.baseNameOf ./extra-builtins.nix)
       path

@@ -22,6 +22,12 @@
           done
           shift $((OPTIND - 1))
 
+          identityFile=$(mktemp --tmpdir deployer_ssh_key.XXX)
+          trap 'rm "$identityFile"' EXIT
+
+          secrets/askkey >> "$identityFile"
+          pass=$(secrets/askpass)
+
           prefix=secrets
           if [[ -v 1 ]]; then
               prefix="''${1%%/}"
@@ -36,10 +42,23 @@
               fi
 
               >&2 printf 'Writing  %s…\n' "$target"
-              rage --decrypt \
-                  --identity secrets/deployer_ssh_ed25519_key \
-                  --output "$target" \
-                  "$secret"
+              # rage reads the password from /dev/tty instead of stdin.
+              # https://github.com/str4d/rage/issues/550
+              expect <<EOF
+          log_user 0
+          spawn rage --decrypt --identity "$identityFile" --output "$target" "$secret"
+          while {1} {
+            expect {
+              "Type passphrase for" {
+                send "$pass\n"
+                expect "\n"
+              }
+              eof {
+                break
+              }
+            }
+          }
+          EOF
           done
         '';
       };
