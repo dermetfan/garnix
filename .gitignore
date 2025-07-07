@@ -22,5 +22,6 @@
 /secrets/services/authelia/*
 !/secrets/services/authelia/*.age
 
+/.local.envrc
 /.direnv/
 /.gcroots/
