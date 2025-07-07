@@ -1,6 +1,10 @@
 /secrets/askkey
 /secrets/askpass
 
+/secrets/users/*/*
+!/secrets/users/*/*.age
+!/secrets/users/*/*.pub
+
 /secrets/hosts/*/*
 !/secrets/hosts/*/*.age
 !/secrets/hosts/*/*.pub
