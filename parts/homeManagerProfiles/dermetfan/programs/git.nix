@@ -1,32 +1,4 @@
-{
-  imports = [
-    # https://github.com/nix-community/home-manager/issues/3140
-    ({ config, lib, pkgs, ... }: {
-      programs.git = {
-        difftastic = {
-          background = "dark";
-          display = "inline";
-        };
-
-        extraConfig = {
-          diff.tool = "difftastic";
-          difftool = {
-            prompt = false;
-            difftastic.cmd = let
-              cfg = config.programs.git.difftastic;
-            in toString [
-              (lib.getExe pkgs.difftastic)
-              "--color ${cfg.color}"
-              "--background ${cfg.background}"
-              "--display ${cfg.display}"
-              ''"$LOCAL" "$REMOTE"''
-            ];
-          };
-        };
-      };
-    })
-  ];
-
+{ lib, pkgs, ... }: {
   programs.git = {
     delta = {
       enable = true;
@@ -34,6 +6,12 @@
         syntax-theme = "gruvbox-dark";
         features = "zebra-dark";
       };
+    };
+
+    difftastic = {
+      enableAsDifftool = true;
+      background = "dark";
+      display = "inline";
     };
 
     userName = "Robin Stumm";
@@ -45,6 +23,10 @@
       co = "checkout";
       ci = "commit";
       spull = ''!git pull "$@" && git submodule sync --recursive && git submodule update --init --recursive'';
+      # XXX Use https://github.com/wtnqk/ftdv instead once it's packaged.
+      # That supports configuring other diffing tools (such as difftastic),
+      # while diffnav is hardcoded to use delta.
+      diffnav = "-c core.pager=${lib.getExe pkgs.diffnav} diff";
     };
 
     extraConfig = {
@@ -65,6 +47,7 @@
         colorMovedWS = "allow-indentation-change";
         noPrefix = true;
       };
+      difftool.prompt = false;
       branch.sort = "committerdate";
       tag.sort = "version:refname";
       push = {
@@ -77,7 +60,26 @@
         pruneTags = true;
         writeCommitGraph = true;
       };
-      format.pretty = "short";
+      format.pretty = "oneline-ext";
+      pretty = {
+        oneline-ext = lib.concatStrings [
+          "format:"
+          "%C(auto)%h%Creset"
+          " %Cgreen%ad%Creset"
+          " %Cblue%an%Creset"
+          "%C(auto)%d"
+          " %s"
+        ];
+        medium-ext = lib.concatStrings [
+          "format:"
+          "%C(auto)%h%d%n"
+          "%Cblue%an <%ae>%n"
+          "%Cgreen%ad%n"
+          "%n"
+          "%C(auto)%x09%s%n%n"
+          "%x09%b"
+        ];
+      };
       gc.writeCommitGraph = true;
       rerere = {
         enabled = true;
