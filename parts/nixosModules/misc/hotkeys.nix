@@ -12,9 +12,6 @@ let
   };
 
   packages = with pkgs;
-    [
-      linuxPackages.cpupower
-    ] ++
     (lib.optional cfg.sound.enable alsa-utils) ++
     (lib.optionals config.services.xserver.enable [
       maim slop
@@ -148,29 +145,19 @@ in {
             keys = XF86Hibernate;
             command = "systemctl hibernate";
           } ]) ++
-          (lib.optional (XF86Battery != []) {
+          (lib.optional (XF86Battery != [] && config.services.tlp.enable) {
             keys = XF86Battery;
-            command = let
-              state = "/run/eco-cpufreq-governor";
-              script = pkgs.writeScript "XF86Battery.sh" ''
-                #! ${pkgs.bash}/bin/bash
-                governors=(`cpupower frequency-info -g \
-                    | grep 'available cpufreq governors: ' \
-                    | cut -d\  -f6-`)
-
-                if [[ -f ${state} ]] ; then
-                    idx=$((`cat ${state}` + 1))
-                    if [[ $idx = ''${#governors[@]} ]] ; then
-                        idx=0
-                    fi
+            command = lib.getExe (pkgs.writeShellApplication {
+              name = "XF86Battery.sh";
+              text = ''
+                mode=$(tlp-stat --mode)
+                if [[ "$mode" = battery* ]]; then
+                  sudo ${lib.getExe config.services.tlp.package} ac
                 else
-                    idx=0
+                  sudo ${lib.getExe config.services.tlp.package} bat
                 fi
-                echo $idx > ${state}
-
-                cpupower frequency-set -g ''${governors[$idx]}
               '';
-            in "${script}";
+            });
           }) ++
           (lib.optionals config.services.xserver.enable [
             {

@@ -30,7 +30,7 @@
   security.sudo.extraRules = lib.mkAfter [
     {
       commands = [ {
-        command = "${pkgs.linuxPackages.cpupower}/bin/cpupower";
+        command = lib.getExe config.services.tlp.package;
         options = [ "NOPASSWD" ];
       } ];
       groups = [ config.users.groups.wheel.gid ];

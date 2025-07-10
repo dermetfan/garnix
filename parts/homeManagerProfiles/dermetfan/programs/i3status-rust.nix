@@ -12,14 +12,14 @@ in {
       type = types.bool;
       default = true;
       description = ''
-        The i3status-rust "eco" block requires cpupower to be usable without password through sudo.
+        The i3status-rust "eco" block requires tlp to be usable without password through sudo.
         Please put this in your NixOS config if necessary:
 
         <code>
         security.sudo.extraRules = lib.mkAfter [
           {
             commands = [ {
-              command = "''${pkgs.linuxPackages.cpupower}/bin/cpupower";
+              command = lib.getExe config.services.tlp.package;
               options = [ "NOPASSWD" ];
             } ];
             groups = [ config.users.groups.wheel.gid ];
@@ -51,7 +51,7 @@ in {
       lm_sensors
     ];
 
-    programs.i3status-rust.bars.default = rec {
+    programs.i3status-rust.bars.default = {
       icons = "awesome5";
       theme = "gruvbox-dark";
 
@@ -90,25 +90,30 @@ in {
           empty_format = charging_format;
         }) cfg.batteries
       ) ++ lib.optional cfg.enableEco (let
-        eco = pkgs.writeShellApplication {
-          name = "eco.sh";
-          runtimeInputs = [ pkgs.linuxPackages.cpupower ];
-          text = ''
-            case "''${1:-}" in
+        eco =
+          assert nixosConfig.security.sudo.enable or true;
+          assert nixosConfig.services.tlp.enable or true;
+          pkgs.writeShellApplication {
+            name = "eco.sh";
+            text = ''
+              case "''${1:-}" in
                 on)
-                    ${lib.optionalString config.xsession.enable "systemctl --user stop picom"}
-                    sudo cpupower frequency-set -g powersave
-                    ;;
+                  ${lib.optionalString config.xsession.enable "systemctl --user stop picom"}
+                  sudo ${lib.getExe nixosConfig.services.tlp.package} bat
+                  ;;
                 off)
-                    ${lib.optionalString config.xsession.enable "systemctl --user start picom"}
-                    sudo cpupower frequency-set -g performance
-                    ;;
+                  ${lib.optionalString config.xsession.enable "systemctl --user start picom"}
+                  sudo ${lib.getExe nixosConfig.services.tlp.package} ac
+                  ;;
                 *)
-                    sudo cpupower frequency-info | grep 'The governor "powersave" may decide'
-                    ;;
-            esac
-          '';
-        };
+                  mode=$(tlp-stat --mode)
+                  if [[ "$mode" = battery* ]]; then
+                    echo yes
+                  fi
+                  ;;
+              esac
+            '';
+          };
       in {
         block = "toggle";
         format = " $icon eco ";
