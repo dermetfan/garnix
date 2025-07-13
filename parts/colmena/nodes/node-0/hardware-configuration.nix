@@ -6,10 +6,18 @@
   imports = [ inputs.nixpkgs.nixosModules.notDetected ];
 
   boot = {
-    initrd.availableKernelModules = [
-      "ehci_pci" "ata_piix" "usbhid" "sd_mod"
-      "tg3" # the network interface driver for networking in the initial ramdisk
-    ];
+    initrd = {
+      availableKernelModules = [
+        "ehci_pci" "ata_piix" "usbhid" "sd_mod"
+        "tg3" # the network interface driver for networking in the initial ramdisk
+      ];
+
+      network = {
+        udhcpc.enable = true;
+        flushBeforeStage2 = false;
+      };
+    };
+
     kernelModules = [ "kvm-intel" ];
 
     loader.grub = {
@@ -18,10 +26,7 @@
     };
   };
 
-  networking.interfaces.enp30s0 = {
-    macAddress = "d8:d3:85:d7:ea:69";
-    useDHCP = true;
-  };
+  networking.interfaces.enp30s0.macAddress = "d8:d3:85:d7:ea:69";
 
   fileSystems = {
     "/boot" = {
