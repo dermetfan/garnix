@@ -1,4 +1,4 @@
-{
+{ config, lib, ... }: {
   # static network config from Hetzner's admin interface
   networking = {
     useDHCP = false;
@@ -19,5 +19,14 @@
       address = "fe80::1";
       interface = "eth0";
     };
+
+    # https://docs.hetzner.com/dns-console/dns/general/recursive-name-servers/
+    nameservers = [
+      "185.12.64.1"
+      "185.12.64.2"
+    ] ++ lib.optionals config.networking.enableIPv6 [
+      "2a01:4ff:ff00::add:1"
+      "2a01:4ff:ff00::add:2"
+    ];
   };
 }
