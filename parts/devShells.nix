@@ -36,8 +36,38 @@
         pkgs.expect # needed by extra-builtins-file in NIX_CONFIG
       ];
 
-      NIX_CONFIG = ''
-        plugin-files = ${pkgs.nix-plugins}/lib/nix/plugins
+      NIX_CONFIG = let
+        # TODO Remove once fixed upstream.
+        # https://github.com/shlevy/nix-plugins/issues/20#issuecomment-2907104550
+        nix-plugins = pkgs.nix-plugins.overrideAttrs (oldAttrs: {
+          buildInputs = map
+            (pkg: if pkg.pname or null != "nix" then pkg else pkgs.nix)
+            (oldAttrs.buildInputs or []);
+          patches = oldAttrs.patches or [] ++ [
+            (builtins.toFile "20.patch" ''
+              diff a/extra-builtins.cc b/extra-builtins.cc
+              --- a/extra-builtins.cc
+              +++ b/extra-builtins.cc
+              @@ -1,10 +1,10 @@
+              -#include <config.h>
+              -#include <primops.hh>
+              -#include <globals.hh>
+              -#include <config-global.hh>
+              -#include <eval-settings.hh>
+              -#include <common-eval-args.hh>
+              -#include <filtering-source-accessor.hh>
+              +#include <nix/cmd/common-eval-args.hh>
+              +#include <nix/expr/eval-settings.hh>
+              +#include <nix/expr/primops.hh>
+              +#include <nix/fetchers/filtering-source-accessor.hh>
+              +#include <nix/store/globals.hh>
+              +#include <nix/util/configuration.hh>
+              +#include <nix/util/config-global.hh>
+            '')
+          ];
+        });
+      in ''
+        plugin-files = ${nix-plugins}/lib/nix/plugins
         extra-builtins-file = ${../extra-builtins.nix}
       '';
 
