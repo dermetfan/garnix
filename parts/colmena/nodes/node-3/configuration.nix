@@ -68,6 +68,7 @@
     ntfy-sh.enable = true;
     users.users.dermetfan.enable = true;
     dev.enable = true;
+    iog.enable = true;
   };
 
   programs.ssh.extraConfig = ''
