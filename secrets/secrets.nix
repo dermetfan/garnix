@@ -8,82 +8,83 @@ let
       builtins.getFlake (with nixpkgsNode.locked; "${type}:${owner}/${repo}/${rev}")
   ) lib;
 
-  removeNewlines = builtins.replaceStrings [ "\n" ] [ "" ];
-  readKey = file: removeNewlines (builtins.readFile file);
+  recipients = {
+    deployer = lib.fileContents ./deployer_ssh_ed25519_key.pub;
+    host = name: lib.fileContents hosts/${name}/ssh_host_ed25519_key.pub;
+    user = name: lib.fileContents users/${name}/id_ed25519.pub;
+  };
 
-  deployers = map readKey [
-    ./deployer_ssh_ed25519_key.pub
-  ];
+  secrets = {
+    service = secret: "services/${secret}.age";
+    host = hostName: secret: "hosts/${hostName}/${secret}.age";
+    user = userName: secret: "users/${userName}/${secret}.age";
+  };
 
-  withDeployers = builtins.mapAttrs (k: v: v // {
-    publicKeys = v.publicKeys or [] ++ deployers;
+  withDeployer = builtins.mapAttrs (_: v: v // {
+    publicKeys = v.publicKeys or [] ++ [ recipients.deployer ];
   });
 
-  host = name: readKey hosts/${name}/ssh_host_ed25519_key.pub;
-  user = name: readKey users/${name}/id_ed25519.pub;
-
-  service = name: "services/${name}.age";
-
-  privateForHost = hostName: secrets:
+  selfSecrets = kind: name: secretNames:
+    assert builtins.any (x: x == kind) ["user" "host"];
     builtins.listToAttrs (
-      map (secret: {
-        name = "hosts/${hostName}/${secret}.age";
-        value.publicKeys = [ (host hostName) ];
-      }) secrets
+      map (secretName:
+        lib.nameValuePair
+        (secrets.${kind} name secretName)
+        { publicKeys = [ (recipients.${kind} name) ]; }
+      ) secretNames
     );
 
-  privateForUser = userName: secrets:
-    builtins.listToAttrs (
-      map (secret: {
-        name = "users/${userName}/${secret}.age";
-        value.publicKeys = [ (user userName) ];
-      }) secrets
-    );
+  hostSecrets = selfSecrets "host";
+  userSecrets = selfSecrets "user";
 
-  servicesForHosts = kv:
-    builtins.listToAttrs (
-      map (k: {
-        name = service k;
-        value.publicKeys = map host kv.${k};
-      }) (builtins.attrNames kv)
-    );
-in
+  serviceSecretsForHosts = attrs:
+    lib.mapAttrs' (secret: hosts:
+      lib.nameValuePair
+      (secrets.service secret)
+      { publicKeys = map recipients.host hosts; }
+    ) attrs;
+in withDeployer (
+  lib.genAttrs (
+    lib.pipe ./hosts [
+      lib.filesystem.listFilesRecursive
+      (map toString)
+      (map (lib.removePrefix (toString ./. + "/")))
+      (builtins.filter (path:
+        builtins.match "^(initrd_)?ssh_host_[[:alnum:]]+_key.pub$" (builtins.baseNameOf path) != null
+      ))
+      (map (lib.removeSuffix ".pub"))
+      (map (key: "${key}.age"))
+    ]
+    ++ [
+      (secrets.service "github")
+      (secrets.host "laptop" "secrets.nix")
+      (secrets.host "muttop" "secrets.nix")
+    ]
+  ) (_: {}) //
 
-withDeployers (
-  builtins.listToAttrs (map (k: {
-    name = "${k}.age";
-    value = {};
-  }) (import hosts/ssh-keys.nix)) //
-
-  {
-    ${service "github"} = {};
-  } //
-
-  privateForUser "dermetfan" [
+  userSecrets "dermetfan" [
     "nix-access-tokens"
   ] //
 
-  privateForHost "laptop" [
-    "yggdrasil/key.conf"
-    "freedns"
-    "secrets.nix"
-  ] //
-
-  privateForHost "muttop" [
-    "yggdrasil/key.conf"
-    "secrets.nix"
-  ] //
-
-  privateForHost "node-0" [
+  hostSecrets "laptop" [
     "yggdrasil/key.conf"
     "freedns"
   ] //
 
-  privateForHost "node-3" [
+  hostSecrets "muttop" [
     "yggdrasil/key.conf"
   ] //
 
-  servicesForHosts {
+  hostSecrets "node-0" [
+    "yggdrasil/key.conf"
+    "freedns"
+  ] //
+
+  hostSecrets "node-3" [
+    "yggdrasil/key.conf"
+  ] //
+
+  serviceSecretsForHosts {
     "cache.sec" = [ "node-0" ];
 
     "roundcube-google-oauth2-client-secret" = [ "node-3" ];
