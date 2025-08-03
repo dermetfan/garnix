@@ -31,6 +31,10 @@ let
     }
     {
       category = "Developent/Tools";
+      package = "below";
+    }
+    {
+      category = "Developent/Tools";
       package = "scc";
     }
     {
