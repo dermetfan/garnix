@@ -21,6 +21,20 @@ in {
             default = virtualHostArgs.name;
           };
 
+          authenticatedHeaders = lib.genAttrs [
+            # These are not freely chosen; they are the suffixes
+            # of the variables starting with `$upstream_http_remote_`
+            # which Authelia returns from its `auth_request`.
+            "user" "groups" "name" "email"
+          ] (pii: lib.mkOption {
+            description = ''
+              Header name for authenticated user's ${pii}.
+              This can be used by the protected application to delegate its own auth to Authelia.
+            '';
+            type = types.str;
+            default = "Remote-${lib.toSentenceCase pii}";
+          });
+
           upstream = mkOption {
             type = types.str;
             internal = true;
@@ -87,16 +101,12 @@ in {
                 auth_request /authelia;
 
                 ## Save the upstream response headers from Authelia to variables.
-                auth_request_set $user $upstream_http_remote_user;
-                auth_request_set $groups $upstream_http_remote_groups;
-                auth_request_set $name $upstream_http_remote_name;
-                auth_request_set $email $upstream_http_remote_email;
-
                 ## Inject the response headers from the variables into the request made to the backend.
-                proxy_set_header Remote-User $user;
-                proxy_set_header Remote-Groups $groups;
-                proxy_set_header Remote-Name $name;
-                proxy_set_header Remote-Email $email;
+              '' + lib.concatStrings (lib.mapAttrsToList (pii: header: ''
+                auth_request_set ''$${pii} $upstream_http_remote_${pii};
+                proxy_set_header ${header} ''$${pii};
+              '') virtualHostArgs.config.authenticatedHeaders)
+              + ''
 
                 ## Configure the redirection when the authz failure occurs. Lines starting with 'Modern Method' and 'Legacy Method'
                 ## should be commented / uncommented as pairs. The modern method uses the session cookies configuration's authelia_url
@@ -118,7 +128,7 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    services.nginx.virtualHosts = lib.mapAttrs' (_: { host, instance, upstream, ... }: lib.nameValuePair host {
+    services.nginx.virtualHosts = lib.mapAttrs' (_: { host, upstream, ... }: lib.nameValuePair host {
       forceSSL = true;
 
       locations."/" = locationArgs: {
@@ -151,15 +161,8 @@ in {
           proxy_http_version 1.1;
         '' + ''
 
-          ## Trusted Proxies Configuration
-          ## Please read the following documentation before configuring this:
-          ##     https://www.authelia.com/integration/proxies/nginx/#trusted-proxies
-          # set_real_ip_from 10.0.0.0/8;
-          # set_real_ip_from 172.16.0.0/12;
-          # set_real_ip_from 192.168.0.0/16;
-          # set_real_ip_from fc00::/7;
-          real_ip_header X-Forwarded-For;
-          real_ip_recursive on;
+          # Omitting Trusted Proxies Configuration as it is not specific to Authelia
+          # and can easily be appended from any other NixOS module if needed.
 
           ## Advanced Proxy Configuration
           send_timeout 5m;
