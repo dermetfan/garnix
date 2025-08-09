@@ -1,12 +1,16 @@
 { inputs, ... }:
 
-{ nodes, name, config, lib, pkgs, ... }:
+{ nodes, name, options, config, lib, pkgs, ... }:
 
 {
   imports = [
     { key = "age"; imports = [ inputs.agenix.nixosModules.age ]; }
     inputs.impermanence.nixosModules.impermanence
-    inputs.filestash.nixosModules.default
+    inputs.copyparty.nixosModules.default
+  ];
+
+  nixpkgs.overlays = [
+    inputs.copyparty.overlays.default
   ];
 
   system.stateVersion = "25.05";
@@ -19,6 +23,7 @@
         "/var/lib/acme"
         config.services.postgresql.dataDir
         "/var/lib/authelia-${config.services.authelia.instances.default.name}"
+        "/var/cache/copyparty"
       ];
     };
 
@@ -53,12 +58,6 @@
         owner = config.services.roundcube.database.username;
         group = config.services.roundcube.database.username;
       };
-
-      filestash = {
-        file = ../../../../secrets/services/filestash.age;
-        owner = config.services.filestash.user;
-        group = config.services.filestash.group;
-      };
     };
   };
 
@@ -88,67 +87,121 @@
 
     homepage.enable = true;
 
-    webdav = {
+    copyparty = {
       enable = true;
 
-      settings = {
-        address = "127.0.0.1";
-        port = 4918;
-        behindProxy = true;
+      settings = options.services.copyparty.settings.default // rec {
+        i = [ "unix:770:/dev/shm/party.sock" ];
+        s-tbody = 0;
+        http-only = true;
 
-        cors = {
-          enabled = true;
-          credentials = true;
-          allowed_methods = [ "GET" ];
-          exposed_headers = [
-            "Content-Length"
-            "Content-Range"
-          ];
-        };
+        rproxy = 1;
 
-        directory = "/var/empty";
-        permissions = "CRUD";
+        # usernames = true; # XXX add once available
+        no-bauth = true;
 
-        users = lib.mapAttrsToList
-          (username: password: {
-            inherit username password;
-            directory = "/mnt/webdav/home/${username}";
-          })
-          {
-            dermetfan = "{bcrypt}$2a$05$t73.WbNz16IN8Qe6GEoXneAEiMb8diJorYWtHVTgtX/xP5hBatItK";
-            diemetfan = "{bcrypt}$2a$05$GAWTv9qxSJMUqye5kgNK9eqdYFoyKwC42xz6wUsoqmROcVugt4ZSC";
-            mutmetfan = "{bcrypt}$2a$05$ReOWPjUxS4bx3w.UedyBEu37yNKdczXkcqw85dm1XgnN8GzE7VRd6";
-          };
+        ah-alg = "argon2";
+
+        idp-h-usr = config.services.authelia.nginx.virtualHosts.default.authenticatedHeaders.user;
+        idp-h-grp = config.services.authelia.nginx.virtualHosts.default.authenticatedHeaders.groups;
+        idp-gsep = ",";
+        idp-h-key = "Shangala-Bangala";
+        idp-store = 3;
+        idp-adm = [ "@admin" ];
+
+        # TODO fix upstream: This is not comma-separated, it's repeatable,
+        # but the NixOS module will turn it into a single comma-separated value,
+        # making it impossible to set multiple of these using the NixOS module.
+        ipu = [ "${nodes.muttop.config.profiles.yggdrasil.ip}/128=mutmetfan" ];
+
+        # Usually the group is given by the IdP,
+        # but apparently it is not recovered from the IdP cache
+        # when logging in via `--ipu`, so let's set it explicitely.
+        # TODO fix upstream: This is not comma-separated, it's repeatable,
+        # but the NixOS module will turn it into a single comma-separated value,
+        # making it impossible to set multiple of these using the NixOS module.
+        grp = [ "default:mutmetfan" ];
+
+        no-robots = true;
+
+        # j = 0; # implies `--no-fpool` which the help says is a bad idea on CoW filesystems
+        ed = true;
+        name = config.networking.domain;
+        ver = true;
+
+        e2d = true;
+        no-hash =
+          "/\\.("
+          + builtins.concatStringsSep "|" [
+            "git"
+            "hg"
+            "pijul"
+            "direnv"
+            "zig-cache"
+            "gradle"
+          ]
+          + ")/";
+        no-idx = no-hash;
+        hash-mt = 8;
+        dotsrch = true;
+
+        e2ts = true;
+        no-mutagen = true;
+
+        xvol = true;
+        logout = 168;
+
+        stats = true;
+
+        localtime = true;
+        qdel = 1;
+        spinner = "🌀,padding:0";
+        nsort = true;
+
+        shr = "/share";
+        shr-adm = [ "@admin" ];
+
+        chmod-f = 640;
+        chmod-d = 750;
+
+        # reflink = true; # README says "zfs had bugs"
+        df = "256m";
+
+        nid = true;
       };
-    };
 
-    filestash = {
-      enable = true;
-      settings = {
-        general = {
-          host = "filestash.${config.networking.domain}";
-          port = 8334;
-          secret_key_file = config.age.secrets.filestash.path;
-          editor = "base";
-          fork_button = false;
-          upload_button = true;
-          filepage_default_view = "list";
-          filepage_default_sort = "type";
-        };
-        share.default_access = "viewer";
-        features.api.enable = false;
-        auth.admin = "$2a$05$gIqN0/EbKTkj5iyZHjOgwOD6/ppQkKPzszkYGXSLvCuYapHWiACHC";
-        connections = map (username: {
-          label = username;
-          type = "webdav";
-          url = with config.services.webdav.settings; "http://${address}:${toString port}";
-          inherit username;
-        }) [
+      # XXX NixOS module does not support IdP syntax; fix upstream?
+      #"/home/\${u}" = {
+      #  path = "${config.fileSystems."/mnt/copyparty/home".mountPoint}/\${u}";
+      #  access.A = [ "@admin" "\${u}" ];
+      #};
+      volumes =
+        lib.mapAttrs' (user: lib.nameValuePair "/home/${user}") (lib.genAttrs [
           "dermetfan"
           "diemetfan"
           "mutmetfan"
-        ];
-      };
+        ] (user: {
+          path = "${config.fileSystems."/mnt/copyparty/home".mountPoint}/${user}";
+          access.A = [ "@admin" user ];
+          flags.daw = builtins.elem user [ "mutmetfan" ];
+        }))
+        # Needed to avoid WebDAV errors with GVFS.
+        // lib.genAttrs ["/" "/home"] (volume: rec {
+          path = "/var/empty";
+          access.r = "@default";
+          flags = {
+            d2d = true;
+            # Must be unique per volume.
+            hist = "${path}${volume}.hist";
+          };
+        });
+
+      # TODO report issue
+      # Needed to make --ipu work with IdP.
+      # Crashes on startup without this.
+      # The password was generated from `head --bytes (math 2^32) /dev/random | sha512sum`.
+      # Nobody should ever know it as authentication should be done only via the IdP.
+      accounts.mutmetfan.passwordFile = builtins.toFile "unknown-pwhash" "+-JCTwpHZ6a2sQMSWh4s9Z3jilLcGCCBY";
     };
 
     authelia = {
@@ -194,91 +247,100 @@
 
       nginx = {
         enable = true;
-        virtualHosts.default.host = "auth.${config.networking.domain}";
+        virtualHosts.default = {
+          host = "auth.${config.networking.domain}";
+          hardening.authDelay = "1s";
+        };
       };
     };
 
-    nginx.virtualHosts = let
-      extraConfig = ''
-        client_max_body_size 5G;
-        proxy_request_buffering off;
-      '';
+    nginx = let
+      # https://github.com/9001/copyparty/blob/hovudstraum/contrib/nginx/copyparty.conf
+      copyparty = {
+        upstream = {
+          servers.${
+            "unix:"
+            + lib.pipe config.services.copyparty.settings.i [
+              builtins.head
+              (v: assert lib.hasPrefix "unix:" v; v)
+              (lib.splitString ":")
+              lib.last
+            ]
+          }.fail_timeout = "1s";
 
-      authelia = config.services.authelia.nginx.virtualHosts.default.protectLocation "/";
-    in {
-      ${config.services.authelia.nginx.virtualHosts.default.host}.enableACME = true;
-
-      ${config.services.roundcube.hostName} = _: {
-        imports = [
-          # The Roundcube module sets a `Cache-Control` header on the `/` route
-          # that interferes with Authelia so that it leads to a redirection loop.
-          # Therefore we are not protecting `/`. We can do so because it only calls `/index.php` anyway.
-
-          # this location is defined in the NixOS Roundcube module
-          (config.services.authelia.nginx.virtualHosts.default.protectLocation "~* \\.php(/|$)")
-        ];
-      };
-
-      "webdav.${config.networking.domain}" = _: {
-        imports = [ authelia ];
-
-        enableACME = true;
-        forceSSL = true;
-
-        locations."/".proxyPass = with config.services.webdav.settings; "http://${address}:${toString port}";
-
-        inherit extraConfig;
-      };
-
-      "webdav.ygg.${config.networking.domain}" = {
-        listen = [
-          {
-            addr = "[${config.profiles.yggdrasil.ip}]";
-            port = 8808;
-          }
-        ];
-
-        locations."/".proxyPass = with config.services.webdav.settings; "http://${address}:${toString port}";
-
-        inherit extraConfig;
-      };
-
-      ${config.services.filestash.settings.general.host} = _: {
-        imports = [
-          authelia
-          (config.services.authelia.nginx.virtualHosts.default.protectLocation "/api/session/auth")
-        ];
-
-        enableACME = true;
-        forceSSL = true;
-
-        locations = let
-          location.proxyPass = "http://127.0.0.1:${toString config.services.filestash.settings.general.port}";
-        in {
-          # protected by authelia
-          "/" = location;
-          "/api/session/auth" = location;
-
-          # all other locations are not protected by authelia
-          # so we can list public prefixes here
-          # see https://github.com/mickael-kerjean/filestash/blob/master/server/routes.go
-          "/s/" = location;
-          "/api/" = location;
-          "/assets/" = location;
-          "/favicon.ico" = location;
-          "/sw_cache.js" = location;
-          "/report" = location;
-          "/about" = location;
-          "/robots.txt" = location;
-          "/manifest.json" = location;
-          "/.well-known/security.txt" = location;
-          "/healthz" = location;
-          "/custom.css" = location;
-          "/doc" = location;
-          "/overrides/" = location;
+          extraConfig = ''
+            keepalive 1;
+          '';
         };
 
-        inherit extraConfig;
+        virtualHost = {
+          location.proxyPass = "http://copyparty";
+
+          extraConfig = ''
+            client_max_body_size 0;
+            proxy_buffering off;
+            proxy_request_buffering off;
+            proxy_buffers 32 8k;
+            proxy_buffer_size 16k;
+            proxy_busy_buffers_size 24k;
+          '';
+        };
+      };
+    in {
+      upstreams.copyparty = copyparty.upstream;
+
+      virtualHosts = let
+        authelia = config.services.authelia.nginx.virtualHosts.default.protectLocation "/";
+      in {
+        ${config.services.authelia.nginx.virtualHosts.default.host}.enableACME = true;
+
+        ${config.services.roundcube.hostName} = _: {
+          imports = [
+            # The Roundcube module sets a `Cache-Control` header on the `/` route
+            # that interferes with Authelia so that it leads to a redirection loop.
+            # Therefore we are not protecting `/`. We can do so because it only calls `/index.php` anyway.
+
+            # this location is defined in the NixOS Roundcube module
+            (config.services.authelia.nginx.virtualHosts.default.protectLocation "~* \\.php(/|$)")
+          ];
+        };
+
+        "files.${config.networking.domain}" = _: {
+          imports = [ authelia ];
+
+          enableACME = true;
+          forceSSL = true;
+
+          locations = {
+            "/" = {
+              inherit (copyparty.virtualHost.location) proxyPass;
+              extraConfig = ''
+                auth_request_set $idp_secret_header "yup";
+                proxy_set_header ${config.services.copyparty.settings.idp-h-key} $idp_secret_header;
+              '';
+            };
+          } // lib.genAttrs [
+            "/.cpr/" # https://github.com/9001/copyparty/issues/84#issuecomment-2296785662
+            "${lib.removeSuffix "/" config.services.copyparty.settings.shr}/"
+          ] (_: { inherit (copyparty.virtualHost.location) proxyPass; });
+
+          inherit (copyparty.virtualHost) extraConfig;
+        };
+
+        "files.ygg.${config.networking.domain}" = {
+          listenAddresses = [ "[${config.profiles.yggdrasil.ip}]" ];
+
+          locations."/" = { inherit (copyparty.virtualHost.location) proxyPass; };
+
+          extraConfig = ''
+            ${copyparty.virtualHost.extraConfig}
+
+            # copyparty already does login by IP due to `--ipu`
+            # but let's block everyone else entirely for good measure.
+            allow ${nodes.muttop.config.profiles.yggdrasil.ip};
+            deny all;
+          '';
+        };
       };
     };
 
@@ -347,6 +409,19 @@
     };
   };
 
+  systemd.services = {
+    # TODO Will probably be needed once the copyparty NixOS module
+    # supports IdP syntax in the volumes config, see comment above.
+    #copyparty.serviceConfig.BindPaths = [
+    #  config.fileSystems."/mnt/copyparty/home".mountPoint
+    #];
+
+    # Allow nginx access to the copyparty unix socket.
+    nginx.serviceConfig.SupplementaryGroups = [
+      config.services.copyparty.group
+    ];
+  };
+
   home-manager.users.dermetfan = { options, ... }: {
     home.stateVersion = "25.05";
 
@@ -360,21 +435,12 @@
     };
   };
 
-  networking.firewall.extraCommands = ''
-    ip6tables \
-      -I INPUT \
-      -p tcp \
-      -s ${nodes.muttop.config.profiles.yggdrasil.ip} \
-      -d ${config.profiles.yggdrasil.ip} \
-      --dport ${toString (builtins.elemAt config.services.nginx.virtualHosts."webdav.ygg.${config.networking.domain}".listen 0).port} \
-      -j ACCEPT
-  '';
-
-  fileSystems."/mnt/webdav/home" = {
+  fileSystems."/mnt/copyparty/home" = {
     fsType = "fuse.bindfs";
     device = "/tank/home";
     options = [
-      "map=1000/webdav:@users/@webdav"
+      (with config.services.copyparty; "map=1000/${user}:@users/@${group}")
+      "multithreaded"
       "nofail"
     ];
   };
