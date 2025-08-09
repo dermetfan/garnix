@@ -53,11 +53,11 @@
       url = "sourcehut:~dermetfan/dermetfan-blog";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    filestash = {
-      url = "sourcehut:~dermetfan/filestash.nix";
+    copyparty = {
+      url = "github:9001/copyparty/v1.19.1";
       inputs = {
         nixpkgs.follows = "nixpkgs";
-        parts.follows = "flake-parts";
+        flake-utils.follows = "flake-utils";
       };
     };
     hosts = {

@@ -89,8 +89,6 @@ in withDeployer (
 
     "roundcube-google-oauth2-client-secret" = [ "node-3" ];
 
-    filestash = [ "node-3" ];
-
     "authelia/jwt" = [ "node-3" ];
     "authelia/storage" = [ "node-3" ];
     "authelia/users.json" = [ "node-3" ];
