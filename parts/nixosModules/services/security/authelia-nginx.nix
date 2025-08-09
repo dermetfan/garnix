@@ -5,19 +5,19 @@
 let
   cfg = config.services.authelia.nginx;
 in {
-  options.services.authelia.nginx = with lib; {
-    enable = mkEnableOption "nginx";
+  options.services.authelia.nginx = {
+    enable = lib.mkEnableOption "nginx";
 
-    virtualHosts = mkOption {
-      type = types.attrsOf (types.submodule (virtualHostArgs @ { name, ... }: {
+    virtualHosts = lib.mkOption {
+      type = lib.types.attrsOf (lib.types.submodule (virtualHostArgs @ { name, ... }: {
         options = {
-          host = mkOption {
-            type = types.str;
+          host = lib.mkOption {
+            type = lib.types.str;
             example = "auth.\${name}.example.com";
           };
 
-          instance = mkOption {
-            type = types.str;
+          instance = lib.mkOption {
+            type = lib.types.str;
             default = virtualHostArgs.name;
           };
 
@@ -31,12 +31,18 @@ in {
               Header name for authenticated user's ${pii}.
               This can be used by the protected application to delegate its own auth to Authelia.
             '';
-            type = types.str;
+            type = lib.types.str;
             default = "Remote-${lib.toSentenceCase pii}";
           });
 
-          upstream = mkOption {
-            type = types.str;
+          hardening.authDelay = lib.mkOption {
+            description = "auth_delay";
+            type = with lib.types; nullOr str;
+            default = null;
+          };
+
+          upstream = lib.mkOption {
+            type = lib.types.str;
             internal = true;
             readOnly = true;
             default = "http://" + (lib.pipe config.services.authelia.instances.${virtualHostArgs.config.instance}.settings.server.address [
@@ -46,8 +52,8 @@ in {
             ]);
           };
 
-          protectLocation = mkOption {
-            type = with types; functionTo attrs;
+          protectLocation = lib.mkOption {
+            type = with lib.types; functionTo attrs;
             readOnly = true;
             description = "Function that takes a location to protect and returns a submodule to import into `services.nginx.virtualHosts.<name> = _: { imports = <HERE>; };`.";
             default = location: {
@@ -119,7 +125,11 @@ in {
                 error_page 401 =302 $redirection_url;
 
                 # Omitting commented code for legacy method.
-              '';
+              '' + (with virtualHostArgs.config.hardening; ''
+
+                # Hardening
+                ${lib.optionalString (authDelay != null) "auth_delay ${authDelay};"}
+              '');
             };
           };
         };
