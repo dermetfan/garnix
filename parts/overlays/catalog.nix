@@ -179,6 +179,10 @@ let
       category = "Terminal";
       package = "asciinema";
     }
+    {
+      category = "Terminal";
+      package = "pspg";
+    }
   ];
 in
 
