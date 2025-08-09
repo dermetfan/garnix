@@ -78,6 +78,30 @@
         "type": "github"
       }
     },
+    "copyparty": {
+      "inputs": {
+        "flake-utils": [
+          "flake-utils"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1754828772,
+        "narHash": "sha256-kSHzf3r1ms7q6M7wZvIJ4LnU/5B6N4daPS2fD+v9qEI=",
+        "owner": "9001",
+        "repo": "copyparty",
+        "rev": "c2cee222bdc3ae836ca1adb52f2af6381e8a5a1f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "9001",
+        "ref": "v1.19.1",
+        "repo": "copyparty",
+        "type": "github"
+      }
+    },
     "crane": {
       "locked": {
         "lastModified": 1741481578,
@@ -156,47 +180,6 @@
         "owner": "nix-community",
         "ref": "v1.12.0",
         "repo": "disko",
-        "type": "github"
-      }
-    },
-    "filestash": {
-      "inputs": {
-        "filestash": "filestash_2",
-        "nixpkgs": [
-          "nixpkgs"
-        ],
-        "parts": [
-          "flake-parts"
-        ],
-        "systems": "systems_2"
-      },
-      "locked": {
-        "lastModified": 1752535043,
-        "narHash": "sha256-zPa51G7567BOBH1ydoS5fpbqjZ+eT5VWPLyHL0NWGUU=",
-        "owner": "~dermetfan",
-        "repo": "filestash.nix",
-        "rev": "20a7953a5a1579e4c2a9737cefe536610d3d5aa2",
-        "type": "sourcehut"
-      },
-      "original": {
-        "owner": "~dermetfan",
-        "repo": "filestash.nix",
-        "type": "sourcehut"
-      }
-    },
-    "filestash_2": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1751520608,
-        "narHash": "sha256-iVoPLz7YTYgouJ5UTS92U90ryJQfzZyFZpjuerpf5+I=",
-        "owner": "mickael-kerjean",
-        "repo": "filestash",
-        "rev": "2029d5240cb1285a074fccfd84b99675dc88140b",
-        "type": "github"
-      },
-      "original": {
-        "owner": "mickael-kerjean",
-        "repo": "filestash",
         "type": "github"
       }
     },
@@ -353,7 +336,7 @@
     },
     "flake-utils_2": {
       "inputs": {
-        "systems": "systems_3"
+        "systems": "systems_2"
       },
       "locked": {
         "lastModified": 1731533236,
@@ -1204,9 +1187,9 @@
       "inputs": {
         "agenix": "agenix",
         "colmena": "colmena",
+        "copyparty": "copyparty",
         "dermetfan-blog": "dermetfan-blog",
         "disko": "disko",
-        "filestash": "filestash",
         "fish-abbreviation-tips": "fish-abbreviation-tips",
         "fish-autopair": "fish-autopair",
         "fish-colored-man-pages": "fish-colored-man-pages",
@@ -1317,21 +1300,6 @@
       }
     },
     "systems_2": {
-      "locked": {
-        "lastModified": 1681028828,
-        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
-        "owner": "nix-systems",
-        "repo": "default",
-        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nix-systems",
-        "repo": "default",
-        "type": "github"
-      }
-    },
-    "systems_3": {
       "locked": {
         "lastModified": 1681028828,
         "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",

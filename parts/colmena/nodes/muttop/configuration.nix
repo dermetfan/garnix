@@ -205,11 +205,7 @@
     gtk = {
       enable = true;
       gtk3.bookmarks = [
-        (let
-          node-3 = nodes.node-3.config;
-          webdavUsers = builtins.listToAttrs (map (user: lib.nameValuePair user.username user) node-3.services.webdav.settings.users);
-          webdavYggPort = (builtins.elemAt node-3.services.nginx.virtualHosts."webdav.ygg.${node-3.networking.domain}".listen 0).port;
-        in "dav://${webdavUsers.mutmetfan.username}@[${node-3.profiles.yggdrasil.ip}]:${toString webdavYggPort}/ Server")
+        "dav://[${nodes.node-3.config.profiles.yggdrasil.ip}]/home/mutmetfan Server"
       ];
     };
   };
