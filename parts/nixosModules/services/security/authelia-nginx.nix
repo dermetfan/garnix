@@ -66,7 +66,9 @@ in {
                     proxy_http_version 1.1;
                     proxy_cache_bypass $cookie_session;
                     proxy_no_cache $cookie_session;
-                    proxy_buffers 4 32k;
+                    # Can easily lead to conflict with `proxy_busy_buffers_size`
+                    # as defined for the protected upstream.
+                    # proxy_buffers 4 32k;
                     client_body_buffer_size 128k;
 
                     ## Advanced Proxy Configuration
@@ -142,7 +144,9 @@ in {
           proxy_redirect http:// $scheme://;
           proxy_cache_bypass $cookie_session;
           proxy_no_cache $cookie_session;
-          proxy_buffers 64 256k;
+          # Can easily lead to conflict with `proxy_busy_buffers_size`
+          # as defined for the protected upstream.
+          #proxy_buffers 64 256k;
         '' + lib.optionalString (!locationArgs.config.recommendedProxySettings) ''
           proxy_http_version 1.1;
         '' + ''
