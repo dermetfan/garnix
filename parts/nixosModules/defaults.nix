@@ -106,6 +106,7 @@ in {
         recommendedTlsSettings    = true;
         recommendedGzipSettings   = true;
         recommendedBrotliSettings = true;
+        recommendedUwsgiSettings  = true;
         recommendedZstdSettings   = true;
       };
     };
