@@ -15,6 +15,10 @@ let
     }
     {
       category = "Files";
+      package = "fclones";
+    }
+    {
+      category = "Files";
       package = "fq";
     }
     {
