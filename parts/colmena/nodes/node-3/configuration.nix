@@ -240,6 +240,7 @@
           access_control.default_policy = "two_factor";
           authentication_backend.file = {
             search.email = true;
+            # https://www.authelia.com/reference/guides/passwords/#yaml-format
             inherit (config.age.secrets.authelia-default-users) path;
           };
         };
