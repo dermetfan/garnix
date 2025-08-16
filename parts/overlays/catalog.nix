@@ -160,6 +160,10 @@ let
       package = "wget";
     }
     {
+      category = "Security";
+      package = "cariddi";
+    }
+    {
       category = "Compression";
       package = "lrzip";
     }
