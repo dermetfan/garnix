@@ -773,7 +773,7 @@ in {
             }
             {
               name = "WinSetOption";
-              option = "filetype=nix";
+              option = "filetype=(nix|beancount)";
               commands = ''
                 set-option window indentwidth 2
                 set-option window tabstop 2
@@ -781,6 +781,13 @@ in {
                 # smarttab plugin
                 expandtab
                 set-option window softtabstop 2
+              '';
+            }
+            {
+              name = "WinSetOption";
+              option = "filetype=beancount";
+              commands = ''
+                set-option window comment_line \;
               '';
             }
             {
@@ -801,7 +808,7 @@ in {
             }
             {
               name = "WinSetOption";
-              option = "filetype=(nix|zig|rust|go|haskell)";
+              option = "filetype=(nix|zig|rust|go|haskell|beancount)";
               commands = ''
                 set-option window lsp_hover_anchor true
                 set-option window lsp_auto_highlight_references true
@@ -871,6 +878,7 @@ in {
           change-directory
           explain-shell
           elvish
+          beancount
           crosshairs
           table
           local-kakrc
@@ -1023,6 +1031,13 @@ in {
             });
             args = [ "--lsp" ];
           };
+
+          beancount = {
+            filetypes = [ "beancount" ];
+            roots = [ "*.beancount" ];
+            command = "beancount-language-server";
+            args = [ "--stdio" ];
+          };
         };
       };
 
@@ -1056,6 +1071,7 @@ in {
       yaml-language-server
       flow
       phpPackages.psalm
+      beancount-language-server
     ];
   };
 }

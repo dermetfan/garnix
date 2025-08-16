@@ -472,6 +472,22 @@
         "type": "github"
       }
     },
+    "kak-beancount": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1688359850,
+        "narHash": "sha256-tut7ydCD7idZvZdJtiASsS8ogwG9C4dSOT4+Q00YJfM=",
+        "owner": "enricozb",
+        "repo": "beancount.kak",
+        "rev": "ed6800bd05867c5f983c3d4f532e53da440960af",
+        "type": "github"
+      },
+      "original": {
+        "owner": "enricozb",
+        "repo": "beancount.kak",
+        "type": "github"
+      }
+    },
     "kak-case": {
       "flake": false,
       "locked": {
@@ -1216,6 +1232,7 @@
         "home-manager-shell": "home-manager-shell",
         "hosts": "hosts",
         "impermanence": "impermanence",
+        "kak-beancount": "kak-beancount",
         "kak-case": "kak-case",
         "kak-change-directory": "kak-change-directory",
         "kak-close-tag": "kak-close-tag",

@@ -161,6 +161,10 @@
       url = "gitlab:SolitudeSF/elvish.kak";
       flake = false;
     };
+    kak-beancount = {
+      url = "github:enricozb/beancount.kak";
+      flake = false;
+    };
     kak-crosshairs = {
       url = "github:insipx/kak-crosshairs";
       flake = false;

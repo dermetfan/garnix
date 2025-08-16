@@ -46,6 +46,7 @@ final: prev: {
         "change-directory"
         "explain-shell"
         "elvish"
+        "beancount"
         "crosshairs"
         "table"
         "local-kakrc"
