@@ -664,6 +664,22 @@
         "type": "github"
       }
     },
+    "kak-gruvbox-soft": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1752027661,
+        "narHash": "sha256-fzftSefqcwSMZTFIXDXEUtiu6Bq3rM2PPmADo82zPYg=",
+        "owner": "joaopspsps",
+        "repo": "gruvbox-soft.kak",
+        "rev": "fab08230e06b582df15c8ce12153eb4c0d1ff53c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "joaopspsps",
+        "repo": "gruvbox-soft.kak",
+        "type": "github"
+      }
+    },
     "kak-hump": {
       "flake": false,
       "locked": {
@@ -1212,6 +1228,7 @@
         "kak-explain-shell": "kak-explain-shell",
         "kak-fetch": "kak-fetch",
         "kak-focus": "kak-focus",
+        "kak-gruvbox-soft": "kak-gruvbox-soft",
         "kak-hump": "kak-hump",
         "kak-interactively": "kak-interactively",
         "kak-local-kakrc": "kak-local-kakrc",

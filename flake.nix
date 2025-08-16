@@ -89,6 +89,10 @@
       url = "github:Anfid/cosy-gruvbox.kak";
       flake = false;
     };
+    kak-gruvbox-soft = {
+      url = "github:joaopspsps/gruvbox-soft.kak";
+      flake = false;
+    };
     kak-themes = {
       url = "github:anhsirk0/kakoune-themes";
       flake = false;
