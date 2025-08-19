@@ -11,7 +11,6 @@
     curl
     entr
     fd
-    fdupes
     file
     jnv
     lsof
