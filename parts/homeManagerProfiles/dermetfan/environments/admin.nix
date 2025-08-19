@@ -49,6 +49,7 @@
       nix-index.enable = true;
       ripgrep.enable = true;
       skim.enable = true;
+      flirt.enable = true;
     };
   };
 }
