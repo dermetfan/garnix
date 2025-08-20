@@ -264,22 +264,6 @@
         "type": "github"
       }
     },
-    "flake-compat_2": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1606424373,
-        "narHash": "sha256-oq8d4//CJOrVj+EcOaSXvMebvuTkmBJuT5tzlfewUnQ=",
-        "owner": "edolstra",
-        "repo": "flake-compat",
-        "rev": "99f1c2157fba4bfe6211a321fd0ee43199025dbf",
-        "type": "github"
-      },
-      "original": {
-        "owner": "edolstra",
-        "repo": "flake-compat",
-        "type": "github"
-      }
-    },
     "flake-parts": {
       "inputs": {
         "nixpkgs-lib": "nixpkgs-lib"
@@ -344,21 +328,6 @@
         "owner": "numtide",
         "repo": "flake-utils",
         "rev": "11707dc2f618dd54ca8739b309ec4fc024de578b",
-        "type": "github"
-      },
-      "original": {
-        "owner": "numtide",
-        "repo": "flake-utils",
-        "type": "github"
-      }
-    },
-    "flake-utils_3": {
-      "locked": {
-        "lastModified": 1617631617,
-        "narHash": "sha256-PARRCz55qN3gy07VJZIlFeOX420d0nGF0RzGI/9hVlw=",
-        "owner": "numtide",
-        "repo": "flake-utils",
-        "rev": "b2c27d1a81b0dc266270fa8aeecebbd1807fc610",
         "type": "github"
       },
       "original": {
@@ -776,22 +745,6 @@
         "type": "sourcehut"
       }
     },
-    "kak-neuron": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1642271147,
-        "narHash": "sha256-h4NWC9J2gIfSAaz8L9t4PgnudoRb01V4/X8wARIB9qw=",
-        "owner": "MilanVasko",
-        "repo": "neuron-kak",
-        "rev": "f51bca9acf091401563e54d7d6fc119beaa04605",
-        "type": "github"
-      },
-      "original": {
-        "owner": "MilanVasko",
-        "repo": "neuron-kak",
-        "type": "github"
-      }
-    },
     "kak-palette": {
       "flake": false,
       "locked": {
@@ -1000,26 +953,6 @@
         "type": "github"
       }
     },
-    "neuron": {
-      "inputs": {
-        "flake-compat": "flake-compat_2",
-        "flake-utils": "flake-utils_3",
-        "nixpkgs": "nixpkgs_2"
-      },
-      "locked": {
-        "lastModified": 1665756974,
-        "narHash": "sha256-OCnsYKKFOFsk15V71ztD61Rf3V09Bbwy1nqdHjpDF7M=",
-        "owner": "srid",
-        "repo": "neuron",
-        "rev": "aff49d85dc7d9c4b011a1e5a27ffae8f7e4f5537",
-        "type": "github"
-      },
-      "original": {
-        "owner": "srid",
-        "repo": "neuron",
-        "type": "github"
-      }
-    },
     "nil": {
       "inputs": {
         "nixpkgs": [
@@ -1127,22 +1060,6 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1630140382,
-        "narHash": "sha256-ntXepAHFlAEtaYIU5EzckRUODeeMgpu1u2Yug+4LFNc=",
-        "owner": "nixos",
-        "repo": "nixpkgs",
-        "rev": "08ef0f28e3a41424b92ba1d203de64257a9fca6a",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nixos",
-        "repo": "nixpkgs",
-        "rev": "08ef0f28e3a41424b92ba1d203de64257a9fca6a",
-        "type": "github"
-      }
-    },
-    "nixpkgs_3": {
-      "locked": {
         "lastModified": 1751741127,
         "narHash": "sha256-t75Shs76NgxjZSgvvZZ9qOmz5zuBE8buUaYD28BMTxg=",
         "owner": "NixOS",
@@ -1157,7 +1074,7 @@
         "type": "github"
       }
     },
-    "nixpkgs_4": {
+    "nixpkgs_3": {
       "locked": {
         "lastModified": 1751792365,
         "narHash": "sha256-J1kI6oAj25IG4EdVlg2hQz8NZTBNYvIS0l4wpr9KcUo=",
@@ -1176,7 +1093,7 @@
     "nur": {
       "inputs": {
         "flake-parts": "flake-parts_2",
-        "nixpkgs": "nixpkgs_4"
+        "nixpkgs": "nixpkgs_3"
       },
       "locked": {
         "lastModified": 1751899958,
@@ -1251,7 +1168,6 @@
         "kak-local-kakrc": "kak-local-kakrc",
         "kak-mark": "kak-mark",
         "kak-move-line": "kak-move-line",
-        "kak-neuron": "kak-neuron",
         "kak-palette": "kak-palette",
         "kak-phantom-selection": "kak-phantom-selection",
         "kak-registers": "kak-registers",
@@ -1265,11 +1181,10 @@
         "kak-tmux-info": "kak-tmux-info",
         "kak-tug": "kak-tug",
         "kak-wordcount": "kak-wordcount",
-        "neuron": "neuron",
         "nil": "nil",
         "nix-index-database": "nix-index-database",
         "nixos-hardware": "nixos-hardware",
-        "nixpkgs": "nixpkgs_3",
+        "nixpkgs": "nixpkgs_2",
         "nur": "nur",
         "programs-sqlite": "programs-sqlite",
         "tmux-kak-copy-mode": "tmux-kak-copy-mode",

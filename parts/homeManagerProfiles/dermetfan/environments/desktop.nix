@@ -54,9 +54,7 @@
       wlsunset.enable = config.profiles.dermetfan.environments.gui.enable && !config.xsession.enable;
     };
 
-    home.packages = (with self.inputs; [
-      neuron.defaultPackage.${pkgs.system}
-    ]) ++ (with pkgs; [
+    home.packages = with pkgs; [
       unrar
       unzip
       zip
@@ -75,6 +73,6 @@
       gucharmap
       qalculate-gtk
       xarchiver
-    ]);
+    ];
   };
 }

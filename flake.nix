@@ -41,7 +41,6 @@
       url = "github:nix-community/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    neuron.url = "github:srid/neuron";
     programs-sqlite = {
       url = "github:wamserma/flake-programs-sqlite";
       inputs = {
@@ -192,10 +191,6 @@
     };
     kak-expand = {
       url = "github:occivink/kakoune-expand";
-      flake = false;
-    };
-    kak-neuron = {
-      url = "github:MilanVasko/neuron-kak";
       flake = false;
     };
     kak-tmux-info = {

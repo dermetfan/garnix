@@ -51,7 +51,6 @@ final: prev: {
         "table"
         "local-kakrc"
         "expand"
-        "neuron"
         "tmux-info" # dependency of tmux-kak-copy-mode
         "csv"
         "registers"

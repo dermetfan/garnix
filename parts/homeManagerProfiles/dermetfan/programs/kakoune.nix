@@ -646,50 +646,6 @@ in {
               key = "b";
               effect = ": buffer-switcher<ret>";
             }
-
-            {
-              docstring = "neuron mode";
-              mode = "user";
-              key = "n";
-              effect = ": enter-user-mode neuron<ret>";
-            }
-
-            {
-              mode = "neuron";
-              docstring = "create new zettel with random ID";
-              key = "n";
-              effect = ": neuron-new<ret>";
-            }
-            {
-              mode = "neuron";
-              docstring = "create new zettel";
-              key = "N";
-              effect = ": neuron-new ";
-            }
-            {
-              mode = "neuron";
-              docstring = "search titles and open zettel";
-              key = "s";
-              effect = ": neuron-search-and-open<ret>";
-            }
-            {
-              mode = "neuron";
-              docstring = "search all and open zettel";
-              key = "S";
-              effect = ": neuron-search-and-open -a<ret>";
-            }
-            {
-              mode = "neuron";
-              docstring = "search titles and insert zettel ID";
-              key = "i";
-              effect = ": neuron-search-and-insert<ret>";
-            }
-            {
-              mode = "neuron";
-              docstring = "search all and insert zettel ID";
-              key = "I";
-              effect = ": neuron-search-and-insert -a<ret>";
-            }
           ];
           hooks = [
             {
@@ -883,7 +839,6 @@ in {
           table
           local-kakrc
           expand
-          neuron
           tmux-info # dependency of tmux-kak-copy-mode
           csv
           registers
