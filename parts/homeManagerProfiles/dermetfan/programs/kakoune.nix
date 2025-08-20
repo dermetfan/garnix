@@ -189,6 +189,97 @@ in {
               effect = "<a-O>";
             }
 
+            rec {
+              mode = "goto";
+              docstring = "buffer top";
+              key = "g";
+              effect = key;
+            }
+            {
+              mode = "goto";
+              docstring = "line end";
+              key = "o";
+              effect = "l";
+            }
+            {
+              mode = "goto";
+              docstring = "line begin";
+              key = "n";
+              effect = "h";
+            }
+            {
+              mode = "goto";
+              docstring = "line non-blank start";
+              key = "h";
+              effect = "i";
+            }
+            {
+              mode = "goto";
+              docstring = "buffer bottom";
+              key = "i";
+              effect = "j";
+            }
+            rec {
+              mode = "goto";
+              docstring = "buffer end";
+              key = "e";
+              effect = key;
+            }
+            rec {
+              mode = "goto";
+              docstring = "window top";
+              key = "t";
+              effect = key;
+            }
+            rec {
+              mode = "goto";
+              docstring = "window bottom";
+              key = "b";
+              effect = key;
+            }
+            rec {
+              mode = "goto";
+              docstring = "window center";
+              key = "c";
+              effect = key;
+            }
+            rec {
+              mode = "goto";
+              docstring = "last buffer";
+              key = "a";
+              effect = key;
+            }
+            rec {
+              mode = "goto";
+              docstring = "file";
+              key = "f";
+              effect = key;
+            }
+            rec {
+              mode = "goto";
+              docstring = "last buffer change";
+              key = ".";
+              effect = key;
+            }
+            rec {
+              mode = "goto";
+              docstring = "definition";
+              key = "d";
+              effect = key;
+            }
+            rec {
+              mode = "goto";
+              docstring = "references";
+              key = "r";
+              effect = key;
+            }
+            rec {
+              mode = "goto";
+              docstring = "type definition";
+              key = "y";
+              effect = key;
+            }
+
             {
               docstring = "view mode";
               mode = "normal";
@@ -308,39 +399,47 @@ in {
             {
               docstring = "select next hump";
               mode = "normal";
-              key = "w";
+              key = "<c-w>";
               effect = ": select-next-hump<ret>";
             }
             {
               docstring = "select previous hump";
               mode = "normal";
-              key = "b";
+              key = "<c-b>";
               effect = ": select-previous-hump<ret>";
+            }
+            {
+              # By default, this scrolls a page down.
+              # <c-b> usually scrolls a page up but is remapped above.
+              # Let's disable this for unity.
+              mode = "normal";
+              key = "<c-f>";
+              effect = ": <esc>";
             }
             {
               docstring = "extend next hump";
               mode = "normal";
-              key = "W";
+              key = "<c-W>";
               effect = ": extend-next-hump<ret>";
             }
             {
               docstring = "extend previous hump";
               mode = "normal";
-              key = "B";
+              key = "<c-B>";
               effect = ": extend-previous-hump<ret>";
             }
 
             {
-              docstring = "move line down";
+              docstring = "move lines down";
               mode = "normal";
-              key = "\"'\"";
-              effect = ": move-line-below<ret>";
+              key = ''"'"'';
+              effect = ": move-lines-down %val{count}<ret>";
             }
             {
-              docstring = "move line up";
+              docstring = "move lines up";
               mode = "normal";
-              key = "\"<a-'>\"";
-              effect = ": move-line-above<ret>";
+              key = ''"<a-'>"'';
+              effect = ": move-lines-up %val{count}<ret>";
             }
 
             {
@@ -392,7 +491,37 @@ in {
               docstring = "fzf mode";
               mode = "user";
               key = "f";
-              effect = ": fzf-mode<ret>";
+              effect = ": enter-user-mode fzf<ret>";
+            }
+            {
+              mode = "fzf";
+              docstring = "file";
+              key = "f";
+              effect = ": peneira-files<ret>";
+            }
+            {
+              mode = "fzf";
+              docstring = "file (local)";
+              key = "F";
+              effect = ": peneira-local-files<ret>";
+            }
+            {
+              mode = "fzf";
+              docstring = "file (recent)";
+              key = "<a-f>";
+              effect = ": peneira-mru<ret>";
+            }
+            {
+              mode = "fzf";
+              docstring = "file (recent global)";
+              key = "<a-F>";
+              effect = ": peneira-mru -global -cwd-relative<ret>";
+            }
+            {
+              mode = "fzf";
+              docstring = "line";
+              key = "l";
+              effect = ": peneira-lines<ret>";
             }
 
             {
@@ -671,21 +800,6 @@ in {
               '';
             }
             {
-              name = "ModuleLoaded";
-              option = "fzf";
-              commands = ''
-                set-option global fzf_implementation 'sk'
-                set-option global fzf_highlight_command 'bat'
-              '';
-            }
-            {
-              name = "ModuleLoaded";
-              option = "fzf-file";
-              commands = ''
-                set-option global fzf_file_command 'fd'
-              '';
-            }
-            {
               name = "KakEnd";
               option = ".*";
               commands = lib.concatMapStrings (register: ''
@@ -773,7 +887,7 @@ in {
                 hook window -group semantic-tokens NormalIdle .* lsp-semantic-tokens
                 hook window -group semantic-tokens InsertIdle .* lsp-semantic-tokens
                 hook -once -always window WinSetOption filetype=.* %{
-                    remove-hooks window semantic-tokens
+                  remove-hooks window semantic-tokens
                 }
                 lsp-enable-window
                 lsp-auto-signature-help-enable
@@ -783,17 +897,43 @@ in {
             }
           ];
         };
-        extraConfig = ''
+        extraConfig = let
+          numberLinesFlags = with config.programs.kakoune.config.numberLines;
+            (lib.optional relative "-relative")
+            ++ (lib.optional highlightCursor "-hlcursor")
+            ++ (lib.optional (separator != null) "-separator ${separator}");
+        in ''
           enable-auto-pairs
-          require-module move-line
-          require-module easymotion
           powerline-start
 
+          require-module easymotion
+          require-module mru-files
+          require-module peneira
+
+          set-option -add global mru_files_ignore_sh %{
+            case "$1" in
+              /tmp/tmp.*.fish)
+              */.git/*)
+              */.hg/*)
+                return 0 ;;
+            esac
+            false
+          }
+
+          # https://github.com/gustavo-hms/peneira/blob/bd5b8d0c1cd3e98b6d5350f5ea2131576dcfdea4/README.md#peneira-mru
+          set-option global mru_files_max 100
+
+          # https://github.com/gustavo-hms/peneira/blob/bd5b8d0c1cd3e98b6d5350f5ea2131576dcfdea4/README.md#caveats
+          remove-highlighter global/number-lines${lib.optionalString (numberLinesFlags != []) "_"}${builtins.concatStringsSep "_" numberLinesFlags}
+          hook global WinCreate .+ %{
+            add-highlighter window/number-lines number-lines ${toString numberLinesFlags}
+          }
+
           set-option global state_save_exclude_globs \
-              'COMMIT_EDITMSG' \
-              '*/.git/rebase-merge/git-rebase-todo' \
-              '*.commit.hg.txt' \
-              '*.histedit.hg.txt'
+            'COMMIT_EDITMSG' \
+            '*/.git/rebase-merge/git-rebase-todo' \
+            '*.commit.hg.txt' \
+            '*.histedit.hg.txt'
 
           set-face global crosshairs_line default,rgb:383838+d
           set-face global crosshairs_column default,rgb:383838+d
@@ -812,15 +952,17 @@ in {
           kakoune-vertical-selection
           kak-auto-pairs
           kakoune-lsp
-          kak-fzf
           kak-ansi
           kakboard
           powerline-kak
           active-window-kak
 
+          # above:     in nixpkgs
+          # below: not in nixpkgs
+
           easymotion
           sudo-write
-          move-line
+          move-lines
           smarttab
           surround
           wordcount
@@ -838,6 +980,9 @@ in {
           crosshairs
           table
           local-kakrc
+          peneira
+          luar # dependency of peneira
+          mru-files # optional dependency of peneira
           expand
           tmux-info # dependency of tmux-kak-copy-mode
           csv
@@ -850,8 +995,8 @@ in {
         ];
       };
 
-      bat.enable = true; # fzf.kak
-      skim.enable = true; # fzf.kak
+      bat.enable = true; # peneira
+      skim.enable = true; # peneira
     };
 
     xdg = {
@@ -1014,7 +1159,7 @@ in {
       shellcheck
       perl socat # gdb
 
-      fd # fzf.kak
+      fd # peneira
 
       lua5_3 # easymotion
 

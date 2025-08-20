@@ -117,8 +117,24 @@
       url = "github:occivink/kakoune-sudo-write";
       flake = false;
     };
-    kak-move-line = {
-      url = "sourcehut:~dermetfan/move-line.kak";
+    kak-move-lines = {
+      url = "github:raiguard/kak-move-lines";
+      flake = false;
+    };
+    kak-peneira = {
+      # TODO use upstream once merged
+      # https://github.com/gustavo-hms/peneira/pull/23
+      # https://github.com/gustavo-hms/peneira/pull/24
+      # url = "github:gustavo-hms/peneira";
+      url = "github:dermetfan/peneira/mru-global";
+      flake = false;
+    };
+    kak-luar = { # dependency of peneira
+      url = "github:gustavo-hms/luar";
+      flake = false;
+    };
+    kak-mru-files = { # optional dependency of peneira
+      url = "gitlab:kstr0k/mru-files.kak";
       flake = false;
     };
     kak-smarttab = {

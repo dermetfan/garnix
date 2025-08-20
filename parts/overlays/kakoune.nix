@@ -32,7 +32,7 @@ final: prev: {
       )) [
         "easymotion"
         "sudo-write"
-        "move-line"
+        "move-lines"
         "smarttab"
         "surround"
         "wordcount"
@@ -50,6 +50,9 @@ final: prev: {
         "crosshairs"
         "table"
         "local-kakrc"
+        "peneira"
+        "luar" # dependency of peneira
+        "mru-files" # optional dependency of peneira
         "expand"
         "tmux-info" # dependency of tmux-kak-copy-mode
         "csv"

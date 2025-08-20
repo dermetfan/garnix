@@ -713,6 +713,22 @@
         "type": "github"
       }
     },
+    "kak-luar": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1735218918,
+        "narHash": "sha256-Hz4e3c/cv7K7+pXIOI3eqYmJgWHuRSdI50hqurGey/g=",
+        "owner": "gustavo-hms",
+        "repo": "luar",
+        "rev": "e32ac89fdc43e5dbd8750d55cbcf1aea66d3ebdf",
+        "type": "github"
+      },
+      "original": {
+        "owner": "gustavo-hms",
+        "repo": "luar",
+        "type": "github"
+      }
+    },
     "kak-mark": {
       "flake": false,
       "locked": {
@@ -729,20 +745,36 @@
         "type": "gitlab"
       }
     },
-    "kak-move-line": {
+    "kak-move-lines": {
       "flake": false,
       "locked": {
-        "lastModified": 1637099638,
-        "narHash": "sha256-2OZdDfRmS4HxpdKMeZyLaBSqv3anaauz64OmhLcARTo=",
-        "owner": "~dermetfan",
-        "repo": "move-line.kak",
-        "rev": "47a6b216de6352ec8244b4375d7ee2805e084925",
-        "type": "sourcehut"
+        "lastModified": 1662935852,
+        "narHash": "sha256-hNJYj5rS+0hY6jCmQQW7ZMgaDBt56qGwVARDvhtAHBU=",
+        "owner": "raiguard",
+        "repo": "kak-move-lines",
+        "rev": "15d3d4a93863780b6caf87cb34f223df67402da5",
+        "type": "github"
       },
       "original": {
-        "owner": "~dermetfan",
-        "repo": "move-line.kak",
-        "type": "sourcehut"
+        "owner": "raiguard",
+        "repo": "kak-move-lines",
+        "type": "github"
+      }
+    },
+    "kak-mru-files": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1631336082,
+        "narHash": "sha256-3v6wjPog7PuJ7la1PgXXiqL92hgXVOduibe6NheIGtA=",
+        "owner": "kstr0k",
+        "repo": "mru-files.kak",
+        "rev": "caf752fc3384b710f549cb878ac3c04928ba0ae3",
+        "type": "gitlab"
+      },
+      "original": {
+        "owner": "kstr0k",
+        "repo": "mru-files.kak",
+        "type": "gitlab"
       }
     },
     "kak-palette": {
@@ -758,6 +790,23 @@
       "original": {
         "owner": "Delapouite",
         "repo": "kakoune-palette",
+        "type": "github"
+      }
+    },
+    "kak-peneira": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1756250910,
+        "narHash": "sha256-KR0wr6UwUBa8pDehH2QGqZDZzAAD9hp+KqrxshV/Sdc=",
+        "owner": "dermetfan",
+        "repo": "peneira",
+        "rev": "e9c7d76ebce2f926e7f673eeeedaae26c299a5ef",
+        "type": "github"
+      },
+      "original": {
+        "owner": "dermetfan",
+        "ref": "mru-global",
+        "repo": "peneira",
         "type": "github"
       }
     },
@@ -1166,9 +1215,12 @@
         "kak-hump": "kak-hump",
         "kak-interactively": "kak-interactively",
         "kak-local-kakrc": "kak-local-kakrc",
+        "kak-luar": "kak-luar",
         "kak-mark": "kak-mark",
-        "kak-move-line": "kak-move-line",
+        "kak-move-lines": "kak-move-lines",
+        "kak-mru-files": "kak-mru-files",
         "kak-palette": "kak-palette",
+        "kak-peneira": "kak-peneira",
         "kak-phantom-selection": "kak-phantom-selection",
         "kak-registers": "kak-registers",
         "kak-shellcheck": "kak-shellcheck",
