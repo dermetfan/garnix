@@ -85,6 +85,19 @@
       url = "github:PatrickF1/colored_man_pages.fish";
       flake = false;
     };
+    tmux-which-key = {
+      # https://github.com/alexwforsythe/tmux-which-key/pull/9
+      url = "github:higherorderfunctor/tmux-which-key/feat/adds-nix-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    tmux-kak-copy-mode = {
+      url = "github:jbomanson/tmux-kak-copy-mode";
+      flake = false;
+    };
+    tmux-window-name = {
+      url = "github:ofirgall/tmux-window-name";
+      flake = false;
+    };
     kak-cosy-gruvbox = {
       url = "github:Anfid/cosy-gruvbox.kak";
       flake = false;
