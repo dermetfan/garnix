@@ -117,8 +117,20 @@
       url = "github:occivink/kakoune-sudo-write";
       flake = false;
     };
-    kak-move-line = {
-      url = "sourcehut:~dermetfan/move-line.kak";
+    kak-move-lines = {
+      url = "github:raiguard/kak-move-lines";
+      flake = false;
+    };
+    kak-peneira = {
+      url = "github:gustavo-hms/peneira";
+      flake = false;
+    };
+    kak-luar = { # dependency of peneira
+      url = "github:gustavo-hms/luar";
+      flake = false;
+    };
+    kak-mru-files = { # optional dependency of peneira
+      url = "gitlab:kstr0k/mru-files.kak";
       flake = false;
     };
     kak-smarttab = {

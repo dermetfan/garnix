@@ -4,7 +4,6 @@
   home = {
     sessionVariables = {
       TERMINAL = "alacritty";
-      EDITOR = "kak";
       PAGER = "less";
     };
 
@@ -15,7 +14,10 @@
 
   programs = {
     alacritty.enable = true;
-    kakoune.enable = true;
+    kakoune = {
+      enable = true;
+      defaultEditor = true;
+    };
     less.enable = true;
 
     ranger.enable = true;
