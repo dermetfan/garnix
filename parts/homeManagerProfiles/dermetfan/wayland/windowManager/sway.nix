@@ -87,6 +87,11 @@
 
           "${mod}+Grave" = lib.mkIf config.services.mako.enable ''exec makoctl dismiss'';
           "${mod}+Asciitilde" = lib.mkIf config.services.mako.enable ''exec makoctl restore'';
+          "${mod}+Alt+Grave" = lib.mkIf config.services.mako.enable (
+            let mode = "do-not-disturb"; in
+            assert config.services.mako.settings ? "mode=${mode}";
+            "exec makoctl mode -t ${mode}"
+          );
 
           "XF86AudioRaiseVolume" = "exec ${lib.optionalString (!nixosConfig.misc.hotkeys.sound.enable or false) "amixer -q set Master 2%+ unmute &&"} ${wobShowVolume}";
           "XF86AudioLowerVolume" = "exec ${lib.optionalString (!nixosConfig.misc.hotkeys.sound.enable or false) "amixer -q set Master 2%- unmute &&"} ${wobShowVolume}";
