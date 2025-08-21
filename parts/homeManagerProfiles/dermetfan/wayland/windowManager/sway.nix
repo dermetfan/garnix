@@ -10,27 +10,12 @@
       jq      .enable = true;
     };
 
-    services = {
-      mako.enable = true;
-
-      wob = {
-        enable = true;
-        settings = {
-          "" = {
-            background_color = "282828D9";
-            bar_color = "DBDBB2FF";
-          };
-          "style.volume".border_color = "FB3934FF";
-          "style.backlight".border_color = "DBDBB2FF";
-        };
-      };
-    };
+    services.mako.enable = true;
 
     home.packages = with pkgs;
       [
         clipman wl-clipboard
         grim slurp
-        wob alsa-utils
       ] ++
       lib.optional (!nixosConfig.programs.light.enable) light;
 
@@ -72,8 +57,44 @@
 
         keybindings = let
           mod = config.wayland.windowManager.sway.config.modifier;
-          # XXX use wireplumber for this. example: https://github.com/nix-community/home-manager/issues/3993#issuecomment-1554484665
-          wobShowVolume = ''printf '%d volume\n' $(amixer sget Master | grep -m 1 '\[on\]' | grep -E '\[[[:digit:]]{1,3}%\]' -o | grep -E '[[:digit:]]{1,3}' -o || echo 0) > $XDG_RUNTIME_DIR/wob.sock'';
+          notifyVolume = pkgs.writers.writeNu "sway-notify-volume" ''
+            let info = ${lib.getExe' pkgs.wireplumber "wpctl"} get-volume @DEFAULT_AUDIO_SINK@
+            | parse --regex '\w+:\s+(?<volume>\d+(\.\d+)?)(\s+(?<muted>\[MUTED\]))?'
+            | get 0
+            | select volume muted
+            | update volume {
+              into float
+              | $in * 100
+              | into int
+            }
+            | update muted {is-not-empty}
+
+            let icon = if $info.muted {
+              '🔇'
+            } else if $info.volume < 33 {
+              '🔈'
+            } else if $info.volume < 66 {
+              '🔉'
+            } else {
+              '🔊'
+            }
+
+            (
+              notify-send
+              --category ${lib.escapeShellArg config.profiles.dermetfan.services.mako.desktop.category}
+              --app-name ${lib.escapeShellArg config.profiles.dermetfan.services.mako.desktop.progressApp}
+              --expire-time 1500
+              --urgency low
+              --hint $'INT:value:($info.volume)'
+              $'($icon) Volume'
+              (
+                $'($info.volume)%'
+                + if $info.muted {
+                  ' (muted)'
+                } else {'''}
+              )
+            )
+          '';
         in {
           "${mod}+c" = "exec clipman pick --tool rofi --max-items=50";
 
@@ -97,7 +118,7 @@
               def --wrapped notify [...args]: nothing -> nothing {
                 (
                   notify-send
-                  --app-name mako
+                  --category ${lib.escapeShellArg config.profiles.dermetfan.services.mako.desktop.category}
                   --expire-time 1500
                   ...$args
                 )
@@ -110,23 +131,48 @@
               }
             ''
           );
-
-          "XF86AudioRaiseVolume" = "exec ${lib.optionalString (!nixosConfig.misc.hotkeys.sound.enable or false) "amixer -q set Master 2%+ unmute &&"} ${wobShowVolume}";
-          "XF86AudioLowerVolume" = "exec ${lib.optionalString (!nixosConfig.misc.hotkeys.sound.enable or false) "amixer -q set Master 2%- unmute &&"} ${wobShowVolume}";
-          "XF86AudioMute" =
-            let
-              toggle = ''(amixer sget Master | grep -m 1 -E '(Mono|Right|Left):' | grep '\[on\]' -q && amixer -q set Master mute || amixer -q set Master unmute)''; # FIXME works but seems to toggle twice
-            in
-              "exec ${lib.optionalString (!nixosConfig.misc.hotkeys.sound.enable or false) "amixer -q set Master mute &&"} ${wobShowVolume}";
-
+        } // builtins.mapAttrs (_: wpctlArgs: toString (
+          [ "exec" ]
+          ++ lib.optionals
+          (!nixosConfig.misc.hotkeys.sound.enable or false)
+          [
+            (lib.getExe' pkgs.wireplumber "wpctl")
+            wpctlArgs
+            "&&"
+          ]
+          ++ [ notifyVolume ]
+        )) {
+          "XF86AudioRaiseVolume" = "set-volume --limit 1 @DEFAULT_AUDIO_SINK@ 2%+";
+          "XF86AudioLowerVolume" = "set-volume @DEFAULT_AUDIO_SINK@ 2%-";
+          "XF86AudioMute" = "set-mute @DEFAULT_AUDIO_SINK@ toggle";
+        } // {
           "XF86ScreenSaver"    = "exec swaylock";
           "${mod}+Scroll_Lock" = "exec swaylock";
         } // (let
           systemWide = with nixosConfig.programs.light; enable && brightnessKeys.enable;
-          wobShowBacklight = ''printf '%.0f backlight\n' $(light -G) > $XDG_RUNTIME_DIR/wob.sock'';
+          notifyBrightness = pkgs.writers.writeNu "sway-notify-brightness" ''
+            let brightness = light -G | into int
+
+            let icon = if $brightness >= 50 {
+              '🔆'
+            } else {
+              '🔅'
+            }
+
+            (
+              notify-send
+              --category ${lib.escapeShellArg config.profiles.dermetfan.services.mako.desktop.category}
+              --app-name ${lib.escapeShellArg config.profiles.dermetfan.services.mako.desktop.progressApp}
+              --expire-time 1500
+              --urgency low
+              --hint $'INT:value:($brightness)'
+              $'($icon) Brightness'
+              $'($brightness)%'
+            )
+          '';
         in {
-          "XF86MonBrightnessUp"   = "exec ${lib.optionalString (!systemWide) "light -A 5 &&"} ${wobShowBacklight}";
-          "XF86MonBrightnessDown" = "exec ${lib.optionalString (!systemWide) "light -U 5 &&"} ${wobShowBacklight}";
+          "XF86MonBrightnessUp"   = "exec ${lib.optionalString (!systemWide) "light -A 5 &&"} ${notifyBrightness}";
+          "XF86MonBrightnessDown" = "exec ${lib.optionalString (!systemWide) "light -U 5 &&"} ${notifyBrightness}";
         }) // {
           "${mod}+Alt+Space" = "exec " + pkgs.writers.writeNu "sway-toggle-keymap" ''
             let targets = swaymsg -t get_inputs
