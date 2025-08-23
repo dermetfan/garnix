@@ -30,7 +30,20 @@
                 args+=("$arg")
             done
 
-            exec ssh -i "$identityFile" "''${args[@]}"
+            declare -a iArgs
+            for defaultIdentityFile in \
+              ~/.ssh/id_rsa \
+              ~/.ssh/id_ecdsa \
+              ~/.ssh/id_ecdsa_sk \
+              ~/.ssh/id_ed25519 \
+              ~/.ssh/id_ed25519_sk
+            do
+              if [[ -e "$defaultIdentityFile" ]]; then
+                iArgs+=(-i "$defaultIdentityFile")
+              fi
+            done
+
+            exec ssh -i "$identityFile" "''${iArgs[@]}" "''${args[@]}"
           '';
         })
         pkgs.expect # needed by extra-builtins-file in NIX_CONFIG
