@@ -23,11 +23,11 @@
             # We want to disable that so that SSH_ASKPASS can be used.
             declare -a args
             for arg in "$@"; do
-                if [[ "$arg" = BatchMode=yes ]]; then
-                    args+=(BatchMode=no)
-                    continue
-                fi
-                args+=("$arg")
+              if [[ "$arg" = BatchMode=yes ]]; then
+                args+=(BatchMode=no)
+                continue
+              fi
+              args+=("$arg")
             done
 
             declare -a iArgs
