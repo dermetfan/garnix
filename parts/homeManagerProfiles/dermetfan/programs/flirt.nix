@@ -17,35 +17,51 @@ in {
     };
   };
 
-  config.programs.flirt.bindings = let
-    dir = if cfg.remapMovement then {
-      left = "n";
-      down = "i";
-      up = "r";
-      right = "o";
-    } else {
-      left = "h";
-      down = "j";
-      up = "k";
-      right = "l";
+  config.programs = {
+    flirt = {
+      enableFishIntegration = true;
+
+      bindings = let
+        dir = if cfg.remapMovement then {
+          left = "n";
+          down = "i";
+          up = "r";
+          right = "o";
+        } else {
+          left = "h";
+          down = "j";
+          up = "k";
+          right = "l";
+        };
+      in lib.mkIf cfg.enable {
+        ${dir.down}     = "next";
+        "<down>"        = "next";
+        ${dir.up}       = "prev";
+        "<up>"          = "prev";
+        "S-${dir.down}" = "move-next";
+        "S-<down>"      = "move-next";
+        "S-${dir.up}"   = "move-prev";
+        "S-<up>"        = "move-prev";
+        "q"             = "quit";
+        "S-q"           = "abort";
+        ${dir.left}     = "go-to-parent";
+        "<ret>"         = "enter-dir";
+        ${dir.right}    = "enter-dir";
+        "<spc>"         = "toggle-select";
+        "<tab>"         = "cycle";
+        "."             = "hide-show";
+        "/"             = "filter";
+      };
     };
-  in lib.mkIf cfg.enable {
-    ${dir.down}     = "next";
-    "<down>"        = "next";
-    ${dir.up}       = "prev";
-    "<up>"          = "prev";
-    "S-${dir.down}" = "move-next";
-    "S-<down>"      = "move-next";
-    "S-${dir.up}"   = "move-prev";
-    "S-<up>"        = "move-prev";
-    "q"             = "quit";
-    "S-q"           = "abort";
-    ${dir.left}     = "go-to-parent";
-    "<ret>"         = "enter-dir";
-    ${dir.right}    = "enter-dir";
-    "<spc>"         = "toggle-select";
-    "<tab>"         = "cycle";
-    "."             = "hide-show";
-    "/"             = "filter";
+
+    fish.shellInit = let
+      key =
+        # skim already binds ctrl-t
+        if config.programs.skim.enableFishIntegration
+        then "ctrl-alt-t"
+        else "ctrl-t";
+    in ''
+      bind ${key} flirt_widget
+    '';
   };
 }
