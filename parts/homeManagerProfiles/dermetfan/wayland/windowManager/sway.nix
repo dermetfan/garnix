@@ -31,8 +31,6 @@
         clipman wl-clipboard
         grim slurp
         wob alsa-utils
-        libnotify
-        bash
       ] ++
       lib.optional (!nixosConfig.programs.light.enable) light;
 
@@ -93,15 +91,23 @@
               modeHuman = builtins.replaceStrings [ "-" ] [ " " ] mode;
             in
             assert config.services.mako.settings ? "mode=${mode}";
-            "exec makoctl mode -t ${mode} && " + pkgs.writeScript "notify-mako-do-not-disturb-toggle" ''
-              function notify {
-                notify-send --app-name mako --expire-time 1500 "$@"
+            "exec " + pkgs.writers.writeNu "sway-toggle-do-not-disturb" ''
+              makoctl mode -t ${lib.escapeShellArg mode}
+
+              def --wrapped notify [...args]: nothing -> nothing {
+                (
+                  notify-send
+                  --app-name mako
+                  --expire-time 1500
+                  ...$args
+                )
               }
-              if makoctl mode | grep --quiet '^${mode}$'; then
-                notify '🔕 Notifications hidden' '"${modeHuman}" mode enabled'
-              else
-                notify '🔔 Notifications shown' '"${modeHuman}" mode disabled'
-              fi
+
+              if ${lib.escapeShellArg mode} in (makoctl mode | lines) {
+                notify '🔕 Notifications hidden' ${lib.escapeShellArg ''"${modeHuman}" mode enabled''}
+              } else {
+                notify '🔔 Notifications shown' ${lib.escapeShellArg ''"${modeHuman}" mode disabled''}
+              }
             ''
           );
 
@@ -122,28 +128,35 @@
           "XF86MonBrightnessUp"   = "exec ${lib.optionalString (!systemWide) "light -A 5 &&"} ${wobShowBacklight}";
           "XF86MonBrightnessDown" = "exec ${lib.optionalString (!systemWide) "light -U 5 &&"} ${wobShowBacklight}";
         }) // {
-          "${mod}+Alt+Space" = let
-            toggle = pkgs.writeScript "sway-toggle-keymap" ''
-              #! ${pkgs.bash}/bin/bash
+          "${mod}+Alt+Space" = "exec " + pkgs.writers.writeNu "sway-toggle-keymap" ''
+            let targets = swaymsg -t get_inputs
+            | from json
+            | where type == keyboard
+            | filter {($in.xkb_layout_names | length) > 1}
+            | each {
+              let xkb_active_layout_index = ($in.xkb_active_layout_index + 1) mod ($in.xkb_layout_names | length)
+              {
+                identifier: $in.identifier
+                xkb_active_layout_index: $xkb_active_layout_index
+                name: $in.name
+                xkb_layout_name: ($in.xkb_layout_names | get $xkb_active_layout_index)
+              }
+            }
 
-              while read ident; do
-                  read index
-                  read name
-                  read layout
-                  swaymsg input "$ident" xkb_switch_layout $index
-                  msg+="$layout on $name\n"
-              done < <(
-                swaymsg -t get_inputs | \
-                jq -r '
-                map(select(.type == "keyboard" and (.xkb_layout_names | length) > 1))[] |
-                ((.xkb_active_layout_index + 1) % (.xkb_layout_names | length)) as $index |
-                .identifier, $index, .name, .xkb_layout_names[$index]
-                '
-              )
+            for target in $targets {
+              swaymsg input $target.identifier xkb_switch_layout $target.xkb_active_layout_index
+            }
 
-              notify-send -t 1500 'Toggled keyboard layout' "$msg"
-            '';
-          in "exec ${toggle}";
+            ${lib.getExe pkgs.libnotify} -t 1500 '⌨️ Changed keyboard layout' (
+              if ($targets | length) == 1 {
+                $targets.0.xkb_layout_name
+              } else {
+                $targets
+                | each {$'($in.name): ($in.xkb_layout_name)'}
+                | str join "\n"
+              }
+            )
+          '';
         };
       };
 
