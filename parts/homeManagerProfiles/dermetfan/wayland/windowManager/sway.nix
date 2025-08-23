@@ -88,9 +88,21 @@
           "${mod}+Grave" = lib.mkIf config.services.mako.enable ''exec makoctl dismiss'';
           "${mod}+Asciitilde" = lib.mkIf config.services.mako.enable ''exec makoctl restore'';
           "${mod}+Alt+Grave" = lib.mkIf config.services.mako.enable (
-            let mode = "do-not-disturb"; in
+            let
+              mode = "do-not-disturb";
+              modeHuman = builtins.replaceStrings [ "-" ] [ " " ] mode;
+            in
             assert config.services.mako.settings ? "mode=${mode}";
-            "exec makoctl mode -t ${mode}"
+            "exec makoctl mode -t ${mode} && " + pkgs.writeScript "notify-mako-do-not-disturb-toggle" ''
+              function notify {
+                notify-send --app-name mako --expire-time 1500 "$@"
+              }
+              if makoctl mode | grep --quiet '^${mode}$'; then
+                notify '🔕 Notifications hidden' '"${modeHuman}" mode enabled'
+              else
+                notify '🔔 Notifications shown' '"${modeHuman}" mode disabled'
+              fi
+            ''
           );
 
           "XF86AudioRaiseVolume" = "exec ${lib.optionalString (!nixosConfig.misc.hotkeys.sound.enable or false) "amixer -q set Master 2%+ unmute &&"} ${wobShowVolume}";
