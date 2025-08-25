@@ -7,7 +7,7 @@ in {
     default = config.programs.timewarrior.enable or false;
   };
 
-  config.home.file = (
+  config.xdg.configFile =
     let
       flexitime = pkgs.fetchFromGitHub {
         owner = "AMNeumann";
@@ -16,20 +16,19 @@ in {
         sha256 = "0nsxz472pd1iw0qxwyis0jhgrsjc7vrx9qwfczdz5vr6hzi9h5j9";
       };
     in {
-      ".timewarrior/extensions/totals" = {
+      "timewarrior/extensions/totals" = {
         source = "${pkgs.timewarrior}/share/doc/timew/ext/totals.py";
         executable = true;
       };
 
-      ".timewarrior/extensions/flexitime" = {
+      "timewarrior/extensions/flexitime" = {
         source = "${flexitime}/flexitime.py";
         executable = true;
       };
 
-      ".timewarrior/extensions/splittime" = {
+      "timewarrior/extensions/splittime" = {
         source = "${flexitime}/splittime.py";
         executable = true;
       };
-    }
-  );
+    };
 }
