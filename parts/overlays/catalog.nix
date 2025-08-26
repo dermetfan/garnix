@@ -176,6 +176,11 @@ let
       package = "pdfarranger";
     }
     {
+      category = "Documents/docx";
+      flake = "github:bgreenwell/doxx";
+      package = "default";
+    }
+    {
       category = "Ricing";
       package = "neofetch";
     }
