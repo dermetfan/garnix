@@ -71,6 +71,21 @@ in {
               key = "K";
               effect = "R";
             }
+            {
+              mode = "normal";
+              key = "<a-r>";
+              effect = "<a-k>";
+            }
+            {
+              mode = "normal";
+              key = "<a-R>";
+              effect = "<a-K>";
+            }
+            {
+              mode = "normal";
+              key = "<a-K>";
+              effect = "<a-R>";
+            }
 
             {
               mode = "normal";
@@ -284,116 +299,140 @@ in {
               docstring = "view mode";
               mode = "normal";
               key = "v";
-              effect = ": enter-user-mode view-custom<ret>";
+              effect = ": enter-user-mode view<ret>";
             }
             {
               docstring = "view lock mode";
               mode = "normal";
               key = "V";
-              effect = ": enter-user-mode -lock view-custom<ret>";
+              effect = ": enter-user-mode -lock view<ret>";
             }
-            {
-              mode = "view-custom";
+            rec {
+              mode = "view";
               docstring = "center cursor (vertically)";
               key = "v";
-              effect = "vv";
+              effect = "v${key}";
             }
-            {
-              mode = "view-custom";
+            rec {
+              mode = "view";
               docstring = "center cursor (vertically)";
               key = "c";
-              effect = "vc";
+              effect = "v${key}";
             }
-            {
-              mode = "view-custom";
+            rec {
+              mode = "view";
               docstring = "center cursor (horizontally)";
               key = "m";
-              effect = "vm";
+              effect = "v${key}";
             }
-            {
-              mode = "view-custom";
+            rec {
+              mode = "view";
               docstring = "cursor on top";
               key = "t";
-              effect = "vt";
+              effect = "v${key}";
             }
-            {
-              mode = "view-custom";
+            rec {
+              mode = "view";
               docstring = "cursor on bottom";
               key = "b";
-              effect = "vb";
+              effect = "v${key}";
             }
             {
-              mode = "view-custom";
+              mode = "view";
               docstring = "scroll up";
               key = "r";
-              effect = "5vkgc";
+              effect = "5vk";
             }
             {
-              mode = "view-custom";
+              mode = "view";
               docstring = "scroll down";
               key = "i";
-              effect = "5vjgc";
+              effect = "5vj";
             }
             {
-              mode = "view-custom";
+              mode = "view";
               docstring = "scroll left";
               key = "n";
               effect = "5vh";
             }
             {
-              mode = "view-custom";
+              mode = "view";
               docstring = "scroll right";
               key = "o";
               effect = "5vl";
             }
             {
-              mode = "view-custom";
+              mode = "view";
+              docstring = "scroll up (fine)";
+              key = "R";
+              effect = "vk";
+            }
+            {
+              mode = "view";
+              docstring = "scroll down (fine)";
+              key = "I";
+              effect = "vj";
+            }
+            {
+              mode = "view";
+              docstring = "scroll left (fine)";
+              key = "N";
+              effect = "vh";
+            }
+            {
+              mode = "view";
+              docstring = "scroll right (fine)";
+              key = "O";
+              effect = "vl";
+            }
+            rec {
+              mode = "view";
               docstring = "scroll one page up";
               key = "<pageup>";
-              effect = "<c-b>";
+              effect = key;
             }
-            {
-              mode = "view-custom";
+            rec {
+              mode = "view";
               docstring = "scroll one page down";
               key = "<pagedown>";
-              effect = "<c-f>";
+              effect = key;
             }
             {
-              mode = "view-custom";
+              mode = "view";
               docstring = "scroll half a page up";
               key = "<s-pageup>";
               effect = "<c-u>";
             }
             {
-              mode = "view-custom";
+              mode = "view";
               docstring = "scroll half a page down";
               key = "<s-pagedown>";
               effect = "<c-d>";
             }
           ]) ++ [
-            {
+            rec {
               docstring = "case insensitive search";
               mode = "normal";
               key = "/";
-              effect = "/(?i)";
+              effect = "${key}(?i)";
             }
-            {
+            rec {
               docstring = "case insensitive backward search";
               mode = "normal";
               key = "<a-/>";
-              effect = "<a-/>(?i)";
+              effect = "${key}(?i)";
             }
-            {
+            rec {
               docstring = "case insensitive extend search";
               mode = "normal";
               key = "?";
-              effect = "?(?i)";
+              effect = "${key}(?i)";
             }
-            {
+            rec {
               docstring = "case insensitive backward extend search";
               mode = "normal";
               key = "<a-?>";
-              effect = "<a-?>(?i)";
+              effect = "${key}(?i)";
             }
 
             {
@@ -462,29 +501,29 @@ in {
               effect = ": expand<ret>";
             }
 
-            {
+            rec {
               docstring = "search";
               mode = "user";
               key = "/";
-              effect = "/";
+              effect = key;
             }
-            {
+            rec {
               docstring = "search backward";
               mode = "user";
               key = "<a-/>";
-              effect = "<a-/>";
+              effect = key;
             }
-            {
+            rec {
               docstring = "extend search";
               mode = "user";
               key = "?";
-              effect = "?";
+              effect = key;
             }
-            {
+            rec {
               docstring = "extend search backward";
               mode = "user";
               key = "<a-?>";
-              effect = "<a-?>";
+              effect = key;
             }
 
             {
