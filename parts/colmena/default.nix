@@ -1,4 +1,4 @@
-{ inputs, lib, getSystem, ... } @ parts:
+{ inputs, lib, getSystem, moduleWithSystem, ... } @ parts:
 
 {
   flake.colmenaHive = let
@@ -26,7 +26,10 @@
       defaults = { name, config, lib, pkgs, ... }: {
         imports = [
           parts.config.flake.nixosModules.default
-          (import ./node.nix parts)
+          (import ./node.nix {
+            inherit moduleWithSystem;
+            inherit (parts) config;
+          })
         ] ++ (
           let path = ../../secrets/hosts/${name}/secrets.nix.age; in
           lib.optional (builtins.pathExists path) (builtins.extraBuiltins.importSecret path)

@@ -1,4 +1,4 @@
-{ self, config, lib, pkgs, ... }:
+{ self, nixosConfig ? null, options, config, lib, pkgs, ... }:
 
 let
   cfg = config.profiles.dermetfan.environments.dev;
@@ -12,6 +12,7 @@ in {
 
   imports = [
     self.inputs.nix-index-database.hmModules.nix-index
+    self.inputs.optnix.homeModules.optnix
   ];
 
   config = {
@@ -38,6 +39,26 @@ in {
       cargo.enable = cfg.enableRust;
 
       nix-index-database.comma.enable = true;
+
+      optnix = {
+        enable = true;
+        settings = rec {
+          default_scope = "home-manager";
+          scopes.${default_scope} = {
+            description = "home-manager: ${config.home.username}";
+            # https://water-sucks.github.io/optnix/recipes/home-manager.html#standaloneinside-home-manager-module
+            options-list-file = (self.inputs.optnix.mkLib pkgs).mkOptionsList {
+              # The agenix module fails to evaluate.
+              options = removeAttrs options [ "age" ];
+              transform = o: o // {
+                name = lib.removePrefix "home-manager.users.${config.home.username}." o.name;
+              };
+            };
+          } // lib.optionalAttrs (nixosConfig != null) {
+            evaluator = "nix eval ${self}#nixosConfigurations.${nixosConfig.networking.hostName}.config.home-manager.users.${config.home.username}.{{ .Option }}";
+          };
+        };
+      };
     };
 
     home.packages = with pkgs;

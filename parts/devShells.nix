@@ -1,10 +1,28 @@
+{ inputs, options, ... }:
+
 {
-  perSystem = { inputs', pkgs, ... }: {
+  # Needed by optnix to evaluate option values.
+  debug = true;
+
+  perSystem = { inputs', lib, pkgs, ... }: {
     devShells.default = pkgs.mkShell {
       packages = [
         inputs'.agenix.packages.default
         inputs'.colmena.packages.colmena
         pkgs.rage
+        (inputs.wrapper-manager.lib.wrapWith pkgs {
+          basePackage = inputs'.optnix.packages.default;
+          prependFlags = lib.cli.toGNUCommandLine {} {
+            config = (pkgs.formats.toml {}).generate "optnix.toml" rec {
+              default_scope = "flake-parts";
+              scopes.${default_scope} = {
+                description = "${default_scope}: garnix";
+                options-list-file = (inputs.optnix.mkLib pkgs).mkOptionsList { inherit options; };
+                evaluator = "nix eval .#debug.config.{{ .Option }}";
+              };
+            };
+          };
+        })
         (pkgs.writeShellApplication {
           name = "ssh";
           runtimeInputs = with pkgs; [ openssh ];

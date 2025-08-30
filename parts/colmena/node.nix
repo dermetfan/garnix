@@ -1,13 +1,11 @@
-parts:
+{ config, moduleWithSystem, ... } @ parts:
 
-{ config, lib, ... }:
-
-{
-  options.nix.buildMachine = with lib; mkOption {
-    type = types.attrs;
+moduleWithSystem ({ system, ... }: { config, lib, pkgs, ... }: {
+  options.nix.buildMachine = lib.mkOption {
+    type = lib.types.attrs;
     default = {
       maxJobs = config.nix.settings.max-jobs;
-      inherit (pkgs) system;
+      inherit system;
     };
   };
 
@@ -39,4 +37,4 @@ parts:
       ../../secrets/deployer_ssh_ed25519_key.pub
     ];
   };
-}
+})

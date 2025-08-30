@@ -31,15 +31,21 @@ in {
 
     batteries = mkOption {
       type = with types; listOf str;
-      default = if !pkgs.stdenv.isLinux then [] else
-        filter (hasPrefix "BAT") (builtins.attrNames (builtins.readDir /sys/class/power_supply));
+      description = ''
+        Battery names.
+        These can be found by matching:
+        /sys/class/power_supply/BAT*
+      '';
+      default = [];
     };
 
     barConfigFiles = mkOption {
       type = with types; attrsOf path;
-      default = mapAttrs (k: v:
-        config.home.homeDirectory + "/" + config.xdg.configFile."i3status-rust/config-${k}.toml".target
-      ) config.programs.i3status-rust.bars;
+      default = optionalAttrs cfg.enable (
+        mapAttrs (k: v:
+          config.home.homeDirectory + "/" + config.xdg.configFile."i3status-rust/config-${k}.toml".target
+        ) config.programs.i3status-rust.bars
+      );
       readOnly = true;
     };
   };
