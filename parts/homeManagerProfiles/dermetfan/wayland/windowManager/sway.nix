@@ -55,6 +55,11 @@
           "hide_cursor " = "when-typing enable";
         };
 
+        left  = "n";
+        right = "o";
+        up    = "r";
+        down  = "i";
+
         keybindings = let
           mod = config.wayland.windowManager.sway.config.modifier;
           notifyVolume = pkgs.writers.writeNu "sway-notify-volume" ''
