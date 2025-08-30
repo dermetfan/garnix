@@ -3,7 +3,7 @@
 let
   cfg = config.profiles.dermetfan.programs.elvish;
 in {
-  options.profiles.dermetfan.programs.elvish.enable = lib.mkEnableOption {
+  options.profiles.dermetfan.programs.elvish.enable = lib.mkEnableOption "elvish" // {
     default = config.programs.elvish.enable or false;
   };
 
