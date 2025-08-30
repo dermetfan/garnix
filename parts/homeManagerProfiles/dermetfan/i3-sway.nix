@@ -9,7 +9,12 @@ let
     cfg = getCfg config;
     profileCfg = getCfg config.profiles.dermetfan;
 
-    inherit (cfg.config) modifier left right up down terminal;
+    inherit (cfg.config) modifier terminal;
+
+    left  = "n";
+    right = "o";
+    up    = "r";
+    down  = "i";
   in lib.mkMerge [
     {
       focus.followMouse = false;
@@ -50,11 +55,6 @@ let
       terminal = "alacritty";
 
       modifier = "Mod4";
-
-      left  = "n";
-      right = "o";
-      up    = "r";
-      down  = "i";
 
       keybindings = let
         floatingMoveStep = "25px";
@@ -152,7 +152,7 @@ let
     }
 
     (let
-      modeGaps = "gaps: i|r (± inner), n|o (± outer), u|l (0 inner/outer), d (default), + Shift (global), b|B (bar)";
+      modeGaps = "gaps: ${down}|${up} (± inner), ${left}|${right} (± outer), u|l (0 inner/outer), d (default), + Shift (global), b|B (bar)";
 
       inherit (cfg.config.gaps) inner;
     in lib.mkIf profileCfg.enableGaps {
@@ -165,10 +165,10 @@ let
       keybindings."${modifier}+g" = ''mode "${modeGaps}"; bar hidden_state show'';
 
       modes.${modeGaps} = {
-        "n" = "gaps outer current minus 5";
-        "o" = "gaps outer current plus 5";
-        "i" = "gaps inner current minus 5";
-        "r" = "gaps inner current plus 5";
+        ${left} = "gaps outer current minus 5";
+        ${right} = "gaps outer current plus 5";
+        ${down} = "gaps inner current minus 5";
+        ${up} = "gaps inner current plus 5";
         "l" = "gaps outer current set 0";
         "u" = "gaps inner current set 0";
         "d" = "gaps outer current set 0; gaps inner current set ${toString inner}; bar bar-0 gaps 0";
