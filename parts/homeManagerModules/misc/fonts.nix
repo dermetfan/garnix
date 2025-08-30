@@ -12,10 +12,6 @@ in {
           family = mkOption {
             type = str;
           };
-          familyPango = mkOption {
-            type = str;
-            default = config.family;
-          };
           size = mkOption {
             type = anything; # types.float does not exist
           };
@@ -81,7 +77,7 @@ in {
       };
     };
 
-    services.mako.settings.font = with cfg.normal; mkDefault "${familyPango} ${toString size}";
+    services.mako.settings.font = with cfg.normal; mkDefault "${family} ${toString size}";
 
     xsession.windowManager.i3 = i3-sway;
     wayland.windowManager.sway = i3-sway;

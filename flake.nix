@@ -31,6 +31,7 @@
         home-manager.follows = "home-manager";
       };
     };
+    wrapper-manager.url = "github:viperML/wrapper-manager";
     impermanence.url = "github:nix-community/impermanence";
     disko = {
       url = "github:nix-community/disko/v1.12.0";
@@ -65,6 +66,10 @@
     };
     nil = {
       url = "github:oxalica/nil";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    optnix = {
+      url = "github:water-sucks/optnix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     fish-tide = {
@@ -243,7 +248,7 @@
     };
   };
 
-  outputs = inputs @ { self, nixpkgs, flake-parts, ... }:
+  outputs = inputs @ { nixpkgs, flake-parts, ... }:
     flake-parts.lib.mkFlake {
       inherit inputs;
       specialArgs.lib = nixpkgs.lib.extend (final: prev:
