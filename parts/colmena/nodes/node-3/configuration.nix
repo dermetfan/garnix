@@ -23,6 +23,7 @@
         "/var/lib/acme"
         config.services.postgresql.dataDir
         "/var/lib/authelia-${config.services.authelia.instances.default.name}"
+        "/var/lib/copyparty"
         "/var/cache/copyparty"
       ];
     };
@@ -114,14 +115,6 @@
         # making it impossible to set multiple of these using the NixOS module.
         ipu = [ "${nodes.muttop.config.profiles.yggdrasil.ip}/128=mutmetfan" ];
 
-        # Usually the group is given by the IdP,
-        # but apparently it is not recovered from the IdP cache
-        # when logging in via `--ipu`, so let's set it explicitely.
-        # TODO fix upstream: This is not comma-separated, it's repeatable,
-        # but the NixOS module will turn it into a single comma-separated value,
-        # making it impossible to set multiple of these using the NixOS module.
-        grp = [ "default:mutmetfan" ];
-
         no-robots = true;
 
         # j = 0; # implies `--no-fpool` which the help says is a bad idea on CoW filesystems
@@ -188,20 +181,13 @@
         # Needed to avoid WebDAV errors with GVFS.
         // lib.genAttrs ["/" "/home"] (volume: rec {
           path = "/var/empty";
-          access.r = "@default";
+          access.r = "@acct";
           flags = {
             d2d = true;
             # Must be unique per volume.
             hist = "${path}${volume}.hist";
           };
         });
-
-      # TODO report issue
-      # Needed to make --ipu work with IdP.
-      # Crashes on startup without this.
-      # The password was generated from `head --bytes (math 2^32) /dev/random | sha512sum`.
-      # Nobody should ever know it as authentication should be done only via the IdP.
-      accounts.mutmetfan.passwordFile = builtins.toFile "unknown-pwhash" "+-JCTwpHZ6a2sQMSWh4s9Z3jilLcGCCBY";
     };
 
     authelia = {
