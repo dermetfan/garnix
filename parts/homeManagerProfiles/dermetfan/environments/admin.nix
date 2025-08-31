@@ -14,6 +14,7 @@
       fd
       file
       jnv
+      lsix
       lsof
       ncdu
       nix-diff
