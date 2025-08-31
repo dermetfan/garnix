@@ -1,9 +1,14 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 
 {
   home = {
     sessionVariables = {
-      TERMINAL = "alacritty";
+      TERMINAL =
+        if config.xsession.enable
+        then "alacritty"
+        else if config.programs.foot.server.enable
+        then "footclient"
+        else "foot";
       PAGER = "less";
     };
 
@@ -13,7 +18,8 @@
   };
 
   programs = {
-    alacritty.enable = true;
+    alacritty.enable = config.xsession.enable;
+    foot.enable = !config.xsession.enable;
     kakoune = {
       enable = true;
       defaultEditor = true;

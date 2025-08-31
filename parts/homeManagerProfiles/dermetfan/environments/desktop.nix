@@ -14,7 +14,8 @@
 
       volumeicon.enable = config.xsession.enable;
 
-      alacritty.enable = config.profiles.dermetfan.environments.gui.enable;
+      alacritty.enable = config.profiles.dermetfan.environments.gui.enable &&  config.xsession.enable;
+      foot     .enable = config.profiles.dermetfan.environments.gui.enable && !config.xsession.enable;
       geany    .enable = config.profiles.dermetfan.environments.gui.enable;
       firefox  .enable = config.profiles.dermetfan.environments.gui.enable;
       chromium .enable = config.profiles.dermetfan.environments.gui.enable;
