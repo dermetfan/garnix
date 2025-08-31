@@ -64,14 +64,7 @@
 
     home.stateVersion = "25.05";
 
-    xsession.initExtra = ''
-      telegram-desktop &
-    '';
-
-    services = {
-      redshift = config.passthru.coords or {};
-      wlsunset = config.passthru.coords or {};
-    };
+    services.wlsunset = config.passthru.coords or {};
 
     programs.firefox.hideTabs = true;
   };

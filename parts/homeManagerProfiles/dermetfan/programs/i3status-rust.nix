@@ -104,11 +104,9 @@ in {
             text = ''
               case "''${1:-}" in
                 on)
-                  ${lib.optionalString config.xsession.enable "systemctl --user stop picom"}
                   sudo ${lib.getExe nixosConfig.services.tlp.package} bat
                   ;;
                 off)
-                  ${lib.optionalString config.xsession.enable "systemctl --user start picom"}
                   sudo ${lib.getExe nixosConfig.services.tlp.package} ac
                   ;;
                 *)

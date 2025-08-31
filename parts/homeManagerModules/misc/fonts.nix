@@ -46,13 +46,6 @@ in {
 
   config = let
     inherit (lib) mkOptionDefault mkDefault;
-
-    i3-sway = {
-      config.fonts = {
-        names = mkDefault [ cfg.mono.family ];
-        size = mkDefault cfg.mono.size;
-      };
-    };
   in {
     home.packages = with pkgs; [
       cfg.normal.package
@@ -81,8 +74,10 @@ in {
 
     services.mako.settings.font = with cfg.normal; mkDefault "${family} ${toString size}";
 
-    xsession.windowManager.i3 = i3-sway;
-    wayland.windowManager.sway = i3-sway;
+    wayland.windowManager.sway.config.fonts = {
+      names = mkDefault [ cfg.mono.family ];
+      size = mkDefault cfg.mono.size;
+    };
 
     programs.swappy.settings = mkOptionDefault {
       Default = mkOptionDefault {
