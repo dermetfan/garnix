@@ -9,7 +9,6 @@ in {
 
   config = {
     home.packages = with pkgs; [
-      alacritty
       alsa-utils
     ];
 
@@ -23,7 +22,7 @@ in {
 
       [StatusIcon]
       stepsize=2
-      onclick=alacritty -e alsamixer
+      onclick=${config.home.environment.sessionVariables.TERMINAL} -e alsamixer
       theme=Blue Bar
       use_panel_specific_icons=false
       lmb_slider=false

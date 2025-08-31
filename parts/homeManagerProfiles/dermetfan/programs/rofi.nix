@@ -8,14 +8,14 @@ in {
   };
 
   config.programs = {
-    alacritty.enable = true;
+    foot.enable = true;
 
     rofi = {
       plugins = with pkgs; [
         rofi-calc
       ];
 
-      terminal = "alacritty";
+      terminal = if config.programs.foot.server.enable then "footclient" else "foot";
 
       theme = let
         inherit (config.lib.formats.rasi) mkLiteral;

@@ -71,6 +71,8 @@ in {
         size = mkDefault cfg.mono.size;
       };
 
+      foot.settings.main.font = with cfg.mono; mkDefault "${family}:size=${toString size}";
+
       tkremind.font = mkDefault {
         inherit (cfg.normal) family;
         size = floor cfg.normal.size;

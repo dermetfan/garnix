@@ -52,7 +52,12 @@ let
         '';
       } ];
 
-      terminal = "alacritty";
+      terminal =
+        if config.xsession.enable
+        then "alacritty"
+        else if config.programs.foot.server.enable
+        then "footclient"
+        else "foot";
 
       modifier = "Mod4";
 
@@ -202,7 +207,8 @@ in
   ) {
     programs = {
       i3status-rust.enable = true;
-      alacritty    .enable = true;
+      alacritty    .enable =  config.xsession.enable;
+      foot         .enable = !config.xsession.enable;
       ranger       .enable = true;
       rofi         .enable = true;
 

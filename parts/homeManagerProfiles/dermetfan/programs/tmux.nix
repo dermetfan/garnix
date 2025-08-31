@@ -38,6 +38,8 @@ in {
       set-option -ga terminal-features ',xterm*:RGB'
       set-option -ga terminal-features ',*alacritty*:256'
       set-option -ga terminal-features ',*alacritty*:RGB'
+      set-option -ga terminal-features ',*foot*:256'
+      set-option -ga terminal-features ',*foot*:RGB'
 
       set-option -g status-keys emacs
       set-option -g display-time 4000

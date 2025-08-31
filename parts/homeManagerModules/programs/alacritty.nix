@@ -8,7 +8,7 @@ in {
   };
 
   config = lib.mkIf cfg.sensible {
-    programs.alacritty.settings = lib.optionalAttrs (config.home.sessionVariables ? "SHELL") {
+    programs.alacritty.settings = lib.optionalAttrs (config.home.sessionVariables ? SHELL) {
       shell.program = config.home.sessionVariables.SHELL;
     };
   };
