@@ -109,10 +109,6 @@ in {
             rev = "d848c94804918138375041a9f800f401bec12068";
             sha256 = "0mxmqkdpimwrskqjri3lp3haj1hzf583g7psnv34y3hyymzcx1h6";
           };
-          altKeyAvailable = with pkgs; !config.xsession.enable || (
-            config.xsession.windowManager.command != "${i3}/bin/i3" &&
-            config.xsession.windowManager.command != "${i3-gaps}/bin/i3"
-          );
         in [
           {
             name = "nix-shell";
@@ -220,7 +216,6 @@ in {
               sha256 = "1avra5cx8nxcqddwfj097ld0na9kwlq3z3akzqbzs4cd86wx7bzv";
             };
           }
-        ] ++ (if altKeyAvailable then [
           {
             name = "zsh-editing-workbench";
             src = pkgs.fetchFromGitHub {
@@ -230,17 +225,7 @@ in {
               sha256 = "0dyq7shj80iyd1j71hqf6p9n5mpmln077n3gsq2gv3a551dxvxrj";
             };
           }
-        ] else [
-          {
-            name = "zsh-cmd-architect";
-            src = pkgs.fetchFromGitHub {
-              owner = "psprint";
-              repo = "zsh-cmd-architect";
-              rev = "v1.2";
-              sha256 = "0pnps685926i8hxa9w5gxs4lnrz624ybnlrw428vnwyyg58s1a08";
-            };
-          }
-        ]);
+        ];
       };
     };
   };
