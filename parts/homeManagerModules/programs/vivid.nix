@@ -8,7 +8,6 @@ in {
 
     theme = mkOption {
       type = types.str;
-      default = "gruvbox-dark";
     };
   };
 

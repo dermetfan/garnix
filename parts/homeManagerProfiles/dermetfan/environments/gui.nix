@@ -17,7 +17,7 @@ in {
     gtk.enable = true;
     qt = {
       enable = true;
-      platformTheme.name = "gtk";
+      platformTheme.name = lib.mkDefault "gtk";
     };
 
     home = {

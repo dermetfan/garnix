@@ -1,4 +1,4 @@
-{ nixosConfig ? null, config, lib, pkgs, ... }:
+{ self, nixosConfig ? null, config, lib, pkgs, ... }:
 
 let
   cfg = config.profiles.dermetfan.wayland.windowManager.sway;
@@ -68,7 +68,9 @@ in {
             };
           };
 
-          output."*".background = "${config.xdg.configHome}/sway/background fill";
+          # Stylix uses the shorthand `bg` instead of the full `background`.
+          # Let's do the same so that it can override us reliably.
+          output."*".bg = lib.mkDefault "${self.inputs.gruvbox-wallpapers}/forest-hut.png fill";
 
           seat."*" = {
             hide_cursor = toString 2500;
@@ -103,20 +105,32 @@ in {
             { instance = "^WeeChat$"; }
           ];
 
-          bars = [ {
-            fonts = config.wayland.windowManager.sway.config.fonts;
-            mode = "hide";
-            workspaceNumbers = false;
-            statusCommand = "i3status-rs " + config.profiles.dermetfan.programs.i3status-rust.barConfigFiles.default;
-            trayOutput = "*";
-            colors.background = "00000088";
-            extraConfig = ''
-              status_padding 0
-              colors {
-                focused_background 000000CC
+          bars = [
+            (lib.mkMerge [
+              ({
+                fonts = config.wayland.windowManager.sway.config.fonts;
+                mode = "hide";
+                workspaceNumbers = false;
+                statusCommand = "i3status-rs " + config.profiles.dermetfan.programs.i3status-rust.barConfigFiles.default;
+                trayOutput = "*";
+                colors = {
+                  background = "00000088";
+                  focusedBackground  = "000000CC";
+                };
+                extraConfig = ''
+                  status_padding 0
+                '';
+              } // config.stylix.targets.sway.exportedBarConfig or {})
+
+              {
+                fonts.names = lib.mkBefore (
+                  lib.optional
+                  (config.stylix.targets.sway.enable or false)
+                  config.stylix.fonts.monospace.name
+                );
               }
-            '';
-          } ];
+            ])
+          ];
 
           terminal = config.home.sessionVariables.TERMINAL;
 

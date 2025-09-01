@@ -168,6 +168,10 @@ let
       package = "lrzip";
     }
     {
+      category = "Documents";
+      package = "fontpreview";
+    }
+    {
       category = "Documents/PDF";
       package = "krop";
     }
