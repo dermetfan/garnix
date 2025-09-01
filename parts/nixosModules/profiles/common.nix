@@ -8,6 +8,7 @@ in {
   imports = with inputs; [
     hosts.nixosModule
     programs-sqlite.nixosModules.programs-sqlite
+    stylix.nixosModules.stylix
   ];
 
   options.profiles.common.enable = lib.mkEnableOption "common settings";
@@ -19,6 +20,32 @@ in {
       defaults.enable = true;
 
       profiles.users.enable = true;
+
+      stylix = {
+        enable = true;
+
+        base16Scheme = pkgs.base16-schemes + /share/themes/gruvbox-dark-hard.yaml;
+        image = inputs.gruvbox-wallpapers + /forest-hut.png;
+        polarity = "dark";
+
+        fonts = {
+          sizes.desktop = config.stylix.fonts.sizes.applications;
+
+          monospace = {
+            package = pkgs.nerd-fonts.fira-code;
+            name = "FiraCode Nerd Font Mono";
+          };
+        };
+
+        icons = rec {
+          enable = true;
+          package = pkgs.kdePackages.breeze-icons;
+          light = "breeze";
+          dark = light + "-dark";
+        };
+
+        opacity.terminal = 0.8;
+      };
 
       nix = {
         settings = {

@@ -37,7 +37,13 @@
       url = "github:nix-community/disko/v1.12.0";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nur.url = "github:nix-community/NUR";
+    nur = {
+      url = "github:nix-community/NUR";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-parts.follows = "flake-parts";
+      };
+    };
     nix-index-database = {
       url = "github:nix-community/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -48,6 +54,18 @@
         nixpkgs.follows = "nixpkgs";
         utils.follows = "flake-utils";
       };
+    };
+    stylix = {
+      url = "github:nix-community/stylix/release-25.05";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-parts.follows = "flake-parts";
+        nur.follows = "nur";
+      };
+    };
+    gruvbox-wallpapers = {
+      url = "github:vctrblck/gruvbox-wallpapers";
+      flake = false;
     };
     dermetfan-blog = {
       url = "sourcehut:~dermetfan/dermetfan-blog";

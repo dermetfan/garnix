@@ -1,3 +1,5 @@
+{ lib, ... }:
+
 {
-  programs.bat.config.theme = "gruvbox-dark";
+  programs.bat.config.theme = lib.mkDefault "gruvbox-dark";
 }

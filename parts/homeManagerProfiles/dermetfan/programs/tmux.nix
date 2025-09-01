@@ -667,6 +667,14 @@ in {
           # TODO update plugin in nixpkgs to get this option
           set -g @tmux-gruvbox-statusbar-alpha true
         '';
+        # FIXME stylix overrides the statusbar color applied by this plugin
+        # because it adds to `tmux.extraConfig` which comes after the plugins.
+        # This is a problem for multiple programs, like e.g. kakoune.
+        # There should be a convention in NixOS and home-manager
+        # to have `extraConfig` be `lib.types.lines` (which it usually is)
+        # so one can use `lib.mkBefore` and `lib.mkAfter` to avoid this,
+        # and especially to have generate the final config file by merging
+        # into `extraConfig` instead of `xdg.configFile.foo.source = …`.
       }
       { plugin = sessionist; }
       # {
