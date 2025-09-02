@@ -133,6 +133,9 @@ in {
         bind-key -T copy-mode-vi r send-keys -X cursor-up
         bind-key -T copy-mode-vi i send-keys -X cursor-down
 
+        bind-key -T copy-mode-vi C-u send-keys -X halfpage-up #
+        bind-key -T copy-mode-vi C-d send-keys -X halfpage-down #
+
         bind-key -T copy-mode-vi   j send-keys -X search-again
         bind-key -T copy-mode-vi M-j send-keys -X search-reverse
 
@@ -183,6 +186,11 @@ in {
 
         bind-key -T copy-mode-vi R send-keys -X scroll-up
         bind-key -T copy-mode-vi I send-keys -X scroll-down
+
+        bind-key -T copy-mode-vi u send-keys -X halfpage-up
+        bind-key -T copy-mode-vi d send-keys -X halfpage-down
+        bind-key -T copy-mode-vi U send-keys -X page-up
+        bind-key -T copy-mode-vi D send-keys -X page-down
       ''
     );
 

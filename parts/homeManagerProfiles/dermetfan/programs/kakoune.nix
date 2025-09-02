@@ -204,12 +204,6 @@ in {
               effect = "<a-O>";
             }
 
-            rec {
-              mode = "goto";
-              docstring = "buffer top";
-              key = "g";
-              effect = key;
-            }
             {
               mode = "goto";
               docstring = "line end";
@@ -234,67 +228,38 @@ in {
               key = "i";
               effect = "j";
             }
-            rec {
-              mode = "goto";
-              docstring = "buffer end";
-              key = "e";
-              effect = key;
-            }
-            rec {
-              mode = "goto";
-              docstring = "window top";
-              key = "t";
-              effect = key;
-            }
-            rec {
-              mode = "goto";
-              docstring = "window bottom";
-              key = "b";
-              effect = key;
-            }
-            rec {
-              mode = "goto";
-              docstring = "window center";
-              key = "c";
-              effect = key;
-            }
-            rec {
-              mode = "goto";
-              docstring = "last buffer";
-              key = "a";
-              effect = key;
-            }
-            rec {
-              mode = "goto";
-              docstring = "file";
-              key = "f";
-              effect = key;
-            }
-            rec {
-              mode = "goto";
-              docstring = "last buffer change";
-              key = ".";
-              effect = key;
-            }
-            rec {
-              mode = "goto";
-              docstring = "definition";
-              key = "d";
-              effect = key;
-            }
-            rec {
-              mode = "goto";
-              docstring = "references";
-              key = "r";
-              effect = key;
-            }
-            rec {
-              mode = "goto";
-              docstring = "type definition";
-              key = "y";
-              effect = key;
-            }
 
+            /*
+            Through experimenting I discovered that,
+            somewhat unintuitively, you can enter a user mode
+            that is named the exact same as a builtin mode,
+            and it will work as expected — the keymap is empty
+            by default and mappings are executed in normal mode.
+            You just cannot declare a user mode with the same name
+            as a builtin one, that will throw an error immediately.
+            Luckily the home-manager module looks for user modes
+            to declare by filtering out builtin mode names
+            from the mappings and hence does not declare one.
+            So essentially, for each builtin mode, there is already
+            an empty user mode with the same name on startup.
+            You might wonder how it is possible to map keys
+            in the user mode when it is named the same
+            as the builtin mode, but I have good news:
+            Any mappings you add to the builtin mode
+            will also appear in the user mode.
+            Now, since mappings in the user mode are executed
+            in normal mode whereas mappings in builtin modes
+            are executed in that same active builtin mode,
+            by mapping keys into both at the same time,
+            you are essentially breaking the builtin mode
+            with mappings that only work as intented in user/normal mode.
+            But if you are doing this, you probably want to replace
+            the builtin mode with your custom user mode, as I do here.
+            Let's just bind the key that enters the builtin mode
+            to enter the user mode instead. That way, the builtin mode
+            has bad mappings but they do not bother us
+            as we can only enter the user mode anyway.
+            */
             {
               docstring = "view mode";
               mode = "normal";
@@ -302,7 +267,7 @@ in {
               effect = ": enter-user-mode view<ret>";
             }
             {
-              docstring = "view lock mode";
+              docstring = "view mode (lock)";
               mode = "normal";
               key = "V";
               effect = ": enter-user-mode -lock view<ret>";
@@ -391,11 +356,23 @@ in {
               key = "<pageup>";
               effect = key;
             }
+            {
+              mode = "view";
+              docstring = "scroll one page up";
+              key = "U";
+              effect = "<pageup>";
+            }
             rec {
               mode = "view";
               docstring = "scroll one page down";
               key = "<pagedown>";
               effect = key;
+            }
+            {
+              mode = "view";
+              docstring = "scroll one page down";
+              key = "D";
+              effect = "<pagedown>";
             }
             {
               mode = "view";
@@ -405,8 +382,20 @@ in {
             }
             {
               mode = "view";
+              docstring = "scroll half a page up";
+              key = "u";
+              effect = "<c-u>";
+            }
+            {
+              mode = "view";
               docstring = "scroll half a page down";
               key = "<s-pagedown>";
+              effect = "<c-d>";
+            }
+            {
+              mode = "view";
+              docstring = "scroll half a page down";
+              key = "d";
               effect = "<c-d>";
             }
           ]) ++ [
