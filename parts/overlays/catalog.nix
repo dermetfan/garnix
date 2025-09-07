@@ -205,6 +205,10 @@ let
       flake = "github:matheus-git/systemd-manager-tui";
       package = "default";
     }
+    {
+      category = "Terminal";
+      package = "systeroid";
+    }
   ];
 in
 
