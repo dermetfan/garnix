@@ -200,6 +200,11 @@ let
       category = "Terminal";
       package = "pspg";
     }
+    {
+      category = "Terminal";
+      flake = "github:matheus-git/systemd-manager-tui";
+      package = "default";
+    }
   ];
 in
 
