@@ -1304,6 +1304,22 @@
         "type": "github"
       }
     },
+    "nixpkgs_4": {
+      "locked": {
+        "lastModified": 1754340878,
+        "narHash": "sha256-lgmUyVQL9tSnvvIvBp7x1euhkkCho7n3TMzgjdvgPoU=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "cab778239e705082fe97bb4990e0d24c50924c04",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "nixpkgs-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nur": {
       "inputs": {
         "flake-parts": [
@@ -1436,7 +1452,11 @@
         "tmux-kak-copy-mode": "tmux-kak-copy-mode",
         "tmux-which-key": "tmux-which-key",
         "tmux-window-name": "tmux-window-name",
-        "wrapper-manager": "wrapper-manager"
+        "wrapper-manager": "wrapper-manager",
+        "xdg-desktop-portal-termfilepickers": "xdg-desktop-portal-termfilepickers",
+        "yazi-githead": "yazi-githead",
+        "yazi-office": "yazi-office",
+        "yazi-plugins": "yazi-plugins"
       }
     },
     "rust-overlay": {
@@ -1738,6 +1758,24 @@
         "type": "github"
       }
     },
+    "treefmt-nix": {
+      "inputs": {
+        "nixpkgs": "nixpkgs_4"
+      },
+      "locked": {
+        "lastModified": 1755934250,
+        "narHash": "sha256-CsDojnMgYsfshQw3t4zjRUkmMmUdZGthl16bXVWgRYU=",
+        "owner": "numtide",
+        "repo": "treefmt-nix",
+        "rev": "74e1a52d5bd9430312f8d1b8b0354c92c17453e5",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "treefmt-nix",
+        "type": "github"
+      }
+    },
     "wrapper-manager": {
       "locked": {
         "lastModified": 1751998186,
@@ -1750,6 +1788,78 @@
       "original": {
         "owner": "viperML",
         "repo": "wrapper-manager",
+        "type": "github"
+      }
+    },
+    "xdg-desktop-portal-termfilepickers": {
+      "inputs": {
+        "flake-parts": [
+          "flake-parts"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "treefmt-nix": "treefmt-nix"
+      },
+      "locked": {
+        "lastModified": 1756390784,
+        "narHash": "sha256-2WpiPTJp3hgSzViiZmp8k405xDl7m70fQ8TsZykSr+I=",
+        "owner": "Guekka",
+        "repo": "xdg-desktop-portal-termfilepickers",
+        "rev": "195ba6bb4a4f0224b0e749f2198fc88696be6383",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Guekka",
+        "repo": "xdg-desktop-portal-termfilepickers",
+        "type": "github"
+      }
+    },
+    "yazi-githead": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1753555329,
+        "narHash": "sha256-1fDVH8DhT0bfK5DOkzKcsxslLZk+BOntEzPsQ8rsaYk=",
+        "owner": "llanosrocas",
+        "repo": "githead.yazi",
+        "rev": "76fe4b837cc81391615c3d904d9ce06faa1af48e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "llanosrocas",
+        "repo": "githead.yazi",
+        "type": "github"
+      }
+    },
+    "yazi-office": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1753646528,
+        "narHash": "sha256-/zFSyVzyJLvNINB5vD5RlOimdhQT0WrmjjDUIhNlyj4=",
+        "owner": "macydnah",
+        "repo": "office.yazi",
+        "rev": "33cc61af68b04be8b6a75d90bb36c9c1252de0fb",
+        "type": "github"
+      },
+      "original": {
+        "owner": "macydnah",
+        "repo": "office.yazi",
+        "type": "github"
+      }
+    },
+    "yazi-plugins": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1755923740,
+        "narHash": "sha256-9+58QhdM4HVOAfEC224TrPEx1N7F2VLGMxKVLAM4nJw=",
+        "owner": "yazi-rs",
+        "repo": "plugins",
+        "rev": "d7588f6d29b5998733d5a71ec312c7248ba14555",
+        "type": "github"
+      },
+      "original": {
+        "owner": "yazi-rs",
+        "repo": "plugins",
         "type": "github"
       }
     }

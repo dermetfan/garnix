@@ -16,6 +16,8 @@ in {
 
     programs = {
       firefox.profiles.${config.home.username} = {
+        settings."widget.use-xdg-desktop-portal.file-picker" = assert config.services.xdg-desktop-portal-termfilepickers.enable; 1;
+
         userChrome = ''
           /**
            * @name Dim Unloaded Tabs

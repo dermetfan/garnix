@@ -90,6 +90,13 @@
       url = "github:water-sucks/optnix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    xdg-desktop-portal-termfilepickers = {
+      url = "github:Guekka/xdg-desktop-portal-termfilepickers";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-parts.follows = "flake-parts";
+      };
+    };
     fish-tide = {
       # TODO update when fixed: https://github.com/IlanCosman/tide/issues/253
       url = "github:IlanCosman/tide/v4.3.4";
@@ -258,6 +265,18 @@
     };
     kak-focus = {
       url = "github:caksoylar/kakoune-focus";
+      flake = false;
+    };
+    yazi-plugins = {
+      url = "github:yazi-rs/plugins";
+      flake = false;
+    };
+    yazi-githead = {
+      url = "github:llanosrocas/githead.yazi";
+      flake = false;
+    };
+    yazi-office = {
+      url = "github:macydnah/office.yazi";
       flake = false;
     };
   };

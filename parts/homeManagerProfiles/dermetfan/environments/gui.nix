@@ -1,8 +1,10 @@
-{ nixosConfig ? null, config, lib, pkgs, ... }:
+{ self, nixosConfig ? null, config, lib, pkgs, ... }:
 
 let
   cfg = config.profiles.dermetfan.environments.gui;
 in {
+  imports = [ self.inputs.xdg-desktop-portal-termfilepickers.homeManagerModules.default ];
+
   options.profiles.dermetfan.environments.gui = with lib; {
     enable.default = false;
 
@@ -50,14 +52,25 @@ in {
         (config.xdg.portal.enable && builtins.elem pkgs.xdg-desktop-portal-wlr config.xdg.portal.extraPortals) ||
         (nixosConfig.xdg.portal.enable or false && builtins.elem pkgs.xdg-desktop-portal-wlr nixosConfig.xdg.portal.extraPortals or [])
       ) {
-        text = (lib.generators.toINI {} {
+        text = lib.generators.toINI {} {
           screencast = {
             max_fps = 30;
             chooser_type = "simple";
             chooser_cmd = "${pkgs.slurp}/bin/slurp -orf %o";
           };
-        });
+        };
       };
     };
+
+    services.xdg-desktop-portal-termfilepickers = {
+      enable = true;
+      package = self.inputs.xdg-desktop-portal-termfilepickers.packages.${pkgs.stdenv.system}.default;
+      config.terminal_command =
+        [ config.home.sessionVariables.TERMINAL ]
+        ++ lib.optionals (builtins.elem config.home.sessionVariables.TERMINAL [ "foot" "footclient" ]) [ "--title" "Choose File" ];
+    };
+
+    # So that it can find its `terminal_command`.
+    systemd.user.services.xdg-desktop-portal-termfilepickers.Service.PassEnvironment = [ "PATH" ];
   };
 }

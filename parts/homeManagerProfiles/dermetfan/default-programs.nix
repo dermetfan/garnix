@@ -23,7 +23,7 @@
     };
     less.enable = true;
 
-    ranger.enable = true;
+    yazi.enable = true;
     broot.enable = true;
     htop.enable = true;
     tmux.enable = true;

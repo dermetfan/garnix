@@ -19,7 +19,7 @@ in {
 
       i3status-rust.enable = true;
       foot         .enable = true;
-      ranger       .enable = true;
+      yazi         .enable = true;
       rofi         .enable = true;
 
       networkmanager-dmenu.enable = nixosConfig.networking.networkmanager.enable or false;
@@ -188,8 +188,7 @@ in {
           in {
             "${modifier}+Return" = "exec ${terminal}";
 
-            "${modifier}+x" = "exec ${terminal} -e ranger";
-            "${modifier}+Shift+x" = "exec ${terminal} -e sudo ranger";
+            "${modifier}+x" = "exec ${terminal} -e $SHELL -c yazi";
 
             "${modifier}+e"       = "exec rofi -show drun";
             "${modifier}+Shift+e" = "exec rofi -show combi";
