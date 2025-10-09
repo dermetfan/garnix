@@ -173,7 +173,6 @@ in {
                 notify-send
                 --category ${lib.escapeShellArg config.profiles.dermetfan.services.mako.desktop.category}
                 --app-name ${lib.escapeShellArg config.profiles.dermetfan.services.mako.desktop.progressApp}
-                --expire-time 1500
                 --urgency low
                 --hint $'INT:value:($info.volume)'
                 $'($icon) Volume'
@@ -294,11 +293,10 @@ in {
               "exec " + pkgs.writers.writeNu "sway-toggle-do-not-disturb" ''
                 makoctl mode -t ${lib.escapeShellArg mode}
 
-                def --wrapped notify [...args]: nothing -> nothing {
+                def --wrapped notify [...args: string]: nothing -> nothing {
                   (
                     notify-send
                     --category ${lib.escapeShellArg config.profiles.dermetfan.services.mako.desktop.category}
-                    --expire-time 1500
                     ...$args
                   )
                 }
@@ -342,7 +340,6 @@ in {
                 notify-send
                 --category ${lib.escapeShellArg config.profiles.dermetfan.services.mako.desktop.category}
                 --app-name ${lib.escapeShellArg config.profiles.dermetfan.services.mako.desktop.progressApp}
-                --expire-time 1500
                 --urgency low
                 --hint $'INT:value:($brightness)'
                 $'($icon) Brightness'
@@ -354,7 +351,7 @@ in {
             "XF86MonBrightnessDown" = "exec ${lib.optionalString (!systemWide) "light -U 5 &&"} ${notifyBrightness}";
           }) // {
             "${modifier}+Alt+Space" = "exec " + pkgs.writers.writeNu "sway-toggle-keymap" ''
-              let targets = swaymsg -t get_inputs
+              let targets = swaymsg --type get_inputs
               | from json
               | where type == keyboard
               | filter {($in.xkb_layout_names | length) > 1}
@@ -372,14 +369,20 @@ in {
                 swaymsg input $target.identifier xkb_switch_layout $target.xkb_active_layout_index
               }
 
-              ${lib.getExe pkgs.libnotify} -t 1500 '⌨️ Changed keyboard layout' (
-                if ($targets | length) == 1 {
-                  $targets.0.xkb_layout_name
-                } else {
-                  $targets
-                  | each {$'($in.name): ($in.xkb_layout_name)'}
-                  | str join "\n"
-                }
+              (
+                notify-send
+                --category ${lib.escapeShellArg config.profiles.dermetfan.services.mako.desktop.category}
+                --urgency low
+                '⌨️ Keyboard layout changed'
+                (
+                  if ($targets | length) == 1 {
+                    $targets.0.xkb_layout_name
+                  } else {
+                    $targets
+                    | each {$'($in.name): ($in.xkb_layout_name)'}
+                    | str join "\n"
+                  }
+                )
               )
             '';
           };

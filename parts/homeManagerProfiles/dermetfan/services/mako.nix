@@ -53,6 +53,7 @@ in {
       group-by=category
       # like the default format but without the group-index
       format=<b>%s</b>\n%b
+      default-timeout=1500
 
       [category=${cfg.desktop.category} grouped]
       invisible=true
