@@ -378,35 +378,23 @@ in {
             "XF86MonBrightnessDown" = "exec ${lib.optionalString (!systemWide) "light -U 5 &&"} ${notifyBrightness}";
           }) // {
             "${modifier}+Alt+Space" = "exec " + pkgs.writers.writeNu "sway-toggle-keymap" ''
-              let targets = swaymsg --type get_inputs
-              | from json
-              | where type == keyboard
-              | filter {($in.xkb_layout_names | length) > 1}
-              | each {
-                let xkb_active_layout_index = ($in.xkb_active_layout_index + 1) mod ($in.xkb_layout_names | length)
-                {
-                  identifier: $in.identifier
-                  xkb_active_layout_index: $xkb_active_layout_index
-                  name: $in.name
-                  xkb_layout_name: ($in.xkb_layout_names | get $xkb_active_layout_index)
-                }
-              }
+              swaymsg input type:keyboard xkb_switch_layout next
 
-              for target in $targets {
-                swaymsg input $target.identifier xkb_switch_layout $target.xkb_active_layout_index
-              }
+              let keyboards = swaymsg --type get_inputs
+                | from json
+                | where type == keyboard and ($it.xkb_layout_names | length) > 1
 
               (
                 notify-send
                 --category ${lib.escapeShellArg config.profiles.dermetfan.services.mako.desktop.category}
                 --urgency low
-                '⌨️ Keyboard layout changed'
+                '⌨️ Keyboard layout toggled'
                 (
-                  if ($targets | length) == 1 {
-                    $targets.0.xkb_layout_name
+                  if ($keyboards | length) == 1 {
+                    $keyboards.0.xkb_active_layout_name
                   } else {
-                    $targets
-                    | each {$'($in.name): ($in.xkb_layout_name)'}
+                    $keyboards
+                    | each {$'($in.name): ($in.xkb_active_layout_name)'}
                     | str join "\n"
                   }
                 )
