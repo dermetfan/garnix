@@ -56,6 +56,18 @@ in {
       };
 
       services.pulseaudio.package = pkgs.pulseaudioFull;
+
+      # libinput considers a keyboard either internal or external.
+      # Unfortunately, on this laptop, it considers the built-in keyboard external.
+      # As a consequence, `disable-while-typing` (`dwt`) does not get applied to it.
+      # Let's tell it to consider it an internal keyboard to fix that.
+      environment.etc."libinput/local-overrides.quirks".text = lib.generators.toINI {} {
+        "PS2 Keyboard Integration" = {
+          MatchName = "AT Translated Set 2 keyboard";
+          MatchUdevType = "keyboard";
+          AttrKeyboardIntegration = "internal";
+        };
+      };
     }
 
     (lib.mkIf (cfg.enableGPU != false) {
