@@ -324,6 +324,33 @@ in {
             "XF86AudioMute" = "set-mute @DEFAULT_AUDIO_SINK@ toggle";
           } // {
             "XF86ScreenSaver"    = "exec swaylock";
+            "XF86TouchpadToggle" = "exec " + pkgs.writers.writeNu "sway-notify-touchpad" ''
+              swaymsg input type:touchpad events toggle
+
+              let touchpads = swaymsg --type get_inputs
+                | from json
+                | where type == touchpad
+
+              def humanize []: string -> string {
+                str replace --all _ ' '
+              }
+
+              (
+                notify-send
+                --category ${lib.escapeShellArg config.profiles.dermetfan.services.mako.desktop.category}
+                --urgency low
+                '🖱 Touchpad toggled'
+                (
+                  if ($touchpads | length) == 1 {
+                    $touchpads.0.libinput.send_events | humanize
+                  } else {
+                    $touchpads
+                    | each {$'($in.name): ($in.send_events | humanize)'}
+                    | str join "\n"
+                  }
+                )
+              )
+            '';
             "${modifier}+Scroll_Lock" = "exec swaylock";
           } // (let
             systemWide = with nixosConfig.programs.light; enable && brightnessKeys.enable;
