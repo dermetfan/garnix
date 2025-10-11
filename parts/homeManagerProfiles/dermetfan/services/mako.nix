@@ -51,26 +51,32 @@ in {
     # https://github.com/nix-community/home-manager/issues/7120
     #
     # Ensure this comes last so it can override the do-not-disturb mode.
-    xdg.configFile."mako/config".text = lib.mkAfter ''
-      [category=${cfg.desktop.category}]
-      invisible=false
-      history=false
-      layer=overlay
-      group-by=category
-      # like the default format but without the group-index
-      format=<b>%s</b>\n%b
-      default-timeout=1500
-      anchor=bottom-left
+    xdg.configFile."mako/config".text = lib.mkAfter (lib.concatMapStringsSep "\n" (lib.generators.toINI {}) [
+      {
+        "category=${cfg.desktop.category}" = {
+          invisible = "false";
+          history = "false";
+          layer = "overlay";
+          group-by = "category";
+          # like the default format but without the group-index
+          format = ''<b>%s</b>\n%b'';
+          default-timeout = 1500;
+          anchor = "bottom-left";
+        };
+      }
 
-      [category=${cfg.desktop.category} grouped]
-      invisible=true
+      {
+        "category=${cfg.desktop.category} grouped".invisible = true;
+      }
 
-      [category=${cfg.desktop.category} grouped group-index=0]
-      invisible=false
+      {
+        "category=${cfg.desktop.category} grouped group-index=0".invisible = false;
+      }
 
-      [category=${cfg.desktop.category} app-name=${cfg.desktop.progressApp}]
-      # like `[category=${cfg.desktop.category}]` but with space instead of newline
-      format=<b>%s</b> %b
-    '';
+      {
+        # like `[category=${cfg.desktop.category}]` but with space instead of newline
+        "category=${cfg.desktop.category} app-name=${cfg.desktop.progressApp}".format = "<b>%s</b> %b";
+      }
+    ]);
   };
 }
