@@ -34,6 +34,12 @@ in {
   config = {
     services.mako.settings = {
       max-history = 20;
+
+      anchor = "bottom-right";
+      # XXX The bottom margin is hard-coded to above the sway status bar.
+      # Is there a way to obtain it somehow?
+      outer-margin = "0,0,35";
+
       "mode=do-not-disturb".invisible = true;
     };
 
@@ -54,6 +60,7 @@ in {
       # like the default format but without the group-index
       format=<b>%s</b>\n%b
       default-timeout=1500
+      anchor=bottom-left
 
       [category=${cfg.desktop.category} grouped]
       invisible=true
