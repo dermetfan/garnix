@@ -58,6 +58,10 @@ let
       package = "gron";
     }
     {
+      category = "Developent/Tools";
+      package = "intentrace";
+    }
+    {
       category = "Developent/Tools/Nix";
       package = "deadnix";
     }
