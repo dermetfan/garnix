@@ -32,6 +32,8 @@
     gui.enable = true;
     users.enable = true;
     yggdrasil.enable = true;
+
+    stylix.enable = false;
   };
 
   i18n.defaultLocale = "de_DE.UTF-8";
