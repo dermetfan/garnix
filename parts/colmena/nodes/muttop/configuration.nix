@@ -172,7 +172,7 @@
         profiles.${config.home.username} = {
           search = mozillaSearch;
           extensions.packages = let
-            inherit (pkgs.extend inputs.nur.overlay) nur;
+            inherit (pkgs.extend inputs.nur.overlays.default) nur;
           in with nur.repos.rycee.firefox-addons; [
             ublock-origin
             decentraleyes
