@@ -65,6 +65,13 @@ in {
         zfs.autoScrub.enable = true;
         znapzend.enable = lib.mkDefault config.boot.zfs.enabled;
       };
+
+      # Remove public host keys. They are just confusing and unnecessary.
+      systemd.services.${"sshd" + lib.optionalString config.services.openssh.startWhenNeeded "@"}.preStart = lib.mkAfter (
+        lib.concatMapStringsSep "\n"
+        (key: "rm --force ${lib.escapeShellArg key.path}.pub")
+        config.services.openssh.hostKeys
+      );
     })
   ];
 }
