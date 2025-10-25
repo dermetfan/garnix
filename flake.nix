@@ -34,7 +34,7 @@
     wrapper-manager.url = "github:viperML/wrapper-manager";
     impermanence.url = "github:nix-community/impermanence";
     disko = {
-      url = "github:nix-community/disko/v1.12.0";
+      url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nur = {

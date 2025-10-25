@@ -8,6 +8,13 @@
     disko.nixosModules.disko
   ];
 
+  virtualisation.vmVariantWithDisko.virtualisation.fileSystems = lib.pipe config.fileSystems [
+    (lib.filterAttrs (k: v: v.neededForBoot))
+    builtins.attrNames
+    (fs: fs ++ [ "/home" ]) # needed for home-manager activation
+    (lib.flip lib.genAttrs (lib.const { neededForBoot = true; }))
+  ];
+
   hardware = {
     bluetooth.enable = true;
     cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
@@ -51,14 +58,30 @@
 
   fileSystems."/state".neededForBoot = true;
 
-  disko.devices = {
+  disko.devices = devices: let
+    # In test mode, returns the fraction given as float
+    # of the total image size in megabytes.
+    # When not in test mode, just returns the default.
+    ofTotalDisk = fraction: default:
+      if config.disko.testMode
+      then lib.pipe devices.config.disk.root.imageSize [
+        (s: assert lib.hasSuffix "G" s; s)
+        (lib.removeSuffix "G")
+        lib.toInt
+        (g: g * 1024) # GiB to MiB
+        (m: m * fraction)
+        builtins.floor
+        (m: toString m + "M")
+      ]
+      else default;
+  in {
     disk.root = {
       device = "/dev/disk/by-id/ata-JAJS600M1TB_AA000000000000001052";
       content = {
         type = "gpt";
         partitions = {
           ESP = {
-            size = "512M";
+            size = ofTotalDisk (1 / 8.) "512M";
             type = "EF00";
             content = {
               type = "filesystem";
@@ -67,7 +90,7 @@
             };
           };
           swap = {
-            size = "12G";
+            size = ofTotalDisk (1 / 4.) "12G";
             content = {
               type = "swap";
               resumeDevice = true;
@@ -99,7 +122,7 @@
       }) {
         reserved = {
           options = {
-            refreserv = "1G";
+            refreserv = ofTotalDisk (1 / 16.) "1G";
             canmount = "off";
             mountpoint = "none";
           };
