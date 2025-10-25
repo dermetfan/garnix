@@ -10,6 +10,8 @@
 
   system.stateVersion = "25.05";
 
+  deployment.keys.ssh_host_key.destDir = lib.mkForce (config.environment.persistence."/state".persistentStoragePath + "/etc/ssh");
+
   environment.persistence."/state" = {
     files = map (key: key.path) config.services.openssh.hostKeys;
     directories = [
