@@ -1,6 +1,6 @@
 { inputs, ... }:
 
-{ config, lib, ... }:
+{ options, config, lib, ... }:
 
 let
   cfg = config.profiles.common;
@@ -53,9 +53,11 @@ in {
       services = {
         openssh = {
           enable = true;
-          hostKeys = [
-            rec { type = "ed25519"; path = "/etc/ssh/ssh_host_${type}_key"; }
-          ];
+          hostKeys = lib.mkDefault (
+            builtins.filter
+            ({ type, ... }: type == "ed25519")
+            options.services.openssh.hostKeys.default
+          );
         };
 
         "1.1.1.1".enable = true;
