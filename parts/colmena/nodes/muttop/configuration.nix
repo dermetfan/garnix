@@ -151,12 +151,12 @@
 
     programs = let
       mozillaSearch = {
-        default = "Ecosia";
+        default = "ecosia";
         engines = {
-          Ecosia.metaData = {};
-          Google.metaData = {};
+          ecosia.metaData = {};
+          google.metaData = {};
         };
-        order = [ "Ecosia" "Google" ];
+        order = [ "ecosia" "google" ];
         force = true;
       };
     in {
@@ -171,7 +171,7 @@
 
         profiles.${config.home.username} = {
           search = mozillaSearch;
-          extensions = let
+          extensions.packages = let
             inherit (pkgs.extend inputs.nur.overlay) nur;
           in with nur.repos.rycee.firefox-addons; [
             ublock-origin
