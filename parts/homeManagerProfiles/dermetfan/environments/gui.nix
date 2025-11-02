@@ -3,7 +3,10 @@
 let
   cfg = config.profiles.dermetfan.environments.gui;
 in {
-  imports = [ self.inputs.xdg-desktop-portal-termfilepickers.homeManagerModules.default ];
+  imports = [
+    self.inputs.xdg-desktop-portal-termfilepickers.homeManagerModules.default
+    { services.xdg-desktop-portal-termfilepickers.package = self.inputs.xdg-desktop-portal-termfilepickers.packages.${pkgs.stdenv.system}.default; }
+  ];
 
   options.profiles.dermetfan.environments.gui = with lib; {
     enable.default = false;
@@ -64,7 +67,6 @@ in {
 
     services.xdg-desktop-portal-termfilepickers = {
       enable = true;
-      package = self.inputs.xdg-desktop-portal-termfilepickers.packages.${pkgs.stdenv.system}.default;
       config.terminal_command =
         [ config.home.sessionVariables.TERMINAL ]
         ++ lib.optionals (builtins.elem config.home.sessionVariables.TERMINAL [ "foot" "footclient" ]) [ "--title" "Choose File" ];
