@@ -39,7 +39,11 @@ in {
 
     wayland.windowManager.sway.enable = true;
     
-    programs.swaylock.package = lib.mkIf cfg.enableEffects pkgs.swaylock-effects;
+    programs = {
+      firefox.enable = true;
+
+      swaylock.package = lib.mkIf cfg.enableEffects pkgs.swaylock-effects;
+    };
 
     xdg = {
       portal = {
