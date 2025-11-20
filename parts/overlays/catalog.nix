@@ -189,6 +189,11 @@ let
       package = "default";
     }
     {
+      category = "Documents/xlsx";
+      flake = "github:bgreenwell/xleak";
+      package = "default";
+    }
+    {
       category = "Ricing";
       package = "neofetch";
     }
