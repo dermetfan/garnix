@@ -176,11 +176,11 @@ let
       package = "fontpreview";
     }
     {
-      category = "Documents/PDF";
+      category = "Documents/pdf";
       package = "krop";
     }
     {
-      category = "Documents/PDF";
+      category = "Documents/pdf";
       package = "pdfarranger";
     }
     {
