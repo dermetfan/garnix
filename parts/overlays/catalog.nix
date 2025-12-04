@@ -62,6 +62,10 @@ let
       package = "intentrace";
     }
     {
+      category = "Developent/Tools";
+      package = "ast-grep";
+    }
+    {
       category = "Developent/Tools/Nix";
       package = "deadnix";
     }
@@ -217,6 +221,10 @@ let
     {
       category = "Terminal";
       package = "systeroid";
+    }
+    {
+      category = "Terminal";
+      package = "treemd";
     }
   ];
 in
