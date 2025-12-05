@@ -41,7 +41,7 @@ in {
         hwRender = true;
       };
 
-      logind.lidSwitch = "ignore";
+      logind.settings.Login.HandleLidSwitch = "ignore";
 
       udev.packages = [ pkgs.qmk-udev-rules ];
     };

@@ -78,7 +78,7 @@
 
     blueman.enable = true;
 
-    logind.lidSwitch = lib.mkForce "suspend";
+    logind.settings.Login.HandleLidSwitch = lib.mkForce "suspend";
 
     znapzend = {
       enable = true;

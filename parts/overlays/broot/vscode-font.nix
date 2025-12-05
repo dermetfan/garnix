@@ -1,6 +1,6 @@
-{ lib, runCommandNoCC, broot }:
+{ lib, runCommand, broot }:
 
-runCommandNoCC "broot-vscode-font-${broot.version}" {
+runCommand "broot-vscode-font-${broot.version}" {
   meta = with lib; {
     description = "VSCode Font from Broot";
     homepage = "https://dystroy.org/broot/icons/#setting-up-the-font";

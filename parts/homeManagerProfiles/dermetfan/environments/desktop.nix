@@ -46,7 +46,7 @@
       # autostart
       udevil
 
-      tdesktop
+      telegram-desktop
       feh
       gucharmap
       qalculate-gtk

@@ -1,6 +1,6 @@
 {
   programs.vivid = {
     enable = true;
-    theme = "gruvbox-dark";
+    activeTheme = "gruvbox-dark";
   };
 }

@@ -12,7 +12,7 @@
   programs = {
     less = {
       enable = true;
-      keys = ''
+      config = ''
         #command
         i     forw-line
         I     forw-line-force

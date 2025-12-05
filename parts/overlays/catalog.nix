@@ -2,7 +2,7 @@ let
   entries = [
     {
       category = "Files";
-      package = "du-dust";
+      package = "dust";
       executable = "dust";
     }
     {
@@ -82,10 +82,6 @@ let
       package = "statix";
     }
     {
-      category = "Developent/Tools/Nix";
-      package = "nix-linter";
-    }
-    {
       category = "Hardware";
       package = "glances";
     }
@@ -126,10 +122,6 @@ let
     {
       category = "Hardware";
       package = "gptfdisk";
-    }
-    {
-      category = "Hardware";
-      package = "glxinfo";
     }
     {
       category = "Networking";

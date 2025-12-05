@@ -1,35 +1,21 @@
-{ lib, pkgs, ... }: {
-  programs.git = {
-    delta = {
-      enable = true;
-      options = {
-        syntax-theme = "gruvbox-dark";
-        features = "zebra-dark";
+{ config, lib, pkgs, ... }: {
+  programs = {
+    git.settings = {
+      user = {
+        name = "Robin Stumm";
+        email = "serverkorken@gmail.com";
       };
-    };
-
-    difftastic = {
-      enableAsDifftool = true;
-      background = "dark";
-      display = "inline";
-    };
-
-    userName = "Robin Stumm";
-    userEmail = "serverkorken@gmail.com";
-
-    aliases = {
-      st = "status";
-      lg = "log --graph";
-      co = "checkout";
-      ci = "commit";
-      spull = ''!git pull "$@" && git submodule sync --recursive && git submodule update --init --recursive'';
-      # XXX Use https://github.com/wtnqk/ftdv instead once it's packaged.
-      # That supports configuring other diffing tools (such as difftastic),
-      # while diffnav is hardcoded to use delta.
-      diffnav = "-c core.pager=${lib.getExe pkgs.diffnav} diff";
-    };
-
-    extraConfig = {
+      aliases = {
+        st = "status";
+        lg = "log --graph";
+        co = "checkout";
+        ci = "commit";
+        spull = ''!git pull "$@" && git submodule sync --recursive && git submodule update --init --recursive'';
+        # XXX Use https://github.com/wtnqk/ftdv instead once it's packaged.
+        # That supports configuring other diffing tools (such as difftastic),
+        # while diffnav is hardcoded to use delta.
+        diffnav = "-c core.pager=${lib.getExe pkgs.diffnav} diff";
+      };
       log = {
         abbrevCommit = true;
         date = "iso";
@@ -46,8 +32,21 @@
         colorMoved = "default";
         colorMovedWS = "allow-indentation-change";
         noPrefix = true;
+        tool = "difftastic";
       };
-      difftool.prompt = false;
+      difftool = {
+        prompt = false;
+        # There's an assertion in the home-manager modules
+        # that forbids to set `programs.{delta,difftastic}.git.enable`
+        # at the same time, for no good reason IMHO.
+        # This line is essentially copied from the difftastic module.
+        difftastic.cmd = with config.programs.difftastic; toString [
+          (lib.getExe package)
+          (lib.cli.toGNUCommandLineShell {} options)
+          "$LOCAL"
+          "$REMOTE"
+        ];
+      };
       branch.sort = "committerdate";
       tag.sort = "version:refname";
       push = {
@@ -92,6 +91,23 @@
         updateRefs = true;
       };
       interactive.singleKey = true;
+    };
+
+    delta = {
+      enable = true;
+      enableGitIntegration = true;
+      options = {
+        syntax-theme = "gruvbox-dark";
+        features = "zebra-dark";
+      };
+    };
+
+    difftastic = {
+      enable = true;
+      options = {
+        background = "dark";
+        display = "inline";
+      };
     };
   };
 }

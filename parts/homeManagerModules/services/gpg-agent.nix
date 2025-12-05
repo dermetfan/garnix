@@ -1,7 +1,7 @@
 { lib, pkgs, ... }:
 
 {
-    # TODO remove once fixed upstream
-    # https://github.com/nix-community/home-manager/issues/5146#issuecomment-2156125022
-    services.gpg-agent.pinentry.package = lib.mkDefault pkgs.pinentry;
+  # TODO remove once fixed upstream
+  # https://github.com/nix-community/home-manager/issues/5146#issuecomment-2156125022
+  services.gpg-agent.pinentry.package = lib.mkDefault pkgs.pinentry-all;
 }

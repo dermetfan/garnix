@@ -7,7 +7,7 @@ let
 
   netmask = builtins.readFile (
     with cfg.ipv4;
-    pkgs.runCommandNoCCLocal "netmask" {} ''
+    pkgs.runCommandLocal "netmask" {} ''
       ${pkgs.ipcalc}/bin/ipcalc -m ${address}/${toString prefixLength} \
       | cut -d = -f 2 \
       | tr -d \\n \

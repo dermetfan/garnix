@@ -107,7 +107,6 @@ in {
         recommendedGzipSettings   = true;
         recommendedBrotliSettings = true;
         recommendedUwsgiSettings  = true;
-        recommendedZstdSettings   = true;
       };
     };
 
