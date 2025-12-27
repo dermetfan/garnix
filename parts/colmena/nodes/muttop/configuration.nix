@@ -227,6 +227,8 @@
           };
         };
 
+        kscreenlocker.timeout = 20;
+
         panels = [
           {
             location = "left";
