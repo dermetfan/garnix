@@ -71,6 +71,10 @@ let
     }
     {
       category = "Developent/Tools/Nix";
+      package = "nix-btm";
+    }
+    {
+      category = "Developent/Tools/Nix";
       package = "statix";
     }
     {
