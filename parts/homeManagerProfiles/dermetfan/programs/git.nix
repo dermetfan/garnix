@@ -14,7 +14,7 @@
         # XXX Use https://github.com/wtnqk/ftdv instead once it's packaged.
         # That supports configuring other diffing tools (such as difftastic),
         # while diffnav is hardcoded to use delta.
-        diffnav = "-c core.pager=${lib.getExe pkgs.diffnav} diff";
+        diffnav = "-c core.pager='${lib.getExe pkgs.diffnav} --unified' diff";
       };
       log = {
         abbrevCommit = true;
