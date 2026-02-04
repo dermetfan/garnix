@@ -63,7 +63,18 @@ in {
           screencast = {
             max_fps = 30;
             chooser_type = "simple";
-            chooser_cmd = "${pkgs.slurp}/bin/slurp -orf %o";
+            # We need to prepend the output of slurp with "Monitor: " until this PR hits nixpkgs:
+            # https://github.com/emersion/xdg-desktop-portal-wlr/pull/355
+            # For details, see:
+            # https://github.com/emersion/xdg-desktop-portal-wlr/issues/350
+            chooser_cmd = lib.getExe (pkgs.writeShellApplication {
+              name = "chooser";
+              runtimeInputs = with pkgs; [ slurp ];
+              text = ''
+                output=$(slurp -orf %o)
+                printf '%s' "Monitor: $output"
+              '';
+            });
           };
         };
       };
