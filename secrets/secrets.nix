@@ -57,6 +57,7 @@ in withDeployer (
     ]
     ++ [
       (secrets.service "github")
+      (secrets.host "starfighter" "secrets.nix")
       (secrets.host "laptop" "secrets.nix")
       (secrets.host "muttop" "secrets.nix")
     ]
@@ -64,6 +65,10 @@ in withDeployer (
 
   userSecrets "dermetfan" [
     "nix-access-tokens"
+  ] //
+
+  hostSecrets "starfighter" [
+    "yggdrasil/key.conf"
   ] //
 
   hostSecrets "laptop" [
