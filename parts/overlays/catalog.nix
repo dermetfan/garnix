@@ -149,6 +149,10 @@ let
     }
     {
       category = "Networking";
+      package = "whosthere";
+    }
+    {
+      category = "Networking";
       package = "gotty";
     }
     {
