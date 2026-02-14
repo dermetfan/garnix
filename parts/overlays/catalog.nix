@@ -43,6 +43,10 @@ let
     }
     {
       category = "Developent/Tools";
+      package = "jiq";
+    }
+    {
+      category = "Developent/Tools";
       package = "jnv";
     }
     {
