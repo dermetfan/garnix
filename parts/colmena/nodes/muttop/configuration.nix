@@ -193,9 +193,11 @@
           extensions.packages = let
             inherit (pkgs.extend inputs.nur.overlays.default) nur;
           in with nur.repos.rycee.firefox-addons; [
+            plasma-integration
             ublock-origin
             decentraleyes
           ];
+          settings."widget.use-xdg-desktop-portal.file-picker" = 1;
         };
       };
 
