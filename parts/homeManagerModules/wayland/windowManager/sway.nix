@@ -49,7 +49,12 @@ in {
             (splitString "," config.home.keyboard.layout)
             (splitString "," config.home.keyboard.variant)
         );
-        xkb_options = builtins.concatStringsSep "," config.home.keyboard.options;
+        xkb_options = builtins.concatStringsSep "," (
+          builtins.filter (opt: !builtins.elem opt [
+            # this is what the board's keymap is for
+            "ctrl:swapcaps"
+          ]) config.home.keyboard.options
+        );
 
         inherit (config.wayland.windowManager.sway.config.input."type:keyboard") repeat_delay repeat_rate;
 
