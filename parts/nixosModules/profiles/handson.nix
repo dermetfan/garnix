@@ -26,7 +26,7 @@ in {
         xkb = {
           layout = "us";
           variant = "norman";
-          options = "compose:lwin,compose:rwin,eurosign:e";
+          options = "compose:rctl,ctrl:swapcaps,eurosign:e";
         };
 
         synaptics.twoFingerScroll = true;
