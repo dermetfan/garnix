@@ -58,6 +58,12 @@ in {
               repeat_delay = "225";
               repeat_rate = "27";
             };
+            "type:touchpad" = {
+              click_method = "clickfinger";
+              dwt = "enabled";
+              dwtp = "enabled";
+              natural_scroll = "enabled";
+            };
             "2:7:SynPS\/2_Synaptics_TouchPad" = {
               accel_profile = "adaptive";
               pointer_accel = "0.5";

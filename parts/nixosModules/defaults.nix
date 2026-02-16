@@ -76,6 +76,12 @@ in {
 
       xserver.synaptics.palmDetect = true;
 
+      libinput.touchpad = {
+        clickMethod = "clickfinger";
+        naturalScrolling = true;
+        disableWhileTyping = true;
+      };
+
       minecraft-server = {
         eula = true;
         openFirewall = true;
