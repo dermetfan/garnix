@@ -21,10 +21,6 @@
         enable = lib.mkDefault true;
       };
 
-      sway = lib.mkIf (!config.home.pointerCursor.x11.enable) {
-        enable = lib.mkDefault true;
-      };
-
       hyprcursor = lib.mkIf config.wayland.windowManager.hyprland.enable {
         enable = lib.mkDefault true;
       };
