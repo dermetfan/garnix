@@ -1,4 +1,4 @@
-{ lib, ... } @ args:
+{ lib, moduleWithSystem, ... } @ args:
 
 {
   flake.nixosModules = lib.pipe ./. [

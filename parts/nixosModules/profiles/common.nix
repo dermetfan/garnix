@@ -1,8 +1,6 @@
-{ inputs, ... }:
+{ inputs, moduleWithSystem, ... }:
 
-{ options, config, lib, ... }:
-
-let
+moduleWithSystem ({self'}: { options, config, lib, ... }: let
   cfg = config.profiles.common;
 in {
   imports = with inputs; [
@@ -36,6 +34,8 @@ in {
 
       networking.stevenBlackHosts.enable = true;
 
+      environment.sessionVariables.XKB_CONFIG_ROOT = config.services.xserver.xkb.dir; # for wayland
+
       security.acme.defaults.email = "serverkorken@gmail.com";
 
       fonts = {
@@ -62,6 +62,8 @@ in {
 
         "1.1.1.1".enable = true;
 
+        xserver.xkb.dir = "${self'.packages.xkeyboard_config}/etc/X11/xkb";
+
         zfs.autoScrub.enable = true;
 
         znapzend = {
@@ -82,4 +84,4 @@ in {
       );
     })
   ];
-}
+})
