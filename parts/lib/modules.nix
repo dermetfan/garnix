@@ -83,4 +83,16 @@ rec {
         lib.setAttrByPath ([ "options" ] ++ path ++ [ "enable" "default" ]) true
       )
     );
+
+  getSubOptionsRecursive =
+    lib.mapAttrsRecursiveCond
+    (value: !lib.isOption value)
+    (
+      _: option: let
+        subOptions = option.type.getSubOptions option.loc;
+      in
+        if subOptions != {}
+        then getSubOptionsRecursive (removeAttrs subOptions ["_module"])
+        else option
+    );
 }
