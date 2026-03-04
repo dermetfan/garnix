@@ -223,6 +223,11 @@ let
     }
     {
       category = "Terminal";
+      flake = "github:wesm/msgvault";
+      package = "default";
+    }
+    {
+      category = "Terminal";
       package = "pspg";
     }
     {
