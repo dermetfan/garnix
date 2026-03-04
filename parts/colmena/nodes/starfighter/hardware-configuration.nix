@@ -12,6 +12,8 @@
   home-manager.users.dermetfan = {
     profiles.dermetfan.programs.i3status-rust.batteries = [ "BAT0" ];
 
+    home.keyboard.options = [ "starfighter" ];
+
     wayland.windowManager.sway = {
       keyboardIdentifier = "1:1:AT_Translated_Set_2_keyboard";
       clamshellOutput = "eDP-1";
