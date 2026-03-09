@@ -47,6 +47,9 @@
         };
 
         networking.hostName = name;
+
+        # https://github.com/openzfs/zfs/issues/16685#issuecomment-3703930891
+        boot.zfs.package = pkgs.zfs_2_4;
       };
     }
   );
