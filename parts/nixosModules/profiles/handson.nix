@@ -41,7 +41,7 @@ in {
         hwRender = true;
       };
 
-      logind.settings.Login.HandleLidSwitch = "ignore";
+      logind.settings.Login.HandleLidSwitchExternalPower = "ignore";
 
       udev.packages = [ pkgs.qmk-udev-rules ];
     };

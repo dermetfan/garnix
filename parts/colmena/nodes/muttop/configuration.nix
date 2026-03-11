@@ -78,8 +78,6 @@
 
     blueman.enable = true;
 
-    logind.settings.Login.HandleLidSwitch = lib.mkForce "suspend";
-
     znapzend = {
       enable = true;
       zetup = let
