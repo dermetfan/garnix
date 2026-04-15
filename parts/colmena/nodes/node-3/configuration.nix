@@ -87,10 +87,11 @@
   '';
 
   services = {
-    # For some reason, NixOS 25.05 does not default to PostgreSQL 17; NixOS 25.11 will, though.
+    # For some reason, NixOS 25.05 does not default to PostgreSQL 17; NixOS state version 25.11 will, though.
     # https://github.com/NixOS/nixpkgs/pull/417502/files#diff-332df55682746a7949fbc279642f4b761456b3470ce93c541924a69ce8a45763
     postgresql.package =
       assert config.services.postgresql.enable;
+      assert with lib.versions; major config.system.stateVersion == "25" && minor config.system.stateVersion == "05";
       pkgs.postgresql_17;
 
     homepage.enable = true;
