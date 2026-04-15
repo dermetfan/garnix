@@ -73,6 +73,11 @@
     iog.enable = true;
   };
 
+  networking.firewall.allowedTCPPorts = with config.services.nginx; [
+    defaultHTTPListenPort
+    defaultSSLListenPort
+  ];
+
   programs.ssh.extraConfig = ''
     Host znapzend-node-0
       Hostname ${with nodes.node-0.config.networking; "${hostName}.hosts.${domain}"}

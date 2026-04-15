@@ -57,25 +57,6 @@ in {
       hostId = lib.mkDefault (builtins.substring 0 8 (
         builtins.hashString "md5" config.networking.hostName
       ));
-
-      firewall.allowedTCPPorts = lib.optionals config.services.nginx.enable (
-        let
-          any = cond: lib.any cond (
-            builtins.attrValues config.services.nginx.virtualHosts
-          );
-          # Conditions copied from the nginx module.
-          # Unfortunately it does not expose its resolved listen addresses.
-          onlySSL = h: h.onlySSL || h.enableSSL;
-          hasSSL = h: onlySSL h || h.addSSL || h.forceSSL;
-          # Run `systemctl restart acme-fixperms.service` if permissions in /var/lib/acme cause troubles.
-        in
-          lib.optional (any (h: !(onlySSL h))) config.services.nginx.defaultHTTPListenPort ++
-          lib.optional (any (h: hasSSL h || (
-            if lib.versionAtLeast lib.version "21.11"
-            then h.rejectSSL
-            else false
-          ))) config.services.nginx.defaultSSLListenPort
-      );
     };
 
     security.acme.acceptTerms = true;
