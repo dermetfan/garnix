@@ -59,6 +59,8 @@ in {
           };
         };
       };
+
+      opencode-bwrap.enable = true;
     };
 
     home.packages = with pkgs;

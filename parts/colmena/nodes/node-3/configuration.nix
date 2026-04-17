@@ -428,6 +428,10 @@
         reposDir = "/tank${options.profiles.dermetfan.environments.iog.reposDir.default}";
       };
     };
+
+    # Uses unsupported CPU instruction (likely AVX) so crashes with SIGILL at runtime.
+    # Enabled by the dev profile.
+    programs.opencode-bwrap.enable = lib.mkForce false;
   };
 
   fileSystems."/mnt/copyparty/home" = {

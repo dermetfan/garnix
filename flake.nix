@@ -97,6 +97,10 @@
       url = "github:water-sucks/optnix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    opencode-bwrap = {
+      url = "github:michalrus/opencode-bwrap-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     xdg-desktop-portal-termfilepickers = {
       url = "github:Guekka/xdg-desktop-portal-termfilepickers";
       inputs = {
