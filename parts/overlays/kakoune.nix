@@ -11,8 +11,6 @@ final: prev: {
       ]}; do
         ln -s "$f"/colors/* $out/share/kak/colors/
       done
-
-      ln -s ${prev.lib.escapeShellArg inputs.kak-gruvbox-soft}/gruvbox-soft.kak $out/share/kak/colors/
     '';
   });
 
