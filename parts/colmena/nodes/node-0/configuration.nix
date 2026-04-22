@@ -80,7 +80,7 @@
       unlockEncryptedPoolsViaSSH = {
         enable = true;
         hostKeys = [
-          (builtins.extraBuiltins.readSecret ../../../../secrets/hosts/${name}/initrd_ssh_host_ed25519_key.age)
+          "${toString <secrets>}/hosts/${name}/initrd_ssh_host_ed25519_key"
         ];
       };
     };

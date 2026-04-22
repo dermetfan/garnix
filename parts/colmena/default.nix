@@ -23,7 +23,11 @@
         specialArgs = { inherit lib; };
       };
 
-      defaults = { name, config, lib, pkgs, ... }: {
+      defaults = { name, config, lib, pkgs, ... }: let
+        secrets =
+          with builtins.tryEval <secrets>;
+          if success then value else null;
+      in {
         imports = [
           parts.config.flake.nixosModules.default
           (import ./node.nix {
@@ -31,16 +35,14 @@
             inherit (parts) config;
           })
         ] ++ (
-          let path = ../../secrets/hosts/${name}/secrets.nix.age; in
-          lib.optional (builtins.pathExists path) (builtins.extraBuiltins.importSecret path)
+          let path = "${toString secrets}/hosts/${name}/secrets.nix"; in
+          lib.optional (secrets != null && builtins.pathExists path) path
         );
 
         deployment = {
-          targetHost = let
-            path = ../../secrets/hosts/${name}/yggdrasil/ip;
-          in
-            if builtins.pathExists path
-            then lib.fileContents path
+          targetHost =
+            if secrets != null
+            then lib.fileContents "${toString secrets}/hosts/${name}/yggdrasil/ip"
             else "${name}.hosts.${config.networking.domain}";
           targetUser = "root";
           allowLocalDeployment = true;

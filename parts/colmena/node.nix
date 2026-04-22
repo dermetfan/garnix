@@ -12,7 +12,7 @@ moduleWithSystem ({ system, ... }: { config, lib, pkgs, ... }: {
   config = {
     deployment.keys.ssh_host_key = rec {
       name = "ssh_host_ed25519_key";
-      text = builtins.extraBuiltins.readSecret ../../secrets/hosts/${config.networking.hostName}/${name}.age;
+      text = lib.fileContents "${toString <secrets>}/hosts/${config.networking.hostName}/${name}";
       destDir = "/etc/ssh";
       permissions = "0400";
     };

@@ -10,7 +10,7 @@
 
       decrypt-secrets = pkgs.writeShellApplication {
         name = "decrypt-secrets";
-        runtimeInputs = with pkgs; [ rage ];
+        runtimeInputs = with pkgs; [ rage expect ];
         text = ''
           shopt -qs globstar failglob
 

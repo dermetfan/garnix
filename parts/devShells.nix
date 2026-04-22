@@ -64,19 +64,10 @@
             exec ssh -i "$identityFile" "''${iArgs[@]}" "''${args[@]}"
           '';
         })
-        pkgs.expect # needed by extra-builtins-file in NIX_CONFIG
       ];
 
-      NIX_CONFIG = ''
-        plugin-files = ${pkgs.nix-plugins.override {
-          # This compiles nix-plugins against the Nix version
-          # that is currently the default in NixOS.
-          nixComponents = let
-            inherit (lib.versions) major minor;
-            inherit (pkgs.nix) version;
-          in pkgs.nixVersions."nixComponents_${major version}_${minor version}";
-        }}/lib/nix/plugins
-        extra-builtins-file = ${../extra-builtins.nix}
+      SSH_CONFIG_FILE = builtins.toFile "ssh_config" ''
+        IdentityFile secrets/deployer_ssh_ed25519_key
       '';
 
       SSH_ASKPASS_REQUIRE = "force";
@@ -97,6 +88,8 @@
             >&2 echo "$SSH_ASKPASS"' is missing or not executable.'
             >&2 echo 'Please place a script there that prints the key for the deployer SSH key.'
         fi
+
+        export NIX_PATH="''${NIX_PATH:-}''${NIX_PATH:+:}secrets=$secrets"
       '';
     };
   };
