@@ -2,9 +2,14 @@
 
 { config, lib, pkgs, ... }:
 
+let
+  stateDir = config.environment.persistence."/state".persistentStoragePath;
+in
+
 {
   imports = [
     { key = "age"; imports = [ inputs.agenix.nixosModules.age ]; }
+    inputs.impermanence.nixosModules.impermanence
   ];
 
   system.stateVersion = "25.11";
@@ -13,6 +18,24 @@
     "unrar"
     "Oracle_VirtualBox_Extension_Pack"
   ];
+
+  deployment.keys.ssh_host_key.destDir = lib.mkForce "${stateDir}/etc/ssh";
+
+  # https://nixos.org/manual/nixos/stable/#ch-system-state
+  environment.persistence."/state" = {
+    files = map (key: key.path) config.services.openssh.hostKeys ++ [
+      "/etc/machine-id"
+      "/etc/zfs/zpool.cache"
+    ];
+    directories = [
+      "/var/lib/nixos"
+      "/var/lib/systemd"
+      "/var/log/journal"
+    ];
+  };
+
+  # https://github.com/ryantm/agenix/issues/45
+  age.identityPaths = map (key: stateDir + toString key.path) config.services.openssh.hostKeys;
 
   profiles = {
     handson.enable = true;
