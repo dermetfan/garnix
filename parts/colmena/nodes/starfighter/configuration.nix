@@ -28,6 +28,7 @@ in
       "/etc/zfs/zpool.cache"
     ];
     directories = [
+      "/etc/NetworkManager/system-connections"
       "/var/lib/nixos"
       "/var/lib/systemd"
       "/var/log/journal"
