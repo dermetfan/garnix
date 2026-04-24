@@ -19,6 +19,11 @@
       };
     };
     nixos-hardware.url = "github:NixOS/nixos-hardware";
+    lanzaboote = {
+      # url = "github:nix-community/lanzaboote/v1.1.0";
+      url = "github:nix-community/lanzaboote/5cddb237c69e1c2590099908a79792534ee3eb26"; # merged PR 623 that adds `autoEnrollKeys.includeFirmwareBuiltinKeys`
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     home-manager = {
       url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";

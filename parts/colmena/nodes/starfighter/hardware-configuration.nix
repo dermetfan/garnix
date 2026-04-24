@@ -11,6 +11,12 @@ in
     nixpkgs.nixosModules.notDetected
     disko.nixosModules.disko
     disko-zfs.nixosModules.default
+    lanzaboote.nixosModules.default
+  ];
+
+  environment.persistence."/state".directories = [
+    config.boot.lanzaboote.pkiBundle
+    "/var/lib/auto-cryptenroll"
   ];
 
   home-manager.users.dermetfan = {
@@ -29,8 +35,23 @@ in
     kernelModules = [ "kvm-amd" ];
 
     loader = {
-      systemd-boot.enable = true;
+      systemd-boot.enable =
+        if config.boot.lanzaboote.enable
+        then lib.mkForce false
+        else true;
       efi.canTouchEfiVariables = true;
+    };
+
+    lanzaboote = {
+      enable = true; # This must be false on initial install.
+      pkiBundle = "/var/lib/sbctl";
+      autoGenerateKeys.enable = true;
+      autoEnrollKeys = {
+        enable = true;
+        includeMicrosoftKeys = false;
+        allowBrickingMyMachine = true;
+        includeFirmwareBuiltinKeys = true;
+      };
     };
   };
 
