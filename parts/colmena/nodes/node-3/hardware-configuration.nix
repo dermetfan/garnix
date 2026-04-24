@@ -23,7 +23,7 @@
   };
 
   fileSystems = {
-    "${config.boot.loader.efi.efiSysMountPoint}" = {
+    ${config.boot.loader.efi.efiSysMountPoint} = {
       device = "/dev/disk/by-uuid/8155-EE58";
       fsType = "vfat";
     };

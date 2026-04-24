@@ -38,7 +38,7 @@
       ];
     };
 
-    "${config.boot.loader.efi.efiSysMountPoint}" = {
+    ${config.boot.loader.efi.efiSysMountPoint} = {
       device = "/dev/disk/by-uuid/D3B9-5EEA";
       fsType = "vfat";
     };
