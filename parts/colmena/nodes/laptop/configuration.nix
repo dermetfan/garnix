@@ -24,8 +24,6 @@
 
   programs.light.brightnessKeys.enable = lib.mkForce false; # handled by sway config
 
-  hardware.yubikey.enable = true;
-
   # for i3status-rust eco block
   security.sudo.extraRules = lib.mkAfter [
     {
