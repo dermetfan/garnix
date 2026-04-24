@@ -63,7 +63,10 @@ in {
 
       xserver.xkb.dir = "${self'.packages.xkeyboard_config}/etc/X11/xkb";
 
-      zfs.autoScrub.enable = true;
+      zfs = {
+        autoScrub.enable = true;
+        trim.enable = true;
+      };
 
       znapzend = {
         pure = true;
