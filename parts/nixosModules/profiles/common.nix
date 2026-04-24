@@ -63,7 +63,15 @@ in {
         "1.1.1.1".enable = true;
 
         zfs.autoScrub.enable = true;
-        znapzend.enable = lib.mkDefault config.boot.zfs.enabled;
+
+        znapzend = {
+          pure = true;
+          features = {
+            oracleMode = true;
+            recvu = true;
+            zfsGetType = true;
+          };
+        };
       };
 
       # Remove public host keys. They are just confusing and unnecessary.

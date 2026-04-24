@@ -33,25 +33,17 @@
     yggdrasil.publicPeers.germany.enable = true;
 
     znapzend = {
-      pure = true;
+      enable = true;
       zetup = let
-        timestampFormat = "%Y-%m-%dT%H:%M:%SZ";
-        recursive = true;
         planFew = "1week=>1day,1month=>1week";
         planMany = "1week=>1day,1hour=>15minutes,15minutes=>5minutes,1day=>1hour,1year=>1month,1month=>1week";
-      in {
-        "root/root" = {
-          inherit timestampFormat recursive;
-          plan = planFew;
-        };
-        "root/state" = {
-          inherit timestampFormat recursive;
-          plan = planMany;
-        };
-        "root/home" = {
-          inherit timestampFormat recursive;
-          plan = planMany;
-        };
+      in lib.mapAttrs (k: v: {
+        timestampFormat = "%Y-%m-%dT%H:%M:%SZ";
+        recursive = true;
+      } // v) {
+        "root/root".plan = planFew;
+        "root/state".plan = planMany;
+        "root/home".plan = planMany;
       };
     };
   };
