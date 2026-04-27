@@ -29,7 +29,7 @@
     services = {
       gpg-agent.enable = true;
 
-      blueman-applet        .enable = config.profiles.dermetfan.environments.gui.enable && nixosConfig.hardware.bluetooth.enable or true;
+      blueman-applet.enable = config.profiles.dermetfan.environments.gui.enable && nixosConfig.hardware.bluetooth.enable or true;
 
       mako.enable = config.profiles.dermetfan.environments.gui.enable;
 
