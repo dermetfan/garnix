@@ -23,6 +23,7 @@
         package = (pkgs.pass.override {
           waylandSupport = config.profiles.dermetfan.environments.gui.enable;
         }).withExtensions (exts: with exts; [ pass-otp ]);
+        settings.PASSWORD_STORE_DIR = "${config.xdg.dataHome}/password-store";
       };
     };
 
