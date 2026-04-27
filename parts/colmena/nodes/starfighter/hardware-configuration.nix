@@ -2,6 +2,10 @@
 
 { config, lib, pkgs, ... }:
 
+let
+  battery = "BAT0";
+in
+
 {
   imports = with inputs; [
     nixpkgs.nixosModules.notDetected
@@ -10,7 +14,7 @@
   ];
 
   home-manager.users.dermetfan = {
-    profiles.dermetfan.programs.i3status-rust.batteries = [ "BAT0" ];
+    profiles.dermetfan.programs.i3status-rust.batteries = [ battery ];
 
     home.keyboard.options = [ "starfighter" ];
 
@@ -37,6 +41,16 @@
       forceImportRoot = false;
       allowHibernation = true;
     };
+  };
+
+  services.displayManager.ly.settings = {
+    battery_id = battery;
+    restart_key = "F5";
+    hibernate_key = "F6";
+    shutdown_key = "F7";
+    brightness_down_key = "F8";
+    brightness_up_key = "F9";
+    show_password_key = "F12";
   };
 
   hardware = {

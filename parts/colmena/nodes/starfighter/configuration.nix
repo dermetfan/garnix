@@ -64,6 +64,31 @@ in
   ];
 
   services = {
+    displayManager = {
+      sessionPackages = [
+        config.home-manager.users.dermetfan.wayland.windowManager.sway.package
+      ];
+
+      # Shell sessions are currently broken in nixpkgs:
+      # https://github.com/NixOS/nixpkgs/issues/427414
+      ly = {
+        enable = true;
+        settings = {
+          animation = "colormix";
+          colormix_col1 = "0x40400F00";
+          colormix_col2 = "0x00400F00";
+          colormix_col3 = "0x80400F00";
+          asterisk = "0x2022";
+          clock = "%A, %B %e, %R:%S %Z";
+          default_input = "session";
+          hibernate_cmd = "/run/current-system/systemd/bin/systemctl hibernate";
+          hide_version_string = true;
+          numlock = true;
+          xinitrc = null;
+        };
+      };
+    };
+
     yggdrasil.publicPeers.germany.enable = true;
 
     pipewire = {
