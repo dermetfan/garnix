@@ -32,15 +32,6 @@ in {
         synaptics.twoFingerScroll = true;
       };
 
-      kmscon = {
-        extraConfig = ''
-          xkb-layout=${config.services.xserver.xkb.layout}
-          xkb-variant=${config.services.xserver.xkb.variant}
-          xkb-options=${config.services.xserver.xkb.options}
-        '';
-        hwRender = true;
-      };
-
       logind.settings.Login.HandleLidSwitchExternalPower = "ignore";
 
       udev.packages = [ pkgs.qmk-udev-rules ];

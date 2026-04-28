@@ -117,6 +117,8 @@ in {
       '';
     };
 
+    services.kmscon = { inherit (config.console) useXkbConfig; };
+
     console.useXkbConfig = true;
 
     hardware = {
