@@ -105,7 +105,31 @@ in
 
     home.stateVersion = "25.11";
 
-    services.wlsunset = config.passthru.coords or {};
+    services = {
+      wlsunset = config.passthru.coords or {};
+
+      way-displays = {
+        enable = true;
+        settings = {
+          LOG_THRESHOLD = "WARNING"; # To avoid notifications on lid switch.
+          ALIGN = "BOTTOM";
+          SCALE = [
+            {
+              NAME_DESC = "eDP-1";
+              SCALE = 1.2;
+            }
+          ];
+          MODE = [
+            {
+              NAME_DESC = "eDP-1";
+              WIDTH = 2560;
+              HEIGHT = 1600;
+              HZ = 60.002;
+            }
+          ];
+        };
+      };
+    };
   };
 
   virtualisation.virtualbox.host = {
