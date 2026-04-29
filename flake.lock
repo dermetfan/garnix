@@ -1472,11 +1472,11 @@
         "serena": "serena"
       },
       "locked": {
-        "lastModified": 1776195263,
-        "narHash": "sha256-/RBRFsOZvzWFk9LCw5GKLoMsftUva7XxGy1oFhpffC8=",
+        "lastModified": 1776817170,
+        "narHash": "sha256-yW+5csKNWJYT6I9iZ4kTVe1EQERZ/gfTXMflADO7weo=",
         "owner": "michalrus",
         "repo": "opencode-bwrap-nix",
-        "rev": "cacb6249767aa1126890dcfbcab87ead4cfe6c51",
+        "rev": "e5b6235d8ab483ed932ac6271f3afeeee7cd474d",
         "type": "github"
       },
       "original": {
