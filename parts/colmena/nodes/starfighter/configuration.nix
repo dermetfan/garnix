@@ -16,6 +16,7 @@ in
 
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
     "unrar"
+    "youtube-recommended-videos"
     "Oracle_VirtualBox_Extension_Pack"
   ];
 

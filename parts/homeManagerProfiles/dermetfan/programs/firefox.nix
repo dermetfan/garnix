@@ -44,11 +44,20 @@ in {
 
         extensions = {
           packages = with nur.repos.rycee.firefox-addons; [
+            auto-reject-cookies
+            auto-tab-discard
             browserpass
-            ublock-origin
-            decentraleyes
+            cookies-txt
             darkreader
+            decentraleyes
+            disconnect
+            export-tabs-urls-and-titles
+            multi-account-containers
+            read-aloud
             text-contrast-for-dark-themes
+            ublock-origin
+            uppity
+            youtube-recommended-videos
           ];
 
           # needed by stylix
