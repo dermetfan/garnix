@@ -37,8 +37,12 @@ in {
         ];
     };
 
-    wayland.windowManager.sway.enable = true;
-    
+    wayland = {
+      windowManager.sway.enable = true;
+
+      systemd.target = "sway-session.target";
+    };
+
     programs = {
       firefox.enable = true;
 
