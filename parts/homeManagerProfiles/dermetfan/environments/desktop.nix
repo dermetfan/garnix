@@ -7,7 +7,6 @@
     profiles.dermetfan.environments.media.enable = true;
 
     programs = {
-      timewarrior.enable = true;
       wyrd.enable = true;
       tkremind.enable = true;
       gpg.enable = true;

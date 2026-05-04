@@ -42,6 +42,8 @@ in {
       ];
 
       gpg.enable = true;
+
+      timewarrior.enable = true;
     };
 
     services.gpg-agent.enable = true;
