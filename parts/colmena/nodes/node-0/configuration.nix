@@ -72,7 +72,7 @@
       unlockEncryptedPoolsViaSSH = {
         enable = true;
         hostKeys = [
-          "${toString <secrets>}/hosts/${name}/initrd_ssh_host_ed25519_key"
+          /${<secrets>}/hosts/${name}/initrd_ssh_host_ed25519_key
         ];
       };
     };
