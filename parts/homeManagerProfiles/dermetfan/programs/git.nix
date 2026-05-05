@@ -5,7 +5,7 @@
         name = "Robin Stumm";
         email = "serverkorken@gmail.com";
       };
-      aliases = {
+      alias = {
         st = "status";
         lg = "log --graph";
         co = "checkout";
