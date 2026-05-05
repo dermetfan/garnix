@@ -86,12 +86,12 @@ in {
 
     services.xdg-desktop-portal-termfilepickers = {
       enable = true;
-      config.terminal_command =
-        [ config.home.sessionVariables.TERMINAL ]
-        ++ lib.optionals (builtins.elem config.home.sessionVariables.TERMINAL [ "foot" "footclient" ]) [ "--title" "Choose File" ];
+      config.terminal_command = let
+        inherit (config.home.sessionVariables) TERMINAL;
+      in
+        if builtins.elem TERMINAL [ "foot" "footclient" ]
+        then [ "${config.programs.foot.package}/bin/${TERMINAL}" "--title" "Choose File" ]
+        else [ (lib.getExe config.programs.${TERMINAL}.package) ];
     };
-
-    # So that it can find its `terminal_command`.
-    systemd.user.services.xdg-desktop-portal-termfilepickers.Service.PassEnvironment = [ "PATH" ];
   };
 }
