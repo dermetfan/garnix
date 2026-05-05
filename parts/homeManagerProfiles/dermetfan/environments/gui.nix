@@ -90,7 +90,7 @@ in {
         inherit (config.home.sessionVariables) TERMINAL;
       in
         if builtins.elem TERMINAL [ "foot" "footclient" ]
-        then [ "${config.programs.foot.package}/bin/${TERMINAL}" "--title" "Choose File" ]
+        then [ "${config.programs.foot.package}/bin/${TERMINAL}" "--title" "Pick File" ]
         else [ (lib.getExe config.programs.${TERMINAL}.package) ];
     };
   };
