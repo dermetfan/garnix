@@ -16,7 +16,7 @@
   };
 
   programs = {
-    foot.enable = true;
+    foot.enable = config.profiles.dermetfan.environments.gui.enable;
     kakoune = {
       enable = true;
       defaultEditor = true;
