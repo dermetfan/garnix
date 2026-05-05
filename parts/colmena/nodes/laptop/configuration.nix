@@ -45,6 +45,18 @@
       alsa.enable = true;
       pulse.enable = true;
     };
+
+    znapzend = {
+      enable = true;
+      zetup = let
+        planFew = "1week=>1day,1month=>1week";
+      in lib.mapAttrs (k: v: {
+        timestampFormat = "%Y-%m-%dT%H:%M:%SZ";
+        recursive = true;
+      } // v) {
+        "root".plan = planFew;
+      };
+    };
   };
 
   home-manager.users.dermetfan = {
