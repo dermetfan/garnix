@@ -15,6 +15,10 @@
 
   system.stateVersion = "25.05";
 
+  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+    "unrar"
+  ];
+
   deployment.keys.ssh_host_key.destDir = lib.mkForce (config.environment.persistence."/state".persistentStoragePath + "/etc/ssh");
 
   environment = {
@@ -409,6 +413,7 @@
 
     profiles.dermetfan.environments = {
       admin.enable = true;
+      desktop.enable = true;
       dev.enable = true;
       iog = {
         enable = true;
