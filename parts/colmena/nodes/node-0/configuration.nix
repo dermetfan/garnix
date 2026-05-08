@@ -26,6 +26,7 @@
 
   profiles = {
     afraid-freedns.enable = true;
+    hardening.enable = true;
     yggdrasil.enable = true;
   };
 

@@ -30,6 +30,7 @@
 
   profiles = {
     handson.enable = true;
+    hardening.enable = true;
     notebook.enable = true;
     gui.enable = true;
     users.enable = true;
