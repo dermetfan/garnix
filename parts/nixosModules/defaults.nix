@@ -18,15 +18,6 @@ in {
       ) options.nix.nixPath.default;
 
       settings = {
-        trusted-public-keys = [
-          "hydra.nixos.org-1:CNHJZBh9K4tP3EKF6FkkgeVYsS3ohTl+oS0Qa8bezVs="
-        ];
-
-        trusted-users = [
-          "root"
-          "@${config.users.groups.wheel.name}"
-        ];
-
         connect-timeout = 5;
 
         min-free = 1024 * 1024 * 512; # 512 MiB
