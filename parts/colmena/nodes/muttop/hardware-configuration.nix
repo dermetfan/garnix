@@ -20,11 +20,11 @@
     cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 
     printers = {
-      ensureDefaultPrinter = "Brother_MFC-J4420DW";
+      ensureDefaultPrinter = "Brother_MFC-J4550DW";
       ensurePrinters = [
         {
-          name = "Brother_MFC-J4420DW";
-          deviceUri = "ipp://BRWC48E8FBE3AB4/ipp";
+          name = "Brother_MFC-J4550DW";
+          deviceUri = "ipp://BRW849E563DAFA6/ipp";
           model = "everywhere";
           ppdOptions.Duplex = "DuplexNoTumble";
         }
