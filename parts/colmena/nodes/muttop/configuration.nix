@@ -73,6 +73,7 @@
     xserver.xkb = {
       layout = lib.mkForce "de";
       variant = lib.mkForce "";
+      options = lib.mkForce "";
     };
 
     blueman.enable = true;
