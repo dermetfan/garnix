@@ -12,22 +12,6 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    # Dirty Frag
-    # https://discourse.nixos.org/t/is-nixos-affected-by-dirty-frag/77479/2?u=dermetfan
-    boot = {
-      blacklistedKernelModules = [
-        "esp4"
-        "esp6"
-        "rxrpc"
-      ];
-
-      extraModprobeConfig = ''
-        install esp4 ${pkgs.coreutils}/bin/false
-        install esp6 ${pkgs.coreutils}/bin/false
-        install rxrpc ${pkgs.coreutils}/bin/false
-      '';
-    };
-
     security = {
       protectKernelImage = lib.mkIf cfg.breakHibernation true;
 

@@ -78,6 +78,11 @@ in {
       };
 
       home-manager.users = { inherit (parts.config.flake.homeManagerProfiles) dermetfan; };
+
+      nixpkgs.config.permittedInsecurePackages = [
+        # https://github.com/NixOS/nixpkgs/issues/490060#issuecomment-4468297950
+        (assert lib.versionOlder lib.version "26"; "python3.13-beets-2.5.1")
+      ];
     })
   ]);
 }
