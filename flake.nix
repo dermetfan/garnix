@@ -163,7 +163,7 @@
       flake = false;
     };
     kak-move-lines = {
-      url = "github:raiguard/kak-move-lines";
+      url = "git+https://codeberg.org/raiguard/kak-move-lines";
       flake = false;
     };
     kak-peneira = {

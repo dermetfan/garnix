@@ -981,17 +981,17 @@
     "kak-move-lines": {
       "flake": false,
       "locked": {
-        "lastModified": 1662935852,
-        "narHash": "sha256-hNJYj5rS+0hY6jCmQQW7ZMgaDBt56qGwVARDvhtAHBU=",
-        "owner": "raiguard",
-        "repo": "kak-move-lines",
-        "rev": "15d3d4a93863780b6caf87cb34f223df67402da5",
-        "type": "github"
+        "lastModified": 1766957264,
+        "narHash": "sha256-DNvks2Eiz6B4Km1Dpy6MYp6r8Tov/jcpE0EUatv0JRE=",
+        "ref": "refs/heads/trunk",
+        "rev": "6ab7f03ced5053f34a3a346d95f9b702905ed511",
+        "revCount": 6,
+        "type": "git",
+        "url": "https://codeberg.org/raiguard/kak-move-lines"
       },
       "original": {
-        "owner": "raiguard",
-        "repo": "kak-move-lines",
-        "type": "github"
+        "type": "git",
+        "url": "https://codeberg.org/raiguard/kak-move-lines"
       }
     },
     "kak-mru-files": {
