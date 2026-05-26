@@ -226,6 +226,10 @@
       url = "github:ath3/explain-shell.kak";
       flake = false;
     };
+    kak-nu = {
+      url = "github:deeuu/nu.kak";
+      flake = false;
+    };
     kak-elvish = {
       url = "gitlab:SolitudeSF/elvish.kak";
       flake = false;

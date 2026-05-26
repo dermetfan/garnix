@@ -1003,6 +1003,7 @@ in {
           shellcheck
           change-directory
           explain-shell
+          nu
           elvish
           beancount
           crosshairs

@@ -1010,6 +1010,22 @@
         "type": "gitlab"
       }
     },
+    "kak-nu": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1756741633,
+        "narHash": "sha256-1AUH3IEHEMzepPhVwf+u3XuNW8pwI+8yvmlQOEf/2Cs=",
+        "owner": "deeuu",
+        "repo": "nu.kak",
+        "rev": "410cbb204325cc203b504e3e5525763053c1a709",
+        "type": "github"
+      },
+      "original": {
+        "owner": "deeuu",
+        "repo": "nu.kak",
+        "type": "github"
+      }
+    },
     "kak-palette": {
       "flake": false,
       "locked": {
@@ -1646,6 +1662,7 @@
         "kak-mark": "kak-mark",
         "kak-move-lines": "kak-move-lines",
         "kak-mru-files": "kak-mru-files",
+        "kak-nu": "kak-nu",
         "kak-palette": "kak-palette",
         "kak-peneira": "kak-peneira",
         "kak-phantom-selection": "kak-phantom-selection",
