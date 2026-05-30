@@ -154,8 +154,8 @@
       url = "github:anhsirk0/kakoune-themes";
       flake = false;
     };
-    kak-easymotion = {
-      url = "sourcehut:~voroskoi/easymotion.kak";
+    kak-render-markdown = {
+      url = "github:kmafeni04/render-markdown.kak";
       flake = false;
     };
     kak-sudo-write = {
@@ -230,10 +230,6 @@
       url = "github:deeuu/nu.kak";
       flake = false;
     };
-    kak-elvish = {
-      url = "gitlab:SolitudeSF/elvish.kak";
-      flake = false;
-    };
     kak-beancount = {
       url = "github:enricozb/beancount.kak";
       flake = false;
@@ -258,10 +254,6 @@
       url = "github:jbomanson/tmux-kak-info.kak";
       flake = false;
     };
-    kak-csv = {
-      url = "github:gspia/csv.kak";
-      flake = false;
-    };
     kak-registers = {
       url = "github:Delapouite/kakoune-registers";
       flake = false;
@@ -284,6 +276,10 @@
     };
     kak-focus = {
       url = "github:caksoylar/kakoune-focus";
+      flake = false;
+    };
+    kak-quickscope = {
+      url = "sourcehut:~voroskoi/quickscope.kak";
       flake = false;
     };
     yazi-plugins = {

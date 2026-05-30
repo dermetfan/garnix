@@ -28,7 +28,7 @@ final: prev: {
           src = inputs."kak-${name}";
         }
       )) [
-        "easymotion"
+        "render-markdown"
         "sudo-write"
         "move-lines"
         "smarttab"
@@ -44,7 +44,6 @@ final: prev: {
         "change-directory"
         "explain-shell"
         "nu"
-        "elvish"
         "beancount"
         "crosshairs"
         "table"
@@ -54,13 +53,13 @@ final: prev: {
         "mru-files" # optional dependency of peneira
         "expand"
         "tmux-info" # dependency of tmux-kak-copy-mode
-        "csv"
         "registers"
         "mark"
         "hump"
         "interactively"
         "palette"
         "focus"
+        "quickscope"
       ]
     );
 }

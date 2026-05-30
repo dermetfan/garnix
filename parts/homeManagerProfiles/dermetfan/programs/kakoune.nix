@@ -458,6 +458,55 @@ in {
             }
 
             {
+              docstring = "quickscope f";
+              mode = "normal";
+              key = "f";
+              effect = ": quickscope-f<ret>";
+            }
+            {
+              docstring = "quickscope a-f";
+              mode = "normal";
+              key = "<a-f>";
+              effect = ": quickscope-a-f<ret>";
+            }
+            {
+              docstring = "quickscope t";
+              mode = "normal";
+              key = "t";
+              effect = ": quickscope-t<ret>";
+            }
+            {
+              docstring = "quickscope a-t";
+              mode = "normal";
+              key = "<a-t>";
+              effect = ": quickscope-a-t<ret>";
+            }
+            {
+              docstring = "quickscope F";
+              mode = "normal";
+              key = "F";
+              effect = ": quickscope-F<ret>";
+            }
+            {
+              docstring = "quickscope a-F";
+              mode = "normal";
+              key = "<a-F>";
+              effect = ": quickscope-a-F<ret>";
+            }
+            {
+              docstring = "quickscope T";
+              mode = "normal";
+              key = "T";
+              effect = ": quickscope-T<ret>";
+            }
+            {
+              docstring = "quickscope a-T";
+              mode = "normal";
+              key = "<a-T>";
+              effect = ": quickscope-a-T<ret>";
+            }
+
+            {
               docstring = "move lines down";
               mode = "normal";
               key = ''"'"'';
@@ -577,49 +626,6 @@ in {
               mode = "user";
               key = "C";
               effect = ": enter-user-mode case<ret>";
-            }
-
-            {
-              docstring = "easymotion mode";
-              mode = "user";
-              key = "m";
-              effect = ": enter-user-mode easymotion-custom<ret>";
-            }
-            {
-              mode = "easymotion-custom";
-              docstring = "→ 🔍";
-              key = if cfg.remapMovement then "o" else "l";
-              effect = ": easymotion-streak-forward<ret>";
-            }
-            {
-              mode = "easymotion-custom";
-              docstring = "← 🔍";
-              key = if cfg.remapMovement then "n" else "h";
-              effect = ": easymotion-streak-backward<ret>";
-            }
-            {
-              mode = "easymotion-custom";
-              docstring = "→";
-              key = "w";
-              effect = ": easymotion-w<ret>";
-            }
-            {
-              mode = "easymotion-custom";
-              docstring = "←";
-              key = "b";
-              effect = ": easymotion-b<ret>";
-            }
-            {
-              mode = "easymotion-custom";
-              docstring = "↓";
-              key = if cfg.remapMovement then "i" else "j";
-              effect = ": easymotion-j<ret>";
-            }
-            {
-              mode = "easymotion-custom";
-              docstring = "↑";
-              key = if cfg.remapMovement then "r" else "k";
-              effect = ": easymotion-k<ret>";
             }
 
             {
@@ -871,6 +877,16 @@ in {
             }
             {
               name = "WinSetOption";
+              option = "filetype=markdown";
+              commands = ''
+                set-option window comment_block_begin <!--
+                set-option window comment_block_end -->
+
+                render-markdown-enable
+              '';
+            }
+            {
+              name = "WinSetOption";
               option = "filetype=(nix|beancount)";
               commands = ''
                 set-option window indentwidth 2
@@ -934,9 +950,9 @@ in {
           enable-auto-pairs
           powerline-start
 
-          require-module easymotion
           require-module mru-files
           require-module peneira
+          require-module quickscope
 
           set-option -add global mru_files_ignore_sh %{
             case "$1" in
@@ -988,7 +1004,7 @@ in {
           # above:     in nixpkgs
           # below: not in nixpkgs
 
-          easymotion
+          render-markdown
           sudo-write
           move-lines
           smarttab
@@ -1004,7 +1020,6 @@ in {
           change-directory
           explain-shell
           nu
-          elvish
           beancount
           crosshairs
           table
@@ -1014,13 +1029,13 @@ in {
           mru-files # optional dependency of peneira
           expand
           tmux-info # dependency of tmux-kak-copy-mode
-          csv
           registers
           mark
           hump
           interactively
           palette
           focus
+          quickscope
         ];
       };
 
@@ -1190,7 +1205,8 @@ in {
 
       fd # peneira
 
-      lua5_3 # easymotion
+      # can switch back to `lua` package once it's at least 5.3
+      (assert lib.versionOlder lua.version "5.3"; lua5_3) # luar, peneira, quickscope
 
       # kak-lsp
       self.inputs.nil.packages.${pkgs.system}.default

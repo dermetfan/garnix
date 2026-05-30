@@ -786,54 +786,6 @@
         "type": "github"
       }
     },
-    "kak-csv": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1590732324,
-        "narHash": "sha256-3Y7J9ctuA9kyn8tlKTkxQiwXuglsWC54gaKtB1m3DA4=",
-        "owner": "gspia",
-        "repo": "csv.kak",
-        "rev": "00d0c4269645e15c8f61202e265328c470cd85c2",
-        "type": "github"
-      },
-      "original": {
-        "owner": "gspia",
-        "repo": "csv.kak",
-        "type": "github"
-      }
-    },
-    "kak-easymotion": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1720276949,
-        "narHash": "sha256-/V2K253aoINQQ5RiWKPBFSzc3HsWJRH+di6oaivsHEA=",
-        "owner": "~voroskoi",
-        "repo": "easymotion.kak",
-        "rev": "215bc523324347d1e8920e80d8ac1763212941ab",
-        "type": "sourcehut"
-      },
-      "original": {
-        "owner": "~voroskoi",
-        "repo": "easymotion.kak",
-        "type": "sourcehut"
-      }
-    },
-    "kak-elvish": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1538213885,
-        "narHash": "sha256-d5AQueYjYqwVy74LBN1rR3b40HwLB7Nb391BE7Bl/TM=",
-        "owner": "SolitudeSF",
-        "repo": "elvish.kak",
-        "rev": "c71caa7575da93365e12fe031f5debc2baf73a6d",
-        "type": "gitlab"
-      },
-      "original": {
-        "owner": "SolitudeSF",
-        "repo": "elvish.kak",
-        "type": "gitlab"
-      }
-    },
     "kak-expand": {
       "flake": false,
       "locked": {
@@ -1074,6 +1026,22 @@
         "type": "github"
       }
     },
+    "kak-quickscope": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1607545216,
+        "narHash": "sha256-FgoyIQ0S9TMN+uU2JFtHCrsgpYhDqDdtqkcgCpe1DI4=",
+        "owner": "~voroskoi",
+        "repo": "quickscope.kak",
+        "rev": "2316ef18d7dc4c35b8b620f0307ca218e771af38",
+        "type": "sourcehut"
+      },
+      "original": {
+        "owner": "~voroskoi",
+        "repo": "quickscope.kak",
+        "type": "sourcehut"
+      }
+    },
     "kak-registers": {
       "flake": false,
       "locked": {
@@ -1087,6 +1055,22 @@
       "original": {
         "owner": "Delapouite",
         "repo": "kakoune-registers",
+        "type": "github"
+      }
+    },
+    "kak-render-markdown": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1779671884,
+        "narHash": "sha256-Wh753ius76+F1KvKiWIhZEBxzXi9W0296cyIrHn4Nsc=",
+        "owner": "kmafeni04",
+        "repo": "render-markdown.kak",
+        "rev": "4ac718388df0b443925b5acfdb73741ce4f93f63",
+        "type": "github"
+      },
+      "original": {
+        "owner": "kmafeni04",
+        "repo": "render-markdown.kak",
         "type": "github"
       }
     },
@@ -1648,9 +1632,6 @@
         "kak-close-tag": "kak-close-tag",
         "kak-cosy-gruvbox": "kak-cosy-gruvbox",
         "kak-crosshairs": "kak-crosshairs",
-        "kak-csv": "kak-csv",
-        "kak-easymotion": "kak-easymotion",
-        "kak-elvish": "kak-elvish",
         "kak-expand": "kak-expand",
         "kak-explain-shell": "kak-explain-shell",
         "kak-fetch": "kak-fetch",
@@ -1666,7 +1647,9 @@
         "kak-palette": "kak-palette",
         "kak-peneira": "kak-peneira",
         "kak-phantom-selection": "kak-phantom-selection",
+        "kak-quickscope": "kak-quickscope",
         "kak-registers": "kak-registers",
+        "kak-render-markdown": "kak-render-markdown",
         "kak-shellcheck": "kak-shellcheck",
         "kak-smart-quotes": "kak-smart-quotes",
         "kak-smarttab": "kak-smarttab",
