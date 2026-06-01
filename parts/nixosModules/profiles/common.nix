@@ -1,6 +1,6 @@
 { inputs, moduleWithSystem, ... }:
 
-moduleWithSystem ({self'}: { options, config, lib, ... }: let
+moduleWithSystem ({self'}: { options, config, lib, pkgs, ... }: let
   cfg = config.profiles.common;
 in {
   imports = with inputs; [
@@ -31,7 +31,11 @@ in {
 
     networking.stevenBlackHosts.enable = true;
 
-    environment.sessionVariables.XKB_CONFIG_ROOT = config.services.xserver.xkb.dir; # for wayland
+    environment = {
+      sessionVariables.XKB_CONFIG_ROOT = config.services.xserver.xkb.dir; # for wayland
+
+      systemPackages = lib.optional config.boot.supportedFilesystems.zfs pkgs.zfs-holds;
+    };
 
     security.acme.defaults.email = "serverkorken@gmail.com";
 
