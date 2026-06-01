@@ -88,8 +88,6 @@ in {
 
           typeset -U PATH path
 
-          eval "$(zoxide init zsh)"
-
           function sudof {
               sudo zsh -c "`declare -f $1`; `echo $@`"
           }
