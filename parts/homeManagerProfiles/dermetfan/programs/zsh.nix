@@ -91,13 +91,6 @@ in {
           function sudof {
               sudo zsh -c "`declare -f $1`; `echo $@`"
           }
-
-          function zfs {
-              case "$1" in
-                  tags) zfs get -Ht snapshot userrefs | grep -v $'\t'0 | cut -d $'\t' -f 1 | tr '\n' '\0' | xargs -0 zfs holds ;;
-                  *) command zfs $@ ;;
-              esac
-          }
         '';
 
         plugins = let
