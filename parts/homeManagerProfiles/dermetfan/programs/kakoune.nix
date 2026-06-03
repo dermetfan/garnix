@@ -1209,7 +1209,7 @@ in {
       (assert lib.versionOlder lua.version "5.3"; lua5_3) # luar, peneira, quickscope
 
       # kak-lsp
-      self.inputs.nil.packages.${pkgs.system}.default
+      self.inputs.nil.packages.${pkgs.stdenv.hostPlatform.system}.default
       gopls go
       rust-analyzer
       zls jq
