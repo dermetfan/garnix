@@ -39,6 +39,14 @@
       };
     };
     wrapper-manager.url = "github:viperML/wrapper-manager";
+    nix-wrapper-modules = {
+      url = "github:BirdeeHub/nix-wrapper-modules";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    jaillm = {
+      url = "github:myme/jaillm";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     impermanence.url = "github:nix-community/impermanence";
     disko = {
       url = "github:nix-community/disko";
@@ -68,6 +76,13 @@
       inputs = {
         nixpkgs.follows = "nixpkgs";
         utils.follows = "flake-utils";
+      };
+    };
+    serena = {
+      url = "github:oraios/serena/v1.5.3";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-utils.follows = "flake-utils";
       };
     };
     stylix = {

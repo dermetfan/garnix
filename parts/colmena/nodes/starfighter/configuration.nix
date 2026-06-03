@@ -18,6 +18,11 @@ in
     "unrar"
     "youtube-recommended-videos"
     "Oracle_VirtualBox_Extension_Pack"
+    "crush"
+    "claude-code"
+    "codex"
+    "github-copilot-cli"
+    "gemini-cli"
   ];
 
   deployment.keys.ssh_host_key.destDir = lib.mkForce "${stateDir}/etc/ssh";

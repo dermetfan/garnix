@@ -60,6 +60,7 @@ in {
         };
       };
 
+      jaillm.enable = true;
       opencode-bwrap.enable = true;
     };
 

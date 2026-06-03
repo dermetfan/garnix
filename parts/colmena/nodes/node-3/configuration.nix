@@ -16,6 +16,11 @@
   system.stateVersion = "25.05";
 
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+    "crush"
+    "claude-code"
+    "codex"
+    "github-copilot-cli"
+    "gemini-cli"
     "unrar"
   ];
 
