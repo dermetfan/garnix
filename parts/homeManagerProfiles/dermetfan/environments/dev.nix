@@ -67,6 +67,8 @@ in {
     home.packages = with pkgs;
       [
         man-pages
+        mdcat
+        mdfried
         ack
         grex
         nox
@@ -85,7 +87,6 @@ in {
       lib.optionals stdenv.isLinux [
         tty-share
         upterm
-        mdcat
       ] ++
       lib.optionals config.profiles.dermetfan.environments.gui.enable [
         # aqemu

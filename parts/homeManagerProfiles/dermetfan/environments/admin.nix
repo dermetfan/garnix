@@ -16,6 +16,8 @@
       jnv
       lsix
       lsof
+      mdcat
+      mdfried
       ncdu
       nix-diff
       nix-du
@@ -34,7 +36,6 @@
       diffoscope
       ftop
       sysfsutils
-      mdcat
       pciutils
       psmisc
       progress
