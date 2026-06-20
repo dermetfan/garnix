@@ -133,6 +133,8 @@ in {
         command_on = "${eco} on";
         command_off = "${eco} off";
         command_state = eco;
+        state_on = "good";
+        interval = 10;
       }) ++ [
         {
           block = "time";
