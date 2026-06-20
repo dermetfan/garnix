@@ -9,7 +9,7 @@ in {
     enable = mkEnableOption "homepage";
     package = mkOption {
       type = types.package;
-      default = inputs.dermetfan-blog.defaultPackage.${pkgs.system}.overrideArgs (old: {
+      default = inputs.dermetfan-blog.defaultPackage.${pkgs.stdenv.hostPlatform.system}.overrideArgs (old: {
         extraConf.data.secrets.github.personalAccessToken = lib.fileContents "${toString <secrets>}/services/github";
       });
     };

@@ -7,7 +7,11 @@
     { key = "age"; imports = [ inputs.agenix.nixosModules.age ]; }
   ];
 
-  system.stateVersion = "25.05";
+  system.stateVersion = "26.05";
+
+  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+    "virtualbox-extpack"
+  ];
 
   profiles = {
     handson.enable = true;
@@ -23,7 +27,7 @@
     yggdrasil.enable = true;
   };
 
-  programs.light.brightnessKeys.enable = lib.mkForce false; # handled by sway config
+  misc.hotkeys.brightness.enable = lib.mkForce false; # handled by sway config
 
   # for i3status-rust eco block
   security.sudo.extraRules = lib.mkAfter [
@@ -53,7 +57,7 @@
         timestampFormat = "%Y-%m-%dT%H:%M:%SZ";
         recursive = true;
       } // v) {
-        "root".plan = planFew;
+        root.plan = planFew;
       };
     };
   };
@@ -73,7 +77,7 @@
       desktop.enable = true;
     };
 
-    home.stateVersion = "25.05";
+    home.stateVersion = "26.05";
 
     services.wlsunset = config.passthru.coords or {};
 
@@ -83,5 +87,12 @@
   virtualisation.virtualbox.host = {
     enable = true;
     enableExtensionPack = true;
+  };
+
+  boot.zfs = {
+    # Will become default in 26.11.
+    forceImportRoot = assert lib.versionOlder lib.version "26.11"; false;
+
+    unsafeAllowHibernation = true;
   };
 }

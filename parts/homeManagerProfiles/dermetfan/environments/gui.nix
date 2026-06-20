@@ -5,7 +5,7 @@ let
 in {
   imports = [
     self.inputs.xdg-desktop-portal-termfilepickers.homeManagerModules.default
-    { services.xdg-desktop-portal-termfilepickers.package = self.inputs.xdg-desktop-portal-termfilepickers.packages.${pkgs.stdenv.system}.default; }
+    { services.xdg-desktop-portal-termfilepickers.package = self.inputs.xdg-desktop-portal-termfilepickers.packages.${pkgs.stdenv.hostPlatform.system}.default; }
   ];
 
   options.profiles.dermetfan.environments.gui = with lib; {

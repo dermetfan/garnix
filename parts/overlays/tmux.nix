@@ -4,6 +4,7 @@ final: prev: {
   tmuxPlugins =
     removeAttrs prev.tmuxPlugins [
       "mkDerivation" # deprecated
+      "kanagawa" # renamed
     ]  // builtins.listToAttrs (
       map (plugin:
         let

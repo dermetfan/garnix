@@ -42,13 +42,9 @@ in {
       ];
     };
 
-    networking = {
-      useDHCP = lib.mkDefault false;
-
-      hostId = lib.mkDefault (builtins.substring 0 8 (
-        builtins.hashString "md5" config.networking.hostName
-      ));
-    };
+    networking.hostId = lib.mkDefault (builtins.substring 0 8 (
+      builtins.hashString "md5" config.networking.hostName
+    ));
 
     security.acme.acceptTerms = true;
 

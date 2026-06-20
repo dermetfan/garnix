@@ -12,6 +12,7 @@ let
   };
 
   packages = with pkgs;
+    (lib.optional cfg.brightness.enable brightnessctl) ++
     (lib.optional cfg.sound.enable alsa-utils) ++
     (lib.optionals config.services.xserver.enable [
       maim slop
@@ -27,6 +28,22 @@ in {
     screenshotsDirectory = mkOption {
       type = types.path;
       default = "/tmp/screenshots";
+    };
+
+    brightness = {
+      enable = mkEnableOption "brightness keys" // {
+        default = true;
+      };
+
+      step = mkOption {
+        type = types.str;
+        default = "2%";
+        example = "1";
+        description = ''
+          The value by which to increment/decrement brightness on media keys.
+          See brightnessctl(1) for allowed values.
+        '';
+      };
     };
 
     sound = {
@@ -147,17 +164,20 @@ in {
           } ]) ++
           (lib.optional (XF86Battery != [] && config.services.tlp.enable) {
             keys = XF86Battery;
-            command = lib.getExe (pkgs.writeShellApplication {
-              name = "XF86Battery.sh";
-              text = ''
-                mode=$(tlp-stat --mode)
-                if [[ "$mode" = battery* ]]; then
-                  sudo ${lib.getExe config.services.tlp.package} ac
-                else
-                  sudo ${lib.getExe config.services.tlp.package} bat
-                fi
-              '';
-            });
+            command = pkgs.writers.writeNu "XF86Battery" ''
+              let mode = tlp-stat --mode
+                | parse --regex `^(?<name>[^/]+)/(?<mode>PRF|AC|BAL|BAT|SAV)\b`
+                | match $in.0.mode {
+                  PRF | AC => 'PRF'
+                  BAL | BAT => 'BAL'
+                  SAV => 'SAV'
+                }
+
+              sudo ${lib.getExe config.services.tlp.package} (match $mode {
+                SAV => 'performance'
+                _ => 'power-saver'
+              })
+            '';
           }) ++
           (lib.optionals config.services.xserver.enable [
             {
@@ -197,6 +217,16 @@ in {
                 # synclient seems to have no effect while syndaemon is running (also doesn't disable mouse keys)
                 # "${synclient} TouchpadOff=$(${synclient} | grep -c 'TouchpadOff[[:space:]]*=[[:space:]]*0')";
                 "export DISPLAY=':0' && xinput --set-prop '${touchpad}' 'Device Enabled' $(xinput --list-props '${touchpad}' | grep -c 'Device Enabled ([[:digit:]]\\+):[[:space:]].*0')";
+            }
+          ]) ++
+          (lib.optionals cfg.brightness.enable [
+            {
+              keys = XF86MonBrightnessUp;
+              command = "brightnessctl set -- +${lib.escapeShellArg cfg.brightness.step}";
+            }
+            {
+              keys = XF86MonBrightnessDown;
+              command = "brightnessctl set -- -${lib.escapeShellArg cfg.brightness.step}";
             }
           ]) ++
           (lib.optionals cfg.sound.enable [

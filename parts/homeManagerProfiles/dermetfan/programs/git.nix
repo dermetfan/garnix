@@ -42,7 +42,7 @@
         # This line is essentially copied from the difftastic module.
         difftastic.cmd = with config.programs.difftastic; toString [
           (lib.getExe package)
-          (lib.cli.toGNUCommandLineShell {} options)
+          (lib.cli.toCommandLineShellGNU {} options)
           "$LOCAL"
           "$REMOTE"
         ];

@@ -1,6 +1,10 @@
-{ config, lib, pkgs, ... }:
+{ self, config, lib, pkgs, ... }:
 
 {
+  imports = [
+    self.inputs.nix-index-database.homeModules.nix-index
+  ];
+
   options.profiles.dermetfan.environments.admin.enable.default = false;
 
   config = {
@@ -48,7 +52,7 @@
     programs = {
       bat.enable = true;
       jq.enable = true;
-      nix-index.enable = true;
+      nix-index-database.comma.enable = true;
       ripgrep.enable = true;
       skim.enable = true;
       flirt.enable = true;

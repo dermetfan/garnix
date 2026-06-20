@@ -10,8 +10,4 @@
       };
     };
   };
-
-  # workaround for https://codeberg.org/dnkl/foot/issues/1844
-  # TODO upstream into home-manager?
-  systemd.user.services.foot.Service.PassEnvironment = [ "PATH" ];
 }

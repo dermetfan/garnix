@@ -25,21 +25,12 @@ in
   };
 
   boot = {
-    initrd = {
-      availableKernelModules = [ "nvme" "xhci_pci" "thunderbolt" "rtsx_usb_sdmmc" ];
-      kernelModules = [ ];
-    };
+    initrd.availableKernelModules = [ "nvme" "xhci_pci" "thunderbolt" "rtsx_usb_sdmmc" ];
     kernelModules = [ "kvm-amd" ];
-    extraModulePackages = [ ];
 
     loader = {
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
-    };
-
-    zfs = {
-      forceImportRoot = false;
-      allowHibernation = true;
     };
   };
 
@@ -66,7 +57,7 @@ in
   disko.devices = let
     luks = {
       enrollFido2 = true;
-      extraFido2EnrollArgs = lib.cli.toGNUCommandLine {} {
+      extraFido2EnrollArgs = lib.cli.toCommandLineGNU {} {
         fido2-with-client-pin = builtins.toJSON true;
         fido2-with-user-presence = builtins.toJSON true;
       };

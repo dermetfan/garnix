@@ -11,7 +11,6 @@ in {
   };
 
   imports = [
-    self.inputs.nix-index-database.hmModules.nix-index
     self.inputs.optnix.homeModules.optnix
   ];
 
@@ -37,8 +36,6 @@ in {
       geany.enable = config.profiles.dermetfan.environments.gui.enable;
 
       cargo.enable = cfg.enableRust;
-
-      nix-index-database.comma.enable = true;
 
       optnix = {
         enable = true;

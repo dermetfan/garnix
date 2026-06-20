@@ -5,7 +5,6 @@ moduleWithSystem ({self'}: { options, config, lib, pkgs, ... }: let
 in {
   imports = with inputs; [
     hosts.nixosModule
-    programs-sqlite.nixosModules.programs-sqlite
   ];
 
   options.profiles.common.enable = lib.mkEnableOption "common settings";
@@ -50,8 +49,6 @@ in {
       mosh.enable = true;
       tmux.enable = true;
     };
-
-    programs-sqlite.enable = config.programs.command-not-found.enable;
 
     services = {
       openssh = {

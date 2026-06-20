@@ -203,7 +203,7 @@ let
     }
     {
       category = "Ricing";
-      package = "neofetch";
+      package = "fastfetch";
     }
     {
       category = "Telephony";

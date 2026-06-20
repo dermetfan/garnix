@@ -99,31 +99,37 @@ in {
         eco =
           assert nixosConfig.security.sudo.enable or true;
           assert nixosConfig.services.tlp.enable or true;
-          pkgs.writeShellApplication {
-            name = "eco.sh";
-            text = ''
-              case "''${1:-}" in
-                on)
-                  sudo ${lib.getExe nixosConfig.services.tlp.package} bat
-                  ;;
-                off)
-                  sudo ${lib.getExe nixosConfig.services.tlp.package} ac
-                  ;;
-                *)
-                  mode=$(tlp-stat --mode)
-                  if [[ "$mode" = battery* ]]; then
-                    echo yes
-                  fi
-                  ;;
-              esac
-            '';
-          };
+          pkgs.writers.writeNu "eco" ''
+            def main [toggle?: string] {
+              match $toggle {
+                on => {sudo ${lib.getExe nixosConfig.services.tlp.package} power-saver}
+                off => {sudo ${lib.getExe nixosConfig.services.tlp.package} performance}
+                _ => {
+                  let mode = ${nixosConfig.services.tlp.package}/bin/tlp-stat --mode
+                    | parse --regex `^(?<name>[^/]+)/(?<mode>PRF|AC|BAL|BAT|SAV)\b`
+                    | match $in.0.mode {
+                      PRF | AC => 'PRF'
+                      BAL | BAT => 'BAL'
+                      SAV => 'SAV'
+                    }
+
+                  match $mode {
+                    BAL => {
+                      # TODO On TLP >= v1.10, remove this match prong.
+                      ${assert lib.versionOlder nixosConfig.services.tlp.package.version "1.10"; "print yes"}
+                    }
+                    SAV => {print yes}
+                  }
+                }
+              }
+            }
+          '';
       in {
         block = "toggle";
         format = " $icon eco ";
-        command_on = "${lib.getExe eco} on";
-        command_off = "${lib.getExe eco} off";
-        command_state = lib.getExe eco;
+        command_on = "${eco} on";
+        command_off = "${eco} off";
+        command_state = eco;
       }) ++ [
         {
           block = "time";

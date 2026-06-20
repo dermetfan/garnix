@@ -1,6 +1,6 @@
 { config, moduleWithSystem, ... } @ parts:
 
-moduleWithSystem ({ system, ... }: { config, lib, pkgs, ... }: {
+moduleWithSystem ({ system, ... }: { nodes, config, lib, pkgs, ... }: {
   options.nix.buildMachine = lib.mkOption {
     type = lib.types.attrs;
     default = {
@@ -35,6 +35,27 @@ moduleWithSystem ({ system, ... }: { config, lib, pkgs, ... }: {
       gc.automatic = true;
       optimise.automatic = true;
     };
+
+    programs.ssh.knownHosts = lib.listToAttrs (
+      lib.filter
+      (knownHost: knownHost != null)
+      (lib.forEach config.profiles.cluster.node.peers (peerConfig: let
+        publicKeyFile = ../../secrets/hosts/${peerConfig.networking.hostName}/ssh_host_ed25519_key.pub;
+      in
+        if lib.pathExists publicKeyFile
+        then {
+          name = peerConfig.networking.hostName;
+          value = {
+            extraHostNames = [
+              peerConfig.networking.hostName
+              "${peerConfig.networking.hostName}.hosts.${peerConfig.networking.domain}"
+            ];
+            inherit publicKeyFile;
+          };
+        }
+        else null
+      ))
+    );
 
     services.openssh.settings = {
       PasswordAuthentication = false;

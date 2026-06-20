@@ -20,8 +20,9 @@
 
       initLua = ''
         require("git"):setup()
+        require("githead"):setup()
 
-        -- https://yazi-rs.github.io/docs/tips#symlink-in-status
+        -- https://yazi-rs.github.io/docs/tips/#symlink-in-status
         Status:children_add(function(self)
           local h = self._current.hovered
           if h and h.link_to then
@@ -31,7 +32,7 @@
           end
         end, 3300, Status.LEFT)
 
-        -- https://yazi-rs.github.io/docs/tips#user-group-in-status
+        -- https://yazi-rs.github.io/docs/tips/#user-group-in-status
         Status:children_add(function()
           local h = cx.active.current.hovered
           if not h or ya.target_family() ~= "unix" then
@@ -46,7 +47,7 @@
           }
         end, 500, Status.RIGHT)
 
-        -- https://yazi-rs.github.io/docs/tips#username-hostname-in-header
+        -- https://yazi-rs.github.io/docs/tips/#username-hostname-in-header
         Header:children_add(function()
           if ya.target_family() ~= "unix" then
             return ""
@@ -59,6 +60,7 @@
         inherit (pkgs.yaziPlugins)
           toggle-pane
           git
+          githead
           time-travel
           jump-to-char
           office
@@ -100,8 +102,8 @@
         plugin = {
           prepend_fetchers = [
             # git plugin
-            { id = "git"; name = "*";  run = "git"; }
-            { id = "git"; name = "*/"; run = "git"; }
+            { url = "*";  run = "git"; group = "git"; }
+            { url = "*/"; run = "git"; group = "git"; }
           ];
 
           prepend_preloaders = [
@@ -110,7 +112,7 @@
             { mime = "application/oasis.opendocument.*"; run = "office"; }
             { mime = "application/ms-*"; run = "office"; }
             { mime = "application/msword"; run = "office"; }
-            { name = "*.docx"; run = "office"; }
+            { url = "*.docx"; run = "office"; }
           ];
 
           prepend_previewers = [
@@ -119,7 +121,7 @@
             { mime = "application/oasis.opendocument.*"; run = "office"; }
             { mime = "application/ms-*"; run = "office"; }
             { mime = "application/msword"; run = "office"; }
-            { name = "*.docx"; run = "office"; }
+            { url = "*.docx"; run = "office"; }
           ];
         };
       };

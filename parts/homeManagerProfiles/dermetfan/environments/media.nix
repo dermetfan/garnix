@@ -12,7 +12,7 @@ in {
   config = {
     programs = {
       beets = {
-        enable = builtins.any (x: x == pkgs.stdenv.system) pkgs.beets.meta.platforms;
+        enable = builtins.any (x: x == pkgs.stdenv.hostPlatform.system) pkgs.beets.meta.platforms;
         # TODO make it possible upstream for `library` to refer to `config.programs.beets.settings.directory`
         settings = rec {
           directory =

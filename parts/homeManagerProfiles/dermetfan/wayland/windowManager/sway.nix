@@ -31,8 +31,8 @@ in {
       [
         clipman wl-clipboard
         grim slurp
-      ] ++
-      lib.optional (!nixosConfig.programs.light.enable) light;
+      ]
+      ++ lib.optional (!nixosConfig.misc.hotkeys.brightness.enable or false) brightnessctl;
 
     wayland.windowManager.sway = {
       systemd.xdgAutostart = true;
@@ -114,7 +114,7 @@ in {
           bars = [
             (lib.mkMerge [
               ({
-                fonts = config.wayland.windowManager.sway.config.fonts;
+                inherit (config.wayland.windowManager.sway.config) fonts;
                 mode = "hide";
                 workspaceNumbers = false;
                 statusCommand = "i3status-rs " + config.profiles.dermetfan.programs.i3status-rust.barConfigFiles.default;
@@ -155,15 +155,15 @@ in {
 
             notifyVolume = pkgs.writers.writeNu "sway-notify-volume" ''
               let info = ${lib.getExe' pkgs.wireplumber "wpctl"} get-volume @DEFAULT_AUDIO_SINK@
-              | parse --regex '\w+:\s+(?<volume>\d+(\.\d+)?)(\s+(?<muted>\[MUTED\]))?'
-              | get 0
-              | select volume muted
-              | update volume {
-                into float
-                | $in * 100
-                | into int
-              }
-              | update muted {is-not-empty}
+                | parse --regex '\w+:\s+(?<volume>\d+(\.\d+)?)(\s+(?<muted>\[MUTED\]))?'
+                | get 0
+                | select volume muted
+                | update volume {
+                  into float
+                  | $in * 100
+                  | into int
+                }
+                | update muted {is-not-empty}
 
               let icon = if $info.muted {
                 '🔇'
@@ -359,9 +359,14 @@ in {
             '';
             "${modifier}+Scroll_Lock" = "exec swaylock";
           } // (let
-            systemWide = with nixosConfig.programs.light; enable && brightnessKeys.enable;
             notifyBrightness = pkgs.writers.writeNu "sway-notify-brightness" ''
-              let brightness = light -G | into int
+              let brightness = brightnessctl info --machine-readable
+                | from csv --noheaders
+                | rename device class current current_pct max
+                | get current_pct
+                | parse '{v}%'
+                | get 0.v
+                | into int
 
               let icon = if $brightness >= 50 {
                 '🔆'
@@ -380,8 +385,8 @@ in {
               )
             '';
           in {
-            "XF86MonBrightnessUp"   = "exec ${lib.optionalString (!systemWide) "light -A 5 &&"} ${notifyBrightness}";
-            "XF86MonBrightnessDown" = "exec ${lib.optionalString (!systemWide) "light -U 5 &&"} ${notifyBrightness}";
+            "XF86MonBrightnessUp"   = "exec ${lib.optionalString (!nixosConfig.misc.hotkeys.brightness.enable or false) "brightnessctl set -- +2% &&"} ${notifyBrightness}";
+            "XF86MonBrightnessDown" = "exec ${lib.optionalString (!nixosConfig.misc.hotkeys.brightness.enable or false) "brightnessctl set -- -2% &&"} ${notifyBrightness}";
           }) // {
             "${modifier}+Alt+Space" = "exec " + pkgs.writers.writeNu "sway-toggle-keymap" ''
               swaymsg input type:keyboard xkb_switch_layout next

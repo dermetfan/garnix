@@ -68,25 +68,25 @@ in withDeployer (
   ] //
 
   hostSecrets "starfighter" [
-    "yggdrasil/key.conf"
+    "yggdrasil/key.pem"
   ] //
 
   hostSecrets "laptop" [
-    "yggdrasil/key.conf"
+    "yggdrasil/key.pem"
     "freedns"
   ] //
 
   hostSecrets "muttop" [
-    "yggdrasil/key.conf"
+    "yggdrasil/key.pem"
   ] //
 
   hostSecrets "node-0" [
-    "yggdrasil/key.conf"
+    "yggdrasil/key.pem"
     "freedns"
   ] //
 
   hostSecrets "node-3" [
-    "yggdrasil/key.conf"
+    "yggdrasil/key.pem"
   ] //
 
   serviceSecretsForHosts {

@@ -13,7 +13,7 @@
     inputs.copyparty.overlays.default
   ];
 
-  system.stateVersion = "25.05";
+  system.stateVersion = "26.05";
 
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
     "crush"
@@ -97,13 +97,6 @@
   '';
 
   services = {
-    # For some reason, NixOS 25.05 does not default to PostgreSQL 17; NixOS state version 25.11 will, though.
-    # https://github.com/NixOS/nixpkgs/pull/417502/files#diff-332df55682746a7949fbc279642f4b761456b3470ce93c541924a69ce8a45763
-    postgresql.package =
-      assert config.services.postgresql.enable;
-      assert with lib.versions; major config.system.stateVersion == "25" && minor config.system.stateVersion == "05";
-      pkgs.postgresql_17;
-
     homepage.enable = true;
 
     copyparty = {
@@ -415,7 +408,7 @@
   };
 
   home-manager.users.dermetfan = { options, ... }: {
-    home.stateVersion = "25.05";
+    home.stateVersion = "26.05";
 
     profiles.dermetfan.environments = {
       admin.enable = true;
@@ -457,10 +450,13 @@
     initrd = {
       network.ssh.port = 2222;
 
-      postResumeCommands = lib.mkAfter ''
-        zfs rollback -r root/root@blank
-        zfs rollback -r root/home@blank
-      '';
+      services.zfs-rollback = {
+        enable = true;
+        snapshots = map lib.concatStrings [
+          [ config.fileSystems."/".device     "@" "blank" ]
+          [ config.fileSystems."/home".device "@" "blank" ]
+        ];
+      };
     };
   };
 }

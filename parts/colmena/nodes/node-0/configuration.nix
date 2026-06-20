@@ -8,7 +8,7 @@
     inputs.impermanence.nixosModules.impermanence
   ];
 
-  system.stateVersion = "25.05";
+  system.stateVersion = "26.05";
 
   deployment.keys.ssh_host_key.destDir = lib.mkForce (config.environment.persistence."/state".persistentStoragePath + "/etc/ssh");
 
@@ -70,6 +70,9 @@
     zfs = {
       extraPools = [ "tank" ];
 
+      # Will become default in 26.11.
+      forceImportRoot = assert lib.versionOlder lib.version "26.11"; false;
+
       unlockEncryptedPoolsViaSSH = {
         enable = true;
         hostKeys = [
@@ -81,10 +84,13 @@
     initrd = {
       network.ssh.port = 2222;
 
-      postResumeCommands = lib.mkAfter ''
-        zfs rollback -r root/root@blank
-        zfs rollback -r root/home@blank
-      '';
+      services.zfs-rollback = {
+        enable = true;
+        snapshots = map lib.concatStrings [
+          [ config.fileSystems."/".device     "@" "blank" ]
+          [ config.fileSystems."/home".device "@" "blank" ]
+        ];
+      };
     };
   };
 }

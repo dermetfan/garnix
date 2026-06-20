@@ -15,11 +15,6 @@
     ];
     kernelModules = [ "kvm-intel" ];
     loader.systemd-boot.enable = true;
-
-    kernelNetwork = {
-      enable = true;
-      ipv4 = builtins.elemAt config.networking.interfaces.eth0.ipv4.addresses 0;
-    };
   };
 
   fileSystems = {

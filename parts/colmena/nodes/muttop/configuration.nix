@@ -8,7 +8,7 @@
     inputs.impermanence.nixosModules.impermanence
   ];
 
-  system.stateVersion = "25.05";
+  system.stateVersion = "26.05";
 
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
     "brscan4"
@@ -132,7 +132,7 @@
     ];
 
     home = {
-      stateVersion = "25.05";
+      stateVersion = "26.05";
 
       username = nixosConfig.users.users.mutmetfan.name;
       homeDirectory = nixosConfig.users.users.mutmetfan.home;
@@ -446,7 +446,10 @@
     '';
   };
 
-  boot.initrd.postResumeCommands = lib.mkAfter ''
-    zfs rollback -r root/root@blank
-  '';
+  boot.initrd.services.zfs-rollback = {
+    enable = true;
+    snapshots = lib.singleton (lib.concatStrings [
+      config.fileSystems."/".device "@" "blank"
+    ]);
+  };
 }

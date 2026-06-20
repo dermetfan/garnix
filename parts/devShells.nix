@@ -12,7 +12,7 @@
         pkgs.rage
         (inputs.wrapper-manager.lib.wrapWith pkgs {
           basePackage = inputs'.optnix.packages.default;
-          prependFlags = lib.cli.toGNUCommandLine {} {
+          prependFlags = lib.cli.toCommandLineGNU {} {
             config = (pkgs.formats.toml {}).generate "optnix.toml" rec {
               default_scope = "flake-parts";
               scopes.${default_scope} = {

@@ -83,14 +83,15 @@ in {
               libglvnd_i686 = null;
             };
             primus = prev.primus.override {
-              primusLib_i686 = null;
+              primus-lib_i686 = null;
             };
           })
         ];
       };
 
       hardware.nvidia = {
-        modesetting.enable = true;
+        branch = "legacy_580";
+        powerManagement.enable = true;
         open = false;
       };
     })

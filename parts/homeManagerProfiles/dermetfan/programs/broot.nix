@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
 {
   home.packages = [ pkgs.broot-vscode-font ];
@@ -7,7 +7,7 @@
     default_flags = "g";
     icon_theme = "vscode";
 
-    skin = {
+    skin = lib.optionalAttrs (!(config.stylix.targets.broot.enable or false)) {
       # https://dystroy.org/broot/skins/#gruvbox
       default = "rgb(235, 219, 178) none / rgb(189, 174, 147) none";
       tree = "rgb(168, 153, 132) None / rgb(102, 92, 84) None";
