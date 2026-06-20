@@ -146,6 +146,9 @@
           { on = "e"; run = "open";               desc = "Open selected files"; }
           { on = "E"; run = "open --interactive"; desc = "Open selected files interactively"; }
 
+          { on = ";"; run = "shell --interactive --cursor=0 --orphan \" %s\""; desc = "Execute shell command on selected files"; }
+          { on = ":"; run = "shell --interactive --cursor=0 --block \" %s\""; desc = "Execute shell command on selected files blockingly"; }
+
           { on = "k"; run = "rename --cursor=before_ext"; desc = "Rename selected file(s)"; }
 
           # https://yazi-rs.github.io/docs/tips#dropping-to-shell
