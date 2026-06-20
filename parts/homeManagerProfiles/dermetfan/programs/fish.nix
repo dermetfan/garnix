@@ -3,7 +3,6 @@
 {
   home.packages = with pkgs; [
     nerd-fonts.meslo-lg # tide
-    any-nix-shell
   ];
 
   programs = {
@@ -17,16 +16,7 @@
         pv = "pv -pea";
       };
 
-      functions._tide_item_any_nix_shell = ''
-        set_color --bold green
-        echo \ (nix-shell-info)
-      '';
-
       theme = "ayu Dark";
-
-      shellInit = ''
-        any-nix-shell fish | source
-      '';
 
       interactiveShellInit = ''
         set fish_greeting
@@ -58,8 +48,7 @@
         set -U tide_left_prompt_items context git status prompt_char
         # TODO for v5: set -U tide_left_prompt_items context git status character
 
-        set -U tide_right_prompt_items jobs any_nix_shell pwd
-        set -U tide_any_nix_shell_bg_color normal
+        set -U tide_right_prompt_items jobs pwd
       '';
 
       plugins = map (name: {

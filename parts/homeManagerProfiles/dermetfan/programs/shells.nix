@@ -21,9 +21,14 @@ in {
     };
   in {
     eza.enable = true;
+
+    nix-your-shell = {
+      enable = true;
+      nix-output-monitor.enable = true;
+    };
+
     bash.shellAliases = aliases;
     zsh .shellAliases = aliases;
     fish.shellAliases = aliases;
   };
 }
-
