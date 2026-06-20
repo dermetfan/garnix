@@ -73,6 +73,9 @@ in {
         disk_space
       ] ++ lib.optional (builtins.any (lib.hasPrefix "nvidia") nixosConfig.services.xserver.videoDrivers or []) {
         block = "nvidia_gpu";
+      } ++ lib.optional (nixosConfig.hardware.facter.detected.graphics.amd.enable or false) {
+        block = "amd_gpu";
+        format_alt = " $icon $vram_used_percents.eng(w:1) ($vram_used.eng(p:Mi)/$vram_total.eng(p:Mi)) ";
       } ++ [
         {
           block = "memory";
