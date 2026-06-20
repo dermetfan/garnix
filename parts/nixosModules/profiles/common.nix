@@ -12,7 +12,10 @@ in {
   config = lib.mkIf cfg.enable {
     defaults.enable = true;
 
-    profiles.users.enable = true;
+    profiles = {
+      users.enable = true;
+      stylix.enable = lib.mkDefault true;
+    };
 
     nix = {
       settings = {

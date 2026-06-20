@@ -21,7 +21,6 @@ moduleWithSystem ({ system, ... }: { nodes, config, lib, pkgs, ... }: {
 
     profiles = {
       common.enable = true;
-      stylix.enable = lib.mkDefault true;
 
       cluster.node.peers = lib.pipe ./nodes [
         builtins.readDir
