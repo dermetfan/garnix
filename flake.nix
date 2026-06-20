@@ -130,11 +130,6 @@
         flake-parts.follows = "flake-parts";
       };
     };
-    fish-tide = {
-      # TODO update when fixed: https://github.com/IlanCosman/tide/issues/253
-      url = "github:IlanCosman/tide/v4.3.4";
-      flake = false;
-    };
     fish-abbreviation-tips = {
       url = "github:Gazorby/fish-abbreviation-tips";
       flake = false;

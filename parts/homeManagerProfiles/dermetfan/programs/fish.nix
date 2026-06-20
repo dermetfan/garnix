@@ -1,10 +1,6 @@
-{ self, lib, pkgs, ... }:
+{ self, ... }:
 
 {
-  home.packages = with pkgs; [
-    nerd-fonts.meslo-lg # tide
-  ];
-
   programs = {
     eza.enable = true;
     zoxide.enable = true;
@@ -20,42 +16,12 @@
 
       interactiveShellInit = ''
         set fish_greeting
-      '' + (
-        ''
-          set -g _tide_color_dark_blue 0087AF
-          set -g _tide_color_dark_green 5FAF00
-          set -g _tide_color_gold D7AF00
-          set -g _tide_color_green 5FD700
-          set -g _tide_color_light_blue 00AFFF
-        ''
-        /* TODO for v5:
-        let
-          file = lib.fileContents "${self.inputs.fish-tide}/functions/_tide_sub_configure.fish";
-          lines = lib.splitString "\n" file;
-          commands = lib.take 5 lines;
-        in lib.concatStringsSep "\n" commands + "\n"
-        */
-      ) + (
-        let
-          theme = lib.fileContents "${self.inputs.fish-tide}/functions/tide/configure/configs/lean.fish";
-          lines = lib.splitString "\n" theme;
-          commands = map (line: "set -U " + line) lines;
-        in lib.concatStringsSep "\n" commands + "\n"
-      ) + ''
-        set -U tide_print_newline_before_prompt false
-        # TODO for v5: set -U tide_prompt_add_newline_before false
-
-        set -U tide_left_prompt_items context git status prompt_char
-        # TODO for v5: set -U tide_left_prompt_items context git status character
-
-        set -U tide_right_prompt_items jobs pwd
       '';
 
       plugins = map (name: {
         inherit name;
         src = self.inputs."fish-${name}";
       }) [
-        "tide"
         "abbreviation-tips"
         "autopair"
         # Alternative: https://github.com/decors/fish-colored-man
