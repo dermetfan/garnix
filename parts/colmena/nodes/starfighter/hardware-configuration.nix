@@ -34,14 +34,20 @@ in
     };
   };
 
-  services.displayManager.ly.settings = {
-    battery_id = battery;
-    restart_key = "F5";
-    hibernate_key = "F6";
-    shutdown_key = "F7";
-    brightness_down_key = "F8";
-    brightness_up_key = "F9";
-    show_password_key = "F12";
+  services = {
+    # Draws more power than charging can provide,
+    # draining the battery even when plugged in.
+    tlp.settings.CPU_BOOST_ON_AC = lib.mkForce 0;
+
+    displayManager.ly.settings = {
+      battery_id = battery;
+      restart_key = "F5";
+      hibernate_key = "F6";
+      shutdown_key = "F7";
+      brightness_down_key = "F8";
+      brightness_up_key = "F9";
+      show_password_key = "F12";
+    };
   };
 
   hardware = {
