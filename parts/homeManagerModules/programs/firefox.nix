@@ -13,26 +13,28 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    programs.firefox.profiles.${config.home.username}.userChrome = lib.optionalString cfg.hideTabs ''
-      /** Hide horizontal tabs at the top of the window
-       * https://github.com/piroor/treestyletab/wiki/Code-snippets-for-custom-style-rules#hide-horizontal-tabs-at-the-top-of-the-window-1349-1672-2147 */
-      #main-window[tabsintitlebar="true"]:not([extradragspace="true"]) #TabsToolbar > .toolbar-items {
-        opacity: 0;
-        pointer-events: none;
-      }
-      #main-window:not([tabsintitlebar="true"]) #TabsToolbar {
-          visibility: collapse !important;
-      }
-    '';
+    programs.firefox.profiles.${config.home.username} = {
+      userChrome = lib.optionalString cfg.hideTabs ''
+        /** Hide horizontal tabs at the top of the window
+         * https://github.com/piroor/treestyletab/wiki/Code-snippets-for-custom-style-rules#hide-horizontal-tabs-at-the-top-of-the-window-1349-1672-2147 */
+        #main-window[tabsintitlebar="true"]:not([extradragspace="true"]) #TabsToolbar > .toolbar-items {
+          opacity: 0;
+          pointer-events: none;
+        }
+        #main-window:not([tabsintitlebar="true"]) #TabsToolbar {
+            visibility: collapse !important;
+        }
+      '';
 
-    home.file.".mozilla/firefox/${config.programs.firefox.profiles.${config.home.username}.path}/chrome/userContent.css".text = ''
-      @-moz-document
-      url('about:newtab'),
-      url('about:blank') {
-          body {
-              background: ${cfg.background} !important;
-          }
-      }
-    '';
+      userContent = ''
+        @-moz-document
+        url('about:newtab'),
+        url('about:blank') {
+            body {
+                background: ${cfg.background} !important;
+            }
+        }
+      '';
+    };
   };
 }
