@@ -64,6 +64,10 @@ in {
               dwtp = "enabled";
               natural_scroll = "enabled";
             };
+            "type:pointer" = {
+              natural_scroll = "enabled";
+              scroll_factor = "0.5";
+            };
             "2:7:SynPS\/2_Synaptics_TouchPad" = {
               accel_profile = "adaptive";
               pointer_accel = "0.5";
