@@ -70,6 +70,11 @@ let
       package = "ast-grep";
     }
     {
+      category = "Developent/Tools";
+      flake = "git+https://codeberg.org/ozeye/tornado";
+      package = "tornado";
+    }
+    {
       category = "Developent/Tools/Nix";
       package = "deadnix";
     }
