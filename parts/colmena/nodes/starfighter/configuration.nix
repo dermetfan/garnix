@@ -145,7 +145,12 @@ in
         enable = true;
         settings = {
           LOG_THRESHOLD = "WARNING"; # To avoid notifications on lid switch.
-          ALIGN = "BOTTOM";
+          ARRANGE = "COLUMN";
+          ALIGN = "MIDDLE";
+          ORDER = [
+            "!^.*$"
+            "eDP-1"
+          ];
           SCALE = [
             {
               NAME_DESC = "eDP-1";
