@@ -101,7 +101,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     copyparty = {
-      url = "github:9001/copyparty/v1.19.7";
+      url = "github:9001/copyparty/v1.20.20";
       inputs = {
         nixpkgs.follows = "nixpkgs";
         flake-utils.follows = "flake-utils";

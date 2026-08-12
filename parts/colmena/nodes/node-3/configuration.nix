@@ -109,7 +109,7 @@
 
         rproxy = 1;
 
-        # usernames = true; # XXX add once available
+        usernames = true;
         no-bauth = true;
 
         ah-alg = "argon2";
@@ -120,11 +120,6 @@
         idp-h-key = "Shangala-Bangala";
         idp-store = 3;
         idp-adm = [ "@admin" ];
-
-        # TODO fix upstream: This is not comma-separated, it's repeatable,
-        # but the NixOS module will turn it into a single comma-separated value,
-        # making it impossible to set multiple of these using the NixOS module.
-        ipu = [ "${nodes.muttop.config.profiles.yggdrasil.ip}/128=mutmetfan" ];
 
         no-robots = true;
 
@@ -165,39 +160,35 @@
         shr = "/share";
         shr-adm = [ "@admin" ];
 
-        chmod-f = 640;
-        chmod-d = 750;
+        chmod-f = toString 640;
+        chmod-d = toString 750;
 
         # reflink = true; # README says "zfs had bugs"
         df = "256m";
 
+        md-hist = "n";
+        show-hist = true;
+
         nid = true;
       };
 
-      # XXX NixOS module does not support IdP syntax; fix upstream?
-      #"/home/\${u}" = {
-      #  path = "${config.fileSystems."/mnt/copyparty/home".mountPoint}/\${u}";
-      #  access.A = [ "@admin" "\${u}" ];
-      #};
+      globalExtraConfig = ''
+        ipu: ${nodes.muttop.config.profiles.yggdrasil.ip}/128=mutmetfan
+      '';
+
       volumes =
-        lib.mapAttrs' (user: lib.nameValuePair "/home/${user}") (lib.genAttrs [
-          "dermetfan"
-          "diemetfan"
-          "mutmetfan"
-        ] (user: {
-          path = "${config.fileSystems."/mnt/copyparty/home".mountPoint}/${user}";
-          access.A = [ "@admin" user ];
-          flags.daw = builtins.elem user [ "mutmetfan" ];
-        }))
-        # Needed to avoid WebDAV errors with GVFS.
-        // lib.genAttrs ["/" "/home"] (volume: rec {
-          path = "/var/empty";
-          access.r = "@acct";
-          flags = {
-            d2d = true;
-            # Must be unique per volume.
-            hist = "${path}${volume}.hist";
+        {
+          "/home/\${u}" = {
+            path = "${config.fileSystems."/mnt/copyparty/home".mountPoint}/\${u}";
+            access.A = [ "@admin" "\${u}" ];
+            flags.daw = true;
           };
+        }
+        # Needed to avoid WebDAV errors with GVFS.
+        // lib.genAttrs ["/" "/home"] (lib.const {
+          path = "//NULL";
+          access.r = "@acct";
+          flags.d2d = true;
         });
     };
 
@@ -275,7 +266,6 @@
           location.proxyPass = "http://copyparty";
 
           extraConfig = ''
-            client_max_body_size 0;
             proxy_buffering off;
             proxy_request_buffering off;
             proxy_buffers 32 8k;
@@ -395,11 +385,11 @@
   };
 
   systemd.services = {
-    # TODO Will probably be needed once the copyparty NixOS module
-    # supports IdP syntax in the volumes config, see comment above.
-    #copyparty.serviceConfig.BindPaths = [
-    #  config.fileSystems."/mnt/copyparty/home".mountPoint
-    #];
+    # Needed only because we use IdP syntax in the `volumes` option
+    # and so it doesn't do this automatically like it usually would.
+    copyparty.serviceConfig.BindPaths = [
+      config.fileSystems."/mnt/copyparty/home".mountPoint
+    ];
 
     # Allow nginx access to the copyparty unix socket.
     nginx.serviceConfig.SupplementaryGroups = [
