@@ -179,18 +179,57 @@ in {
         '')
         (cs.readonly "/nix/var/nix/daemon-socket/socket")
 
-        (cs.write-text (cs.noescape "~/.bashrc") ''
-          source <(direnv hook bash)
-          direnv allow
-        '')
-        (cs.write-text (cs.noescape "~/.zshrc") ''
-          source <(direnv hook zsh)
-          direnv allow
-        '')
-        (cs.write-text (cs.noescape "~/.config/fish/conf.d/direnv.fish") ''
-          direnv hook fish | source
-          direnv allow
-        '')
+        (state: let
+          runtimeArgs = pkgs.writers.writeNu "jaillm-direnv-bwrap-args" ''
+            const path = ${lib.toJSON (state.env.PATH or null)}
+
+            let export = direnv exec / direnv export json | from json
+
+            let paths = $export
+              | default {}
+              | values
+              | parse --regex `(^|[^\w/])/{0,}(?<path>/nix/store/[\w.-]+)`
+              | get path
+              | flatten
+
+            let references = $paths
+              | each {
+                nix path-info --recursive --json --json-format 2 $in
+                | from json
+                | get info
+                | values
+                | each {|path| $path.references | each {$'($path.storeDir)/($in)'}}
+                | flatten
+              }
+              | flatten
+
+            $paths ++ $references
+            | uniq
+            | each {|path|
+              print --no-newline "--ro-bind\u{0}"
+              print --no-newline $"($path)\u{0}"
+              print --no-newline $"($path)\u{0}"
+            }
+
+            $export
+            | default {}
+            | transpose key value
+            | each {|var|
+              print --no-newline "--setenv\u{0}"
+              print --no-newline $"($var.key)\u{0}"
+              if $var.key == PATH {
+                print --no-newline $"($var.value)(if $path == null {'''} else {$':($path)'})\u{0}"
+              } else {
+                print --no-newline $"($var.value)\u{0}"
+              }
+            }
+
+            ignore
+          '';
+        in cs.add-runtime ''
+          exec {DIRENV_RUNTIME_ARGS_FD}< <(${runtimeArgs})
+          RUNTIME_ARGS+=(--args "$DIRENV_RUNTIME_ARGS_FD")
+        '' state)
 
         # Needs to be writable because serena canonicalizes this file on startup.
         (cs.wrap-entry (entry: let
