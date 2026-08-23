@@ -102,6 +102,13 @@
     copyparty = {
       enable = true;
 
+      package = pkgs.copyparty.override {
+        withCertgen = false;
+        withFastThumbnails = true; # https://github.com/9001/copyparty/issues/893#issuecomment-3368908300
+        withFTP = false;
+        withMagic = true;
+      };
+
       settings = options.services.copyparty.settings.default // rec {
         i = [ "unix:770:/dev/shm/party.sock" ];
         s-tbody = 0;
