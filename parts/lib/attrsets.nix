@@ -1,6 +1,14 @@
 lib:
 
 rec {
+  collect' = pred: let
+    f = path: value:
+      if lib.isAttrs value && !pred path value
+      then lib.flatten (lib.mapAttrsToList (k: f (path ++ lib.singleton k)) value)
+      else {inherit path value;};
+  in
+    f [];
+
   /*
    Like `mapAttrsRecursiveCond` from nixpkgs
    but the condition and mapping functions
