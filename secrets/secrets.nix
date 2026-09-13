@@ -97,6 +97,8 @@ in withDeployer (
     "authelia/jwt" = [ "node-3" ];
     "authelia/storage" = [ "node-3" ];
     "authelia/users.json" = [ "node-3" ];
+    "authelia/oidc-hmac" = [ "node-3" ];
+    "authelia/oidc-issuer.pem" = [ "node-3" ];
 
     ntfy-sh = [ "node-3" ];
   }

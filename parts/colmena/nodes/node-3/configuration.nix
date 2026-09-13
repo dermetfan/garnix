@@ -50,19 +50,31 @@
       authelia-default-users = {
         file = ../../../../secrets/services/authelia/users.json.age;
         owner = config.services.authelia.instances.default.user;
-        group = config.services.authelia.instances.default.group;
+        inherit (config.services.authelia.instances.default) group;
       };
 
       authelia-default-storage = {
         file = ../../../../secrets/services/authelia/storage.age;
         owner = config.services.authelia.instances.default.user;
-        group = config.services.authelia.instances.default.group;
+        inherit (config.services.authelia.instances.default) group;
       };
 
       authelia-default-jwt = {
         file = ../../../../secrets/services/authelia/jwt.age;
         owner = config.services.authelia.instances.default.user;
-        group = config.services.authelia.instances.default.group;
+        inherit (config.services.authelia.instances.default) group;
+      };
+
+      authelia-default-oidc-hmac = {
+        file = ../../../../secrets/services/authelia/oidc-hmac.age;
+        owner = config.services.authelia.instances.default.user;
+        inherit (config.services.authelia.instances.default) group;
+      };
+
+      authelia-default-oidc-issuer = {
+        file = ../../../../secrets/services/authelia/oidc-issuer.pem.age;
+        owner = config.services.authelia.instances.default.user;
+        inherit (config.services.authelia.instances.default) group;
       };
 
       roundcube-google-oauth2-client-secret = {
@@ -205,6 +217,8 @@
         secrets = {
           storageEncryptionKeyFile = config.age.secrets.authelia-default-storage.path;
           jwtSecretFile = config.age.secrets.authelia-default-jwt.path;
+          oidcHmacSecretFile = config.age.secrets.authelia-default-oidc-hmac.path;
+          oidcIssuerPrivateKeyFile = config.age.secrets.authelia-default-oidc-issuer.path;
         };
         settings = let
           stateDirectory = "/var/lib/authelia-default";
