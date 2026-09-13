@@ -100,6 +100,8 @@ in withDeployer (
     "authelia/oidc-hmac" = [ "node-3" ];
     "authelia/oidc-issuer.pem" = [ "node-3" ];
 
+    "dawarich.env" = [ "node-3" ];
+
     ntfy-sh = [ "node-3" ];
   }
 )

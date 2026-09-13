@@ -90,6 +90,7 @@
     roundcube.enable = true;
     yggdrasil.enable = true;
     ntfy-sh.enable = true;
+    dawarich.enable = true;
     users.users.dermetfan.enable = true;
     dev.enable = true;
     iog.enable = true;
@@ -252,6 +253,20 @@
             # https://www.authelia.com/reference/guides/passwords/#yaml-format
             inherit (config.age.secrets.authelia-default-users) path;
           };
+
+          identity_providers.oidc.clients = [
+            {
+              client_name = "Dawarich";
+              client_id = config.services.dawarich.environment.OIDC_CLIENT_ID;
+              client_secret = "$pbkdf2-sha512$310000$VAgFkKhEe.01Elf7jCHhUQ$eJOmwwBHMwh/kGhXXV4x15sQt6r4YpuDk3Tmb74XRK5iIInilsy9WHVNrt47fp5AdE31K2PpmJSxK9TAdBHowg";
+              redirect_uris = lib.singleton config.services.dawarich.environment.OIDC_REDIRECT_URI;
+              scopes = [
+                "openid"
+                "email"
+                "profile"
+              ];
+            }
+          ];
         };
       };
 
