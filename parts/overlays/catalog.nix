@@ -55,6 +55,10 @@ let
     }
     {
       category = "Developent/Tools";
+      package = "jid";
+    }
+    {
+      category = "Developent/Tools";
       package = "fq";
     }
     {
