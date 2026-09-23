@@ -39,6 +39,7 @@ in
         if config.boot.lanzaboote.enable
         then lib.mkForce false
         else true;
+      systemd-boot.editor = false;
       efi.canTouchEfiVariables = true;
     };
 
