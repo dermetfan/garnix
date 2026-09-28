@@ -29,14 +29,18 @@
   environment = {
     persistence."/state" = {
       files = map (key: key.path) config.services.openssh.hostKeys;
-      directories = [
-        "/var/lib/nixos"
-        "/var/lib/acme"
-        config.services.postgresql.dataDir
-        "/var/lib/authelia-${config.services.authelia.instances.default.name}"
-        "/var/lib/copyparty"
-        "/var/cache/copyparty"
-      ];
+      directories =
+        assert lib.assertMsg (!lib.hasPrefix "/var/lib/postgresql/" config.services.postgresql.dataDir) ''
+          PostgreSQL data directory is at the default location.
+          You probably want it on /tank instead.
+        '';
+        [
+          "/var/lib/nixos"
+          "/var/lib/acme"
+          "/var/lib/authelia-${config.services.authelia.instances.default.name}"
+          "/var/lib/copyparty"
+          "/var/cache/copyparty"
+        ];
     };
 
     systemPackages = with pkgs; [ bindfs ];
@@ -110,6 +114,8 @@
   '';
 
   services = {
+    postgresql.dataDir = "/tank/services/postgresql/${config.services.postgresql.package.psqlSchema}";
+
     homepage.enable = true;
 
     copyparty = {
