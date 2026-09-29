@@ -16,14 +16,6 @@
       firefox  .enable = config.profiles.dermetfan.environments.gui.enable;
       chromium .enable = config.profiles.dermetfan.environments.gui.enable;
       zathura  .enable = config.profiles.dermetfan.environments.gui.enable;
-
-      password-store = {
-        enable = true;
-        package = (pkgs.pass.override {
-          waylandSupport = config.profiles.dermetfan.environments.gui.enable;
-        }).withExtensions (exts: with exts; [ pass-otp ]);
-        settings.PASSWORD_STORE_DIR = "${config.xdg.dataHome}/password-store";
-      };
     };
 
     services = {
@@ -37,6 +29,7 @@
     };
 
     home.packages = with pkgs; [
+      gopass
       unrar
       unzip
       zip
