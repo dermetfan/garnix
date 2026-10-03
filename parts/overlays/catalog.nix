@@ -215,6 +215,10 @@ let
       package = "fastfetch";
     }
     {
+      category = "Media/Image";
+      package = "gifski";
+    }
+    {
       category = "Telephony";
       package = "ncid";
     }
@@ -243,6 +247,11 @@ let
     {
       category = "Terminal";
       package = "treemd";
+    }
+    {
+      category = "Terminal";
+      flake = "github:Benexl/yt-x";
+      package = "default";
     }
   ];
 in
