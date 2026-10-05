@@ -1,4 +1,4 @@
-{ nixosConfig ? null, config, lib, pkgs, ... }:
+{ self, nixosConfig ? null, config, lib, pkgs, ... }:
 
 {
   options.profiles.dermetfan.environments.desktop.enable.default = false;
@@ -29,7 +29,9 @@
     };
 
     home.packages = with pkgs; [
-      gopass
+      (assert lib.assertMsg (lib.versionOlder gopass.version "1.17") ''
+        gopass is recent enough now, no need to get it from nixpkgs-unstable anymore.
+      ''; self.inputs.nixpkgs-unstable.legacyPackages.${pkgs.stdenv.hostPlatform.system}.gopass)
       unrar
       unzip
       zip
