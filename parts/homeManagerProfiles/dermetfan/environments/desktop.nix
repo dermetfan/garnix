@@ -16,6 +16,26 @@
       firefox  .enable = config.profiles.dermetfan.environments.gui.enable;
       chromium .enable = config.profiles.dermetfan.environments.gui.enable;
       zathura  .enable = config.profiles.dermetfan.environments.gui.enable;
+
+      gopass = {
+        enable = true;
+
+        package = assert lib.assertMsg (lib.versionOlder pkgs.gopass.version "1.17") ''
+          gopass is recent enough now, no need to get it from nixpkgs-unstable anymore.
+        ''; self.inputs.nixpkgs-unstable.legacyPackages.${pkgs.stdenv.hostPlatform.system}.gopass;
+
+        settings = {
+          recipients = {
+            check = true;
+            hash = "390c7fddbccb82ee06122cebca6fd33aaf2fee360f8f8e627063caf3004cb2c5";
+          };
+          age = {
+            agent-enabled = true;
+            agent-timeout = 60 * 15;
+          };
+          generate.symbols = true;
+        };
+      };
     };
 
     services = {
@@ -29,9 +49,6 @@
     };
 
     home.packages = with pkgs; [
-      (assert lib.assertMsg (lib.versionOlder gopass.version "1.17") ''
-        gopass is recent enough now, no need to get it from nixpkgs-unstable anymore.
-      ''; self.inputs.nixpkgs-unstable.legacyPackages.${pkgs.stdenv.hostPlatform.system}.gopass)
       unrar
       unzip
       zip
