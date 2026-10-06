@@ -72,7 +72,14 @@ in {
               args = [ "start-mcp-server" "--project-from-cwd" ];
             };
           };
-          settings.permissions.defaultMode = "bypassPermissions";
+          settings = {
+            permissions.defaultMode = "bypassPermissions";
+            cleanupPeriodDays = 3650;
+            env = {
+              DO_NOT_TRACK = 1;
+              DISABLE_TELEMETRY = 1;
+            };
+          };
         })
 
         (self.inputs.nix-wrapper-modules.wrappers.opencode.wrap {
