@@ -16,7 +16,6 @@ in {
       '';
 
       llms = [
-        pkgs.codex
         pkgs.gemini-cli
         pkgs.github-copilot-cli
 
@@ -81,6 +80,28 @@ in {
             };
           };
         })
+
+        (self.inputs.nix-wrapper-modules.lib.wrapPackage ({config, wlib, ...}: {
+          inherit pkgs;
+          package = pkgs.codex;
+          flags = {
+            "--config" = {
+              data = ''projects={"$PWD"={trust_level="trusted"}}'';
+              esc-fn = wlib.escapeShellArgWithEnv;
+            };
+          } // {
+            # These are only allowed for certain subcommands.
+            # It's possible to inspect the arguments
+            # in `runShell` and `set --` these conditionally,
+            # but I rarely use other subcommands, let's not bother.
+
+            # to make runtime config like /model persistent
+            "--profile-v2" = assert lib.assertMsg (lib.versionOlder config.package.version "0.134.0") ''
+              Codex no longer has a --profile-v2 flag.
+              It was renamed to --profile instead.
+            ''; "mutable";
+          };
+        }))
 
         (self.inputs.nix-wrapper-modules.wrappers.opencode.wrap {
           inherit pkgs;
@@ -268,6 +289,40 @@ in {
           '';
           meta.mainProgram = name;
         })))
+
+        (lib.flip cs.ro-bind (cs.noescape "~/.codex/config.toml") (let
+          default_tools_approval_mode = "approve"; # version is too old, does not yet support "writes"
+        in (pkgs.formats.toml {}).generate "config.toml" {
+          sandbox_mode = "workspace-write";
+          approval_policy = "never";
+          # web_search = "indexed"; # not yet supported, version is too old
+          analytics.enabled = false;
+          history.persistence = "save-all";
+          memories = {
+            generate_memories = false;
+            use_memories = false;
+          };
+          personality = "pragmatic";
+          mcp_servers = {
+            nixos = {
+              command = lib.getExe pkgs.mcp-nixos;
+              inherit default_tools_approval_mode;
+            };
+            serena = {
+              command = lib.getExe self.inputs.serena.packages.${pkgs.stdenv.hostPlatform.system}.default;
+              args = [
+                "start-mcp-server"
+                "--project-from-cwd"
+              ];
+              inherit default_tools_approval_mode;
+            };
+          };
+          apps._default = {
+            inherit default_tools_approval_mode;
+            destructive_enabled = false;
+            open_world_enabled = false;
+          };
+        }))
       ];
     });
   };
