@@ -19,43 +19,86 @@ in {
         pkgs.gemini-cli
         pkgs.github-copilot-cli
 
-        (self.inputs.nix-wrapper-modules.lib.wrapPackage {
+        (self.inputs.nix-wrapper-modules.lib.wrapPackage rec {
           inherit pkgs;
           package = pkgs.crush;
-          env.CRUSH_GLOBAL_CONFIG = pkgs.writers.writeJSON "crush.json" {
-            lsp = {
-              nix.command = lib.getExe self.inputs.nil.packages.${pkgs.stdenv.hostPlatform.system}.default;
-              go.command = lib.getExe pkgs.gopls;
-              rust.command = lib.getExe pkgs.rust-analyzer;
-              zig.command = lib.getExe pkgs.zls;
-              haskell = {
-                command = lib.getExe (pkgs.writeShellApplication {
-                  # https://nixos.org/manual/nixpkgs/stable/#haskell-language-server
-                  name = "haskell-language-server-wrapper-wrapper";
-                  text = ''
-                    if command -v haskell-language-server-wrapper >/dev/null 2>&1; then
-                      exec haskell-language-server-wrapper "$@"
-                    else
-                      exec haskell-language-server "$@"
-                    fi
-                  '';
-                });
-                args = [ "--lsp" ];
+          env.CRUSH_GLOBAL_CONFIG =
+            if lib.versionAtLeast package.version "0.88"
+            then
+              lib.warn "crush is recent enough to support .crushrc, you can remove the JSON config"
+              (pkgs.writeScript "crushrc" ''
+                lsp add nix \
+                  --command ${lib.getExe self.inputs.nil.packages.${pkgs.stdenv.hostPlatform.system}.default}
+
+                lsp add go \
+                  --command ${lib.getExe pkgs.gopls}
+
+                lsp add rust \
+                  --command ${lib.getExe pkgs.rust-analyzer}
+
+                lsp add zig \
+                  --command ${lib.getExe pkgs.zls}
+
+                lsp add haskell \
+                  --command ${lib.getExe (pkgs.writeShellApplication {
+                    # https://nixos.org/manual/nixpkgs/stable/#haskell-language-server
+                    name = "haskell-language-server-wrapper-wrapper";
+                    text = ''
+                      if command -v haskell-language-server-wrapper >/dev/null 2>&1; then
+                        exec haskell-language-server-wrapper "$@"
+                      else
+                        exec haskell-language-server "$@"
+                      fi
+                    '';
+                  })} \
+                  --args --lsp
+
+                mcp add nixos \
+                  --type stdio \
+                  --command ${lib.getExe pkgs.mcp-nixos}
+
+                mcp add serena \
+                  --type stdio \
+                  --command ${lib.getExe self.inputs.serena.packages.${pkgs.stdenv.hostPlatform.system}.default} \
+                  --args start-mcp-server \
+                  --args --project-from-cwd
+
+                option ui compact true
+              '')
+            else pkgs.writeTextDir "crush/crush.json" (lib.toJSON {
+              lsp = {
+                nix.command = lib.getExe self.inputs.nil.packages.${pkgs.stdenv.hostPlatform.system}.default;
+                go.command = lib.getExe pkgs.gopls;
+                rust.command = lib.getExe pkgs.rust-analyzer;
+                zig.command = lib.getExe pkgs.zls;
+                haskell = {
+                  command = lib.getExe (pkgs.writeShellApplication {
+                    # https://nixos.org/manual/nixpkgs/stable/#haskell-language-server
+                    name = "haskell-language-server-wrapper-wrapper";
+                    text = ''
+                      if command -v haskell-language-server-wrapper >/dev/null 2>&1; then
+                        exec haskell-language-server-wrapper "$@"
+                      else
+                        exec haskell-language-server "$@"
+                      fi
+                    '';
+                  });
+                  args = [ "--lsp" ];
+                };
               };
-            };
-            mcp = {
-              nixos = {
-                type = "stdio";
-                command = lib.getExe pkgs.mcp-nixos;
+              mcp = {
+                nixos = {
+                  type = "stdio";
+                  command = lib.getExe pkgs.mcp-nixos;
+                };
+                serena = {
+                  type = "stdio";
+                  command = lib.getExe self.inputs.serena.packages.${pkgs.stdenv.hostPlatform.system}.default;
+                  args = [ "start-mcp-server" "--project-from-cwd" ];
+                };
               };
-              serena = {
-                type = "stdio";
-                command = lib.getExe self.inputs.serena.packages.${pkgs.stdenv.hostPlatform.system}.default;
-                args = [ "start-mcp-server" "--project-from-cwd" ];
-              };
-            };
-            options.tui.compact_mode = true;
-          };
+              options.tui.compact_mode = true;
+            });
         })
 
         (self.inputs.nix-wrapper-modules.wrappers.claude-code.wrap {
