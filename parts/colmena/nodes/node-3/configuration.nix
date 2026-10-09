@@ -313,6 +313,9 @@
             proxy_buffers 32 8k;
             proxy_buffer_size 16k;
             proxy_busy_buffers_size 24k;
+            # https://github.com/9001/copyparty/blob/0dc1cb329120743ca85599ba3fba24849f137677/contrib/nginx/copyparty.conf#L98-L99
+            # must be greater than --u2sz
+            client_max_body_size 1024m;
           '';
         };
       };
