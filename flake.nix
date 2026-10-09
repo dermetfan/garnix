@@ -52,6 +52,10 @@
       url = "github:myme/jaillm";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    llm-agents = {
+      url = "github:numtide/llm-agents.nix";
+      inputs.flake-parts.follows = "flake-parts";
+    };
     impermanence = {
       url = "github:nix-community/impermanence";
       inputs = {

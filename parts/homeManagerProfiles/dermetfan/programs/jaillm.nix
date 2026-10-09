@@ -15,90 +15,54 @@ in {
         }
       '';
 
-      llms = [
-        pkgs.gemini-cli
-        pkgs.github-copilot-cli
+      llms = let
+        llmPkgs = self.inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system};
+      in [
+        llmPkgs.gemini-cli
+        llmPkgs.copilot-cli
 
         (self.inputs.nix-wrapper-modules.lib.wrapPackage rec {
           inherit pkgs;
-          package = pkgs.crush;
-          env.CRUSH_GLOBAL_CONFIG =
-            if lib.versionAtLeast package.version "0.88"
-            then
-              lib.warn "crush is recent enough to support .crushrc, you can remove the JSON config"
-              (pkgs.writeScript "crushrc" ''
-                lsp add nix \
-                  --command ${lib.getExe self.inputs.nil.packages.${pkgs.stdenv.hostPlatform.system}.default}
+          package = llmPkgs.crush;
+          env.CRUSH_GLOBAL_CONFIG = pkgs.writeScript "crushrc" ''
+            lsp add nix \
+              --command ${lib.getExe self.inputs.nil.packages.${pkgs.stdenv.hostPlatform.system}.default}
 
-                lsp add go \
-                  --command ${lib.getExe pkgs.gopls}
+            lsp add go \
+              --command ${lib.getExe pkgs.gopls}
 
-                lsp add rust \
-                  --command ${lib.getExe pkgs.rust-analyzer}
+            lsp add rust \
+              --command ${lib.getExe pkgs.rust-analyzer}
 
-                lsp add zig \
-                  --command ${lib.getExe pkgs.zls}
+            lsp add zig \
+              --command ${lib.getExe pkgs.zls}
 
-                lsp add haskell \
-                  --command ${lib.getExe (pkgs.writeShellApplication {
-                    # https://nixos.org/manual/nixpkgs/stable/#haskell-language-server
-                    name = "haskell-language-server-wrapper-wrapper";
-                    text = ''
-                      if command -v haskell-language-server-wrapper >/dev/null 2>&1; then
-                        exec haskell-language-server-wrapper "$@"
-                      else
-                        exec haskell-language-server "$@"
-                      fi
-                    '';
-                  })} \
-                  --args --lsp
+            lsp add haskell \
+              --command ${lib.getExe (pkgs.writeShellApplication {
+                # https://nixos.org/manual/nixpkgs/stable/#haskell-language-server
+                name = "haskell-language-server-wrapper-wrapper";
+                text = ''
+                  if command -v haskell-language-server-wrapper >/dev/null 2>&1; then
+                    exec haskell-language-server-wrapper "$@"
+                  else
+                    exec haskell-language-server "$@"
+                  fi
+                '';
+              })} \
+              --args --lsp
 
-                mcp add nixos \
-                  --type stdio \
-                  --command ${lib.getExe pkgs.mcp-nixos}
+            mcp add nixos \
+              --type stdio \
+              --command ${lib.getExe pkgs.mcp-nixos}
 
-                mcp add serena \
-                  --type stdio \
-                  --command ${lib.getExe self.inputs.serena.packages.${pkgs.stdenv.hostPlatform.system}.default} \
-                  --args start-mcp-server \
-                  --args --project-from-cwd
+            mcp add serena \
+              --type stdio \
+              --command ${lib.getExe self.inputs.serena.packages.${pkgs.stdenv.hostPlatform.system}.default} \
+              --args start-mcp-server \
+              --args --project-from-cwd
 
-                option ui compact true
-              '')
-            else pkgs.writeTextDir "crush/crush.json" (lib.toJSON {
-              lsp = {
-                nix.command = lib.getExe self.inputs.nil.packages.${pkgs.stdenv.hostPlatform.system}.default;
-                go.command = lib.getExe pkgs.gopls;
-                rust.command = lib.getExe pkgs.rust-analyzer;
-                zig.command = lib.getExe pkgs.zls;
-                haskell = {
-                  command = lib.getExe (pkgs.writeShellApplication {
-                    # https://nixos.org/manual/nixpkgs/stable/#haskell-language-server
-                    name = "haskell-language-server-wrapper-wrapper";
-                    text = ''
-                      if command -v haskell-language-server-wrapper >/dev/null 2>&1; then
-                        exec haskell-language-server-wrapper "$@"
-                      else
-                        exec haskell-language-server "$@"
-                      fi
-                    '';
-                  });
-                  args = [ "--lsp" ];
-                };
-              };
-              mcp = {
-                nixos = {
-                  type = "stdio";
-                  command = lib.getExe pkgs.mcp-nixos;
-                };
-                serena = {
-                  type = "stdio";
-                  command = lib.getExe self.inputs.serena.packages.${pkgs.stdenv.hostPlatform.system}.default;
-                  args = [ "start-mcp-server" "--project-from-cwd" ];
-                };
-              };
-              options.tui.compact_mode = true;
-            });
+            option ui compact true
+          '';
         })
 
         (self.inputs.nix-wrapper-modules.wrappers.claude-code.wrap {
@@ -126,7 +90,7 @@ in {
 
         (self.inputs.nix-wrapper-modules.lib.wrapPackage ({config, wlib, ...}: {
           inherit pkgs;
-          package = pkgs.codex;
+          package = llmPkgs.codex;
           flags = {
             "--config" = {
               data = ''projects={"$PWD"={trust_level="trusted"}}'';
@@ -139,10 +103,7 @@ in {
             # but I rarely use other subcommands, let's not bother.
 
             # to make runtime config like /model persistent
-            "--profile-v2" = assert lib.assertMsg (lib.versionOlder config.package.version "0.134.0") ''
-              Codex no longer has a --profile-v2 flag.
-              It was renamed to --profile instead.
-            ''; "mutable";
+            "--profile" = "mutable";
           };
         }))
 
@@ -334,11 +295,11 @@ in {
         })))
 
         (lib.flip cs.ro-bind (cs.noescape "~/.codex/config.toml") (let
-          default_tools_approval_mode = "approve"; # version is too old, does not yet support "writes"
+          default_tools_approval_mode = "writes";
         in (pkgs.formats.toml {}).generate "config.toml" {
           sandbox_mode = "workspace-write";
           approval_policy = "never";
-          # web_search = "indexed"; # not yet supported, version is too old
+          web_search = "indexed";
           analytics.enabled = false;
           history.persistence = "save-all";
           memories = {
