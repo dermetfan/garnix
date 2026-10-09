@@ -295,10 +295,10 @@ in {
         })))
 
         (lib.flip cs.ro-bind (cs.noescape "~/.codex/config.toml") (let
-          default_tools_approval_mode = "writes";
+          default_tools_approval_mode = "approve";
         in (pkgs.formats.toml {}).generate "config.toml" {
           sandbox_mode = "workspace-write";
-          approval_policy = "never";
+          approval_policy = "on-request";
           web_search = "indexed";
           analytics.enabled = false;
           history.persistence = "save-all";
@@ -323,8 +323,8 @@ in {
           };
           apps._default = {
             inherit default_tools_approval_mode;
-            destructive_enabled = false;
-            open_world_enabled = false;
+            destructive_enabled = true;
+            open_world_enabled = true;
           };
         }))
       ];
