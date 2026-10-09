@@ -24,6 +24,7 @@ in {
         (self.inputs.nix-wrapper-modules.lib.wrapPackage rec {
           inherit pkgs;
           package = llmPkgs.crush;
+          flags."--yolo" = true;
           env.CRUSH_GLOBAL_CONFIG = pkgs.writeTextDir "crushrc" ''
             lsp add nix \
               --command ${lib.getExe self.inputs.nil.packages.${pkgs.stdenv.hostPlatform.system}.default}
@@ -62,6 +63,8 @@ in {
               --args --project-from-cwd
 
             option ui compact true
+            option ui transparent true
+            option ui diff unified
           '';
         })
 
