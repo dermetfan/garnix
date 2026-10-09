@@ -24,7 +24,7 @@ in {
         (self.inputs.nix-wrapper-modules.lib.wrapPackage rec {
           inherit pkgs;
           package = llmPkgs.crush;
-          env.CRUSH_GLOBAL_CONFIG = pkgs.writeScript "crushrc" ''
+          env.CRUSH_GLOBAL_CONFIG = pkgs.writeTextDir "crushrc" ''
             lsp add nix \
               --command ${lib.getExe self.inputs.nil.packages.${pkgs.stdenv.hostPlatform.system}.default}
 
