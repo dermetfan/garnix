@@ -195,6 +195,9 @@ in {
         (cs.try-readonly (cs.noescape ''"$PWD"/.hg''))
         (cs.try-readonly (cs.noescape ''"$PWD"/.pijul''))
 
+        (cs.try-fwd-env "EDITOR")
+        (cs.try-fwd-env "PAGER")
+
         (let
           extraNixConfig = ''
             store = daemon
