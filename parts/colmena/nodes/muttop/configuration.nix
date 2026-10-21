@@ -19,9 +19,15 @@
   deployment.keys.ssh_host_key.destDir = lib.mkForce (config.environment.persistence."/state".persistentStoragePath + "/etc/ssh");
 
   environment.persistence."/state" = {
-    files = map (key: key.path) config.services.openssh.hostKeys;
+    files = map (key: key.path) config.services.openssh.hostKeys ++ [
+      "/etc/machine-id"
+      "/etc/zfs/zpool.cache"
+    ];
     directories = [
+      "/etc/NetworkManager/system-connections"
       "/var/lib/nixos"
+      "/var/lib/systemd"
+      "/var/log/journal"
     ];
   };
 
