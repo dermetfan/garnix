@@ -233,6 +233,10 @@ let
     }
     {
       category = "Terminal";
+      package = "eva";
+    }
+    {
+      category = "Terminal";
       package = "pspg";
     }
     {
