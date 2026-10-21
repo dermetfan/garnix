@@ -295,13 +295,7 @@
           view_zoom_out = [ "Ctrl+Num+-" "Meta+-" ];
         };
 
-        session.sessionRestore = {
-          restoreOpenApplicationsOnLogin = "onLastLogout";
-          excludeApplications = [
-            "firefox"
-            "chromium"
-          ];
-        };
+        session.sessionRestore.restoreOpenApplicationsOnLogin = "startWithEmptySession";
 
         configFile = {
           kwinrc = {
