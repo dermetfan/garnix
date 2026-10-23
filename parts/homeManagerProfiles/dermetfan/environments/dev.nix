@@ -58,7 +58,6 @@ in {
       };
 
       jaillm.enable = true;
-      opencode-bwrap.enable = true;
     };
 
     home.packages = with pkgs;
