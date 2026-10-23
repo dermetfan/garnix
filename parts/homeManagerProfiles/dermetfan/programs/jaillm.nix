@@ -27,7 +27,7 @@ in {
           flags."--yolo" = true;
           env.CRUSH_GLOBAL_CONFIG = pkgs.writeTextDir "crushrc" ''
             lsp add nix \
-              --command ${lib.getExe self.inputs.nil.packages.${pkgs.stdenv.hostPlatform.system}.default}
+              --command ${lib.getExe pkgs.nil}
 
             lsp add go \
               --command ${lib.getExe pkgs.gopls}

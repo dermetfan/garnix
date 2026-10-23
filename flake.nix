@@ -120,10 +120,6 @@
       url = "github:StevenBlack/hosts";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nil = {
-      url = "github:oxalica/nil";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     optnix = {
       url = "github:water-sucks/optnix";
       inputs.nixpkgs.follows = "nixpkgs";
