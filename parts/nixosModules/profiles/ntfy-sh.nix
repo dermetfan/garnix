@@ -18,11 +18,7 @@ in {
     StateDirectory = "ntfy-sh";
     RuntimeDirectory = StateDirectory;
   in lib.mkIf cfg.enable {
-    age.secrets.ntfy-sh = {
-      file = ../../../secrets/services/ntfy-sh.age;
-      owner = config.services.ntfy-sh.user;
-      inherit (config.services.ntfy-sh) group;
-    };
+    age.secrets.ntfy-sh.file = ../../../secrets/services/ntfy-sh.age;
 
     services = {
       ntfy-sh = {
