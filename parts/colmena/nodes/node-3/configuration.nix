@@ -39,6 +39,7 @@
           "/var/lib/acme"
           "/var/lib/authelia-${config.services.authelia.instances.default.name}"
           "/var/lib/copyparty"
+          "/var/lib/private/${with config.systemd.services.ntfy-sh.serviceConfig; assert DynamicUser; StateDirectory}"
           "/var/cache/copyparty"
         ]
         ++ map (instance:
