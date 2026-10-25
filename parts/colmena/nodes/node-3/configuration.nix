@@ -40,7 +40,11 @@
           "/var/lib/authelia-${config.services.authelia.instances.default.name}"
           "/var/lib/copyparty"
           "/var/cache/copyparty"
-        ];
+        ]
+        ++ map (instance:
+          "/var/lib/private/"
+          + config.systemd.services."sfeed-hook-${instance}".serviceConfig.StateDirectory
+        ) (lib.attrNames config.services.sfeed-hook);
     };
 
     systemPackages = with pkgs; [ bindfs ];
@@ -98,6 +102,11 @@
     users.users.dermetfan.enable = true;
     dev.enable = true;
     iog.enable = true;
+    sfeed-hook-security-ntfy = {
+      enable = true;
+      topic = "https://${config.profiles.ntfy-sh.domain}/security";
+      ntfyUsername = "dermetfan";
+    };
   };
 
   networking.firewall.allowedTCPPorts = with config.services.nginx; [
