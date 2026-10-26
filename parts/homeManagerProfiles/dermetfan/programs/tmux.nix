@@ -660,7 +660,7 @@ in {
         plugin = resurrect;
         extraConfig = ''
           set -g @resurrect-save C-s
-          set -g @resurrect-restore M-s
+          set -g @resurrect-restore M-C-s
           set -g @resurrect-processes 'micro ~yazi ~ranger ~"nixos-container root-login" ~"nixos-container run"'
           set -g @resurrect-save-shell-history on
           set -g @resurrect-capture-pane-contents on
