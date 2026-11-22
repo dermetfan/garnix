@@ -71,7 +71,14 @@ in
     }
   ];
 
+  programs.idescriptor = {
+    enable = true;
+    users = [ config.users.users.dermetfan.name ];
+  };
+
   services = {
+    avahi.enable = true; # for idescriptor
+
     displayManager = {
       sessionPackages = [
         config.home-manager.users.dermetfan.wayland.windowManager.sway.package
