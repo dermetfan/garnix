@@ -291,11 +291,11 @@
         "styx": "styx"
       },
       "locked": {
-        "lastModified": 1786569652,
-        "narHash": "sha256-ibOhQGE+NsNqAUFf1jToCTlBqxLe8JHHUwdcFYjclZQ=",
+        "lastModified": 1793345044,
+        "narHash": "sha256-zI/lODNvn4ESTi6g33B3E8MV1UAlHG0IqotlitFxFbA=",
         "owner": "~dermetfan",
         "repo": "dermetfan-blog",
-        "rev": "399c0a4503b8014237d7dec7467bf8c3a7e56b18",
+        "rev": "47246a3f10f6cee77ba4c1606abc68254d9e4751",
         "type": "sourcehut"
       },
       "original": {
@@ -1514,11 +1514,11 @@
     },
     "nixpkgs_4": {
       "locked": {
-        "lastModified": 1792615934,
-        "narHash": "sha256-MlvRfa1O5Cqc2/a+gG+l9TSuowEoCKCmrJ1d9oAVm0I=",
+        "lastModified": 1793183032,
+        "narHash": "sha256-56mFMf8heLNfYhcgbrh4GpN5x+G9JOfTFXZC3n6w0qM=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "da6dc0e7b26060f2f71ce3ef7088fb56ee44fa36",
+        "rev": "08d3a97586f6b6343b3b5e799980773629432610",
         "type": "github"
       },
       "original": {
