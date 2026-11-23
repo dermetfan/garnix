@@ -41,7 +41,7 @@ in {
       feeds = {
         sans-isc = "https://isc.sans.edu/rssfeed.xml";
         cert-eu = "https://www.cert.europa.eu/publications/security-advisories-rss";
-        cisa-us = "https://www.cisa.gov/cybersecurity-advisories/ics-advisories.xml";
+        # cisa-us = "https://www.cisa.gov/cybersecurity-advisories/ics-advisories.xml"; # apparently blocks some datacenter IPs
         # cyber-au = "https://www.cyber.gov.au/rss/alerts"; # fails to fetch for some reason
         tldrcve = "https://tldrcve.com/feed.xml";
         # For product-specific alerts: https://assurestart.co/cve-rss-feeds#builder
