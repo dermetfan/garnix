@@ -43,6 +43,7 @@ in {
         cert-eu = "https://www.cert.europa.eu/publications/security-advisories-rss";
         cisa-us = "https://www.cisa.gov/cybersecurity-advisories/ics-advisories.xml";
         # cyber-au = "https://www.cyber.gov.au/rss/alerts"; # fails to fetch for some reason
+        tldrcve = "https://tldrcve.com/feed.xml";
         # For product-specific alerts: https://assurestart.co/cve-rss-feeds#builder
       };
       hook = pkgs.writers.writeNu "security-ntfy.nu" ''
