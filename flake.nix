@@ -87,7 +87,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     serena = {
-      url = "github:oraios/serena/v1.5.3";
+      url = "github:oraios/serena/v2.1.0";
       inputs = {
         nixpkgs.follows = "nixpkgs";
         flake-utils.follows = "flake-utils";
